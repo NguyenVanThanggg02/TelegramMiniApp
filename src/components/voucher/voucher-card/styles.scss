@@ -1,0 +1,77 @@
+.voucher-card-container {
+  display: flex;
+  height: 110px;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  margin: 10px 0;
+  position: relative;
+  -webkit-mask-image: radial-gradient(
+      circle at 110px 8px,
+      transparent 8px,
+      red 8.5px
+    ),
+    radial-gradient(closest-side circle at 50%, red 99%, transparent 100%);
+  -webkit-mask-size:
+    100%,
+    7px 13px;
+  -webkit-mask-repeat: repeat, repeat-y;
+  -webkit-mask-position:
+    0 -8px,
+    106.5px;
+  -webkit-mask-composite: source-out;
+  mask-composite: subtract;
+}
+.voucher-background {
+  position: absolute;
+  width: 110px;
+  height: 100%;
+  background-color: var(--red-color);
+}
+.voucher-status {
+  position: absolute;
+  font-size: 12px;
+  right: 0;
+  top: 0;
+  border-radius: 0 8px 0 8px;
+  width: 100px;
+  z-index: 10;
+  text-align: center;
+  padding: 4px;
+  line-height: 12px;
+}
+.voucher-card-left {
+  width: 110px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  color: white;
+  z-index: 1;
+}
+.voucher-card-right {
+  padding: 14px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.button-use {
+  font-size: 12px;
+  border-radius: 8px;
+  min-width: 64px;
+  padding: 4px 4px;
+  height: fit-content;
+  margin: 10px;
+  margin-left: 0;
+  max-width: 64px;
+  white-space: normal;
+  background: white;
+  color: var(--red-color);
+  border: 1px solid;
+}
+.button-use:active {
+  background-color: #fac8cb;
+}
+.text-experied {
+  color: var(--grey-color);
+  margin-top: 4px;
+}

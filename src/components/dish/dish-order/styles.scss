@@ -1,0 +1,33 @@
+.dish-order {
+  padding: 20px;
+
+  .header-title {
+    text-align: center;
+    font-size: 26px;
+  }
+
+  hr {
+    width: 100%;
+    margin: 0;
+    border-color: red;
+  }
+
+  .title {
+    padding: 15px 20px;
+  }
+
+  .bg-gray {
+    background-color: #f9f9f9;
+  }
+
+  .box-summary {
+    height: 40px;
+    background-image: linear-gradient(#fdfdfd, #f7f7f7);
+  }
+
+  .submit-section {
+    button {
+      width: 45%;
+    }
+  }
+}

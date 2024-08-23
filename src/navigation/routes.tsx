@@ -1,10 +1,29 @@
 import type { ComponentType, JSX } from 'react';
 
-import { IndexPage } from '@/pages/IndexPage/IndexPage';
-import { InitDataPage } from '@/pages/InitDataPage/InitDataPage';
+// import { InitDataPage } from '@/pages/InitDataPage/InitDataPage';
 import { LaunchParamsPage } from '@/pages/LaunchParamsPage/LaunchParamsPage.tsx';
 import { ThemeParamsPage } from '@/pages/ThemeParamsPage/ThemeParamsPage.tsx';
 import { TONConnectPage } from '@/pages/TONConnectPage/TONConnectPage';
+import Index from '@/pages';
+import { IndexPage } from '@/pages/IndexPage/IndexPage';
+import FormPage from '@/pages/user/form';
+import ProfilePage from '@/pages/profile';
+import AboutPage from '@/pages/about';
+import OrderHistory from '@/pages/order-history';
+import StoreFormPage from '@/pages/admin/store/form';
+import StorePage from '@/pages/admin/store';
+import UserPage from '@/pages/admin/user';
+import ProductPage from '@/pages/admin/product';
+import ProductFormPage from '@/pages/admin/product/form';
+import ScaneMenuPage from '@/pages/admin/product/scanmenu';
+import CategoryFormPage from '@/pages/admin/category/form';
+import CategoryPage from '@/pages/admin/category';
+import TablePage from '@/pages/admin/table';
+import TableFormPage from '@/pages/admin/table/form';
+import SaleReportPage from '@/pages/admin/sale-report';
+import StoreEditPage from '@/pages/admin/store/storeEdit';
+import RecentScans from '@/components/qr/RecentScans';
+
 
 interface Route {
   path: string;
@@ -14,10 +33,38 @@ interface Route {
 }
 
 export const routes: Route[] = [
-  { path: '/', Component: IndexPage },
-  { path: '/init-data', Component: InitDataPage, title: 'Init Data' },
+  // { path: '/', Component: IndexPage },
   { path: '/theme-params', Component: ThemeParamsPage, title: 'Theme Params' },
   { path: '/launch-params', Component: LaunchParamsPage, title: 'Launch Params' },
+  // USER
+  { path: '/user/form', Component: FormPage, title: 'Form Page' },
+  { path: '/', Component: Index},
+  { path: '/user/profile', Component: ProfilePage},
+  { path: '/about', Component: AboutPage},
+  //ORDER
+  { path: '/order-history', Component: OrderHistory, title: 'Order History'},
+    // ADMIN
+    { path: '/admin/store/form', Component: StoreFormPage},
+    { path: '/admin/store/index', Component: StorePage },
+    { path: '/admin/user/index/:store_uuid', Component: UserPage },
+    //PRODUCT 
+    { path: '/admin/product/index/:store_uuid', Component: ProductPage },
+    { path: '/admin/product/form/:store_uuid', Component: ProductFormPage },
+    { path: '/admin/product/update/:store_uuid/:product_uuid', Component: ProductFormPage },
+    { path: '/admin/product/scanmenu/:store_uuid', Component: ScaneMenuPage },
+    //CATEGORY
+    { path: '/admin/category/form/:store_uuid/:category_uuid', Component: CategoryFormPage },
+    { path: "/admin/category/index/:store_uuid", Component: CategoryPage },
+    //TABLE
+    { path: "/admin/table/index/:store_uuid", Component: TablePage },
+    { path: "/admin/table/form/:store_uuid/:table_uuid", Component: TableFormPage },
+    //SALE REPORT
+    { path: "/admin/sale-report/:store_uuid", Component: SaleReportPage },
+    //STORE
+    { path: "/admin/store/edit/:store_uuid", Component: StoreEditPage },
+    //RESCENT 
+    { path: "/recent-scan", Component: RecentScans },
+
   {
     path: '/ton-connect',
     Component: TONConnectPage,

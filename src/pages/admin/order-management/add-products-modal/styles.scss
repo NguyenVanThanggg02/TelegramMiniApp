@@ -1,0 +1,33 @@
+.add-products-container {
+  overflow: auto;
+
+  .product-list {
+    padding: 20px;
+    margin-bottom: 90px;
+
+    .product-item {
+      padding: 12px;
+      border-bottom: 1px solid #e3e3e3;
+    }
+
+    .zaui-icon {
+      font-size: 30px;
+    }
+  }
+
+  .actions {
+    position: fixed;
+    bottom: 0;
+
+    padding: 20px;
+    width: 100%;
+    background-color: #fff;
+
+    display: flex;
+    justify-content: space-around;
+
+    .zaui-btn {
+      width: 48%;
+    }
+  }
+}

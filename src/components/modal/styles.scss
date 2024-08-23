@@ -1,0 +1,63 @@
+@import "@styles/_mixins.scss";
+
+.confirm-modal {
+  &_icon {
+    width: 70px;
+    height: 70px;
+    background: #ff8080;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 30px;
+
+    @include mobile {
+      width: 50px;
+      height: 50px;
+    }
+
+    .zaui-icon {
+      height: 60px;
+      font-size: 60px;
+      color: white;
+
+      @include mobile {
+        height: 50px;
+        font-size: 50px;
+      }
+    }
+  }
+
+  &_text {
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+    text-align: center;
+    line-height: 1.5;
+
+    .new-status {
+      display: inline-block;
+      background-color: white;
+      margin-left: 10px;
+      font-size: 20px;
+      text-transform: capitalize;
+    }
+  }
+
+  &_button {
+    margin-top: 40px;
+    margin-bottom: 10px;
+
+    .zaui-btn {
+      width: 47%;
+      font-size: 18px;
+    }
+  }
+}
+
+.item-delete {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--red-color);
+}

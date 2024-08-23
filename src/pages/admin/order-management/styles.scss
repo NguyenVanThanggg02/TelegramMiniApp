@@ -1,0 +1,238 @@
+@import "@styles/_mixins.scss";
+
+.zaui-routes .zaui-routes-item:has(.order-management-container) {
+  overflow: hidden;
+}
+
+.order-management-container {
+  background-color: #f8f9fd;
+  overflow: hidden;
+
+  @include mobile {
+    overflow: auto;
+  }
+
+  .toolbar {
+    padding: 20px 10px;
+    margin-bottom: 10px;
+    align-items: flex-end !important;
+
+    @include mobile {
+      flex-direction: column;
+      padding: 10px 0;
+    }
+
+    &_filter {
+      gap: 12px;
+
+      @include mobile {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        margin-bottom: 12px;
+        width: 100%;
+      }
+
+      .zaui-select {
+        @include mobile {
+          width: 100%;
+        }
+      }
+
+      .zaui-input-wrapper {
+        @include mobile {
+          flex-direction: row;
+          align-items: center;
+          gap: 12px;
+        }
+      }
+
+      .zaui-input-group-wrapper {
+        @include mobile {
+          width: 100%;
+        }
+      }
+
+      .zaui-input-group-addon {
+        @include mobile {
+          width: 60px;
+        }
+      }
+
+      &_search {
+        @include mobile {
+          display: flex;
+          align-items: center;
+          width: 100%;
+        }
+
+        .zaui-text {
+          margin: 0 0 5px 10px;
+
+          @include mobile {
+            width: 60px;
+            margin: unset;
+            margin-right: 12px;
+          }
+        }
+      }
+    }
+
+    &_add-btn {
+      @include mobile {
+        width: 100%;
+      }
+
+      .zaui-icon {
+        margin: 4px 4px 0 0;
+      }
+
+      .zaui-btn {
+        @include mobile {
+          width: 100%;
+        }
+      }
+    }
+
+    .zaui-input-affix-wrapper {
+      border-radius: 50px;
+      max-width: 200px;
+      max-height: 40px;
+
+      @include mobile {
+        max-width: unset;
+      }
+    }
+
+    .zaui-icon {
+      height: 25px;
+    }
+
+    .zaui-input {
+      height: 40px;
+
+      .zaui-input-prefix {
+        width: 32px;
+      }
+    }
+
+    .search-input {
+      padding-left: 0;
+
+      .zaui-btn-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .zaui-btn-icon-only {
+        padding: 5px;
+      }
+    }
+  }
+
+  .order-table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.15);
+    margin: auto;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-top: 100px;
+    background-color: #fff;
+
+    &_head {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+
+        th {
+          font-size: 18px;
+          color: var(--red-color);
+          line-height: 1.4;
+          background-color: transparent;
+          padding: 10px;
+          padding-left: 40px;
+          text-align: justify;
+        }
+
+        .col {
+          width: 20%;
+        }
+      }
+    }
+
+    &_body {
+      height: 65vh;
+      position: relative;
+      overflow: auto;
+      touch-action: auto;
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+
+        tr {
+          border-bottom: 1px solid #f2f2f2;
+
+          td {
+            font-size: 16px;
+            line-height: 1.4;
+            padding: 10px;
+            padding-left: 40px;
+          }
+
+          .col {
+            width: 20%;
+          }
+        }
+      }
+
+      .button-actions {
+        margin-left: 10px;
+        width: 50px;
+        height: 30px;
+        border-radius: 50px;
+        border: 2px solid #999999;
+        color: #3b3b3b;
+        padding: 0 10px;
+      }
+    }
+
+    .cancel-order-button {
+      padding: 8px 12px;
+      height: 36px;
+      border-radius: 8px !important;
+    }
+
+    .order-cancelled {
+      margin: 12px;
+
+      span {
+        font-weight: bold;
+        font-size: 16px;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+  }
+
+  .order-table-mobile {
+    padding: 0;
+
+    &_box {
+      padding: 12px 20px;
+      border-bottom: 1px solid #e8e8e8;
+
+      .zaui-btn {
+        width: 100%;
+        border-radius: 12px;
+      }
+    }
+  }
+}

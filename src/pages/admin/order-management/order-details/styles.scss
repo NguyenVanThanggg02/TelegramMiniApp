@@ -1,0 +1,112 @@
+@import "@styles/_mixins.scss";
+
+.order-details-container {
+  .header {
+    &__table-name {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .order-cancelled {
+      margin: 20px;
+
+      span {
+        font-weight: bold;
+        font-size: 24px;
+        text-transform: uppercase;
+        text-align: center;
+      }
+    }
+  }
+
+  .main {
+    margin: 20px 0;
+    padding: 30px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+
+    @include mobile {
+      padding: 18px;
+      border-radius: 8px;
+    }
+
+    .add-product {
+      height: 45px;
+    }
+
+    .order-list {
+      padding-top: 20px;
+
+      .product-item {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e8e8e8;
+
+        @include mobile {
+          flex-direction: column;
+        }
+
+        .product-info {
+          @include mobile {
+            width: 100%;
+          }
+
+          .product-image {
+            border-radius: 16px;
+            width: 68px;
+            height: 54px;
+
+            @include mobile {
+              width: 90px;
+              height: 90px;
+            }
+          }
+        }
+
+        .quantity {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          @include mobile {
+            width: 100%;
+            justify-content: flex-end;
+          }
+
+          .zaui-select {
+            width: 42px;
+            height: 36px;
+            border-radius: 4px;
+
+            .zaui-input {
+              padding: 0;
+              padding-left: 8px;
+            }
+
+            .zaui-icon {
+              right: 20px;
+              top: 0;
+              font-size: 16px;
+            }
+          }
+        }
+
+        .slider-order-item {
+          width: 100%;
+          padding: 4px 50px;
+        }
+      }
+    }
+  }
+}
+
+.zaui-select-option-disabled {
+  background-color: #e3e3e3;
+}
+.avatar-order-container {
+  background-color: #e3e3e3;
+  width: 100%;
+  border-radius: 8px;
+  padding: 8px;
+  position: relative;
+}

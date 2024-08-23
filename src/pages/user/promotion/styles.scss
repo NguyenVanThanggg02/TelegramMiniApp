@@ -1,0 +1,85 @@
+@import "@styles/_mixins.scss";
+.toolbar {
+  padding: 20px 10px;
+  margin-bottom: 10px;
+
+  @include mobile {
+    flex-direction: column;
+    padding: 10px 0;
+  }
+
+  &_filter {
+    gap: 12px;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .zaui-select {
+      @include mobile {
+        width: 100%;
+      }
+    }
+
+    .zaui-input-wrapper {
+      @include mobile {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+
+    .zaui-input-group-wrapper {
+      @include mobile {
+        width: 100%;
+      }
+    }
+
+    .zaui-input-group-addon {
+      @include mobile {
+        width: 60px;
+      }
+    }
+
+    &_search {
+      @include mobile {
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
+      .zaui-text {
+        margin: 0 0 5px 10px;
+
+        @include mobile {
+          width: 60px;
+          margin: unset;
+          margin-right: 12px;
+        }
+      }
+    }
+  }
+
+  &_add-btn {
+    @include mobile {
+      width: 100%;
+    }
+
+    .zaui-icon {
+      margin: 4px 4px 0 0;
+    }
+
+    .zaui-btn {
+      @include mobile {
+        width: 100%;
+      }
+    }
+  }
+}
+.list-voucher {
+  margin-top: 15px;
+}

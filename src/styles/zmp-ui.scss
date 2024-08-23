@@ -1,0 +1,142 @@
+.zaui-btn-primary {
+  background-color: var(--red-color);
+  min-width: unset;
+
+  &:active {
+    background: var(--red-color);
+    opacity: 0.8;
+  }
+}
+
+.zaui-btn-secondary {
+  background-color: var(--bg-secondary-btn);
+  color: var(--red-color);
+
+  &:active {
+    background-color: var(--bg-secondary-btn);
+    opacity: 0.8;
+  }
+}
+
+.zaui-select {
+  /* height: 40px; */
+  border-radius: 12px;
+
+  .zaui-select-option {
+    border: 1px solid #e4e4e4;
+
+    &::after {
+      background: unset;
+    }
+  }
+}
+
+.zaui-tabs-tabbar-active-line {
+  border-radius: 2px;
+}
+
+.zaui-bottom-navigation-item-active {
+  color: var(--red-color);
+}
+
+.zaui-page {
+  background-color: white;
+}
+
+.zaui-select-icon {
+  margin-right: 8px;
+}
+
+.zaui-image-viewer-header {
+  top: 44px;
+}
+
+.slider-status-order {
+  margin: 20px 40px 40px;
+
+  .rc-slider-track,
+  .rc-slider-tracks {
+    background-color: red;
+  }
+
+  .rc-slider-handle {
+    border: solid 3px red;
+    width: 34px;
+    height: 34px;
+    margin-top: -16px;
+  }
+
+  .rc-slider-dot {
+    width: 22px;
+    height: 22px;
+    bottom: -9px;
+  }
+
+  .rc-slider-dot-active {
+    border: 3px solid red;
+  }
+
+  .rc-slider-handle-dragging {
+    box-shadow: 0 0 0 5px rgb(241, 189, 189) !important;
+    border-color: red !important;
+  }
+
+  .rc-slider-mark-text {
+    font-size: 14px;
+    width: 130px;
+  }
+
+  .rc-slider-mark {
+    top: 22px;
+  }
+}
+
+.slider-yellow-theme {
+  .rc-slider-handle {
+    border-color: #f4eb58;
+    background-color: transparent;
+
+    &:hover {
+      border-color: #f4eb58;
+    }
+  }
+
+  .rc-slider-dot-active {
+    border-color: #f4eb58;
+    border-width: 12px;
+  }
+
+  .rc-slider-handle-dragging {
+    box-shadow: 0 0 0 5px rgb(247, 247, 175) !important;
+    border-color: #f4eb58 !important;
+  }
+
+  .rc-slider-track {
+    background-color: #f4eb58;
+  }
+}
+
+.slider-green-theme {
+  .rc-slider-handle {
+    border-color: #7fd858;
+    background-color: transparent;
+
+    &:hover {
+      border-color: #7fd858;
+    }
+  }
+
+  .rc-slider-dot-active {
+    border-color: #7fd858;
+    border-width: 12px;
+  }
+
+  .rc-slider-handle-dragging {
+    box-shadow: 0 0 0 5px rgb(153, 248, 153) !important;
+    border-color: #7fd858 !important;
+  }
+
+  .rc-slider-track {
+    background-color: #7fd858;
+  }
+}

@@ -1,0 +1,43 @@
+.order-history {
+  .products-and-note {
+    padding: 10px 20px;
+    padding-top: 8px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+
+    .item-img {
+      width: 16px;
+      height: 16px;
+      padding: 0;
+      margin: 0;
+      margin-right: 8px;
+    }
+
+    .products {
+      .product-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+      }
+    }
+
+    .note {
+      padding: 6px 0;
+    }
+  }
+
+  .order__main {
+    position: relative;
+
+    .order__status {
+      position: absolute;
+      font-size: 14px;
+      right: 0;
+      top: 0;
+      border-radius: 0 8px 0 8px;
+      z-index: 10;
+      text-align: center;
+      padding: 6px 12px;
+      line-height: 12px;
+    }
+  }
+}

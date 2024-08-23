@@ -1,0 +1,66 @@
+// MENU PAGE
+.zaui-routes .zaui-routes-item:has(.menu-page) {
+  overflow: hidden;
+}
+
+.menu-page {
+  height: 100vh;
+  overflow: auto;
+  .zaui-tabs-tabbar-active-line {
+    background-color: var(--red-color);
+  }
+
+  .zaui-tabs-tabbar-item {
+    color: var(--grey-color);
+  }
+  .zaui-tabs-tabbar-item-active {
+    color: var(--red-color);
+  }
+
+  .sticky-payment-container {
+    position: fixed;
+    width: 100%;
+    left: 0;
+  }
+
+  .sticky-payment {
+    position: fixed;
+    bottom: 122px;
+    width: 94%;
+    margin-left: 3%;
+    height: 50px;
+    background-color: #d1d5da;
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .sticky-payment-btn {
+    position: fixed;
+    left: 0;
+    bottom: 48px;
+    width: 100%;
+    background-color: #fff;
+    height: 65px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    button {
+      width: 88%;
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+
+  .top-menu-container {
+    position: fixed;
+    background-color: #fff;
+    z-index: 99;
+    width: 100%;
+  }
+
+  .menu-tabs-container {
+    position: fixed;
+  }
+}

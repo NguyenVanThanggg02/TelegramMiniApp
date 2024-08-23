@@ -1,0 +1,25 @@
+.item-card-container {
+  display: flex;
+  height: 64px;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  margin: 10px 0;
+  position: relative;
+  flex-direction: row;
+  margin: 12px 0;
+  position: relative;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+}
+.item-img {
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  margin-left: 12px;
+}
+
+.arrow-icon {
+  position: absolute;
+  right: 10px;
+  color: #a9a9a9;
+}

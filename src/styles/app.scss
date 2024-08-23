@@ -1,0 +1,133 @@
+@import "./zmp-ui.scss";
+@import "./_mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap");
+
+@font-face {
+  font-family: "Montserrat";
+  src:
+    local("Montserrat"),
+    url(../static/fonts/Montserrat.woff2) format("woff2");
+}
+
+:root {
+  --red-color: #e71826;
+  --blue-color: #006af5;
+  --black-color: #726b72;
+  --grey-color: #89889b;
+  --bg-secondary-btn: #fde7e9;
+
+  // breakpoints
+  --mobile-width: 480px;
+  --tablet-width: 768px;
+}
+
+body {
+  font-family: "Montserrat";
+  background-color: white;
+}
+
+button {
+  font-family: "Montserrat";
+  font-weight: 400;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.section-container {
+  padding: 16px;
+  background: #ffffff;
+  // border-radius: 8px;
+  // margin-bottom: 24px;
+}
+
+// ----- COLOR -----
+
+.red-color {
+  color: var(--red-color);
+}
+
+.grey-color {
+  color: var(--grey-color);
+}
+
+.title-color {
+  color: var(--black-color);
+}
+
+// ----- FONT -----
+
+@mixin fontSizeClass($size) {
+  .fs-#{$size} {
+    font-size: $size + px;
+  }
+}
+
+@include fontSizeClass(12); // Creates a class .font-size-12
+@include fontSizeClass(14); // Creates a class .font-size-14
+@include fontSizeClass(16); // Creates a class .font-size-16
+@include fontSizeClass(18); // Creates a class .font-size-18
+@include fontSizeClass(20); // Creates a class .font-size-20
+@include fontSizeClass(22); // Creates a class .font-size-22
+@include fontSizeClass(24); // Creates a class .font-size-24
+@include fontSizeClass(26); // Creates a class .font-size-26
+
+@mixin fontWeightClass($size) {
+  .fw-#{$size} {
+    font-weight: $size;
+  }
+}
+
+@include fontWeightClass(300); // Creates a class .font-weight-300
+@include fontWeightClass(400); // Creates a class .font-weight-400
+@include fontWeightClass(500); // Creates a class .font-weight-500
+@include fontWeightClass(600); // Creates a class .font-weight-600
+@include fontWeightClass(700); // Creates a class .font-weight-700
+
+// ----- SHADOW -----
+.shadow-bottom {
+  box-shadow: 0 1px 11px 0px var(--grey-color);
+}
+
+// ----- COLOR STATUS -----
+.status-pending {
+  color: #4c45c1;
+  background: #dde2ff;
+}
+.status-confirmed {
+  color: #00a5cf;
+  background: #c4f3ff;
+}
+.status-delivered,
+.status-partial-delivery {
+  color: #6e6f1d;
+  background: #fffac1;
+}
+.status-done,
+.status-finished {
+  color: #1f8651;
+  background: #ccffe5;
+}
+.status-wait_for_pay {
+  color: #0f6f22;
+  background: #a6ffa4;
+}
+.status-payed {
+  color: #951fb0;
+  background: #f5ccff;
+}
+.status-refunded {
+  color: #861f1f;
+  background: #ffcccc;
+}
+.status-cancelled {
+  color: #1b246f;
+  background: #afb9ff;
+}
+.status-expired {
+  color: #6d6d6d;
+  background: #d8d8d8;
+}
