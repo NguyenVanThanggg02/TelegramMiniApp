@@ -2,7 +2,7 @@ import { Telegraf } from "telegraf";
 const TOKEN = "";
 const bot = new Telegraf(TOKEN);
 
-const web_link = "";
+const web_link = "https://telegram-mini-app-j48g.vercel.app/";
 bot.start((ctx) =>
   ctx.reply("Welcome", {
     reply_markup: {
