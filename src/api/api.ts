@@ -188,7 +188,7 @@ export const getSaleReport = async (dataToSend: any): Promise<ApiResponse<any>> 
 
 // ------ AI REQUEST -------
 
-export const getAiRequestListByStore = async (store_uuid: string,is_admin: boolean): Promise<ApiResponse<any>>  => {
+export const getAiRequestListByStore = async (store_uuid: string): Promise<ApiResponse<any>>  => {
   return sendGetRequest("ai_request", { store_uuid: store_uuid }, false, true);
 };
 

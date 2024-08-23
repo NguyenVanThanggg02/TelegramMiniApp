@@ -5,7 +5,7 @@ import { LaunchParamsPage } from '@/pages/LaunchParamsPage/LaunchParamsPage.tsx'
 import { ThemeParamsPage } from '@/pages/ThemeParamsPage/ThemeParamsPage.tsx';
 import { TONConnectPage } from '@/pages/TONConnectPage/TONConnectPage';
 import Index from '@/pages';
-import { IndexPage } from '@/pages/IndexPage/IndexPage';
+// import { IndexPage } from '@/pages/IndexPage/IndexPage';
 import FormPage from '@/pages/user/form';
 import ProfilePage from '@/pages/profile';
 import AboutPage from '@/pages/about';

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
+import { Icon, Text, useSnackbar } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
@@ -20,13 +20,13 @@ const RecentScans: React.FC = () => {
   const { t } = useTranslation("global");
   const snackbar = useSnackbar();
 
-  const toggleSelect = (index: number) => {
-    setSelectedIndexes((prevSelectedIndexes) =>
-      prevSelectedIndexes.includes(index)
-        ? prevSelectedIndexes.filter((i) => i !== index)
-        : [...prevSelectedIndexes, index],
-    );
-  };
+  // const toggleSelect = (index: number) => {
+  //   setSelectedIndexes((prevSelectedIndexes) =>
+  //     prevSelectedIndexes.includes(index)
+  //       ? prevSelectedIndexes.filter((i) => i !== index)
+  //       : [...prevSelectedIndexes, index],
+  //   );
+  // };
 
   const handleEditClick = () => {
     setIsEditMode((prev) => !prev);

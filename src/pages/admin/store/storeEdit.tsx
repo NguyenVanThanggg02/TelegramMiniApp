@@ -30,7 +30,7 @@ interface StoreData {
 const StoreEditPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [user, setUserState] = useRecoilState(userState);
+  const [user, ] = useRecoilState(userState);
   const [storeData, setStoreData] = useState<StoreData | undefined>(undefined);
   const [storeName, setStoreName] = useState<string | undefined>(undefined);
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { deleteProduct, getProductListByStore } from "../../../api/api";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { loadingState, userState } from "../../../state";
+import { useRecoilState } from "recoil";
+import { loadingState } from "../../../state";
 import {
   List,
   Page,
@@ -38,7 +38,7 @@ const ProductPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const [products, setProducts] = useState<Product[]>([]);
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const [loading, setLoading] = useRecoilState(loadingState);
   const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);

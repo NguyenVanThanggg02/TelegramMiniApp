@@ -35,7 +35,6 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
   product,
   onClose,
   onSubmit,
-  onPayment,
 }) => {
   const { t } = useTranslation("global");
   const [quantity, setQuantity] = useState<number>(1);

@@ -92,7 +92,7 @@ const ProductFormPage: React.FC = () => {
 
   const snackbar = useSnackbar();
 
-  const [user, setUserState] = useRecoilState(userState);
+  const [user, ] = useRecoilState(userState);
   const store = useRecoilValue(storeState);
 
   const [categoryList, setCategoryList] = useState<Category[]>([]);

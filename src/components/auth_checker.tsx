@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 // import { useSnackbar } from "zmp-ui";
 // import { sendPostLogin } from "../api/api";
 import {  useInitData } from '@telegram-apps/sdk-react';

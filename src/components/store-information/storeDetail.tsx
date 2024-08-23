@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Modal, Icon, Text, List } from 'zmp-ui';
+import { Box, Modal, Icon, Text, List } from 'zmp-ui';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import DEFAULT_IMAGE_STORE from '../../static/icons/store-background.png';
@@ -27,7 +27,7 @@ interface StoreDetailModalProps {
 
 const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, onClose }) => {
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!storeData) return;
@@ -38,11 +38,11 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
     }
   }, [storeData]);
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
-  };
+  // const copyToClipboard = (text: string) => {
+  //   navigator.clipboard.writeText(text);
+  //   setCopied(true);
+  //   setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+  // };
 
   const { t } = useTranslation('global');
 

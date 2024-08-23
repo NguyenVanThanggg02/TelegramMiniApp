@@ -9,7 +9,7 @@ import {
   Text,
 } from "zmp-ui";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState, loadingState, storeState } from "../../../state";
 import { getAiRequestListByStore } from "../../../api/api";
@@ -28,10 +28,9 @@ const ScaneMenuPage: React.FC = () => {
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const [aiRequests, setAiRequests] = useState<AiRequest[]>([]);
   const snackbar = useSnackbar();
-  const [user, setUserState] = useRecoilState(userState);
+  const [user, ] = useRecoilState(userState);
   const [store, setStore] = useRecoilState(storeState);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
@@ -39,7 +38,7 @@ const ScaneMenuPage: React.FC = () => {
   }, [store_uuid]);
 
   const fetchAiRequestList = async () => {
-    const data = await getAiRequestListByStore(store_uuid!, true);
+    const data = await getAiRequestListByStore(store_uuid!);
     if (!data?.error) {
       setLoading({ ...loading, isLoading: false });
       setAiRequests(data.data.results as AiRequest[]);

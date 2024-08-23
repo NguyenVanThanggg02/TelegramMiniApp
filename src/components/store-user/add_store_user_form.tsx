@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Icon, useSnackbar, Select, Box, Text } from 'zmp-ui';
+import { Button, Input, useSnackbar, Select, Box, Text } from 'zmp-ui';
 import { addUserStore } from '../../api/api';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';

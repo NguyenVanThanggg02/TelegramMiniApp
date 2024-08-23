@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { BottomNavigation, Icon } from "zmp-ui";
+import { BottomNavigation } from "zmp-ui";
 import { storeState, tableState } from "../../state";
 import { useRecoilValue } from "recoil";
-import ConfirmationNumberOutlinedIcon from "@mui/icons-material/ConfirmationNumberOutlined";
-import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import HomeIcon from "@mui/icons-material/Home";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import AssignmentIcon from "@mui/icons-material/Assignment";
@@ -19,7 +15,7 @@ interface BottomNavBarProps {
   // Define any props if needed, otherwise use empty object
 }
 
-const BottomNavBar: React.FC<BottomNavBarProps> = (props) => {
+const BottomNavBar: React.FC<BottomNavBarProps> = () => {
   const { t } = useTranslation("global");
   const { pathname } = useLocation();
   const navigate = useNavigate();

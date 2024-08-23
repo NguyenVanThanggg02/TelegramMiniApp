@@ -38,7 +38,7 @@ const StoreFormPage: React.FC = () => {
 
   const [codeValid, setCodeValid] = useState<CodeValid | null>(null);
 
-  const [storeList, setStoreListState] = useRecoilState(storeListState);
+  const [, setStoreListState] = useRecoilState(storeListState);
 
   const snackbar = useSnackbar();
   const navigate = useNavigate();

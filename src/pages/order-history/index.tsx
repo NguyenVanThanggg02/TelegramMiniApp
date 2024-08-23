@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { fetchHistoryOrdersByStore } from "../../api/api";
 import { Box, Page, Select, Text, useSnackbar } from "zmp-ui";
 import { useTranslation } from "react-i18next";
-import { clone, groupBy, isEmpty } from "lodash";
+import { groupBy, isEmpty } from "lodash";
 import { dateFormatterYYYYMMDD } from "../../utils/dateFormatter";
 import { priceFormatter } from "../../utils/numberFormatter";
 import { ORDER_STATUS } from "../../constants";

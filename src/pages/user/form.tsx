@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button, Input, Box, Page, useSnackbar } from "zmp-ui";
+import { Button, Input, Box, Page } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import { userState } from "../../state";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 interface Form {
   name: string;
@@ -10,10 +10,10 @@ interface Form {
 }
 
 const FormPage: React.FC = () => {
-  const { t } = useTranslation("global");
+  // const { t } = useTranslation("global");
   const [user, setUser] = useRecoilState(userState);
   const [form, setForm] = React.useState({ ...user });
-  const [showSnackbar, setShowSnackbar] =useState(false);
+  const [, setShowSnackbar] =useState(false);
 
   const handleChangeInput = (field: keyof Form, value:string) => {
     setForm({ ...form, [field]: value });

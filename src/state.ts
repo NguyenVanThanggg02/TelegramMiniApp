@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { getLocation, getPhoneNumber, getUserInfo } from "zmp-sdk";
+import {getUserInfo } from "zmp-sdk";
 
 // ----- USER -----
 interface UserState {
@@ -45,7 +45,7 @@ export const authTokenSelector = selector<string>({
 
 export const zaloUserState = selector({
   key: "zalo_user",
-  get: async ({ get }) => {
+  get: async ({}) => {
     try {
       const { userInfo } = await getUserInfo({});
       console.log(userInfo);

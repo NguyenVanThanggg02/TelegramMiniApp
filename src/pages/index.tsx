@@ -48,14 +48,14 @@ const Index: React.FC = () => {
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   const user = useRecoilValue(userState);
   const { t } = useTranslation("global");
-  const [scanResult, setScanResult] = useState("");
+  const [, setScanResult] = useState("");
   const [showScanner, setShowScanner] = useState(false);
   const snackbar = useSnackbar();
   const hostname = window.location.hostname;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const cloudStorage = initCloudStorage();
   const MAX_SCAN_COUNT = 5;
-  const fileInputRef = useRef(null);
+  // const fileInputRef = useRef(null);
 
   const getStoreData = async () => {
     try {
@@ -176,12 +176,12 @@ const Index: React.FC = () => {
     });
   };
 
-  const handleError = (error: string) => {
-    snackbar.openSnackbar({
-      text: error,
-      type: "error",
-    });
-  };
+  // const handleError = (error: string) => {
+  //   snackbar.openSnackbar({
+  //     text: error,
+  //     type: "error",
+  //   });
+  // };
 
   const toggleScanner = () => {
     if (hostname === "localhost") {

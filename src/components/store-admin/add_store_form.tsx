@@ -10,7 +10,7 @@ interface AddStoreFormProps {
   onStoreAdded: () => void;
 }
 
-const AddStoreForm: React.FC<AddStoreFormProps> = ({ authToken, onStoreAdded }) => {
+const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
   const { t } = useTranslation('global');
   const [storeName, setStoreName] = useState<string>('');
   const [metadata, setMetadata] = useState<string>('');

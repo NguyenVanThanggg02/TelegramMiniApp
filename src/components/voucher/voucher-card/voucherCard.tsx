@@ -24,11 +24,11 @@ interface VoucherCardProps {
 }
 
 const VoucherCard: React.FC<VoucherCardProps> = ({
-  isAdmin = false,
+  // isAdmin = false,
   voucher,
   hasUseButton = false,
   onDetails,
-  onUse,
+  // onUse,
   displayStatus = true,
 }) => {
   const { t } = useTranslation("global");

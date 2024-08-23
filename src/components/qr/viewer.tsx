@@ -8,7 +8,6 @@ import appIconFull from "../../static/icons/web-icon-full.png";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ChecklistIcon from "@mui/icons-material/Checklist";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 interface QRCodeViewerProps {
   value: string;

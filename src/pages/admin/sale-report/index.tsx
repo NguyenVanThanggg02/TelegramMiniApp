@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Text, Box, Page, DatePicker, useSnackbar } from "zmp-ui";
 import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../state";
+// import { useRecoilValue } from "recoil";
+// import { userState } from "../../../state";
 import { getSaleReport } from "../../../api/api";
 import { useTranslation } from "react-i18next";
 import { formatNumberToVND } from "../../../utils/numberFormatter";
@@ -15,7 +15,7 @@ interface FilterState {
 const SaleReportPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
   const [totalValue, setTotalValue] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [filter, setFilter] = useState<FilterState>({

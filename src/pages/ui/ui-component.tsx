@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { Box, Page, Text } from "zmp-ui";
 import { ORDER_STATUS } from "../../constants";
 import OrderStatus from "../../components/order-status";

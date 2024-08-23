@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Input, Box, Page, useSnackbar } from "zmp-ui";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { companyState, userState } from "../../../state";
 import { addCompany } from "../../../api/api";
 import { useTranslation } from "react-i18next";
@@ -20,20 +20,6 @@ interface ApiResponse<T> {
   expired_at?: string;
 }
 
-interface UserState {
-  zalo_id: string;
-  avatar: string;
-  name: string;
-  uuid: string;
-  store_uuid: string;
-  company_uuid: string;
-  role: string;
-  login: boolean;
-  authToken: string;
-  accessToken: string;
-  has_phone: boolean;
-  is_oa_follow: boolean;
-}
 
 const CompanyFormPage: React.FC = () => {
   const { t } = useTranslation("global");

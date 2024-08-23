@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, Input, Box, Page, useSnackbar } from "zmp-ui";
 
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../state";
+// import { useRecoilValue } from "recoil";
+// import { userState } from "../../../state";
 import { editTable } from "../../../api/api";
 import { useTranslation } from "react-i18next";
 
@@ -15,8 +15,8 @@ interface FormState {
 const TableFormPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid: string }>();
-  const user = useRecoilValue(userState);
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const user = useRecoilValue(userState);
+  const [searchParams, ] = useSearchParams();
   const table_name = searchParams.get("table_name");
   const [form, setForm] = useState<FormState>({
     uuid: table_uuid,
@@ -41,8 +41,8 @@ const TableFormPage: React.FC = () => {
     let payload = {
       store_uuid: store_uuid,
       table: {
-        name: form.name,
-        uuid: form.uuid,
+        name: name,
+        uuid: uuid,
       },
     };
     const data = await editTable(payload);

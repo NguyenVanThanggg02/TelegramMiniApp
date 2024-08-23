@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import VoucherDetailModal from "../../../components/voucher/voucher-detail/voucherDetailModal";
 import { loadingState } from "../../../state";
 import { useNavigate, useParams } from "react-router-dom";
-import VoucherCard from "../../../components/voucher/voucher-card/voucherCard";
+// import VoucherCard from "../../../components/voucher/voucher-card/voucherCard";
 import { useTranslation } from "react-i18next";
 import { getVoucherByStore } from "../../../api/api";
 import AddIcon from "@mui/icons-material/Add";
@@ -23,7 +23,7 @@ const VoucherPage: React.FC = () => {
 
   const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | {}>({});
-  const [vouchers, setVouchers] = useState<Voucher[]>([]);
+  const [, setVouchers] = useState<Voucher[]>([]);
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const snackbar = useSnackbar();
 

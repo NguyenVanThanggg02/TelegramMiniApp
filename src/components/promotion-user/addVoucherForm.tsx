@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Icon, useSnackbar } from 'zmp-ui';
-import { addCategoryToStore } from '../../api/api';
+import { Button, Input, Icon } from 'zmp-ui';
 import { useTranslation } from 'react-i18next';
 
 // Define types for the props
@@ -17,7 +16,7 @@ const AddVoucherForm: React.FC<AddVoucherFormProps> = ({
 }) => {
   const { t } = useTranslation('global');
   const [voucherCode, setVoucherCode] = useState<string>('');
-  const snackbar = useSnackbar();
+  // const snackbar = useSnackbar();
 
   const handleAddVoucher = () => {
     // if (voucherCode) {

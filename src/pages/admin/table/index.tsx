@@ -7,13 +7,13 @@ import {
   Text,
   useSnackbar,
 } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
-  userState,
+  // userState,
 } from "../../../state";
 import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
@@ -37,7 +37,7 @@ interface Table {
 const TablePage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, ] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
 
@@ -46,12 +46,12 @@ const TablePage: React.FC = () => {
   }
 
   const [tables, setTables] = useState<Table[]>([]);
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
   const [selectedTableUUID, setSelectedTableUUID] = useState<string | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   const snackbar = useSnackbar();
-  const [spinner, setSpinner] = useRecoilState(spinnerState);
+  const [, setSpinner] = useRecoilState(spinnerState);
 
   const handleTableAdded = () => {
     fetchTableData();

@@ -50,19 +50,19 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   const store = useRecoilValue(storeState);
   const { t } = useTranslation("global");
   const [orderList, setOrderList] = useRecoilState(orderListState);
-  const [order, setOrder] = useRecoilState(orderState);
-  const [subdomain, setSubdomain] = useState<string | undefined>();
+  const [, setOrder] = useRecoilState(orderState);
+  const [subdomain, ] = useState<string | undefined>();
   const navigate = useNavigate();
 
-  const getOrderByUUID = async (order_uuid: string) => {
-    const data = await fetchOrderByUUID(store.uuid, order_uuid);
-    if (!data?.error) {
-      return data;
-    } else {
-      console.log("Error:", data?.error);
-      return [];
-    }
-  };
+  // const getOrderByUUID = async (order_uuid: string) => {
+  //   const data = await fetchOrderByUUID(store.uuid, order_uuid);
+  //   if (!data?.error) {
+  //     return data;
+  //   } else {
+  //     console.log("Error:", data?.error);
+  //     return [];
+  //   }
+  // };
 
   const handleVibrate = async () => {
     // await vibrate({

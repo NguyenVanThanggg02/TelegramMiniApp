@@ -11,8 +11,8 @@ import {
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  categoryListState,
-  userState,
+  // categoryListState,
+  // userState,
   categoryState,
   storeListState,
 } from "../../../state";
@@ -33,10 +33,10 @@ interface CategoryForm {
 
 const CategoryFormPage: React.FC = () => {
   const { t } = useTranslation("global");
-  const [category, setCategory] = useRecoilState(categoryState);
+  const [category, ] = useRecoilState(categoryState);
   const { store_uuid, category_uuid } = useParams<{ store_uuid?: string; category_uuid?: string }>();
   const [form, setForm] = React.useState<CategoryForm>({ ...category });
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
   const storeList = useRecoilValue(storeListState);
 
   const snackbar = useSnackbar();
@@ -52,15 +52,7 @@ const CategoryFormPage: React.FC = () => {
     }
   }, [category_uuid]);
 
-  const handleSubmit = () => {
-    console.log(
-      `form.store_uuid: ${form.store_uuid} | form.name: ${form.name}`,
-    );
 
-    if (form.uuid) {
-      updateCategoryByName(form.uuid, form.name);
-    }
-  };
 
   const loadCategoryDetails = async (category_uuid: string) => {
     const response = await fetchCategoryDetails(category_uuid);
@@ -85,7 +77,7 @@ const CategoryFormPage: React.FC = () => {
   const updateCategoryByName = async (uuid: string, name: string) => {
     const payload = {
       category: {
-        name: form.name,
+        name: name,
         store_uuid: form.store_uuid,
         uuid: uuid,
       },
@@ -117,6 +109,16 @@ const CategoryFormPage: React.FC = () => {
             : t("snackbarMessage.updateCatFail"),
         type: "error",
       });
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log(
+      `form.store_uuid: ${form.store_uuid} | form.name: ${form.name}`,
+    );
+
+    if (form.uuid) {
+      updateCategoryByName(form.uuid, form.name);
     }
   };
 

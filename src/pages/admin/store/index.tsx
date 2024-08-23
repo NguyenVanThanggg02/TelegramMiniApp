@@ -7,7 +7,7 @@ import {
   Spinner,
   Button,
 } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   loadingState,
   storeListState,
@@ -26,7 +26,6 @@ import reportIcon from "../../../static/icons/report.png";
 import voucherIcon from "../../../static/icons/coupon.png";
 import storeIcon from "../../../static/icons/store.png";
 import appLogo from "../../../static/icons/app-logo.png";
-import { getStorage, setStorage } from "zmp-sdk/apis";
 import AddIcon from "@mui/icons-material/Add";
 import UserCard from "../../../components/user-card";
 import { followOA, openChat } from "zmp-sdk/apis";
@@ -56,10 +55,6 @@ interface StoreState {
   turn_on_sale_report?: boolean;
 }
 
-interface StoreListState {
-  is_update: boolean;
-  stores: StoreState[];
-}
 interface LoadingState {
   isLoading: boolean;
   completedText: string;
@@ -121,10 +116,10 @@ const StorePage: React.FC = () => {
     }
   };
   
-  const options = storeList.stores.map((sto) => ({
-    value: sto.uuid,
-    label: sto.name,
-  }));
+  // const options = storeList.stores.map((sto) => ({
+  //   value: sto.uuid,
+  //   label: sto.name,
+  // }));
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
@@ -169,7 +164,7 @@ const StorePage: React.FC = () => {
 
         setFolowOALoading(false);
       },
-      fail: (err) => {
+      fail: () => {
         snackbar.openSnackbar({
           duration: 3000,
           text: t("snackbarMessage.followedOAFailed"),
@@ -190,7 +185,7 @@ const StorePage: React.FC = () => {
         console.log("done openChat");
         setFolowOALoading(false);
       },
-      fail: (err) => {
+      fail: () => {
         console.log("failed to followed OA");
         snackbar.openSnackbar({
           duration: 3000,

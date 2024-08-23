@@ -9,7 +9,7 @@ import {
   Button,
   Switch,
   Modal,
-  useSnackbar,
+  // useSnackbar,
 } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
@@ -31,12 +31,12 @@ const ProfilePage: React.FC = () => {
   const user = useRecoilValue(userState);
   const { t, i18n } = useTranslation("global");
   const navigate = useNavigate();
-  const snackbar = useSnackbar();
+  // const snackbar = useSnackbar();
 
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
   const [copiedToken, setCopiedToken] = useState(false);
   const [showToken, setShowToken] = useState(false);
-  const [tokenLogin, setTokenLogin] = useState("");
+  const [tokenLogin, ] = useState("");
   const [keepScreenOn, setKeepScreenOn] = useState(KEEP_SCREEN_ON_DEFAULT);
   const cloudStorage = initCloudStorage();
 
@@ -68,11 +68,11 @@ const ProfilePage: React.FC = () => {
       setTimer(60);
     };
 
-    const copyToClipboard = (text: string) => {
-      navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
-    };
+    // const copyToClipboard = (text: string) => {
+    //   navigator.clipboard.writeText(text);
+    //   setCopied(true);
+    //   setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+    // };
 
     const copyTokenToClipboard = (text: string) => {
       navigator.clipboard.writeText(text);

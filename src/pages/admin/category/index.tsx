@@ -3,15 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   Page,
   useSnackbar,
-  List,
   Box,
   Button,
   Text,
 } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, } from "recoil";
 import AddCategoryForm from "../../../components/category-admin/add_category_form";
 
-import { loadingState, storeListState, userState } from "../../../state";
+import { loadingState, storeListState } from "../../../state";
 import {
   deleteCategory,
   getCategoryByStore,
@@ -42,7 +41,7 @@ const CategoryPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const [categories, setCategories] = useState<Category[]>([]);
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
   const snackbar = useSnackbar();
   const navigate = useNavigate();
   const [loading, setLoading] = useRecoilState(loadingState);
@@ -185,11 +184,11 @@ const CategoryPage: React.FC = () => {
       </Box>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
+          {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {categories.map((cat, index) => (
                 <Draggable draggableId={cat.uuid} index={index} key={cat.uuid}>
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <div
                       key={index}
                       ref={provided.innerRef}

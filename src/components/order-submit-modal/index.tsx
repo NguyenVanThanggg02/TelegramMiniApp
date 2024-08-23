@@ -21,7 +21,6 @@ import {
   spinnerState,
   tableListState,
   tableState,
-  userState,
 } from '../../state';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -31,6 +30,7 @@ interface OrderSubmitModalProps {
   onClose: () => void;
 }
 interface Order {
+  uuid: string;
   created_at: string;
   store_name: string;
   status: string;
@@ -46,9 +46,8 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const navigate = useNavigate();
   const { Option } = Select;
 
-  const user = useRecoilValue(userState);
   const table = useRecoilValue(tableState);
-  const [tableList, setTableList] = useRecoilState(tableListState);
+  const [tableList] = useRecoilState(tableListState);
   const [cart, setCart] = useRecoilState(cartState);
   const [orderListByUser, setOrderListByUser] =
     useRecoilState(orderListByUserState);
@@ -56,7 +55,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const [tableSelected, setTableSelected] = useState<string>('');
   const [tableStatus, setTableStatus] = useState<string>('');
   const [note, setNote] = useState<string>('');
-  const [spinner, setSpinner] = useRecoilState(spinnerState);
+  const [,setSpinner] = useRecoilState(spinnerState);
 
   const totalBill = useMemo(
     () => sum(cart.map((item) => item.price * item.quantity)),
