@@ -8,7 +8,7 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/reactjs-template',
+  base: '/',
   resolve: {
     alias: {
       "@styles": path.resolve(__dirname, "src/styles"),
