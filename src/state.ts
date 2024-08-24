@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import {getUserInfo } from "zmp-sdk";
+// import {getUserInfo } from "zmp-sdk";
 
 // ----- USER -----
 interface UserState {
@@ -27,7 +27,7 @@ export const userState = atom<UserState>({
     store_uuid: "",
     company_uuid: "",
     role: "",
-    login: true,
+    login: false,
     authToken: "",
     accessToken: "",
     has_phone: false,
@@ -43,19 +43,19 @@ export const authTokenSelector = selector<string>({
   },
 });
 
-export const zaloUserState = selector({
-  key: "zalo_user",
-  get: async ({}) => {
-    try {
-      const { userInfo } = await getUserInfo({});
-      console.log(userInfo);
-      return userInfo;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  },
-});
+// export const zaloUserState = selector({
+//   key: "zalo_user",
+//   get: async ({}) => {
+//     try {
+//       const { userInfo } = await getUserInfo({});
+//       console.log(userInfo);
+//       return userInfo;
+//     } catch (error) {
+//       console.log(error);
+//       return null;
+//     }
+//   },
+// });
 
 // ----- COMPANY -----
 interface CompanyState {
