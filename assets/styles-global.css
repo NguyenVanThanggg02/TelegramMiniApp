@@ -4186,7 +4186,7 @@ body[zaui-theme="dark"] .zaui-image-viewer-nav-btn:disabled {
   font-family: Montserrat;
   src:
     local("Montserrat"),
-    url(//h5.zdn.vn/zapps/1139875216161917703/zdev-0b3039b4/assets/Montserrat.26a448d7.woff2)
+    url(/assets/fonts/Montserrat.26a448d7.woff2)
       format("woff2");
 }
 :root {

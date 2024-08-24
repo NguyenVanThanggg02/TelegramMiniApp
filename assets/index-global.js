@@ -129,7 +129,7 @@ import {
   aC as X,
   aD as pn,
   aE as gn,
-} from "./vendor.8aa10304.module.js";
+} from "./vendor-global.js";
 const hn = function () {
   const r = document.createElement("link").relList;
   if (r && r.supports && r.supports("modulepreload")) return;
@@ -491,7 +491,8 @@ const aa = (t = Ct) => {
       })
         .then((s) =>
           y(void 0, null, function* () {
-            return yield s.json();
+            return yield s
+            on();
           })
         )
         .catch((s) => ({ error: s }));
@@ -10319,5 +10320,5 @@ const uo = sn({
       )
     );
 window.APP_CONFIG || (window.APP_CONFIG = $e);
-const po = gn(document.getElementById("app"));
+const po = gn(document.getElementById("root"));
 po.render(e.createElement(mo));

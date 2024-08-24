@@ -66708,7 +66708,7 @@ class Nt {
             "Specifying a worker path is not required and not supported anymore."
           ),
         (t = () =>
-          import("./qr-scanner-worker.min.f252e17f.module.js").then((r) =>
+          import("./qr-scanner-worker.min.js").then((r) =>
             r.createWorker()
           )),
         !(
