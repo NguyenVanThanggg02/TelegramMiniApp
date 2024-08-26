@@ -50,7 +50,7 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
     // hash
     const hash = urlParams.get("hash");
     urlParams.delete("hash");
-    // // sort a->z
+    // // sort a->z 
     urlParams.sort();
     let dataCheckString = "";
     for(const [key, value] of urlParams.entries()){
