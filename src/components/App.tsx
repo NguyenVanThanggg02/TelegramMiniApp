@@ -23,11 +23,11 @@ import { I18nextProvider } from 'react-i18next';
 import i18next from "i18next";
 import global_en from "@/locales/en/global.json";
 import global_vi from "@/locales/vi/global.json";
-import { useInitData } from '@telegram-apps/sdk-react';
+// import { useInitData } from '@telegram-apps/sdk-react';
 import AuthChecker from './auth_checker';
 
 export const App: FC = () => {
-  const initData = useInitData();
+  // const initData = useInitData();
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
@@ -37,12 +37,12 @@ export const App: FC = () => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  const languageCode = useMemo(() => {
-    return initData?.user?.languageCode;
-  }, [initData]);
+  // const languageCode = useMemo(() => {
+  //   return initData?.user?.languageCode;
+  // }, [initData]);
   i18next.init({
     interpolation: { escapeValue: false },
-    lng: languageCode,
+    lng: "en",
     fallbackLng: "en",
     resources: {
       en: {
