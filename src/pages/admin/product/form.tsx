@@ -406,7 +406,11 @@ const ProductFormPage: React.FC = () => {
       setCategoryList(response.data);  
     } else {
       console.error("Error:", response.error);
-      alert(t("snackbarMessage.getCatFail"));
+      snackbar.openSnackbar({
+        duration: 3000,
+        text: t("snackbarMessage.getCatFail"),
+        type: "countdown",
+      });
     }
   };
 

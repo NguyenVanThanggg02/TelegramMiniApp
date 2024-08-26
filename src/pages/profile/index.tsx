@@ -9,6 +9,7 @@ import {
   Button,
   Switch,
   Modal,
+  useSnackbar,
   // useSnackbar,
 } from "zmp-ui";
 import { useRecoilValue } from "recoil";
@@ -31,7 +32,7 @@ const ProfilePage: React.FC = () => {
   const user = useRecoilValue(userState);
   const { t, i18n } = useTranslation("global");
   const navigate = useNavigate();
-  // const snackbar = useSnackbar();
+  const snackbar = useSnackbar();
 
   // const [copied, setCopied] = useState(false);
   const [copiedToken, setCopiedToken] = useState(false);
@@ -128,7 +129,11 @@ const ProfilePage: React.FC = () => {
       setShowToken(true);
       setTimer(60);
     } else {
-      alert(data.error);
+      snackbar.openSnackbar({
+        duration: 3000,
+        text: String(data.error),
+        type: "error",
+      });
     }
   };
 

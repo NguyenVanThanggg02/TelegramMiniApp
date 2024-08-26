@@ -1,19 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 // import { useSnackbar } from "zmp-ui";
 // import { sendPostLogin } from "../api/api";
-import { useCloudStorage, useLaunchParams, type User } from '@telegram-apps/sdk-react';
+// import { useCloudStorage, useLaunchParams, type User } from '@telegram-apps/sdk-react';
 
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 
 import { loadingState, userState } from "../state";
 import { useRecoilState } from "recoil";
-import appConfig from "../../app-config.json";
-import { MOCK_ACCESS_TOKEN } from "../constants";
+// import appConfig from "../../app-config.json";
+// import { MOCK_ACCESS_TOKEN } from "../constants";
 import { useTranslation } from "react-i18next";
 import LoadingComponent from "./loading_component";
 import SpinnerComponent from "./spinner";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
-import { values } from "lodash";
+import { useSnackbar } from "zmp-ui";
+// import { values } from "lodash";
 
 interface AuthCheckerProps {
   children: React.ReactNode;
@@ -35,10 +36,10 @@ interface PostLoginResponse {
 }
 const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
   const { t, i18n } = useTranslation("global");
-  // const snackbar = useSnackbar();
-  const snackbarRef = useRef<any>(null);
+  const snackbar = useSnackbar();
+
   const cloudStorage = initCloudStorage();
-  const { initDataRaw, initData } = retrieveLaunchParams();
+  const { initDataRaw } = retrieveLaunchParams();
 
   const [user, setUserState] = useRecoilState(userState);
 
@@ -164,12 +165,15 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       // Hàm cleanup nếu cần
     };
   }, [isInitialMount]); // Sử dụng dependency để trigger effect khi user thay đổi
-
-  // useEffect(() => {
-  //   if (errorLogin) {
-  //     alert(t("snackbarMessage.loginFail"));
-  //   }
-  // }, [errorLogin, t]);
+  useEffect(() => {
+    if (errorLogin) {
+      snackbar.openSnackbar({
+        duration: 10000,
+        text: t("snackbarMessage.loginFail"),
+        type: "countdown",
+      });
+    }
+  }, [errorLogin, snackbar]);
   if (errorLogin || !user.login) return null;
 
   return (
