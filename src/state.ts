@@ -1,5 +1,4 @@
 import { atom, selector } from "recoil";
-// import {getUserInfo } from "zmp-sdk";
 
 // ----- USER -----
 interface UserState {
