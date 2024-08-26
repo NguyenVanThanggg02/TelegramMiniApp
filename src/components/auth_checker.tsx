@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // import { useSnackbar } from "zmp-ui";
 // import { sendPostLogin } from "../api/api";
-// import { useCloudStorage, useLaunchParams, type User } from '@telegram-apps/sdk-react';
+import { useCloudStorage, useLaunchParams, type User } from '@telegram-apps/sdk-react';
+
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
+
 import { loadingState, userState } from "../state";
 import { useRecoilState } from "recoil";
-// import appConfig from "../../app-config.json";
-// import { MOCK_ACCESS_TOKEN } from "../constants";
+import appConfig from "../../app-config.json";
+import { MOCK_ACCESS_TOKEN } from "../constants";
 import { useTranslation } from "react-i18next";
 import LoadingComponent from "./loading_component";
 import SpinnerComponent from "./spinner";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
-// import { values } from "lodash";
+import { values } from "lodash";
+
 interface AuthCheckerProps {
   children: React.ReactNode;
 }
+
 interface PostLoginResponse {
   zalo_id: string;
   avatar: string;
@@ -30,34 +34,41 @@ interface PostLoginResponse {
   error?: string; 
 }
 const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
-  const {  i18n } = useTranslation("global");
+  const { t, i18n } = useTranslation("global");
   // const snackbar = useSnackbar();
-  // const snackbarRef = useRef<any>(null);
+  const snackbarRef = useRef<any>(null);
   const cloudStorage = initCloudStorage();
-  const { initDataRaw,  } = retrieveLaunchParams();
+  const { initDataRaw, initData } = retrieveLaunchParams();
+
   const [user, setUserState] = useRecoilState(userState);
+
   const [errorLogin, setErrorLogin] = useState<boolean | null>(null);
   const [isInitialMount, setIsInitialMount] = useState(true);
   const [loading, setLoading] = useRecoilState(loadingState);
+
   // useEffect(() => {
   //   snackbarRef.current = snackbar;
   // }, [snackbar]);
+
   useEffect(() => {
     setLanguage();
   }, []);
+
   const postLogin = async (initData: any): Promise<PostLoginResponse> => {
     const urlParams = new URLSearchParams(initData);
     // hash
     const hash = urlParams.get("hash");
     urlParams.delete("hash");
-    // // sort a->z 
+    // // sort a->z
     urlParams.sort();
     let dataCheckString = "";
     for(const [key, value] of urlParams.entries()){
       dataCheckString += key+'='+value+'\n';
     }
+
     dataCheckString = dataCheckString.slice(0, -1);
     let dataUrl = [dataCheckString, hash];
+
     const response = await fetch('https://endpoint.hatkeo.com/api/v1/auth/telegram', {
       method: 'POST',
       headers: {
@@ -65,13 +76,16 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       },
       body: JSON.stringify({ data: dataUrl }),
     });
+
     const data = await response.json();
     console.log(data);
     
     cloudStorage.set('auth_token', data.auth_token);
     console.log(await cloudStorage.get('auth_token'));
+
     return data;
   };
+
   const setLanguage = async () => {
     const language = await cloudStorage.get("language")
     if (language) {
@@ -80,6 +94,7 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       cloudStorage.set("language", "vi");
     }
   };
+
   const checkAuthAndFetchData = async () => {
     try {
       console.log("user.login:", user.login);
@@ -92,13 +107,16 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
           completedPercent: 60,
         });
         console.log(`user is not login. login...`);
+
         setLoading({
           ...loading,
           completedText: "start login...",
           completedPercent: 70,
         });
+
         const data = await postLogin(initDataRaw);
         console.log(data);
+
         if (!data?.error) {
           setUserState({
             zalo_id: data.zalo_id,
@@ -114,7 +132,9 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
             has_phone: data.has_phone,
             is_oa_follow: data.is_oa_follow,
           });
+
           cloudStorage.set('auth_token', data.auth_token );
+
           setLoading({
             ...loading,
             completedText: "done",
@@ -131,6 +151,7 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       setErrorLogin(true);
     }
   };
+
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
     if (isInitialMount) {
@@ -138,16 +159,19 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       return;
     }
     checkAuthAndFetchData();
+
     return () => {
       // Hàm cleanup nếu cần
     };
   }, [isInitialMount]); // Sử dụng dependency để trigger effect khi user thay đổi
+
   // useEffect(() => {
   //   if (errorLogin) {
   //     alert(t("snackbarMessage.loginFail"));
   //   }
   // }, [errorLogin, t]);
   if (errorLogin || !user.login) return null;
+
   return (
     <>
       <LoadingComponent />
@@ -156,4 +180,5 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
     </>
   );
 };
+
 export default AuthChecker;

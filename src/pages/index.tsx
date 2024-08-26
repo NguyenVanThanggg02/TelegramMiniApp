@@ -57,23 +57,22 @@ const Index: React.FC = () => {
   const MAX_SCAN_COUNT = 5;
   // const fileInputRef = useRef(null);
 
-  const getStoreData = async () => {
-    try {
-      const response = await getStoreList(); 
-      if (response.data && !response.error) {
-        const storeData: StoreState[] = response.data as StoreState[];
-        setStoreListState({
-          is_update: true,
-          stores: storeData,
-        });
-      } else {
-        console.error("Error:", response.error);
-      }
-      console.log(hostname);
-    } catch (error) {
-      console.error("Error in getStoreData:", error);
+ const getStoreData = async () => {
+  try {
+    const response = await getStoreList();
+    if (response.data && !response.error) {
+      const storeData: StoreState[] = response.data as StoreState[];
+      setStoreListState({
+        is_update: true,
+        stores: storeData,
+      });
+    } else {
+      console.log('err', response.error);
     }
-  };
+  } catch (error) {
+    console.log('err in getstoredata', error);
+  }
+ }
 
   useEffect(() => {
     if (storeList.stores.length > 0) {

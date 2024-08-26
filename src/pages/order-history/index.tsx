@@ -225,7 +225,7 @@ const OrderHistory: React.FC = () => {
             ))}
           </>
         ) : (
-          <Box>{t("userOrder.noHaveOrdersYet")}</Box>
+          <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
         )}
       </Box>
     </Page>

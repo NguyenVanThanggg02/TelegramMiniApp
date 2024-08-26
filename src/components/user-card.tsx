@@ -44,7 +44,7 @@ const UserCard: React.FC<UserCardProps> = ({ isAdmin = false, showOrderHistory =
           >
             {user.avatar}
           </Avatar>
-          <Box ml={4}>
+          <Box ml={4} style={{color:'black'}}>
             <Text.Title>{user.name}</Text.Title>
             <Text>{user.role}</Text>
           </Box>
