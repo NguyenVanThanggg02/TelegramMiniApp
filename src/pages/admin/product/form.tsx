@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   Button,
   Icon,
@@ -23,14 +23,12 @@ import {
   fetchProductDetails,
   sendUpdateProductRequest,
   getCategoryByStore,
+  uploadImages,
 } from "../../../api/api";
 
 const { Option } = Select;
 
-import { openMediaPicker } from "zmp-sdk/apis";
 import { useTranslation } from "react-i18next";
-import { clone } from "lodash";
-import { getBaseUrl } from "../../../api/apiBase";
 
 
 interface ProductForm {
@@ -113,26 +111,25 @@ const ProductFormPage: React.FC = () => {
 
   const handleChangeInput = (field: keyof ProductForm, value: string | string[] | undefined) => {
     const newErrors = { ...errorForm };
-    // Xóa lỗi liên quan đến trường này
     // delete newErrors[field];
     setErrorForm(newErrors);
   
     if (value === undefined) {
-      return; // Trường hợp giá trị là undefined
+      return; 
     }
   
-    // Xử lý theo kiểu dữ liệu của field
+    // Xử lý theo kiểu data của field
     switch (field) {
       case "selectedStore":
         setForm((prevForm) => ({
           ...prevForm,
-          selectedStore: value as string, // Đảm bảo rằng selectedStore là string
-          selectedCategories: [], // Xóa selectedCategories nếu cần
+          selectedStore: value as string, 
+          selectedCategories: [], 
         }));
         break;
   
       case "price":
-        const formattedValue = formatNumberToVND(value as string); // Đảm bảo rằng value là string
+        const formattedValue = formatNumberToVND(value as string); 
         setForm((prevForm) => ({
           ...prevForm,
           price: formattedValue,
@@ -140,7 +137,7 @@ const ProductFormPage: React.FC = () => {
         break;
   
       case "selectedCategories":
-        // Chuyển giá trị sang kiểu string[]
+        // Chuyển value sang kiểu string[]
         const selectedCategories = Array.isArray(value) ? value : [];
         setForm((prevForm) => ({
           ...prevForm,
@@ -151,14 +148,12 @@ const ProductFormPage: React.FC = () => {
       default:
         setForm((prevForm) => ({
           ...prevForm,
-          [field]: value, // Xử lý các trường hợp còn lại
+          [field]: value,
         }));
         break;
     }
   };
   
-  
-
   useEffect(() => {
     if (product_uuid && product_uuid !== "null") {
       loadProductDetails(product_uuid);
@@ -183,61 +178,56 @@ const ProductFormPage: React.FC = () => {
     setImageUUIDs(updatedImageUUIDs);
   };
 
-  const handleSubmitPicture = async () => {
-    if (user.login && user.authToken) {
-      const baseUrl = await getBaseUrl();
-      openMediaPicker({
-        type: "photo",
-        serverUploadUrl: `${baseUrl}/v1/attachment/${store.uuid}/${user.uuid}`,
-        success: (res) => {
-          const obj = JSON.parse(res.data);
-          const data = obj.data;
-          console.log(`-----------------`);
-          console.log(`data.urls: ${data.urls}`);
-
-          const newData =
-            data.urls && Array.isArray(data.urls)
-              ? data.urls.map((url: any, index: any) => ({
-                  src: url,
-                  alt: `img ${images.length + index + 1}`,
-                  key: `${images.length + index + 1}`,
-                }))
-              : [
-                  {
-                    src: data.urls || "", // Sử dụng data.urls hoặc một giá trị mặc định
-                    alt: `img ${images.length + 1}`,
-                    key: `${images.length + 1}`,
-                  },
-                ];
-
-          // Kiểm tra nếu data.uuids không phải null hoặc undefined
-          const newImageUUIDs =
-            data.uuids && Array.isArray(data.uuids) ? data.uuids : [];
-
-          setImages([...images, ...newData]);
-          setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
-          const newErrorForm = clone(errorForm);
-          delete newErrorForm.image;
-          setErrorForm(newErrorForm);
-
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: t("snackbarMessage.uploadImageSuccess"),
-            type: "success",
-          });
-        },
-        fail: (error) => {
-          console.log(error);
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: t("snackbarMessage.uploadImageFail"),
-            type: "error",
-          });
-        },
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+  
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      const newImages = fileArray.map((file) => {
+        const reader = new FileReader();
+        return new Promise<{ src: string; file: File }>((resolve, reject) => {
+          reader.onloadend = () => {
+            resolve({ src: reader.result as string, file });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
       });
+  
+      try {
+        const imageData = await Promise.all(newImages);
+        const imageObjects = imageData.map(({ src, file }) => ({
+          src,
+          alt: `Preview image ${file.name}`,
+          key: file.name,
+          file
+        }));
+  
+        setImages((prevImages) => [...prevImages, ...imageObjects]);
+  
+        const response = await uploadImages(store.uuid, user.uuid, fileArray);
+        console.log("Upload successful:", response);
+  
+        const uuids = response.data?.uuids || [];
+  
+        const uploadedImages = imageObjects.map((img, index) => ({
+          ...img,
+          uuid: uuids[index], 
+        }));
+  
+        setImages((prevImages) =>
+          prevImages
+            .filter(img => img.uuid) 
+            .concat(uploadedImages) 
+        );
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
+    } else {
+      console.log("No files selected.");
     }
   };
-
   const loadProductDetails = async (product_uuid: string) => {
     const data = await fetchProductDetails(product_uuid);
     if (!data?.error && data.data) {  
@@ -397,7 +387,7 @@ const ProductFormPage: React.FC = () => {
         image_uuids: images.map((img) => img.uuid || ""), 
       },
     };
-  };
+  }; 
 
   const sendRequestGetCategory = async () => {
     const response = await getCategoryByStore(store_uuid);
@@ -413,37 +403,6 @@ const ProductFormPage: React.FC = () => {
       });
     }
   };
-
-  // const sendRequestGetStore = (authToken) => {
-  //   getStoreList(authToken)
-  //     .then((response) => {
-  //       if (response.ok) {
-  //         return response.json();
-  //       } else {
-  //         console.log("Error when sending request");
-  //         snackbar.openSnackbar({
-  //           duration: 10000,
-  //           text: t("snackbarMessage.requestDownStoreListFail"),
-  //           type: "countdown",
-  //         });
-  //       }
-  //     })
-  //     .then((data) => {
-  //       setStoreListState({
-  //         is_update: true,
-  //         stores: data,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //       snackbar.openSnackbar({
-  //         duration: 10000,
-  //         text: t("snackbarMessage.downStoreListFail"),
-  //         type: "countdown",
-  //       });
-  //     });
-  // };
-
   return (
     <Page className="page">
       <div className="section-container">
@@ -543,7 +502,7 @@ const ProductFormPage: React.FC = () => {
                     src={img.src}
                     alt={img.alt}
                   />
-                  {/* Nút X để xóa ảnh */}
+                  {/* Nút x xoá ảnh */}
                   <div
                     style={{
                       position: "absolute",
@@ -575,10 +534,20 @@ const ProductFormPage: React.FC = () => {
           </Box>
 
           <Box mt={6}>
-            <Button fullWidth variant="primary" onClick={handleSubmitPicture}>
+            <Button
+              fullWidth
+              variant="primary"
+              onClick={() => document.getElementById("chooseFile")?.click()}
+            >
               <Icon icon="zi-camera" />{" "}
               {t("productManagement.createProduct.uploadImage")}
             </Button>
+            <input
+              type="file"
+              hidden
+              id="chooseFile"
+              onChange={handleFileChange}
+            />
             {errorForm.image && (
               <Box
                 flex
@@ -611,12 +580,6 @@ const ProductFormPage: React.FC = () => {
               {t("productManagement.createProduct.submit")}
             </Button>
           </Box>
-
-          {/* <Box mt={4}>
-            <Button fullWidth variant="primary" onClick={() => navigate(-1)}>
-              Home
-            </Button>
-          </Box> */}
         </Box>
       </div>
     </Page>

@@ -41,14 +41,12 @@ const CategoryPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const [categories, setCategories] = useState<Category[]>([]);
-  // const user = useRecoilValue(userState);
   const snackbar = useSnackbar();
   const navigate = useNavigate();
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-
 
   const handleCategoryAdded = () => {
     fetchCategoryData();
@@ -103,6 +101,8 @@ const CategoryPage: React.FC = () => {
         uuid: selectedCategory?.uuid,
       },
     });
+    console.log(data);
+    
     if (!data?.error) {
       fetchCategoryData();
       snackbar.openSnackbar({

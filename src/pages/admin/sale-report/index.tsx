@@ -35,12 +35,14 @@ const SaleReportPage: React.FC = () => {
       if (filter.fromDate > today) {
         throw new Error(t("saleReport.from_date_can_not_greater_today"));
       }
-      const data: any = await getSaleReport({
+      const response: any = await getSaleReport({
         store_uuid: store_uuid,
         from_date: filter.fromDate,
         to_date: filter.toDate,
       });
-      setTotalValue(data.total_value);
+      const totalValue = response.data.total_value;
+      console.log("total:", totalValue);
+      setTotalValue(totalValue);
     } catch (error: unknown) {
       console.error("Error fetching sale report:", (error as Error).message);
       snackbar.openSnackbar({
@@ -51,6 +53,7 @@ const SaleReportPage: React.FC = () => {
     }
     setLoading(false);
   };
+  
 
   const onFilterChange = (type: keyof FilterState, value: Date) => {
     setFilter((prev) => ({ ...prev, [type]: value }));
@@ -83,7 +86,7 @@ const SaleReportPage: React.FC = () => {
       </Box>
 
       <Box mt={2}>
-        <Button type="highlight" onClick={handleSearch} loading={loading}>
+        <Button type="danger" onClick={handleSearch} loading={loading}>
           Search
         </Button>
       </Box>

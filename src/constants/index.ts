@@ -85,14 +85,14 @@ export const LANGUAGE = [
 export const VOUCHER_TYPE = {
   BY_VALUE: "decrease_by_value",
   BY_PERCENT: "decrease_by_percent",
-};
+} as const;
+export type VoucherType = typeof VOUCHER_TYPE[keyof typeof VOUCHER_TYPE];
+
 
 export const VOUCHER_STATUS = {
   ACTIVE: "actived",
   INACTIVE: "inactive",
 };
-
-export type VoucherType = typeof VOUCHER_TYPE[keyof typeof VOUCHER_TYPE];
 export type VoucherStatus = typeof VOUCHER_STATUS[keyof typeof VOUCHER_STATUS];
 
 

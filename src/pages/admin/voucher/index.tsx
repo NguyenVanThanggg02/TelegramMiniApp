@@ -4,16 +4,24 @@ import { useRecoilState } from "recoil";
 import VoucherDetailModal from "../../../components/voucher/voucher-detail/voucherDetailModal";
 import { loadingState } from "../../../state";
 import { useNavigate, useParams } from "react-router-dom";
-// import VoucherCard from "../../../components/voucher/voucher-card/voucherCard";
 import { useTranslation } from "react-i18next";
 import { getVoucherByStore } from "../../../api/api";
 import AddIcon from "@mui/icons-material/Add";
+import VoucherCard from "@/components/voucher/voucher-card/voucherCard";
+import { VoucherStatus, VoucherType } from "@/constants";
 
 interface Voucher {
-  uuid: string;
-  name: string;
-  updated_at: string
+  voucher_code: string;
+  voucher_value: number;
+  voucher_type: VoucherType;
+  voucher_min_order_value: number;
+  expired_at: string;
+  status: VoucherStatus;
+  uuid: string; 
+  name: string; 
+  updated_at: string;
 }
+
 
 
 const VoucherPage: React.FC = () => {
@@ -23,7 +31,7 @@ const VoucherPage: React.FC = () => {
 
   const [isShowDetail, setIsShowDetail] = useState<boolean>(false);
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | {}>({});
-  const [, setVouchers] = useState<Voucher[]>([]);
+  const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const snackbar = useSnackbar();
 
@@ -71,7 +79,7 @@ const VoucherPage: React.FC = () => {
         </Button>
       </Box>
       <List style={{ marginTop: "16px" }}>
-        {/* {vouchers.map((vou) => (
+        {vouchers.map((vou) => (
           <VoucherCard
             voucher={vou}
             key={vou.uuid}
@@ -79,7 +87,7 @@ const VoucherPage: React.FC = () => {
               navigate(`/admin/voucher/update/${store_uuid}/${vou.uuid}`)
             }
           />
-        ))} */}
+        ))}
       </List>
       <VoucherDetailModal
         isShow={isShowDetail}

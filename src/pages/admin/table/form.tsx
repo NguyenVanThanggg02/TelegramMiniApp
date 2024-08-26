@@ -47,12 +47,11 @@ const TableFormPage: React.FC = () => {
     };
     const data = await editTable(payload);
     if (!data?.error) {
-      // snackbar.openSnackbar({
-      //   duration: 3000,
-      //   text: t("snackbarMessage.updateTableSuccess"),
-      //   type: "success",
-      // });
-      alert(t("snackbarMessage.updateTableSuccess"))
+      snackbar.openSnackbar({
+        duration: 3000,
+        text: t("snackbarMessage.updateTableSuccess"),
+        type: "success",
+      });
       navigate(-1);
     } else {
       snackbar.openSnackbar({

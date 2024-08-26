@@ -1,4 +1,4 @@
-import { DEFAULT_TENANT_ID } from "../constants";
+import { DEFAULT_TENANT_ID, VoucherStatus, VoucherType } from "../constants";
 import {
   sendGetRequest,
   sendPostRequest,
@@ -117,7 +117,6 @@ interface Category {
   describe: string;
   store_uuid: string;
   index: number;
-
 }
 
 export const getCategoryList = async (): Promise<ApiResponse<any>> => {
@@ -319,24 +318,28 @@ export const validateCode = (params: Record<string, any>): Promise<ApiResponse<A
 
 
 // ----- VOUCHER -----
-interface Voucher {
+
+export interface Voucher {
+  voucher_code: string;
+  voucher_value: number;
+  voucher_type: VoucherType;
+  voucher_min_order_value: number;
+  expired_at: string;
+  status: VoucherStatus;
   uuid: string;
   name: string;
-  updated_at: string
+  updated_at: string;
+  notes:string
 }
+
 export const getVoucherByStore = async (store_uuid: string | undefined): Promise<ApiResponse<Voucher[]>> => {
   if (!store_uuid) {
     return { error: "Store UUID is undefined" };
   }
-  return sendGetRequest(
-    `voucher/by_store/${store_uuid}`,
-    {},
-    false,
-    true,
-  );
+  return sendGetRequest(`voucher/by_store/${store_uuid}`, {}, false, true);
 };
 
-export const getVoucherDetailByStore = async (code: string, store_uuid: string) => {
+export const getVoucherDetailByStore = async (code: string, store_uuid: string): Promise<ApiResponse<Voucher>> => {
   return sendGetRequest(`voucher/code/${code}/${store_uuid}`, {}, false, false);
 };
 
@@ -348,7 +351,7 @@ export const addVoucherToStore = async (dataToSend: any): Promise<ApiResponse<an
   return sendPostRequest(`voucher`, {}, dataToSend, false);
 };
 
-export const fetchVoucherDetails = async (voucher_uuid: string): Promise<ApiResponse<any>> => {
+export const fetchVoucherDetails = async (voucher_uuid: string): Promise<ApiResponse<Voucher>> => {
   return sendGetRequest(`voucher/${voucher_uuid}`, {}, false, false);
 };
 

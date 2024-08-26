@@ -75,14 +75,19 @@ const ProductPage: React.FC = () => {
 
   const onDeleteProduct = async () => {
     setIsShowConfirm(false);
+    if (!selectedProduct) return;
+
+    setLoading({ ...loading, isLoading: true });
     const data = await deleteProduct({
       product: {
         store_uuid: store_uuid,
-        uuid: selectedProduct?.uuid,
+        uuid: selectedProduct.uuid,
       },
     });
+    setLoading({ ...loading, isLoading: false });
+
     if (!data?.error) {
-      fetchProductList();
+      fetchProductList(); // Cập nhật lại danh sách sản phẩm sau khi xoá thành công
       snackbar.openSnackbar({
         duration: 3000,
         text: t("snackbarMessage.deleteSuccess"),
