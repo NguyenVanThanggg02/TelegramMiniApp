@@ -24,7 +24,7 @@ import i18next from "i18next";
 import global_en from "@/locales/en/global.json";
 import global_vi from "@/locales/vi/global.json";
 // import { useInitData } from '@telegram-apps/sdk-react';
-import AuthChecker from './auth_checker';
+// import AuthChecker from './auth_checker';
 
 export const App: FC = () => {
   // const initData = useInitData();
