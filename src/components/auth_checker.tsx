@@ -15,7 +15,6 @@ import { initCloudStorage } from "@telegram-apps/sdk-react";
 interface AuthCheckerProps {
   children: React.ReactNode;
 }
-
 interface PostLoginResponse {
   zalo_id: string;
   avatar: string;
@@ -31,27 +30,21 @@ interface PostLoginResponse {
   error?: string; 
 }
 const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
-  // const { t, i18n } = useTranslation("global");
   const {  i18n } = useTranslation("global");
   // const snackbar = useSnackbar();
   // const snackbarRef = useRef<any>(null);
   const cloudStorage = initCloudStorage();
   const { initDataRaw,  } = retrieveLaunchParams();
-
   const [user, setUserState] = useRecoilState(userState);
-
   const [errorLogin, setErrorLogin] = useState<boolean | null>(null);
   const [isInitialMount, setIsInitialMount] = useState(true);
   const [loading, setLoading] = useRecoilState(loadingState);
-
   // useEffect(() => {
   //   snackbarRef.current = snackbar;
   // }, [snackbar]);
-
   useEffect(() => {
     setLanguage();
   }, []);
-
   const postLogin = async (initData: any): Promise<PostLoginResponse> => {
     const urlParams = new URLSearchParams(initData);
     // hash
@@ -72,16 +65,13 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       },
       body: JSON.stringify({ data: dataUrl }),
     });
-
     const data = await response.json();
     console.log(data);
     
     cloudStorage.set('auth_token', data.auth_token);
     console.log(await cloudStorage.get('auth_token'));
-
     return data;
   };
-
   const setLanguage = async () => {
     const language = await cloudStorage.get("language")
     if (language) {
@@ -90,7 +80,6 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       cloudStorage.set("language", "vi");
     }
   };
-
   const checkAuthAndFetchData = async () => {
     try {
       console.log("user.login:", user.login);
@@ -103,21 +92,18 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
           completedPercent: 60,
         });
         console.log(`user is not login. login...`);
-
         setLoading({
           ...loading,
           completedText: "start login...",
           completedPercent: 70,
         });
-
         const data = await postLogin(initDataRaw);
         console.log(data);
-
         if (!data?.error) {
           setUserState({
             zalo_id: data.zalo_id,
             avatar: data.avatar,
-            name: data.name + "",
+            name: data.name,
             uuid: data.uuid,
             store_uuid: data.store_uuid,
             company_uuid: data.company_uuid,
@@ -128,9 +114,7 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
             has_phone: data.has_phone,
             is_oa_follow: data.is_oa_follow,
           });
-
           cloudStorage.set('auth_token', data.auth_token );
-
           setLoading({
             ...loading,
             completedText: "done",
@@ -147,7 +131,6 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       setErrorLogin(true);
     }
   };
-
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
     if (isInitialMount) {
@@ -155,19 +138,16 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       return;
     }
     checkAuthAndFetchData();
-
     return () => {
       // Hàm cleanup nếu cần
     };
   }, [isInitialMount]); // Sử dụng dependency để trigger effect khi user thay đổi
-
   // useEffect(() => {
   //   if (errorLogin) {
   //     alert(t("snackbarMessage.loginFail"));
   //   }
   // }, [errorLogin, t]);
   if (errorLogin || !user.login) return null;
-
   return (
     <>
       <LoadingComponent />
@@ -176,5 +156,4 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
     </>
   );
 };
-
 export default AuthChecker;
