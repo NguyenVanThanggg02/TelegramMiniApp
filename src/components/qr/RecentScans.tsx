@@ -77,12 +77,12 @@ const RecentScans: React.FC = () => {
 
   return (
     <div className="recent-scans">
-      <div className="headerr">
+      {/* <div className="headerr">
         <button className="back-button" onClick={() => navigate("/")}>
           <Icon icon="zi-arrow-left" />
         </button>
         <Text.Title className="title-text">Đã quét gần đây</Text.Title>
-      </div>
+      </div> */}
       <button
         className="edit-button"
         hidden={scanList.length === 0}
@@ -127,6 +127,7 @@ const RecentScans: React.FC = () => {
               alignItems: "center",
               flexDirection: "column",
               height: "100vh",
+              paddingTop:'90px'
             }}
           >
             <QrCodeIcon

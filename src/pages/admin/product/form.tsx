@@ -74,8 +74,6 @@ interface ImageData {
   uuid?: string; 
 }
 
-
-
 const ProductFormPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid, product_uuid } = useParams<{ store_uuid?: string; product_uuid?: string }>();

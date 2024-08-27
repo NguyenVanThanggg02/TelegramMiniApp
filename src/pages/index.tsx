@@ -55,7 +55,7 @@ const Index: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const cloudStorage = initCloudStorage();
   const MAX_SCAN_COUNT = 5;
-  // const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null); 
 
  const getStoreData = async () => {
   try {
@@ -175,12 +175,12 @@ const Index: React.FC = () => {
     });
   };
 
-  // const handleError = (error: string) => {
-  //   snackbar.openSnackbar({
-  //     text: error,
-  //     type: "error",
-  //   });
-  // };
+  const handleError = (error: string) => {
+    snackbar.openSnackbar({
+      text: error,
+      type: "error",
+    });
+  };
 
   const toggleScanner = () => {
     if (hostname === "localhost") {
@@ -191,6 +191,36 @@ const Index: React.FC = () => {
   };
   const hanldeReScanQr = () => {
     navigate("/recent-scan");
+  };
+
+
+  
+  const handleSelectImage = async (event:any) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        const result = await QrScanner.scanImage(file, {
+          returnDetailedScanResult: true,
+        });
+        const urlRedirect = new URL(result.data);
+        const storeId = urlRedirect.searchParams.get("storeId");
+        const tableId = urlRedirect.searchParams.get("tableId");
+        const tenantId = urlRedirect.searchParams.get("tenant_id");
+
+        if (storeId && tableId && tenantId) {
+          redirectToMenu(storeId, tableId, tenantId);
+        } else {
+          notifyErrorStoreNotFound();
+        }
+      } catch (error) {
+        console.error("Error during QR code scan:", error);
+        handleError("Lỗi quét mã qr");
+      }
+    }
+  };
+
+  const handleClick = () => {
+    fileInputRef.current?.click(); 
   };
 
   return (
@@ -236,9 +266,8 @@ const Index: React.FC = () => {
                   width: "70px",
                   height: "70px",
                 }}
-                // onClick={handleSelectImage}
-                // onClick={() => fileInputRef.current.click()}
-              >
+                onClick={handleClick}
+                >
                 <div
                   className="icon"
                   style={{
@@ -303,13 +332,13 @@ const Index: React.FC = () => {
                   {t("main.reScanQr")}
                 </div>
               </div>
-              {/* <input
+              <input
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
                 style={{ display: "none" }}
                 onChange={handleSelectImage}
-              /> */}
+              />
             </div>
           )  : (
             <div

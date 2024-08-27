@@ -86,7 +86,7 @@ const ProductPage: React.FC = () => {
     });
     setLoading({ ...loading, isLoading: false });
 
-    if (!data?.error) {
+    if (JSON.stringify(data)) {
       fetchProductList(); // Cập nhật lại danh sách sản phẩm sau khi xoá thành công
       snackbar.openSnackbar({
         duration: 3000,

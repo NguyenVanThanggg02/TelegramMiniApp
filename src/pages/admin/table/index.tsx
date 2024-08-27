@@ -1,11 +1,11 @@
-import React, { RefObject, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Page,
   List,
   Button,
   Box,
   Text,
-  useSnackbar,
+  // useSnackbar,
 } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -22,8 +22,7 @@ import { APP_VERSION } from "../../../constants";
 import QrCodeOutlinedIcon from "@mui/icons-material/QrCodeOutlined";
 import tableIcon from "../../../static/icons/table.png";
 import "./styles.scss";
-import { saveImageToGallery } from "zmp-sdk/apis";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
@@ -35,9 +34,9 @@ interface Table {
 }
 
 const TablePage: React.FC = () => {
-  const { t } = useTranslation("global");
+  // const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
-  const [searchParams, ] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
 
@@ -47,10 +46,12 @@ const TablePage: React.FC = () => {
 
   const [tables, setTables] = useState<Table[]>([]);
   // const user = useRecoilValue(userState);
-  const [selectedTableUUID, setSelectedTableUUID] = useState<string | null>(null);
+  const [selectedTableUUID, setSelectedTableUUID] = useState<string | null>(
+    null
+  );
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
-  const snackbar = useSnackbar();
+  // const snackbar = useSnackbar();
   const [, setSpinner] = useRecoilState(spinnerState);
 
   const handleTableAdded = () => {
@@ -69,7 +70,7 @@ const TablePage: React.FC = () => {
   const fetchTableData = async () => {
     try {
       const response = await fetchTablesForStore(store_uuid);
-  
+
       if (!response.error && Array.isArray(response.data)) {
         const listTables = response.data.map((tab) => ({
           ...tab,
@@ -100,49 +101,32 @@ const TablePage: React.FC = () => {
     });
   };
 
-  const handleSaveQr = async (element: RefObject<HTMLDivElement>) => {
-    setSpinner(true);
-    element.current!.style.fontFamily = "Montserrat";
-    const image = await domToPng(element.current!, { scale: 3 });
-    //console.log("image", image);
-    saveImage(image);
-    //downloadImage(image, "hehe");
+  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+    if (element.current) {
+      setSpinner(true);
+      element.current.style.fontFamily = "Montserrat";
+      try {
+        const dataUrl = await domToPng(element.current, { scale: 3 });
+        downloadImage(dataUrl, "hehe");
+        alert("success");
+      } catch (error) {
+        console.error("Error saving QR code:", error);
+      } finally {
+        setSpinner(false);
+      }
+    }
   };
 
-  // const downloadImage = (blob, fileName) => {
-  //   const fakeLink = window.document.createElement("a");
-  //   fakeLink.style = "display:none;";
-  //   fakeLink.download = fileName;
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  //   fakeLink.href = blob;
-
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-
-  //   fakeLink.remove();
-  // };
-
-  const saveImage = async (imgData: string) => {
-    try {
-      await saveImageToGallery({
-        imageBase64Data: imgData,
-      });
-      setSpinner(false);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("tableManagement.saveQrNoti"),
-        type: "success",
-      });
-    } catch (error) {
-      setSpinner(false);
-      console.log(error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("tableManagement.saveQrFail"),
-        type: "error",
-      });
-    }
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
   };
 
   return (
@@ -159,7 +143,11 @@ const TablePage: React.FC = () => {
                 <img className="table-img" src={tableIcon}></img>
                 <Box>
                   <Box flex flexDirection="column">
-                    <Text size="xLarge" bold style={{ marginLeft: "10px" }}>
+                    <Text
+                      size="xLarge"
+                      bold
+                      style={{ marginLeft: "10px", color: "black" }}
+                    >
                       {table.name}
                     </Text>
                   </Box>
@@ -170,7 +158,7 @@ const TablePage: React.FC = () => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedTableUUID(
-                      selectedTableUUID === table.uuid ? "" : table.uuid,
+                      selectedTableUUID === table.uuid ? "" : table.uuid
                     );
                   }}
                 ></Button>

@@ -224,7 +224,7 @@ const StorePage: React.FC = () => {
   };
 
   return (
-    <Page className="page">
+    <Page className="page" style={{height:'100vh'}}>
       <div className="section-container">
       <UserCard isAdmin={true} />
       </div>
@@ -266,7 +266,7 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.tables_count}
               </span>
-              <span>{t("storeManagement.tables")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.tables")}</span>
             </Box>
           )}
 
@@ -279,7 +279,7 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.categories_count}
               </span>
-              <span>{t("storeManagement.categories")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.categories")}</span>
             </Box>
           )}
 
@@ -292,7 +292,7 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.products_count}
               </span>
-              <span>{t("storeManagement.products")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.products")}</span>
             </Box>
           )}
 
@@ -305,7 +305,7 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.vouchers_count}
               </span>
-              <span>{t("storeManagement.voucher")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.voucher")}</span>
             </Box>
           )}
 
@@ -318,7 +318,7 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.orders_count}
               </span>
-              <span>{t("storeManagement.order")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.order")}</span>
             </Box>
           )}
 
@@ -331,7 +331,7 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.staff_count}
               </span>
-              <span>{t("storeManagement.user")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.user")}</span>
             </Box>
           )}
 
@@ -341,7 +341,7 @@ const StorePage: React.FC = () => {
               className="store_list-item_main_item"
             >
               <img className="icon-img" src={reportIcon}></img>
-              <span>{t("storeManagement.sale_report")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.sale_report")}</span>
             </Box>
           )}
 
@@ -351,7 +351,7 @@ const StorePage: React.FC = () => {
               className="store_list-item_main_item"
             >
               <img className="icon-img" src={storeIcon}></img>
-              <span>{t("storeManagement.editStore")}</span>
+              <span style={{color:'black'}}>{t("storeManagement.editStore")}</span>
             </Box>
           )}
 
@@ -368,7 +368,7 @@ const StorePage: React.FC = () => {
             ) : (
               <img className="icon-img" src={appLogo} alt="App Logo" />
             )}
-            <span>
+            <span style={{color:'black'}}>
               {user?.is_oa_follow
                 ? t("storeManagement.send_message")
                 : t("storeManagement.follow_oa")}

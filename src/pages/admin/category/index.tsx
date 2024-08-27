@@ -101,9 +101,9 @@ const CategoryPage: React.FC = () => {
         uuid: selectedCategory?.uuid,
       },
     });
-    console.log(data);
+    // console.log(data);
     
-    if (!data?.error) {
+    if (JSON.stringify(data)) {
       fetchCategoryData();
       snackbar.openSnackbar({
         duration: 3000,

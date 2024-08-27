@@ -177,6 +177,9 @@ const ProfilePage: React.FC = () => {
             </List.Item>
             <List.Item>
               <Text style={{ color: "black" }}>{t("profile.userId")}</Text>
+              <Text style={{ color: "gray", marginTop: "10px" }}>
+                {user.uuid}
+              </Text>
             </List.Item>
 
             <List.Item>
