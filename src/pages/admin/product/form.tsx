@@ -378,7 +378,6 @@ const ProductFormPage: React.FC = () => {
 
   const buildPayload = (): ProductPayload => {
       console.log("Images:", images);
-      console.log("Image UUIDs:", imageUUIDs);
     
     return {
       product: {
@@ -388,7 +387,7 @@ const ProductFormPage: React.FC = () => {
         describe: form.describe,
         status: showButtonStatus ? "show_now" : "not_show",
         price: parseInt(form.price.replace(/\D/g, ""), 10),
-        image_uuids: images.map((img) => img.uuid || ""), 
+        image_uuids: images.map((img) => img.uuid || img.src || ""), 
       },
     };
   }; 
