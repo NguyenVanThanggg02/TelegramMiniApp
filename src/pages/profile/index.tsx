@@ -58,13 +58,9 @@ const ProfilePage: React.FC = () => {
     }
   }, [showToken, tokenLogin]);
 
-    const onChangeLanguage = async (value: string) => {
+  const onChangeLanguage = (value: string) => {
     i18n.changeLanguage(value);
-    try {
-      await cloudStorage.set('language', value);
-    } catch (error) {
-      console.error('Error saving language setting:', error);
-    }
+    cloudStorage.set('language', value);
   };
 
     const handleCloseToken = () => {
