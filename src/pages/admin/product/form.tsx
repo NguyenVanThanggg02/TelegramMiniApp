@@ -208,10 +208,13 @@ const ProductFormPage: React.FC = () => {
   
         const uuids = response.data.data?.uuids || [];
         console.log("uuids", uuids);
-        
+        const urls = response.data.data?.urls || []; // Đảm bảo backend trả về URL
+        console.log("urls", urls);
+
         const uploadedImages = imageObjects.map((img, index) => ({
           ...img,
           uuid: uuids[index], 
+          src: urls[index] 
         }));
   
         setImages((prevImages) =>
@@ -392,9 +395,7 @@ const ProductFormPage: React.FC = () => {
         describe: form.describe,
         status: showButtonStatus ? "show_now" : "not_show",
         price: parseInt(form.price.replace(/\D/g, ""), 10),
-        // image_uuids: imageUUIDs, 
         image_uuids: images.map((img) => img.uuid || ""), 
-        // image_uuids: images.map((img) => img.uuid || img.src || ""), 
       },
     };
   }; 
