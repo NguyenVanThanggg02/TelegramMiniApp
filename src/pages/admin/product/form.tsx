@@ -71,7 +71,7 @@ interface ImageData {
   alt: string;
   key: string;
   file?: File; 
-  uuid?: string; 
+  uuids?: string; 
 }
 
 const ProductFormPage: React.FC = () => {
@@ -217,7 +217,7 @@ const ProductFormPage: React.FC = () => {
   
         setImages((prevImages) =>
           prevImages
-            .filter(img => img.uuid) 
+            .filter(img => img.uuids) 
             .concat(uploadedImages) 
         );
         setImageUUIDs((prevUUIDs) => [
