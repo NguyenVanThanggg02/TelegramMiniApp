@@ -208,13 +208,10 @@ const ProductFormPage: React.FC = () => {
   
         const uuids = response.data.data?.uuids || [];
         console.log("uuids", uuids);
-        const urls = response.data.data?.urls || []; // Đảm bảo backend trả về URL
-        console.log("urls", urls);
-
+        
         const uploadedImages = imageObjects.map((img, index) => ({
           ...img,
           uuid: uuids[index], 
-          src: urls[index] 
         }));
   
         setImages((prevImages) =>
