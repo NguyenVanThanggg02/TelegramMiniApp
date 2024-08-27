@@ -377,6 +377,9 @@ const ProductFormPage: React.FC = () => {
   };
 
   const buildPayload = (): ProductPayload => {
+      console.log("Images:", images);
+      console.log("Image UUIDs:", imageUUIDs);
+    
     return {
       product: {
         cat_uuids: form.selectedCategories,
