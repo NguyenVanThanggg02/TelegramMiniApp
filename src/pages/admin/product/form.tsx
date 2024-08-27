@@ -219,6 +219,8 @@ const ProductFormPage: React.FC = () => {
             .filter(img => img.uuid) 
             .concat(uploadedImages) 
         );
+        console.log(uploadedImages);
+        
       } catch (error) {
         console.error("Upload failed:", error);
       }
@@ -314,6 +316,7 @@ const ProductFormPage: React.FC = () => {
   };
 
   const handleSubmit = () => {
+    console.log(images);
     if (!validateForm()) return;
     if (product_uuid && product_uuid !== "null") {
       updateProduct();

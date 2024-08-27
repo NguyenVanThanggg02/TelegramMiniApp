@@ -116,19 +116,17 @@ const TablePage: React.FC = () => {
       }
     }
   };
-  const downloadImage = async (dataUrl: string, fileName: string): Promise<void> => {
-    const response = await fetch(dataUrl);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
+
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
   };
-  
 
   return (
     <Page className="page">
