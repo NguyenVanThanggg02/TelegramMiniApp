@@ -122,30 +122,19 @@ const TablePage: React.FC = () => {
     // fakeLink.style.display = "none";
     // fakeLink.download = fileName;
 
-// Giả sử bạn đã có một đối tượng Blob, ví dụ: `blob`
-const blobb = new Blob([blob], { type: 'image/png' });
-
-// Tạo URL tạm thời từ Blob
-const url = URL.createObjectURL(blobb);
-
-// Tạo thẻ <a> và thiết lập thuộc tính tải về
-const a = document.createElement('a');
-a.href = url;
-a.download = 'image.png'; // Đặt tên file mà bạn muốn tải về
-
-document.body.appendChild(a);
-a.click();
-
-URL.revokeObjectURL(url);
-document.body.removeChild(a);
-
-
-
     // fakeLink.href = blob;
     // document.body.appendChild(fakeLink);
     // fakeLink.click();
     // document.body.removeChild(fakeLink);
     // fakeLink.remove();
+
+    const downloadLink = document.createElement('a');
+    const fileName = 'sample.pdf';
+
+    downloadLink.href = blob;
+    downloadLink.download = fileName;
+    downloadLink.click();
+
   };
 
   return (
