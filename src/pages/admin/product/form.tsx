@@ -61,7 +61,6 @@ interface ProductPayload {
   };
 }
 
-
 interface Category {
   uuid: string;
   name: string;
@@ -71,7 +70,7 @@ interface ImageData {
   alt: string;
   key: string;
   file?: File; 
-  uuids?: string; 
+  uuid?: string; 
 }
 
 const ProductFormPage: React.FC = () => {
@@ -217,7 +216,7 @@ const ProductFormPage: React.FC = () => {
   
         setImages((prevImages) =>
           prevImages
-            .filter(img => img.uuids) 
+            .filter(img => img.uuid) 
             .concat(uploadedImages) 
         );
         setImageUUIDs((prevUUIDs) => [
@@ -225,7 +224,7 @@ const ProductFormPage: React.FC = () => {
           ...uuids
         ]);
   
-        console.log(uploadedImages);
+        console.log("Updated Images with UUIDs:", [...images, ...uploadedImages]);
         
       } catch (error) {
         console.error("Upload failed:", error);
