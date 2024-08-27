@@ -106,40 +106,41 @@ const Index: React.FC = () => {
   }, [hostname]);
 
   useEffect(() => {
-  let qrScanner: QrScanner | undefined;
-  if (showScanner && videoRef.current) {
-    qrScanner = new QrScanner(
-      videoRef.current,
-      (result) => {
-        setTimeout(() => {
-          console.log(result);
-          setScanResult(result.data);
-          setShowScanner(false);
-          
-          // Hard code các dữ liệu
-          const storeId = "b5d2f76d-ce6d-4304-a124-a171b40178a6";
-          const tableId = "4af29a08-9e4e-41e9-8178-ee14a1f57c33";
-          const tenantId = "fdfaedea-cf03-43c7-94ec-b4cb71519e8d";
+    let qrScanner: QrScanner | undefined;;
+    if (showScanner && videoRef.current) {
+      qrScanner = new QrScanner(
+        videoRef.current,
+        (result) => {
+          setTimeout(() => {
+            console.log(result);
+            setScanResult(result.data);
+            setShowScanner(false);
+            const urlRedirect = new URL(result.data);
+            const storeId = urlRedirect.searchParams.get("storeId");
+            const tableId = urlRedirect.searchParams.get("tableId");
+            const tenantId = urlRedirect.searchParams.get("tenantId");
 
-          // Gọi hàm handleScanQr với dữ liệu hard code
-          handleScanQr(result.data, storeId, tableId, tenantId);
-        }, 1000);
-      },
-      {
-        returnDetailedScanResult: true,
-        highlightScanRegion: true,
-        highlightCodeOutline: true,
-      },
-    );
-    qrScanner.start();
+            if (storeId && tableId && tenantId) {
+              handleScanQr(result.data, storeId, tableId, tenantId);
+            } else {
+              notifyErrorStoreNotFound();
+            }
+          }, 1000);
+        },
+        {
+          returnDetailedScanResult: true,
+          highlightScanRegion: true,
+          highlightCodeOutline: true,
+        },
+      );
+      qrScanner.start();
 
-    return () => {
-      qrScanner?.stop();
-      qrScanner?.destroy();
-    };
-  }
-}, [showScanner]);
-
+      return () => {
+        qrScanner?.stop();
+        qrScanner?.destroy();
+      };
+    }
+  }, [showScanner]);
 
   const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount = parseInt(localStorage.getItem("scanCount") || "0");
