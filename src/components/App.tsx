@@ -24,6 +24,7 @@ import i18next from "i18next";
 import global_en from "@/locales/en/global.json";
 import global_vi from "@/locales/vi/global.json";
 import AuthChecker from './auth_checker';
+import { initializeI18n } from '@/pages/profile/i18n';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -35,19 +36,25 @@ export const App: FC = () => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  i18next.init({
-    interpolation: { escapeValue: false },
-    lng: 'en',
-    fallbackLng: "en",
-    resources: {
-      en: {
-        global: global_en,
-      },
-      vi: {
-        global: global_vi,
-      },
-    },
-  });
+  // i18next.init({
+  //   interpolation: { escapeValue: false },
+  //   lng: 'en',
+  //   fallbackLng: "en",
+  //   resources: {
+  //     en: {
+  //       global: global_en,
+  //     },
+  //     vi: {
+  //       global: global_vi,
+  //     },
+  //   },
+  // });
+
+  useEffect(() => {
+    initializeI18n().then(() => {
+      // This will ensure that i18next is initialized before rendering
+    });
+  }, []);
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
