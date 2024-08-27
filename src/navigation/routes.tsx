@@ -71,8 +71,8 @@ export const routes: Route[] = [
     { path: "/admin/voucher/index/:store_uuid", Component: VoucherPage },
     { path: "/admin/voucher/form/:store_uuid", Component: VoucherFormPage },
     { path: "/admin/voucher/update/:store_uuid/:voucher_uuid", Component: VoucherFormPage },
-    // MENU
-    { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
+    // // MENU
+    // { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
 
   {
     path: '/ton-connect',
