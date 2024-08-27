@@ -14,6 +14,9 @@ export default defineConfig({
       "@styles": path.resolve(__dirname, "src/styles"),
     },
   },
+  build: {
+    sourcemap: true, // Bật tạo source maps
+  },
   plugins: [
     // Allows using React dev server along with building a React application with Vite.
     // https://npmjs.com/package/@vitejs/plugin-react-swc
