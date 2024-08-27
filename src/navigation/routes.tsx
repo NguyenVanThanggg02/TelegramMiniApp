@@ -25,7 +25,7 @@ import StoreEditPage from '@/pages/admin/store/storeEdit';
 import RecentScans from '@/components/qr/RecentScans';
 import VoucherPage from '@/pages/admin/voucher';
 import VoucherFormPage from '@/pages/admin/voucher/form';
-import MenuCommonPage from '@/components/menu';
+// import MenuCommonPage from '@/components/menu';
 
 
 interface Route {
