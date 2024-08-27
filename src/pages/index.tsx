@@ -117,8 +117,8 @@ const Index: React.FC = () => {
           setShowScanner(false);
           
           // Hard code các dữ liệu
-          const storeId = "52be5f00-575e-4411-9d13-d84e2447f718";
-          const tableId = "8b1b8fdc-f347-4966-8042-ea9763dcf014";
+          const storeId = "b5d2f76d-ce6d-4304-a124-a171b40178a6";
+          const tableId = "4af29a08-9e4e-41e9-8178-ee14a1f57c33";
           const tenantId = "fdfaedea-cf03-43c7-94ec-b4cb71519e8d";
 
           // Gọi hàm handleScanQr với dữ liệu hard code
