@@ -25,6 +25,7 @@ import StoreEditPage from '@/pages/admin/store/storeEdit';
 import RecentScans from '@/components/qr/RecentScans';
 import VoucherPage from '@/pages/admin/voucher';
 import VoucherFormPage from '@/pages/admin/voucher/form';
+import MenuCommonPage from '@/components/menu';
 
 
 interface Route {
@@ -70,7 +71,8 @@ export const routes: Route[] = [
     { path: "/admin/voucher/index/:store_uuid", Component: VoucherPage },
     { path: "/admin/voucher/form/:store_uuid", Component: VoucherFormPage },
     { path: "/admin/voucher/update/:store_uuid/:voucher_uuid", Component: VoucherFormPage },
-
+    // MENU
+    { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
 
   {
     path: '/ton-connect',
