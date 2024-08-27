@@ -102,31 +102,28 @@ const TablePage: React.FC = () => {
   };
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    if (element.current) {
-      setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
-      try {
-        const dataUrl = await domToPng(element.current, { scale: 3 });
-        downloadImage(dataUrl, "hehe");
-        alert("success");
-      } catch (error) {
-        console.error("Error saving QR code:", error);
-      } finally {
-        setSpinner(false);
+      if (element.current) {
+        setSpinner(true);
+        try {
+          // Tạo URL của ảnh từ DOM element
+          const dataUrl = await domToPng(element.current, { scale: 3 });
+    
+          // Tạo một thẻ 'a' tạm thời để tải file xuống
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = 'qr-code.png';  // Tên file khi tải xuống
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);  // Xóa link sau khi tải xuống
+          alert("QR Code saved successfully!");
+        } catch (error) {
+          console.error("Error saving QR code:", error);
+        } finally {
+          setSpinner(false);
+        }
       }
-    }
-  };
-
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+    };
+    
 
   return (
     <Page className="page">
