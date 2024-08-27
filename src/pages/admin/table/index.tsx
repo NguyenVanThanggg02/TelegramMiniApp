@@ -107,7 +107,7 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await domToPng(element.current, { scale: 3 });
-        downloadImage(dataUrl, "hehe");
+        downloadImage(dataUrl);
         alert("success");
       } catch (error) {
         console.error("Error saving QR code:", error);
@@ -117,16 +117,35 @@ const TablePage: React.FC = () => {
     }
   };
 
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+  const downloadImage = (blob: string): void => {
+    // const fakeLink = document.createElement("a");
+    // fakeLink.style.display = "none";
+    // fakeLink.download = fileName;
 
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
+// Giả sử bạn đã có một đối tượng Blob, ví dụ: `blob`
+const blobb = new Blob([blob], { type: 'image/png' });
+
+// Tạo URL tạm thời từ Blob
+const url = URL.createObjectURL(blobb);
+
+// Tạo thẻ <a> và thiết lập thuộc tính tải về
+const a = document.createElement('a');
+a.href = url;
+a.download = 'image.png'; // Đặt tên file mà bạn muốn tải về
+
+document.body.appendChild(a);
+a.click();
+
+URL.revokeObjectURL(url);
+document.body.removeChild(a);
+
+
+
+    // fakeLink.href = blob;
+    // document.body.appendChild(fakeLink);
+    // fakeLink.click();
+    // document.body.removeChild(fakeLink);
+    // fakeLink.remove();
   };
 
   return (
