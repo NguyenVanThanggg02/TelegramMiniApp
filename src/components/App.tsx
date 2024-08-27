@@ -21,8 +21,8 @@ import { routes } from '@/navigation/routes.tsx';
 import { RecoilRoot } from "recoil";
 import { I18nextProvider } from 'react-i18next';
 import i18next from "i18next";
-import global_en from "@/locales/en/global.json";
-import global_vi from "@/locales/vi/global.json";
+// import global_en from "@/locales/en/global.json";
+// import global_vi from "@/locales/vi/global.json";
 import AuthChecker from './auth_checker';
 import { initializeI18n } from '@/pages/profile/i18n';
 
