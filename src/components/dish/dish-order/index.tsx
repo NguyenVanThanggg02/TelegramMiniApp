@@ -10,6 +10,15 @@ interface ProductImage {
   url: string;
 }
 
+interface DishOrderSheetProps {
+  isShow: boolean;
+  isAdmin?: boolean;
+  product: Product;
+  onClose: () => void;
+  onSubmit: (product: Product & { quantity: number }) => void;
+  onPayment?: (product: Product & { quantity: number }) => void;
+}
+
 interface Product {
   uuid: string;
   name: string;
@@ -18,15 +27,6 @@ interface Product {
   quantity?: number;
   images?: ProductImage[];
   product_images?: ProductImage[];
-}
-
-interface DishOrderSheetProps {
-  isShow: boolean;
-  isAdmin?: boolean;
-  product: Product;
-  onClose: () => void;
-  onSubmit: (product: Product & { quantity: number }) => void;
-  onPayment?: (product: Product & { quantity: number }) => void;
 }
 
 const DishOrderSheet: React.FC<DishOrderSheetProps> = ({

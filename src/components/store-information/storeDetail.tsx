@@ -12,10 +12,11 @@ interface StoreDetail {
   address?: string;
   phoneNumber?: string;
   bankAccount?: string;
+  name?: string;
 }
 
 interface StoreData {
-  name: string;
+  name?: string;
   metadata?: string;
 }
 

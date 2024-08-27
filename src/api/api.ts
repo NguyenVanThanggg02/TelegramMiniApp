@@ -19,12 +19,16 @@ interface ApiResponse<T> {
   expired_at?: string;
 }
 
+interface StoreSetting {
+  key: string;
+  value: any; 
+}
 interface Store {
   uuid: string;
   name: string;
   subdomain: string;
   created_at: string;
-  store_settings: []; 
+  store_settings: StoreSetting[]; 
   ai_requests_count:number
   metadata: string; 
 }
