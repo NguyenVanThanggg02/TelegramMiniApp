@@ -208,7 +208,8 @@ const ProductFormPage: React.FC = () => {
         console.log("Upload successful:", response);
   
         const uuids = response.data?.uuids || [];
-  
+        console.log(uuids);
+        
         const uploadedImages = imageObjects.map((img, index) => ({
           ...img,
           uuid: uuids[index], 
