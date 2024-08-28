@@ -28,6 +28,7 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
 import { saveAs } from 'file-saver';
+
 interface Table {
   uuid: string;
   name: string;
@@ -153,37 +154,6 @@ const dataURLToBlob = (dataURL: string): Blob => {
   return new Blob([uintArray], { type: mime });
 };
 
-
-// const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-//   if (element.current) {
-//     setSpinner(true);
-//     element.current.style.fontFamily = "Montserrat";
-//     try {
-//       const dataURL = await domToPng(element.current, { scale: 3 });
-
-//       const blob = dataURLToBlob(dataURL);
-      
-//       const formData = new FormData();
-//       formData.append('file', blob, 'qr-code.png');
-//       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
-//       console.log(response.data.data.urls);
-      
-//       if (response.data.data.urls) {
-//         downloadImage(response.data.data.urls, "qr-code.png");
-//         alert("Success");
-//       } else {
-//         console.error("có url đâu :))");
-//       }
-//     } catch (error) {
-//       console.error("Lỗi", error);
-//     } finally {
-//       setSpinner(false);
-//     }
-//   }
-// };
-
-
-
 const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   if (element.current) {
     setSpinner(true);
@@ -192,9 +162,11 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
       const dataURL = await domToPng(element.current, { scale: 3 });
       const blob = dataURLToBlob(dataURL);
       
+      // Tạo FormData và tải ảnh lên backend
       const formData = new FormData();
       formData.append('file', blob, 'qr-code.png');
       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
+      console.log(response.data.data.urls);
       
       if (response.data.data.urls) {
         // Sử dụng file-saver để tải ảnh về
@@ -210,8 +182,6 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     }
   }
 };
-
-
 
   // const downloadImage = (url: string, fileName: string): void => {
   //   const fakeLink = document.createElement("a");
