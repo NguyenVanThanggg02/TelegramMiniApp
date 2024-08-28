@@ -267,13 +267,24 @@ const ProductFormPage: React.FC = () => {
         src: image.url,
         alt: `img ${product.images.length + index + 1}`,
         key: `${product.images.length + index + 1}`,
+        uuid: image.uuid, // Thêm UUID vào dữ liệu ảnh
+
       }));
 
       // Kiểm tra nếu data.uuids không phải null hoặc undefined
-      const newImageUUIDs = product.images.map((image) => image.uuid);
+      // const newImageUUIDs = product.images.map((image) => image.uuid);
 
-      setImages([...images, ...newData]);
-      setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
+      // setImages([...images, ...newData]);
+      // setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
+
+      setImages((prevImages) => [
+        ...prevImages, // Giữ lại các ảnh cũ
+        ...newData,
+      ]);
+      setImageUUIDs((prevUUIDs) => [
+        ...prevUUIDs, // Giữ lại các UUID cũ
+        ...product.images.map((image) => image.uuid),
+      ]);
     } else {
       console.error("Error fetching product details:", data.error);
       snackbar.openSnackbar({
