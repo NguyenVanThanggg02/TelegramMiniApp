@@ -101,13 +101,43 @@ const TablePage: React.FC = () => {
     });
   };
 
+  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+  //   if (element.current) {
+  //     setSpinner(true);
+  //     element.current.style.fontFamily = "Montserrat";
+  //     try {
+  //       const dataUrl = await domToPng(element.current, { scale: 3 });
+  //       downloadImage(dataUrl, "hehe");
+  //       alert("success");
+  //     } catch (error) {
+  //       console.error("Error saving QR code:", error);
+  //     } finally {
+  //       setSpinner(false);
+  //     }
+  //   }
+  // };
+
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
+
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
+
+
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await domToPng(element.current, { scale: 3 });
-        downloadImage(dataUrl, "hehe");
+        const blob = dataURLtoBlob(dataUrl);
+        downloadImage(blob, "hehe.png");
         alert("success");
       } catch (error) {
         console.error("Error saving QR code:", error);
@@ -116,18 +146,30 @@ const TablePage: React.FC = () => {
       }
     }
   };
-
-  const downloadImage = (blob: string, fileName: string): void => {
+  
+  const dataURLtoBlob = (dataURL: string) => {
+    const byteString = atob(dataURL.split(',')[1]);
+    const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+  };
+  
+  const downloadImage = (blob: Blob, fileName: string): void => {
+    const url = URL.createObjectURL(blob);
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
     fakeLink.download = fileName;
-
-    fakeLink.href = blob;
+    fakeLink.href = url;
     document.body.appendChild(fakeLink);
     fakeLink.click();
     document.body.removeChild(fakeLink);
-    fakeLink.remove();
+    URL.revokeObjectURL(url); // Cleanup
   };
+  
 
   return (
     <Page className="page">
