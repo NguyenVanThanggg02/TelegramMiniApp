@@ -118,7 +118,7 @@ const Index: React.FC = () => {
             const urlRedirect = new URL(result.data);
             const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
-            const tenantId = urlRedirect.searchParams.get("tenantId");
+            const tenantId = urlRedirect.searchParams.get("tenant_id");
 
             if (storeId && tableId && tenantId) {
               handleScanQr(result.data, storeId, tableId, tenantId);
