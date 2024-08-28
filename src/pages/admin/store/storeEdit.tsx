@@ -3,7 +3,7 @@ import { Button, Input, Box, Page, useSnackbar,Select } from "zmp-ui";
 import { getStoreByUUID, updateStore, uploadImages } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
+// import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { storeState, userState } from "../../../state";
 import { useRecoilState, useRecoilValue } from "recoil";
