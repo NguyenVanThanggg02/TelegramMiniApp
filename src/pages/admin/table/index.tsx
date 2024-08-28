@@ -128,7 +128,9 @@ const TablePage: React.FC = () => {
       formData.append('photo', file);
   
       // Gửi ảnh đến Telegram
-      const sendResponse = await fetch('https://api.telegram.org/bot<7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0>/sendPhoto', {
+      const botToken = '7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0'; 
+
+      const sendResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
         method: 'POST',
         body: formData,
       });
@@ -139,12 +141,12 @@ const TablePage: React.FC = () => {
         const fileId: string = result.result.photo.pop().file_id;
         
         // Lấy link tải ảnh từ file_id
-        const getFileResponse = await fetch(`https://api.telegram.org/bot<7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0>/getFile?file_id=${fileId}`);
+        const getFileResponse = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
         const fileResult = await getFileResponse.json();
   
         if (fileResult.ok) {
           const filePath: string = fileResult.result.file_path;
-          const fileUrl: string = `https://api.telegram.org/file/bot<7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0>/${filePath}`;
+          const fileUrl: string = `https://api.telegram.org/file/bot${botToken}/${filePath}`;
   
           console.log('Image URL:', fileUrl);
   
