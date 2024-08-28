@@ -240,8 +240,8 @@ const ProductFormPage: React.FC = () => {
   };
   const loadProductDetails = async (product_uuid: string) => {
     const data = await fetchProductDetails(product_uuid);
-    if (!data?.error && data.data) {  
-      const product = data.data; 
+    if (!data?.error && data.data) {
+      const product = data.data;
 
       console.log("Product details:", product);
 
@@ -253,7 +253,8 @@ const ProductFormPage: React.FC = () => {
         selectedCategories: product.categories.map((cat) => cat.uuid) || [],
       });
 
-      if (data.status == "not_show") {
+      // if (data.status == "not_show") {
+      if (product.status === "not_show") {
         setShowButtonStatus(false);
       } else {
         setShowButtonStatus(true);
@@ -264,7 +265,6 @@ const ProductFormPage: React.FC = () => {
         alt: `img ${product.images.length + index + 1}`,
         key: `${product.images.length + index + 1}`,
         uuid: image.uuid, // Thêm UUID vào dữ liệu ảnh
-
       }));
 
       // Kiểm tra nếu data.uuids không phải null hoặc undefined
@@ -273,12 +273,9 @@ const ProductFormPage: React.FC = () => {
       // setImages([...images, ...newData]);
       // setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
 
-      setImages((prevImages) => [
-        ...prevImages, 
-        ...newData,
-      ]);
+      setImages((prevImages) => [...prevImages, ...newData]);
       setImageUUIDs((prevUUIDs) => [
-        ...prevUUIDs, 
+        ...prevUUIDs,
         ...product.images.map((image) => image.uuid),
       ]);
     } else {
