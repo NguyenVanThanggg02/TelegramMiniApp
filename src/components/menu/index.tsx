@@ -369,7 +369,7 @@ useEffect(() => {
               style={{ paddingLeft: "10px", paddingBottom: "10px" }}
             >
               <TableRestaurantIcon />
-              <Text size="xLarge" bold style={{ paddingLeft: "5px" }}>
+              <Text size="xLarge" bold style={{ paddingLeft: "5px", color:'black' }}>
                 {table?.name}
               </Text>
             </Box>
