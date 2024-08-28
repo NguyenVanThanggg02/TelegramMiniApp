@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import {
   Page,
@@ -11,7 +13,7 @@ import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
-  spinnerState,
+  // spinnerState,
   storeListState,
   // userState,
 } from "../../../state";
@@ -23,9 +25,9 @@ import QrCodeOutlinedIcon from "@mui/icons-material/QrCodeOutlined";
 import tableIcon from "../../../static/icons/table.png";
 import "./styles.scss";
 // import { useTranslation } from "react-i18next";
-import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
+// import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
-import { domToPng } from "modern-screenshot";
+// import { domToPng } from "modern-screenshot";
 
 interface Table {
   uuid: string;
@@ -52,7 +54,7 @@ const TablePage: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   // const snackbar = useSnackbar();
-  const [, setSpinner] = useRecoilState(spinnerState);
+  // const [, setSpinner] = useRecoilState(spinnerState);
 
   const handleTableAdded = () => {
     fetchTableData();
@@ -101,21 +103,34 @@ const TablePage: React.FC = () => {
     });
   };
 
-  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    if (element.current) {
-      setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
-      try {
-        const dataUrl = await domToPng(element.current, { scale: 3 });
-        sendPhotoToTelegram(dataUrl);
-        alert("success");
-      } catch (error) {
-        console.error("Error saving QR code:", error);
-      } finally {
-        setSpinner(false);
-      }
-    }
-  };
+  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+  //   if (element.current) {
+  //     setSpinner(true);
+  //     element.current.style.fontFamily = "Montserrat";
+  //     try {
+  //       const dataUrl = await domToPng(element.current, { scale: 3 });
+  //       downloadImage(dataUrl, "hehe");
+  //       alert("success");
+  //     } catch (error) {
+  //       console.error("Error saving QR code:", error);
+  //     } finally {
+  //       setSpinner(false);
+  //     }
+  //   }
+  // };
+
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
+
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
+
 
   const sendPhotoToTelegram = async (base64: string): Promise<void> => {
     try {
@@ -128,9 +143,7 @@ const TablePage: React.FC = () => {
       formData.append('photo', file);
   
       // Gửi ảnh đến Telegram
-      const botToken = '7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0'; 
-
-      const sendResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+      const sendResponse = await fetch('https://api.telegram.org/bot7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0/sendPhoto', {
         method: 'POST',
         body: formData,
       });
@@ -141,12 +154,12 @@ const TablePage: React.FC = () => {
         const fileId: string = result.result.photo.pop().file_id;
         
         // Lấy link tải ảnh từ file_id
-        const getFileResponse = await fetch(`https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`);
+        const getFileResponse = await fetch(`https://api.telegram.org/bot7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0/getFile?file_id=${fileId}`);
         const fileResult = await getFileResponse.json();
   
         if (fileResult.ok) {
           const filePath: string = fileResult.result.file_path;
-          const fileUrl: string = `https://api.telegram.org/file/bot${botToken}/${filePath}`;
+          const fileUrl: string = `https://api.telegram.org/file/bot7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0/${filePath}`;
   
           console.log('Image URL:', fileUrl);
   
@@ -168,6 +181,7 @@ const TablePage: React.FC = () => {
     }
   };
   
+
   return (
     <Page className="page">
       <div className="section-container">
@@ -207,16 +221,17 @@ const TablePage: React.FC = () => {
                   <QRCodeViewer
                     value={table.link}
                     title={table.name.toUpperCase()}
-                    handleSave={handleSaveQr}
+                    sendPhotoToTelegram={sendPhotoToTelegram} // Truyền hàm vào QRCodeViewer
                   />
                 )}
               </Box>
             </Box>
           ))}
         </List>
-        {tables?.length > 0 && (
-          <QRCodeMultiplyViewer listItems={tables} handleSave={handleSaveQr} />
-        )}
+        {/* {tables?.length > 0 && (
+          <QRCodeMultiplyViewer listItems={tables} sendPhotoToTelegram={sendPhotoToTelegram} // Truyền hàm vào QRCodeViewer
+          />
+        )} */}
       </div>
     </Page>
   );

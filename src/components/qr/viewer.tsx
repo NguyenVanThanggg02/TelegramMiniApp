@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef } from "react";
+import React, { useRef } from "react";
 import QRCode from "qrcode.react";
 import "./styles.scss";
 import { Box, Button, Text } from "zmp-ui";
@@ -12,12 +12,41 @@ import ChecklistIcon from "@mui/icons-material/Checklist";
 interface QRCodeViewerProps {
   value: string;
   title: string;
-  handleSave: (ref: MutableRefObject<HTMLDivElement | null>) => void;
+  sendPhotoToTelegram: (base64: string) => Promise<void>;
 }
 
-const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave }) => {
+const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, sendPhotoToTelegram }) => {
   const { t } = useTranslation("global");
   const exportRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
+
+  const handleSaveQr = async () => {
+    if (exportRef.current) {
+      try {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        const svg = exportRef.current.querySelector("svg");
+
+        if (svg && context) {
+          const svgData = new XMLSerializer().serializeToString(svg);
+          const img = new Image();
+          img.src = "data:image/svg+xml;base64," + btoa(svgData);
+
+          img.onload = async () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+
+            const base64 = canvas.toDataURL("image/png").replace("data:image/png;base64,", "");
+
+            // Gọi hàm sendPhotoToTelegram với base64
+            await sendPhotoToTelegram(base64);
+          };
+        }
+      } catch (error) {
+        console.error("Error converting QR code to image:", error);
+      }
+    }
+  };
 
   return (
     <Box className="qr-code-container">
@@ -68,12 +97,6 @@ const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave })
               </Box>
               {t("tableManagement.order")}
             </Box>
-            {/* <Box className="sub-item-container">
-              <Box className="sub-item-qr">
-                <AttachMoneyIcon style={{ fontSize: "20px" }} />
-              </Box>
-              {t("tableManagement.pay")}
-            </Box> */}
           </Box>
         </Box>
         <Box
@@ -93,9 +116,9 @@ const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave })
           </Box>
         </Box>
       </Box>
-      <Button onClick={() => handleSave(exportRef)}>{t("button.save")}</Button>
+      <Button onClick={handleSaveQr}>{t("button.save")}</Button>
     </Box>
   );
 };
 
-export default QRCodeViewer;
+export default QRCodeViewer
