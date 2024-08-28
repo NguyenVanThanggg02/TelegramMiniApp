@@ -1,13 +1,15 @@
-import React, {ChangeEvent, useEffect, useRef, useState } from "react";
-import { Button, Input, Box, Page, useSnackbar,Select } from "zmp-ui";
-import { getStoreByUUID, updateStore, uploadImages } from "../../../api/api";
+import React, {useEffect, useState } from "react";
+import { Button, Input, Box, Page, useSnackbar, Select } from "zmp-ui";
+import { getStoreByUUID, updateStore } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-// import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
+import { getBaseUrl } from "../../../api/apiBase";
+import { openMediaPicker } from "zmp-sdk/apis";
+import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { storeState, userState } from "../../../state";
-import { useRecoilState, useRecoilValue } from "recoil";
-import  { SelectValueType } from "zmp-ui/select";
+import { userState } from "../../../state";
+import { useRecoilState } from "recoil";
+import { SelectValueType } from "zmp-ui/select";
 
 interface StoreDetail {
   description?: string;
@@ -21,13 +23,6 @@ interface StoreDetail {
   };
 }
 
-interface ImageData {
-  src: string;
-  alt: string;
-  key: string;
-  file?: File; 
-  uuid?: string; 
-}
 interface StoreData {
   name: string;
   metadata: string;
@@ -40,10 +35,8 @@ const StoreEditPage: React.FC = () => {
   const [storeData, setStoreData] = useState<StoreData | undefined>(undefined);
   const [storeName, setStoreName] = useState<string | undefined>(undefined);
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
-  const [image, setImage] = useState<ImageData[]>([]);
-  const [imageUUID, setImageUUID] = useState<string[]>([]);
-  const store = useRecoilValue(storeState);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<string>("");
+  const [imageUUID, setImageUUID] = useState<string>("");
 
   const snackbar = useSnackbar();
   const navigate = useNavigate();
@@ -55,13 +48,8 @@ const StoreEditPage: React.FC = () => {
         const detail = JSON.parse(storeData.metadata);
         setStoreDetail(detail || {});
         if (detail?.avatar) {
-          setImage([{
-            src: detail.avatar.url,
-            alt: 'Store Avatar',
-            key: 'avatar',
-            uuid: detail.avatar.uuid,
-          }]);
-          setImageUUID([detail.avatar?.uuid]);
+          setImage(detail.avatar?.url);
+          setImageUUID(detail.avatar?.uuid);
         }
       } catch (error) {
         console.error("Error parsing store metadata:", error);
@@ -84,87 +72,56 @@ const StoreEditPage: React.FC = () => {
     getStoreDetail();
   }, []);
 
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    const target = event.target as HTMLInputElement;
-    const files = target.files;
-  
-    if (files && files.length > 0) {
-      const fileArray = Array.from(files);
-      const newImages = fileArray.map((file) => {
-        const reader = new FileReader();
-        return new Promise<{ src: string; file: File }>((resolve, reject) => {
-          reader.onloadend = () => {
-            resolve({ src: reader.result as string, file });
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
+  const handleSubmitPicture = async () => {
+    const baseUrl = await getBaseUrl();
+    openMediaPicker({
+      type: "photo",
+      serverUploadUrl: `${baseUrl}/v1/attachment/${store_uuid}/${user.uuid}`,
+      success: (res) => {
+        const obj = JSON.parse(res.data);
+        const data = obj.data;
+        console.log(`-----------------`);
+        console.log(`data: ${data}`);
+
+        setImage(data.urls[0]);
+        setImageUUID(data.uuids[0]);
+
+        snackbar.openSnackbar({
+          duration: 3000,
+          text: t("snackbarMessage.uploadImageSuccess"),
+          type: "success",
         });
-      });
-  
-      try {
-        const imageData = await Promise.all(newImages);
-        const imageObjects = imageData.map(({ src, file }) => ({
-          src,
-          alt: `Preview image ${file.name}`,
-          key: file.name,
-          file,
-        }));
-  
-        setImage((prevImages) => [...prevImages, ...imageObjects]);
-  
-        const response = await uploadImages(store.uuid, user.uuid, fileArray);
-        console.log("Upload successful:", response);
-  
-        const data = response.data.data;
-        const urls = data?.urls || [];
-        const uuids = data?.uuids || [];
-  
-        console.log("urls", urls);
-        console.log("uuids", uuids);
-  
-        const newData = urls.map((url: string, index: string) => ({
-          src: url,
-          alt: `img ${image.length + index + 1}`,
-          key: `${image.length + index + 1}`,
-          uuid: uuids[index],
-        }));
-  
-        setImage((prevImages) => [
-          ...prevImages.filter((img) => img.uuid),
-          ...newData,
-        ]);
-        setImageUUID((prevUUIDs) => [...prevUUIDs, ...uuids]);
-  
-      } catch (error) {
-        console.error("Upload failed:", error);
-      }
-    } else {
-      console.log("No files selected.");
-    }
+      },
+      fail: (error) => {
+        console.log(error);
+        snackbar.openSnackbar({
+          duration: 3000,
+          text: t("snackbarMessage.uploadImageFail"),
+          type: "error",
+        });
+      },
+    });
   };
-  
 
   const handleSubmit = async () => {
     const metadataStore = {
-      avatar: image.length > 0
+      avatar: image
         ? {
-            url: image[0].src,
-            uuid: imageUUID[0],
+            url: image,
+            uuid: imageUUID,
           }
-        : undefined, // hoặc { url: '', uuid: '' } nếu cần giá trị mặc định
+        : {},
       description: storeDetail.description,
       address: storeDetail.address,
       phoneNumber: storeDetail.phoneNumber,
       bankName: storeDetail.bankName,
       bankAccount: storeDetail.bankAccount,
     };
-  
     const payload = {
       uuid: store_uuid,
       name: storeName,
       metadata: JSON.stringify(metadataStore),
     };
-  
     const data = await updateStore(payload);
     if (!data?.error) {
       snackbar.openSnackbar({
@@ -177,22 +134,16 @@ const StoreEditPage: React.FC = () => {
       snackbar.openSnackbar({
         duration: 3000,
         text: String(data.error),
-        type: "error",
+        type: "success",
       });
     }
   };
-  
-  
+
   const handleBankNameChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, bankName: value as string }));
   };
-
-  const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
+  
 
 
   return (
@@ -200,25 +151,15 @@ const StoreEditPage: React.FC = () => {
       <div className="section-container">
         <Box>
           <Box flex justifyContent="center" alignItems="center" mb={5}>
-            <Box
-              className="upload-photo-icon"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                cursor: "pointer",
-              }}
-              onClick={handleClick}
-            >
-              <input
-                type="file"
-                hidden
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-              <CameraAltIcon />
+            <Box style={{ position: "relative" }} onClick={handleSubmitPicture}>
+              <img
+                className="img-store"
+                style={!image ? { filter: "grayscale(1) opacity(0.5)" } : {}}
+                src={image || DEFAULT_IMAGE_STORE}
+              ></img>
+              <Box className="upload-photo-icon">
+                <CameraAltIcon />
+              </Box>
             </Box>
           </Box>
           <Box mb={2}>
@@ -276,7 +217,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-            <Select
+          <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
