@@ -54,8 +54,13 @@ const StoreEditPage: React.FC = () => {
         const detail = JSON.parse(storeData.metadata);
         setStoreDetail(detail || {});
         if (detail?.avatar) {
-          setImage(detail.avatar?.url);
-          setImageUUID(detail.avatar?.uuid);
+          setImage([{
+            src: detail.avatar.url,
+            alt: 'Store Avatar',
+            key: 'avatar',
+            uuid: detail.avatar.uuid,
+          }]);
+          setImageUUID([detail.avatar?.uuid]);
         }
       } catch (error) {
         console.error("Error parsing store metadata:", error);
@@ -81,7 +86,7 @@ const StoreEditPage: React.FC = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-
+  
     if (files && files.length > 0) {
       const fileArray = Array.from(files);
       const newImages = fileArray.map((file) => {
@@ -94,7 +99,7 @@ const StoreEditPage: React.FC = () => {
           reader.readAsDataURL(file);
         });
       });
-
+  
       try {
         const imageData = await Promise.all(newImages);
         const imageObjects = imageData.map(({ src, file }) => ({
@@ -103,32 +108,32 @@ const StoreEditPage: React.FC = () => {
           key: file.name,
           file,
         }));
-
+  
         setImage((prevImages) => [...prevImages, ...imageObjects]);
-
+  
         const response = await uploadImages(store.uuid, user.uuid, fileArray);
         console.log("Upload successful:", response);
-
+  
         const data = response.data.data;
         const urls = data?.urls || [];
         const uuids = data?.uuids || [];
-
+  
         console.log("urls", urls);
         console.log("uuids", uuids);
-
+  
         const newData = urls.map((url: string, index: string) => ({
           src: url,
           alt: `img ${image.length + index + 1}`,
           key: `${image.length + index + 1}`,
           uuid: uuids[index],
         }));
-
+  
         setImage((prevImages) => [
           ...prevImages.filter((img) => img.uuid),
           ...newData,
         ]);
         setImageUUID((prevUUIDs) => [...prevUUIDs, ...uuids]);
-
+  
       } catch (error) {
         console.error("Upload failed:", error);
       }
@@ -136,26 +141,29 @@ const StoreEditPage: React.FC = () => {
       console.log("No files selected.");
     }
   };
+  
 
   const handleSubmit = async () => {
     const metadataStore = {
-      avatar: image
+      avatar: image.length > 0
         ? {
-            url: image,
-            uuid: imageUUID,
+            url: image[0].src,
+            uuid: imageUUID[0],
           }
-        : {},
+        : undefined, // hoặc { url: '', uuid: '' } nếu cần giá trị mặc định
       description: storeDetail.description,
       address: storeDetail.address,
       phoneNumber: storeDetail.phoneNumber,
       bankName: storeDetail.bankName,
       bankAccount: storeDetail.bankAccount,
     };
+  
     const payload = {
       uuid: store_uuid,
       name: storeName,
       metadata: JSON.stringify(metadataStore),
     };
+  
     const data = await updateStore(payload);
     if (!data?.error) {
       snackbar.openSnackbar({
@@ -168,10 +176,11 @@ const StoreEditPage: React.FC = () => {
       snackbar.openSnackbar({
         duration: 3000,
         text: String(data.error),
-        type: "success",
+        type: "error",
       });
     }
   };
+  
   
   const handleBankNameChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
     const value = Array.isArray(selected) ? selected[0] : selected;
@@ -192,12 +201,13 @@ const StoreEditPage: React.FC = () => {
               />
               <img
                 className="img-store"
-                // style={
-                //   !image.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
-                // }
-                src={image[0].src || DEFAULT_IMAGE_STORE}
+                style={
+                  !image.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
+                }
+                src={image.length > 0 ? image[0].src : DEFAULT_IMAGE_STORE}
                 alt="Store"
               />
+
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
               </Box>
@@ -258,7 +268,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-          <Select
+            <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
