@@ -4,6 +4,7 @@ import {
   sendPostRequest,
   sendPutRequest,
   sendDeleteRequest,
+  getBaseUrl,
 } from "@/api/apiBase";
 import { createTenantURL } from "@/api/urlHelper";
 
@@ -367,7 +368,8 @@ export const fetchInvoiceDetails = async (invoice_uuid: string): Promise<ApiResp
 
 // UPLOAD IMAGES
 export const uploadImages = async (store_uuid: string, user_uuid: string, images: File[]): Promise<ApiResponse<any>> => {
-  const baseUrl = "https://endpoint.hatkeo.com/api";
+  // const baseUrl = "https://endpoint.hatkeo.com/api";
+  const baseUrl = await getBaseUrl();
   const urlApi = `${baseUrl}/v1/attachment/${store_uuid}/${user_uuid}`;
   const formData = new FormData();
   
