@@ -206,24 +206,45 @@ const ProductFormPage: React.FC = () => {
           const response = await uploadImages(store.uuid, user.uuid, fileArray);
           console.log("Upload successful:", response);
 
-          const uuids = response.data.data?.uuids || [];
-          console.log("uuids", uuids);
+          // const uuids = response.data.data?.uuids || [];
+          // console.log("uuids", uuids);
           console.log("urls", response.data.data?.urls);
 
-          const uploadedImages = imageObjects.map((img, index) => ({
-            ...img,
-            uuid: uuids[index],
-          }));
+          const newData =
+          response.data.data?.urls && Array.isArray(response.data.data?.urls)
+            ? response.data.data?.urls.map((url: string, index: string) => ({
+                src: url,
+                alt: `img ${images.length + index + 1}`,
+                key: `${images.length + index + 1}`,
+              }))
+            : [
+                {
+                  src: response.data.data?.urls || "", 
+                  alt: `img ${images.length + 1}`,
+                  key: `${images.length + 1}`,
+                },
+              ];
 
-          setImages((prevImages) =>
-            prevImages.filter((img) => img.uuid).concat(uploadedImages)
-          );
-          setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
+          // const uploadedImages = imageObjects.map((img, index) => ({
+          //   ...img,
+          //   uuid: uuids[index],
+          // }));
 
-          console.log("Updated Images with UUIDs:", [
-            ...images,
-            ...uploadedImages,
-          ]);
+          // setImages((prevImages) =>
+          //   prevImages.filter((img) => img.uuid).concat(uploadedImages)
+          // );
+          // setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
+
+          const newImageUUIDs =
+          response.data.data?.uuids && Array.isArray(response.data.data?.uuids) ? response.data.data?.uuids : [];
+          setImages([...images, ...newData]);
+          setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
+          
+
+          // console.log("Updated Images with UUIDs:", [
+          //   ...images,
+          //   ...uploadedImages,
+          // ]);
         } catch (error) {
           console.error("Upload failed:", error);
         }
