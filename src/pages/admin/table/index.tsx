@@ -133,6 +133,8 @@ const TablePage: React.FC = () => {
 
 
   const sendPhotoToTelegram = async (base64: string): Promise<void> => {
+    const chatId = "6727847971"; 
+  
     try {
       // Chuyển đổi base64 thành Blob
       const response = await fetch(`data:image/png;base64,${base64}`);
@@ -140,6 +142,7 @@ const TablePage: React.FC = () => {
       const file = new File([blob], "image.png", { type: "image/png" });
   
       const formData = new FormData();
+      formData.append('chat_id', chatId); 
       formData.append('photo', file);
   
       // Gửi ảnh đến Telegram
@@ -152,7 +155,7 @@ const TablePage: React.FC = () => {
   
       if (result.ok) {
         const fileId: string = result.result.photo.pop().file_id;
-        
+  
         // Lấy link tải ảnh từ file_id
         const getFileResponse = await fetch(`https://api.telegram.org/bot7274693550:AAFsK44G2wDoCM-jeJeOL_6GWPI1I6Mact0/getFile?file_id=${fileId}`);
         const fileResult = await getFileResponse.json();
@@ -180,6 +183,7 @@ const TablePage: React.FC = () => {
       console.error('Error:', error);
     }
   };
+  
   
 
   return (
@@ -221,7 +225,7 @@ const TablePage: React.FC = () => {
                   <QRCodeViewer
                     value={table.link}
                     title={table.name.toUpperCase()}
-                    sendPhotoToTelegram={sendPhotoToTelegram} // Truyền hàm vào QRCodeViewer
+                    sendPhotoToTelegram={sendPhotoToTelegram} 
                   />
                 )}
               </Box>
