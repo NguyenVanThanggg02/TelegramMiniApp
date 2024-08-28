@@ -190,14 +190,18 @@ const StoreEditPage: React.FC = () => {
                 id="chooseFile"
                 onChange={handleFileChange}
               />
+
               <img
                 className="img-store"
                 style={
-                  !image.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
+                  image.length === 0
+                    ? { filter: "grayscale(1) opacity(0.5)" }
+                    : {}
                 }
                 src={image.length > 0 ? image[0].src : DEFAULT_IMAGE_STORE}
                 alt="Store"
               />
+
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
               </Box>
@@ -258,7 +262,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-          <Select
+            <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
