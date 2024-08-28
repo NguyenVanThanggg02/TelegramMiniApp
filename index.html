@@ -7,8 +7,6 @@
       http-equiv="Content-Security-Policy"
       content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:"
     />
-    <iframe sandbox="allow-forms allow-scripts allow-same-origin allow-downloads" id="f"></iframe>
-
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
@@ -21,6 +19,7 @@
   
   <body>
     <div id="root"></div>
+    <iframe sandbox="allow-forms allow-scripts allow-same-origin allow-downloads" id="f"></iframe>
     <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>
