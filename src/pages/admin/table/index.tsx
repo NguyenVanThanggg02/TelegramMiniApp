@@ -169,7 +169,7 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
       console.log(response.data.data.urls);
       
       if (response.data.data.urls) {
-        downloadImage(response.data.data.urls, "qr-code.png");
+        downloadImage(response.data.data.urls);
         alert("Success");
       } else {
         console.error("có url đâu :))");
@@ -182,17 +182,38 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-  const downloadImage = (url: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+  // const downloadImage = (url: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
   
-    fakeLink.href = url;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
+  //   fakeLink.href = url;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
+
+  const downloadImage = async (url: string) => {
+    const _url = url
+    try {
+      const response = await fetch(_url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'image.jpg'; // Tên file sau khi tải về
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
   };
+
+
+
   
   return (
     <Page className="page">
