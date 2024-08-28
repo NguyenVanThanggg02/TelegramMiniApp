@@ -170,7 +170,8 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
       const formData = new FormData();
       formData.append('file', blob, 'qr-code.png');
       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
-
+      console.log(response.data.data.urls);
+      
       if (response.data && response.data.urls) {
         // Tải về ảnh từ URL mà backend trả về
         downloadImage(response.data.urls, "qr-code.png");
