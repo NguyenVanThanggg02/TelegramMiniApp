@@ -385,7 +385,7 @@ const Index: React.FC = () => {
             prefixIcon={<HistoryIcon />}
             size="large"
           >
-            {t("userOrder.orderHistory")}
+            Đến menu
           </Button>
         </Box>
 
