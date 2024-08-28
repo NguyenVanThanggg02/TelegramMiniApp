@@ -213,14 +213,11 @@ const ProductFormPage: React.FC = () => {
         console.log("urls", urls);
         console.log("uuids", uuids);
 
-        // const uuids = response.data.data?.uuids || [];
-        // console.log("uuids", uuids);
-
         const newData = urls.map((url: string, index: string) => ({
           src: url,
           alt: `img ${images.length + index + 1}`,
           key: `${images.length + index + 1}`,
-          uuid: uuids[index], // Thêm UUID vào dữ liệu ảnh
+          uuid: uuids[index],
         }));
 
         // const uploadedImages = imageObjects.map((img, index) => ({
@@ -229,12 +226,11 @@ const ProductFormPage: React.FC = () => {
         // }));
 
         setImages((prevImages) => [
-          ...prevImages.filter((img) => img.uuid), // Loại bỏ các ảnh không có UUID
+          ...prevImages.filter((img) => img.uuid),
           ...newData,
         ]);
         setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
 
-        // console.log("Updated Images with UUIDs:", [...images, ...uploadedImages]);
       } catch (error) {
         console.error("Upload failed:", error);
       }
@@ -278,11 +274,11 @@ const ProductFormPage: React.FC = () => {
       // setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
 
       setImages((prevImages) => [
-        ...prevImages, // Giữ lại các ảnh cũ
+        ...prevImages, 
         ...newData,
       ]);
       setImageUUIDs((prevUUIDs) => [
-        ...prevUUIDs, // Giữ lại các UUID cũ
+        ...prevUUIDs, 
         ...product.images.map((image) => image.uuid),
       ]);
     } else {
@@ -600,6 +596,7 @@ const ProductFormPage: React.FC = () => {
                 label={t("productManagement.createProduct.display")}
                 onChange={handleCheckboxChange}
               />
+              <p>Current Status: {showButtonStatus ? "show_now" : "not_show"}</p>
             </Box>
           </Box>
 
