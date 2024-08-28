@@ -81,7 +81,7 @@ const StoreEditPage: React.FC = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-  
+
     if (files && files.length > 0) {
       const fileArray = Array.from(files);
       const newImages = fileArray.map((file) => {
@@ -94,7 +94,7 @@ const StoreEditPage: React.FC = () => {
           reader.readAsDataURL(file);
         });
       });
-  
+
       try {
         const imageData = await Promise.all(newImages);
         const imageObjects = imageData.map(({ src, file }) => ({
@@ -103,30 +103,32 @@ const StoreEditPage: React.FC = () => {
           key: file.name,
           file,
         }));
-  
+
         setImage((prevImages) => [...prevImages, ...imageObjects]);
-  
-        // Upload images and update state as needed
+
         const response = await uploadImages(store.uuid, user.uuid, fileArray);
         console.log("Upload successful:", response);
-  
+
         const data = response.data.data;
         const urls = data?.urls || [];
         const uuids = data?.uuids || [];
-  
+
+        console.log("urls", urls);
+        console.log("uuids", uuids);
+
         const newData = urls.map((url: string, index: string) => ({
           src: url,
           alt: `img ${image.length + index + 1}`,
           key: `${image.length + index + 1}`,
           uuid: uuids[index],
         }));
-  
+
         setImage((prevImages) => [
           ...prevImages.filter((img) => img.uuid),
           ...newData,
         ]);
         setImageUUID((prevUUIDs) => [...prevUUIDs, ...uuids]);
-  
+
       } catch (error) {
         console.error("Upload failed:", error);
       }
@@ -134,7 +136,6 @@ const StoreEditPage: React.FC = () => {
       console.log("No files selected.");
     }
   };
-  
 
   const handleSubmit = async () => {
     const metadataStore = {
@@ -189,18 +190,14 @@ const StoreEditPage: React.FC = () => {
                 id="chooseFile"
                 onChange={handleFileChange}
               />
-
               <img
                 className="img-store"
-                style={
-                  image.length === 0
-                    ? { filter: "grayscale(1) opacity(0.5)" }
-                    : {}
-                }
+                // style={
+                //   !image.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
+                // }
                 src={image.length > 0 ? image[0].src : DEFAULT_IMAGE_STORE}
                 alt="Store"
               />
-
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
               </Box>
@@ -261,7 +258,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-            <Select
+          <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
