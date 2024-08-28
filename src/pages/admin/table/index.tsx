@@ -27,7 +27,6 @@ import "./styles.scss";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import { saveAs } from 'file-saver';
 
 interface Table {
   uuid: string;
@@ -154,46 +153,46 @@ const dataURLToBlob = (dataURL: string): Blob => {
   return new Blob([uintArray], { type: mime });
 };
 
+
 const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   if (element.current) {
     setSpinner(true);
     element.current.style.fontFamily = "Montserrat";
     try {
       const dataURL = await domToPng(element.current, { scale: 3 });
+
       const blob = dataURLToBlob(dataURL);
       
-      // Tạo FormData và tải ảnh lên backend
       const formData = new FormData();
       formData.append('file', blob, 'qr-code.png');
       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
       console.log(response.data.data.urls);
       
       if (response.data.data.urls) {
-        // Sử dụng file-saver để tải ảnh về
-        saveAs(response.data.data.urls, "qr-code.png");
+        downloadImage(response.data.data.urls, "qr-code.png");
         alert("Success");
       } else {
-        console.error("Backend không trả về URL ảnh");
+        console.error("có url đâu :))");
       }
     } catch (error) {
-      console.error("Lỗi khi lưu QR code:", error);
+      console.error("Lỗi", error);
     } finally {
       setSpinner(false);
     }
   }
 };
 
-  // const downloadImage = (url: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
+  const downloadImage = (url: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
   
-  //   fakeLink.href = url;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+    fakeLink.href = url;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
   
   return (
     <Page className="page">
