@@ -116,12 +116,12 @@ const TablePage: React.FC = () => {
     }
   };
 
-  const downloadImage = (blob: string, fileName: string): void => {
+  const downloadImage = (base64: string, fileName: string): void => {
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
     fakeLink.download = fileName;
 
-    fakeLink.href = blob;
+    fakeLink.href = base64;
     document.body.appendChild(fakeLink);
     fakeLink.click();
     document.body.removeChild(fakeLink);
