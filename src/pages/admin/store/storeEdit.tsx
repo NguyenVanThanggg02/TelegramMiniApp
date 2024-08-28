@@ -193,12 +193,6 @@ const StoreEditPage: React.FC = () => {
         <Box>
           <Box flex justifyContent="center" alignItems="center" mb={5}>
             <Box style={{ position: "relative" }}>
-              <input
-                type="file"
-                hidden
-                id="chooseFile"
-                onChange={handleFileChange}
-              />
               <img
                 className="img-store"
                 style={
@@ -207,8 +201,13 @@ const StoreEditPage: React.FC = () => {
                 src={image.length > 0 ? image[0].src : DEFAULT_IMAGE_STORE}
                 alt="Store"
               />
-
               <Box className="upload-photo-icon">
+              <input
+                type="file"
+                hidden
+                id="chooseFile"
+                onChange={handleFileChange}
+              />
                 <CameraAltIcon />
               </Box>
             </Box>
