@@ -382,7 +382,6 @@ const Index: React.FC = () => {
             fullWidth
             style={{ margin: "10px 0", background: "var(--blue-color)" }}
             onClick={() => navigate("/menu/:store_uuid/:table_uuid")}
-            prefixIcon={<HistoryIcon />}
             size="large"
           >
             Đến menu
