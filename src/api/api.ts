@@ -397,3 +397,26 @@ export const uploadImages = async (store_uuid: string, user_uuid: string, images
     throw error;
   }
 };
+
+
+// upimagetodownqr
+export const uploadImagesToDown = async (store_uuid: string, user_uuid: string, formData: FormData): Promise<ApiResponse<any>> => {
+  const baseUrl = await getBaseUrl();
+  const urlApi = `${baseUrl}/v1/attachment/${store_uuid}/${user_uuid}`;
+  
+  try {
+    const response = await fetch(urlApi, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+    }
+    const data = await response.json();
+    return { data };
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    throw error;
+  }
+};
