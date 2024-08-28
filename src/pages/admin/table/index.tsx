@@ -170,11 +170,13 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
       const formData = new FormData();
       formData.append('file', blob, 'qr-code.png');
       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
+
       console.log(response.data.data.urls);
-      
-      if (response.data.data.urls) {
-        // Tải về ảnh từ URL mà backend trả về
-        downloadImage(response.data.data.urls, "qr-code.png");
+
+      if (response.data.data.urls && response.data.data.urls.length > 0) {
+        // Sử dụng URL đầu tiên trong mảng URLs
+        const url = response.data.data.urls[0];
+        downloadImage(url, "qr-code.png");
         alert("Success");
       } else {
         console.error("Backend không trả về URL ảnh");
@@ -187,18 +189,20 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   }
 };
 
+const downloadImage = (url: string, fileName: string): void => {
+  // Tạo đối tượng liên kết tạm thời để kích hoạt tải xuống
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
 
-  const downloadImage = (url: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-  
-    fakeLink.href = url;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+  // Thêm link vào DOM và kích hoạt tải xuống
+  document.body.appendChild(link);
+  link.click();
+
+  // Xóa link khỏi DOM
+  document.body.removeChild(link);
+};
+
   
   return (
     <Page className="page">
