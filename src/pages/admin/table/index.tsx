@@ -27,7 +27,7 @@ import "./styles.scss";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-
+import { saveAs } from 'file-saver';
 interface Table {
   uuid: string;
   name: string;
@@ -136,14 +136,13 @@ const TablePage: React.FC = () => {
 const dataURLToBlob = (dataURL: string): Blob => {
   const [header, base64] = dataURL.split(',');
   
-  // Kiểm tra header có chứa mime type không
   const mimeMatch = header.match(/:(.*?);/);
   if (!mimeMatch) {
     throw new Error("Không thể xác định MIME type từ dataURL");
   }
   
-  const mime = mimeMatch[1]; // Truy cập vào phần tử đầu tiên của kết quả match
-  const binary = atob(base64); // Giải mã base64
+  const mime = mimeMatch[1]; 
+  const binary = atob(base64); 
   const arrayBuffer = new ArrayBuffer(binary.length);
   const uintArray = new Uint8Array(arrayBuffer);
 
@@ -155,28 +154,51 @@ const dataURLToBlob = (dataURL: string): Blob => {
 };
 
 
+// const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+//   if (element.current) {
+//     setSpinner(true);
+//     element.current.style.fontFamily = "Montserrat";
+//     try {
+//       const dataURL = await domToPng(element.current, { scale: 3 });
+
+//       const blob = dataURLToBlob(dataURL);
+      
+//       const formData = new FormData();
+//       formData.append('file', blob, 'qr-code.png');
+//       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
+//       console.log(response.data.data.urls);
+      
+//       if (response.data.data.urls) {
+//         downloadImage(response.data.data.urls, "qr-code.png");
+//         alert("Success");
+//       } else {
+//         console.error("có url đâu :))");
+//       }
+//     } catch (error) {
+//       console.error("Lỗi", error);
+//     } finally {
+//       setSpinner(false);
+//     }
+//   }
+// };
+
+
+
 const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   if (element.current) {
     setSpinner(true);
     element.current.style.fontFamily = "Montserrat";
     try {
-      // Chụp ảnh DOM và chuyển đổi thành dataURL
       const dataURL = await domToPng(element.current, { scale: 3 });
-
-      // Chuyển đổi dataURL thành Blob
       const blob = dataURLToBlob(dataURL);
       
-      // Upload ảnh lên backend
       const formData = new FormData();
       formData.append('file', blob, 'qr-code.png');
       const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
-
-      console.log(response.data.data.urls);
-
-      if (response.data.data.urls && response.data.data.urls.length > 0) {
-        // Sử dụng URL đầu tiên trong mảng URLs
-        const url = response.data.data.urls[0];
-        downloadImage(url, "qr-code.png");
+      
+      if (response.data.data.urls) {
+        // Sử dụng file-saver để tải ảnh về
+        saveAs(response.data.data.urls, "qr-code.png");
         alert("Success");
       } else {
         console.error("Backend không trả về URL ảnh");
@@ -189,20 +211,19 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-const downloadImage = (url: string, fileName: string): void => {
-  // Tạo đối tượng liên kết tạm thời để kích hoạt tải xuống
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
 
-  // Thêm link vào DOM và kích hoạt tải xuống
-  document.body.appendChild(link);
-  link.click();
 
-  // Xóa link khỏi DOM
-  document.body.removeChild(link);
-};
-
+  // const downloadImage = (url: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
+  
+  //   fakeLink.href = url;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
   
   return (
     <Page className="page">
