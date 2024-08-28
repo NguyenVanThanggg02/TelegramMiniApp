@@ -26,7 +26,7 @@ import "./styles.scss";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import saveAs  from 'file-saver';
+
 interface Table {
   uuid: string;
   name: string;
@@ -101,42 +101,13 @@ const TablePage: React.FC = () => {
     });
   };
 
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await domToPng(element.current, { scale: 3 });
-  //       downloadImage(dataUrl, "hehe");
-  //       alert("success");
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
-
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
-
-
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await domToPng(element.current, { scale: 3 });
-        downloadBase64Image(dataUrl, "image.png"); 
+        downloadImage(dataUrl, "hehe");
         alert("success");
       } catch (error) {
         console.error("Error saving QR code:", error);
@@ -146,22 +117,17 @@ const TablePage: React.FC = () => {
     }
   };
 
-const downloadBase64Image = (base64Image: string, fileName: string): void => {
-  // Tách phần dữ liệu và phần MIME type
-  const [mimeType, data] = base64Image.split(',');
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  // Chuyển đổi base64 thành blob
-  const byteCharacters = atob(data);
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-  const byteArray = new Uint8Array(byteNumbers);
-  const blob = new Blob([byteArray], { type: mimeType.split(':')[1].split(';')[0] });
-
-  // Sử dụng saveAs để tải xuống
-  saveAs(blob, fileName);
-};
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
   return (
     <Page className="page">
