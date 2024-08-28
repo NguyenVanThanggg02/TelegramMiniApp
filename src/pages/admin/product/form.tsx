@@ -178,81 +178,66 @@ const ProductFormPage: React.FC = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-    // if (user.login && user.authToken) {
-      if (files && files.length > 0) {
-        const fileArray = Array.from(files);
-        const newImages = fileArray.map((file) => {
-          const reader = new FileReader();
-          return new Promise<{ src: string; file: File }>((resolve, reject) => {
-            reader.onloadend = () => {
-              resolve({ src: reader.result as string, file });
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-          });
+  
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      const newImages = fileArray.map((file) => {
+        const reader = new FileReader();
+        return new Promise<{ src: string; file: File }>((resolve, reject) => {
+          reader.onloadend = () => {
+            resolve({ src: reader.result as string, file });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
         });
-
-        try {
-          const imageData = await Promise.all(newImages);
-          const imageObjects = imageData.map(({ src, file }) => ({
-            src,
-            alt: `Preview image ${file.name}`,
-            key: file.name,
-            file,
-          }));
-
-          setImages((prevImages) => [...prevImages, ...imageObjects]);
-
-          const response = await uploadImages(store.uuid, user.uuid, fileArray);
-          console.log("Upload successful:", response);
-
-          // const uuids = response.data.data?.uuids || [];
-          // console.log("uuids", uuids);
-          console.log("urls", response.data.data?.urls);
-
-          const newData =
-          response.data.data?.urls && Array.isArray(response.data.data?.urls)
-            ? response.data.data?.urls.map((url: string, index: string) => ({
-                src: url,
-                alt: `img ${images.length + index + 1}`,
-                key: `${images.length + index + 1}`,
-              }))
-            : [
-                {
-                  src: response.data.data?.urls || "", 
-                  alt: `img ${images.length + 1}`,
-                  key: `${images.length + 1}`,
-                },
-              ];
-
-          // const uploadedImages = imageObjects.map((img, index) => ({
-          //   ...img,
-          //   uuid: uuids[index],
-          // }));
-
-          // setImages((prevImages) =>
-          //   prevImages.filter((img) => img.uuid).concat(uploadedImages)
-          // );
-          // setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
-
-          const newImageUUIDs =
-          response.data.data?.uuids && Array.isArray(response.data.data?.uuids) ? response.data.data?.uuids : [];
-          setImages([...images, ...newData]);
-          setImageUUIDs([...imageUUIDs, ...newImageUUIDs]);
-          
-
-          // console.log("Updated Images with UUIDs:", [
-          //   ...images,
-          //   ...uploadedImages,
-          // ]);
-        } catch (error) {
-          console.error("Upload failed:", error);
-        }
-      } else {
-        console.log("No files selected.");
+      });
+  
+      try {
+        const imageData = await Promise.all(newImages);
+        const imageObjects = imageData.map(({ src, file }) => ({
+          src,
+          alt: `Preview image ${file.name}`,
+          key: file.name,
+          file,
+        }));
+  
+        setImages((prevImages) => [...prevImages, ...imageObjects]);
+  
+        const response = await uploadImages(store.uuid, user.uuid, fileArray);
+        console.log("Upload successful:", response);
+  
+        // Xử lý phản hồi từ API
+        const data = response.data.data;
+        const urls = data?.urls || [];
+        const uuids = data?.uuids || [];
+  
+        console.log("urls", urls);
+        console.log("uuids", uuids);
+  
+        // Tạo danh sách ảnh mới với URL
+        const newData = urls.map((url:string, index: string) => ({
+          src: url,
+          alt: `img ${images.length + index + 1}`,
+          key: `${images.length + index + 1}`,
+          uuid: uuids[index], // Thêm UUID vào dữ liệu ảnh
+        }));
+  
+        // Cập nhật trạng thái ảnh và UUID
+        setImages((prevImages) => [
+          ...prevImages.filter((img) => !img.uuid), // Loại bỏ các ảnh không có UUID
+          ...newData,
+        ]);
+        setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
+  
+        console.log("Updated Images with UUIDs:", [...images, ...newData]);
+      } catch (error) {
+        console.error("Upload failed:", error);
       }
-    // }
+    } else {
+      console.log("No files selected.");
+    }
   };
+  
   const loadProductDetails = async (product_uuid: string) => {
     const data = await fetchProductDetails(product_uuid);
     if (!data?.error && data.data) {  
