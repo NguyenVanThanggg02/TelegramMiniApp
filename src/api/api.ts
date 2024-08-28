@@ -398,7 +398,6 @@ export const uploadImages = async (store_uuid: string, user_uuid: string, images
   }
 };
 
-
 // upimagetodownqr
 export const uploadImagesToDown = async (store_uuid: string, user_uuid: string, formData: FormData): Promise<ApiResponse<any>> => {
   const baseUrl = await getBaseUrl();

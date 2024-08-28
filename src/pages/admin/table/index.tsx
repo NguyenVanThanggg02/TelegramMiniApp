@@ -14,7 +14,6 @@ import {
   spinnerState,
   storeListState,
   // userState,
-  // userState,
 } from "../../../state";
 import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
@@ -40,7 +39,6 @@ const TablePage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
-  // const [user, ] = useRecoilState(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -103,118 +101,34 @@ const TablePage: React.FC = () => {
     });
   };
 
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await domToPng(element.current, { scale: 3 });
-  //       downloadImage(dataUrl, "hehe");
-  //       alert("success");
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
-
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
-
-
-// Chuyển đổi dataURL thành Blob
-// const dataURLToBlob = (dataURL: string): Blob => {
-//   const [header, base64] = dataURL.split(',');
-  
-//   const mimeMatch = header.match(/:(.*?);/);
-//   if (!mimeMatch) {
-//     throw new Error("Không thể xác định MIME type từ dataURL");
-//   }
-  
-//   const mime = mimeMatch[1]; 
-//   const binary = atob(base64); 
-//   const arrayBuffer = new ArrayBuffer(binary.length);
-//   const uintArray = new Uint8Array(arrayBuffer);
-
-//   for (let i = 0; i < binary.length; i++) {
-//     uintArray[i] = binary.charCodeAt(i);
-//   }
-
-//   return new Blob([uintArray], { type: mime });
-// };
-
-
-const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  if (element.current) {
-    setSpinner(true);
-    element.current.style.fontFamily = "Montserrat";
-    try {
-      const dataURL = await domToPng(element.current, { scale: 3 });
-
-      // const blob = dataURLToBlob(dataURL);
-      
-      // const formData = new FormData();
-      // formData.append('file', blob, 'qr-code.png');
-      // const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
-      // console.log(response.data.data.urls);
-      
-      // if (response.data.data.urls) {
-        downloadImage(dataURL);
-        alert("Success");
-      // } else {
-      //   console.error("có url đâu :))");
-      // }
-    } catch (error) {
-      console.error("Lỗi", error);
-    } finally {
-      setSpinner(false);
-    }
-  }
-};
-
-  // const downloadImage = (url: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-  
-  //   fakeLink.href = url;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
-
-  const downloadImage = async (url: string) => {
-    const _url = url
-    try {
-      const response = await fetch(_url);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'image.jpg'; // Tên file sau khi tải về
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error downloading image:', error);
+  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+    if (element.current) {
+      setSpinner(true);
+      element.current.style.fontFamily = "Montserrat";
+      try {
+        const dataUrl = await domToPng(element.current, { scale: 3 });
+        downloadImage(dataUrl, "hehe");
+        alert("success");
+      } catch (error) {
+        console.error("Error saving QR code:", error);
+      } finally {
+        setSpinner(false);
+      }
     }
   };
 
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
-  
   return (
     <Page className="page">
       <div className="section-container">
