@@ -178,60 +178,66 @@ const ProductFormPage: React.FC = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-  
-    if (files && files.length > 0) {
-      const fileArray = Array.from(files);
-      const newImages = fileArray.map((file) => {
-        const reader = new FileReader();
-        return new Promise<{ src: string; file: File }>((resolve, reject) => {
-          reader.onloadend = () => {
-            resolve({ src: reader.result as string, file });
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
+    // if (user.login && user.authToken) {
+      if (files && files.length > 0) {
+        const fileArray = Array.from(files);
+        const newImages = fileArray.map((file) => {
+          const reader = new FileReader();
+          return new Promise<{ src: string; file: File }>((resolve, reject) => {
+            reader.onloadend = () => {
+              resolve({ src: reader.result as string, file });
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+          });
         });
-      });
-  
-      try {
-        const imageData = await Promise.all(newImages);
-        const imageObjects = imageData.map(({ src, file }) => ({
-          src,
-          alt: `Preview image ${file.name}`,
-          key: file.name,
-          file
-        }));
-  
-        setImages((prevImages) => [...prevImages, ...imageObjects]);
-  
-        const response = await uploadImages(store.uuid, user.uuid, fileArray);
-        console.log("Upload successful:", response);
-  
-        const uuids = response.data.data?.uuids || [];
-        console.log("uuids", uuids);
-        
-        const uploadedImages = imageObjects.map((img, index) => ({
-          ...img,
-          uuid: uuids[index], 
-        }));
-  
-        setImages((prevImages) =>
-          prevImages
-            .filter(img => img.uuid) 
-            .concat(uploadedImages) 
-        );
-        setImageUUIDs((prevUUIDs) => [
-          ...prevUUIDs,
-          ...uuids
-        ]);
-  
-        console.log("Updated Images with UUIDs:", [...images, ...uploadedImages]);
-        
-      } catch (error) {
-        console.error("Upload failed:", error);
+
+        try {
+          const imageData = await Promise.all(newImages);
+          const imageObjects = imageData.map(({ src, file }) => ({
+            src,
+            alt: `Preview image ${file.name}`,
+            key: file.name,
+            file,
+          }));
+
+          setImages((prevImages) => [...prevImages, ...imageObjects]);
+
+          const response = await uploadImages(store.uuid, user.uuid, fileArray);
+          console.log("Upload successful:", response);
+
+        const obj = response.data; 
+        const data = obj.data;
+          console.log(`-----------------`);
+          console.log(`data.urls: ${data.urls}`);
+
+          const uuids = data.uuids || [];
+          console.log("uuids", uuids);
+
+          // const uuids = response.data.data?.uuids || [];
+          // console.log("uuids", uuids);
+
+          const uploadedImages = imageObjects.map((img, index) => ({
+            ...img,
+            uuid: uuids[index],
+          }));
+
+          setImages((prevImages) =>
+            prevImages.filter((img) => img.uuid).concat(uploadedImages)
+          );
+          setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
+
+          console.log("Updated Images with UUIDs:", [
+            ...images,
+            ...uploadedImages,
+          ]);
+        } catch (error) {
+          console.error("Upload failed:", error);
+        }
+      } else {
+        console.log("No files selected.");
       }
-    } else {
-      console.log("No files selected.");
-    }
+    // }
   };
   const loadProductDetails = async (product_uuid: string) => {
     const data = await fetchProductDetails(product_uuid);
