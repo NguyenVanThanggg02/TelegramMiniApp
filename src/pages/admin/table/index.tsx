@@ -16,7 +16,7 @@ import {
   userState,
   // userState,
 } from "../../../state";
-import { fetchTablesForStore, uploadImages, uploadImagesToDown } from "../../../api/api";
+import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import { APP_VERSION } from "../../../constants";
@@ -131,7 +131,7 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
-  
+
 // Chuyển đổi dataURL thành Blob
 const dataURLToBlob = (dataURL: string): Blob => {
   const [header, base64] = dataURL.split(',');
