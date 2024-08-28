@@ -1,14 +1,12 @@
-import React, {useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState } from "react";
 import { Button, Input, Box, Page, useSnackbar, Select } from "zmp-ui";
-import { getStoreByUUID, updateStore } from "../../../api/api";
+import { getStoreByUUID, updateStore, uploadImages } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getBaseUrl } from "../../../api/apiBase";
-import { openMediaPicker } from "zmp-sdk/apis";
 import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { userState } from "../../../state";
-import { useRecoilState } from "recoil";
+import { storeState, userState } from "../../../state";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { SelectValueType } from "zmp-ui/select";
 
 interface StoreDetail {
@@ -23,6 +21,15 @@ interface StoreDetail {
   };
 }
 
+interface ImageData {
+  src: string;
+  alt: string;
+  key: string;
+  file?: File; 
+  uuid?: string; 
+}
+
+
 interface StoreData {
   name: string;
   metadata: string;
@@ -35,8 +42,9 @@ const StoreEditPage: React.FC = () => {
   const [storeData, setStoreData] = useState<StoreData | undefined>(undefined);
   const [storeName, setStoreName] = useState<string | undefined>(undefined);
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
-  const [image, setImage] = useState<string>("");
-  const [imageUUID, setImageUUID] = useState<string>("");
+  const [images, setImages] = useState<ImageData[]>([]);
+  const [imageUUIDs, setImageUUIDs] = useState<string[]>([]);
+  const store = useRecoilValue(storeState);
 
   const snackbar = useSnackbar();
   const navigate = useNavigate();
@@ -48,8 +56,8 @@ const StoreEditPage: React.FC = () => {
         const detail = JSON.parse(storeData.metadata);
         setStoreDetail(detail || {});
         if (detail?.avatar) {
-          setImage(detail.avatar?.url);
-          setImageUUID(detail.avatar?.uuid);
+          setImages(detail.avatar?.url);
+          setImageUUIDs(detail.avatar?.uuid);
         }
       } catch (error) {
         console.error("Error parsing store metadata:", error);
@@ -72,43 +80,76 @@ const StoreEditPage: React.FC = () => {
     getStoreDetail();
   }, []);
 
-  const handleSubmitPicture = async () => {
-    const baseUrl = await getBaseUrl();
-    openMediaPicker({
-      type: "photo",
-      serverUploadUrl: `${baseUrl}/v1/attachment/${store_uuid}/${user.uuid}`,
-      success: (res) => {
-        const obj = JSON.parse(res.data);
-        const data = obj.data;
-        console.log(`-----------------`);
-        console.log(`data: ${data}`);
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
 
-        setImage(data.urls[0]);
-        setImageUUID(data.uuids[0]);
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+      const newImages = fileArray.map((file) => {
+        const reader = new FileReader();
+        return new Promise<{ src: string; file: File }>((resolve, reject) => {
+          reader.onloadend = () => {
+            resolve({ src: reader.result as string, file });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
 
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.uploadImageSuccess"),
-          type: "success",
-        });
-      },
-      fail: (error) => {
-        console.log(error);
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.uploadImageFail"),
-          type: "error",
-        });
-      },
-    });
+      try {
+        const imageData = await Promise.all(newImages);
+        const imageObjects = imageData.map(({ src, file }) => ({
+          src,
+          alt: `Preview image ${file.name}`,
+          key: file.name,
+          file,
+        }));
+
+        setImages((prevImages) => [...prevImages, ...imageObjects]);
+
+        const response = await uploadImages(store.uuid, user.uuid, fileArray);
+        console.log("Upload successful:", response);
+
+        const data = response.data.data;
+        const urls = data?.urls || [];
+        const uuids = data?.uuids || [];
+
+        console.log("urls", urls);
+        console.log("uuids", uuids);
+
+        const newData = urls.map((url: string, index: string) => ({
+          src: url,
+          alt: `img ${images.length + index + 1}`,
+          key: `${images.length + index + 1}`,
+          uuid: uuids[index],
+        }));
+
+        // const uploadedImages = imageObjects.map((img, index) => ({
+        //   ...img,
+        //   uuid: uuids[index],
+        // }));
+
+        setImages((prevImages) => [
+          ...prevImages.filter((img) => img.uuid),
+          ...newData,
+        ]);
+        setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
+
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
+    } else {
+      console.log("No files selected.");
+    }
   };
 
   const handleSubmit = async () => {
     const metadataStore = {
-      avatar: image
+      avatar: images
         ? {
-            url: image,
-            uuid: imageUUID,
+            url: images,
+            uuid: imageUUIDs,
           }
         : {},
       description: storeDetail.description,
@@ -151,12 +192,19 @@ const StoreEditPage: React.FC = () => {
       <div className="section-container">
         <Box>
           <Box flex justifyContent="center" alignItems="center" mb={5}>
-            <Box style={{ position: "relative" }} onClick={handleSubmitPicture}>
-              <img
+            <Box style={{ position: "relative" }}>
+            <input
+              type="file"
+              hidden
+              id="chooseFile"
+              onChange={handleFileChange}
+            />
+             <img
                 className="img-store"
-                style={!image ? { filter: "grayscale(1) opacity(0.5)" } : {}}
-                src={image || DEFAULT_IMAGE_STORE}
-              ></img>
+                style={!images.length ? { filter: "grayscale(1) opacity(0.5)" } : {}}
+                src={images.length > 0 ? images[0].src : DEFAULT_IMAGE_STORE}
+                alt={images.length > 0 ? images[0].alt : "Default image"}
+              />
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
               </Box>
