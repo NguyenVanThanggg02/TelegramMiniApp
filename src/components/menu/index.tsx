@@ -281,48 +281,53 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   };
   
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!store_uuid) return;
-      
-      await getStoreDetail();
-  
-      if (tenant_id) {
-        await cloudStorage.set('subdomain', tenant_id); 
-      } else {
-        await fetchCategoriesByStore(store_uuid);
-        await fetchProductsByStore(store_uuid);
-        await fetchTablesByStore(store_uuid);
-      }
-  
+  const HARD_CODED_STORE_ID = 'b5d2f76d-ce6d-4304-a124-a171b40178a6';
+
+useEffect(() => {
+  const fetchData = async () => {
+    const storeId = HARD_CODED_STORE_ID; // Sử dụng ID cửa hàng hard-coded
+
+    if (!storeId) return;
+
+    await getStoreDetail(); // Gọi hàm này với ID cửa hàng hard-coded
+
+    if (tenant_id) {
+      await cloudStorage.set('subdomain', tenant_id);
+    } else {
+      await fetchCategoriesByStore(storeId);
+      await fetchProductsByStore(storeId);
+      await fetchTablesByStore(storeId);
+    }
+
     const subdomain: string = tenant_id || '';
-    
-    const name = ''; 
-    const created_at = ''; 
+
+    const name = '';
+    const created_at = '';
     setStore({
-      uuid: store_uuid,
+      uuid: storeId,
       subdomain,
       name,
       created_at,
       store_settings: [],
       ai_requests_count: 0
     });
-  
-      if (!categoryList.categories.length) {
-        await fetchCategoriesByStore(store_uuid);
-      }
-  
-      if (!productList.products.length) {
-        await fetchProductsByStore(store_uuid);
-      }
-  
-      if (!tableList.tables.length) {
-        await fetchTablesByStore(store_uuid);
-      }
-    };
-  
-    fetchData();
-  }, [store_uuid]);
+
+    if (!categoryList.categories.length) {
+      await fetchCategoriesByStore(storeId);
+    }
+
+    if (!productList.products.length) {
+      await fetchProductsByStore(storeId);
+    }
+
+    if (!tableList.tables.length) {
+      await fetchTablesByStore(storeId);
+    }
+  };
+
+  fetchData();
+}, []);
+
 
   interface ProductImage {
     uuid: string;

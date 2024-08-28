@@ -116,7 +116,7 @@ const Index: React.FC = () => {
             setScanResult(result.data);
             setShowScanner(false);
             const urlRedirect = new URL(result.data);
-            const storeId = urlRedirect.searchParams.get("b5d2f76d-ce6d-4304-a124-a171b40178a6");
+            const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
             const tenantId = urlRedirect.searchParams.get("tenantId");
 
@@ -382,6 +382,7 @@ const Index: React.FC = () => {
             fullWidth
             style={{ margin: "10px 0", background: "var(--blue-color)" }}
             onClick={() => navigate("/menu/:store_uuid/:table_uuid")}
+            prefixIcon={<HistoryIcon />}
             size="large"
           >
             Đến menu
