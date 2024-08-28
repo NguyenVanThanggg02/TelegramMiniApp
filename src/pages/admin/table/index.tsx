@@ -26,7 +26,7 @@ import "./styles.scss";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import { saveAs } from 'file-saver';
+import saveAs  from 'file-saver';
 interface Table {
   uuid: string;
   name: string;
@@ -162,7 +162,6 @@ const downloadBase64Image = (base64Image: string, fileName: string): void => {
   // Sử dụng saveAs để tải xuống
   saveAs(blob, fileName);
 };
-
 
   return (
     <Page className="page">
