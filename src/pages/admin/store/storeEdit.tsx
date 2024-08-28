@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useRef, useState } from "react";
 import { Button, Input, Box, Page, useSnackbar,Select } from "zmp-ui";
 import { getStoreByUUID, updateStore, uploadImages } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,6 +43,7 @@ const StoreEditPage: React.FC = () => {
   const [image, setImage] = useState<ImageData[]>([]);
   const [imageUUID, setImageUUID] = useState<string[]>([]);
   const store = useRecoilValue(storeState);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const snackbar = useSnackbar();
   const navigate = useNavigate();
@@ -187,28 +188,37 @@ const StoreEditPage: React.FC = () => {
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, bankName: value as string }));
   };
 
+  const handleClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+
   return (
     <Page className="page">
       <div className="section-container">
         <Box>
           <Box flex justifyContent="center" alignItems="center" mb={5}>
-            <Box style={{ position: "relative" }}>
-              <img
-                className="img-store"
-                style={
-                  !image.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
-                }
-                src={image.length > 0 ? image[0].src : DEFAULT_IMAGE_STORE}
-              />
-              <Box className="upload-photo-icon">
+            <Box
+              className="upload-photo-icon"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                cursor: "pointer",
+              }}
+              onClick={handleClick}
+            >
               <input
                 type="file"
                 hidden
-                id="chooseFile"
+                ref={fileInputRef}
                 onChange={handleFileChange}
               />
-                <CameraAltIcon />
-              </Box>
+              <CameraAltIcon />
             </Box>
           </Box>
           <Box mb={2}>
