@@ -13,10 +13,10 @@ import {
   loadingState,
   spinnerState,
   storeListState,
-  userState,
+  // userState,
   // userState,
 } from "../../../state";
-import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
+import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import { APP_VERSION } from "../../../constants";
@@ -40,7 +40,7 @@ const TablePage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
-  const [user, ] = useRecoilState(userState);
+  // const [user, ] = useRecoilState(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -133,25 +133,25 @@ const TablePage: React.FC = () => {
 
 
 // Chuyển đổi dataURL thành Blob
-const dataURLToBlob = (dataURL: string): Blob => {
-  const [header, base64] = dataURL.split(',');
+// const dataURLToBlob = (dataURL: string): Blob => {
+//   const [header, base64] = dataURL.split(',');
   
-  const mimeMatch = header.match(/:(.*?);/);
-  if (!mimeMatch) {
-    throw new Error("Không thể xác định MIME type từ dataURL");
-  }
+//   const mimeMatch = header.match(/:(.*?);/);
+//   if (!mimeMatch) {
+//     throw new Error("Không thể xác định MIME type từ dataURL");
+//   }
   
-  const mime = mimeMatch[1]; 
-  const binary = atob(base64); 
-  const arrayBuffer = new ArrayBuffer(binary.length);
-  const uintArray = new Uint8Array(arrayBuffer);
+//   const mime = mimeMatch[1]; 
+//   const binary = atob(base64); 
+//   const arrayBuffer = new ArrayBuffer(binary.length);
+//   const uintArray = new Uint8Array(arrayBuffer);
 
-  for (let i = 0; i < binary.length; i++) {
-    uintArray[i] = binary.charCodeAt(i);
-  }
+//   for (let i = 0; i < binary.length; i++) {
+//     uintArray[i] = binary.charCodeAt(i);
+//   }
 
-  return new Blob([uintArray], { type: mime });
-};
+//   return new Blob([uintArray], { type: mime });
+// };
 
 
 const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
@@ -161,19 +161,19 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     try {
       const dataURL = await domToPng(element.current, { scale: 3 });
 
-      const blob = dataURLToBlob(dataURL);
+      // const blob = dataURLToBlob(dataURL);
       
-      const formData = new FormData();
-      formData.append('file', blob, 'qr-code.png');
-      const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
-      console.log(response.data.data.urls);
+      // const formData = new FormData();
+      // formData.append('file', blob, 'qr-code.png');
+      // const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
+      // console.log(response.data.data.urls);
       
-      if (response.data.data.urls) {
-        downloadImage(response.data.data.urls);
+      // if (response.data.data.urls) {
+        downloadImage(dataURL);
         alert("Success");
-      } else {
-        console.error("có url đâu :))");
-      }
+      // } else {
+      //   console.error("có url đâu :))");
+      // }
     } catch (error) {
       console.error("Lỗi", error);
     } finally {
