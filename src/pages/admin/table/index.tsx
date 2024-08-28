@@ -116,17 +116,16 @@ const TablePage: React.FC = () => {
     }
   };
 
-  const downloadImage = (base64: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-
-    fakeLink.href = base64;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+  const downloadImage = async (url: string, fileName: string) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName || 'download.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
 
   return (
     <Page className="page">
