@@ -1,31 +1,31 @@
-// const sendPhotoToTelegram = async (base64) => {
-//     // Chuyển đổi base64 thành Blob
-//     const response = await fetch(data:image/png;base64,${base64});
-//     const blob = await response.blob();
-//     const file = new File([blob], "image.png", { type: "image/png" });
-  
-//     const formData = new FormData();
-//     formData.append('photo', file);
-  
+// const sendPhotoToTelegram = async (base64: string): Promise<void> => {
 //     try {
+//       // Chuyển đổi base64 thành Blob
+//       const response = await fetch(`data:image/png;base64,${base64}`);
+//       const blob = await response.blob();
+//       const file = new File([blob], "image.png", { type: "image/png" });
+  
+//       const formData = new FormData();
+//       formData.append('photo', file);
+  
 //       // Gửi ảnh đến Telegram
-//       const response = await fetch('https://api.telegram.org/bot<YOUR_BOT_TOKEN>/sendPhoto', {
+//       const sendResponse = await fetch('https://api.telegram.org/bot<YOUR_BOT_TOKEN>/sendPhoto', {
 //         method: 'POST',
 //         body: formData,
 //       });
   
-//       const result = await response.json();
+//       const result = await sendResponse.json();
   
 //       if (result.ok) {
-//         const fileId = result.result.photo.pop().file_id;
+//         const fileId: string = result.result.photo.pop().file_id;
         
 //         // Lấy link tải ảnh từ file_id
-//         const getFileResponse = await fetch(https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getFile?file_id=${fileId});
+//         const getFileResponse = await fetch(`https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getFile?file_id=${fileId}`);
 //         const fileResult = await getFileResponse.json();
   
 //         if (fileResult.ok) {
-//           const filePath = fileResult.result.file_path;
-//           const fileUrl = https://api.telegram.org/file/bot<YOUR_BOT_TOKEN>/${filePath};
+//           const filePath: string = fileResult.result.file_path;
+//           const fileUrl: string = `https://api.telegram.org/file/bot<YOUR_BOT_TOKEN>/${filePath}`;
   
 //           console.log('Image URL:', fileUrl);
   
@@ -46,3 +46,4 @@
 //       console.error('Error:', error);
 //     }
 //   };
+  
