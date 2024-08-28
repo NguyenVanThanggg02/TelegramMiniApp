@@ -596,7 +596,6 @@ const ProductFormPage: React.FC = () => {
                 label={t("productManagement.createProduct.display")}
                 onChange={handleCheckboxChange}
               />
-              <p>Current Status: {showButtonStatus ? "show_now" : "not_show"}</p>
             </Box>
           </Box>
 
