@@ -27,6 +27,7 @@ import "./styles.scss";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
+import { saveAs } from "file-saver";
 
 interface Table {
   uuid: string;
@@ -169,7 +170,8 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
       console.log(response.data.data.urls);
       
       if (response.data.data.urls) {
-        downloadImage(response.data.data.urls, "qr-code.png");
+        saveAs(response.data.data.urls, "qr-code.png")
+        // downloadImage(response.data.data.urls, "qr-code.png");
         alert("Success");
       } else {
         console.error("có url đâu :))");
@@ -182,17 +184,17 @@ const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
   }
 };
 
-  const downloadImage = (url: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+  // const downloadImage = (url: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
   
-    fakeLink.href = url;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+  //   fakeLink.href = url;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
   
   return (
     <Page className="page">
