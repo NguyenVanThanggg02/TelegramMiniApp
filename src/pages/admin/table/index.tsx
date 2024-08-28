@@ -13,6 +13,7 @@ import {
   loadingState,
   spinnerState,
   storeListState,
+  // userState,
 } from "../../../state";
 import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
@@ -116,12 +117,12 @@ const TablePage: React.FC = () => {
     }
   };
 
-  const downloadImage = (base64: string, fileName: string): void => {
+  const downloadImage = (blob: string, fileName: string): void => {
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
     fakeLink.download = fileName;
 
-    fakeLink.href = base64;
+    fakeLink.href = blob;
     document.body.appendChild(fakeLink);
     fakeLink.click();
     document.body.removeChild(fakeLink);
