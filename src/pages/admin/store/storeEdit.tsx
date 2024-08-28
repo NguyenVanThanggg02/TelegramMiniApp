@@ -81,7 +81,7 @@ const StoreEditPage: React.FC = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-
+  
     if (files && files.length > 0) {
       const fileArray = Array.from(files);
       const newImages = fileArray.map((file) => {
@@ -94,7 +94,7 @@ const StoreEditPage: React.FC = () => {
           reader.readAsDataURL(file);
         });
       });
-
+  
       try {
         const imageData = await Promise.all(newImages);
         const imageObjects = imageData.map(({ src, file }) => ({
@@ -103,32 +103,30 @@ const StoreEditPage: React.FC = () => {
           key: file.name,
           file,
         }));
-
+  
         setImage((prevImages) => [...prevImages, ...imageObjects]);
-
+  
+        // Upload images and update state as needed
         const response = await uploadImages(store.uuid, user.uuid, fileArray);
         console.log("Upload successful:", response);
-
+  
         const data = response.data.data;
         const urls = data?.urls || [];
         const uuids = data?.uuids || [];
-
-        console.log("urls", urls);
-        console.log("uuids", uuids);
-
+  
         const newData = urls.map((url: string, index: string) => ({
           src: url,
           alt: `img ${image.length + index + 1}`,
           key: `${image.length + index + 1}`,
           uuid: uuids[index],
         }));
-
+  
         setImage((prevImages) => [
           ...prevImages.filter((img) => img.uuid),
           ...newData,
         ]);
         setImageUUID((prevUUIDs) => [...prevUUIDs, ...uuids]);
-
+  
       } catch (error) {
         console.error("Upload failed:", error);
       }
@@ -136,6 +134,7 @@ const StoreEditPage: React.FC = () => {
       console.log("No files selected.");
     }
   };
+  
 
   const handleSubmit = async () => {
     const metadataStore = {
