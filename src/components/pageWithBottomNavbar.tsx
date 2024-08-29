@@ -1,8 +1,8 @@
-// import React from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import BottomNavBar from "./bottom-navbar";
 
-export default function PageWithBottomNavBar() {
+const PageWithBottomNavBar: React.FC = () => {
   return (
     <>
       <Outlet />
@@ -10,3 +10,4 @@ export default function PageWithBottomNavBar() {
     </>
   );
 }
+export default PageWithBottomNavBar
