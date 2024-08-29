@@ -26,7 +26,7 @@ import "./styles.scss";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
-import { toPng } from 'html-to-image';
+import { toSvg } from 'html-to-image';
 
 interface Table {
   uuid: string;
@@ -110,7 +110,7 @@ const TablePage: React.FC = () => {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
-        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        const dataUrl = await toSvg(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
         downloadImage(dataUrl, "qr-code.png");
         alert("success");
       } catch (error) {
