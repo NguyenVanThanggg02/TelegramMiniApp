@@ -5,9 +5,15 @@
     <meta charset="utf-8"/>
     <meta
     http-equiv="Content-Security-Policy"
-    content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; worker-src 'self' blob:; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';"
-    
-   />
+    content="
+    default-src 'self' blob: data:; 
+    img-src 'self' blob: data:; 
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; 
+    style-src 'self' 'unsafe-inline'; 
+    worker-src 'self' blob:; 
+    connect-src 'self' https://endpoint.hatkeo.com https://raw.githubusercontent.com; 
+    font-src 'self' https://h5.zadn.vn;
+  "   />
   
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
