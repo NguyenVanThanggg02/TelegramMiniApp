@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
@@ -8,26 +8,17 @@ import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 
 interface ScanItem {
   qrData: string;
-  storeName: string;
-  tableName: string;
 }
 
 const RecentScans: React.FC = () => {
   const navigate = useNavigate();
-  // const scanList: ScanItem[] = JSON.parse(localStorage.getItem("scanList") || "[]");
-  const [scanList, setScanList] = useState<ScanItem[]>([]);
+  const scanList: ScanItem[] = JSON.parse(localStorage.getItem("scanList") || "[]");
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const { t } = useTranslation("global");
   const snackbar = useSnackbar();
 
-  useEffect(() => {
-    const storedScanList = JSON.parse(localStorage.getItem("scanList") || "[]");
-    setScanList(storedScanList);
-  }, []);
-
   console.log(scanList);
-  
 
   const toggleSelect = (index: number) => {
     setSelectedIndexes((prevSelectedIndexes) =>
@@ -110,12 +101,11 @@ const RecentScans: React.FC = () => {
                   <TableRestaurantIcon />
                 </div>
                 <div className="link-details">
-                  <a
+                  <a style={{color:'black'}}
                     className="link-text-recent"
                     href="#"
                     onClick={() => handleRedirect(s.qrData)}
                   >
-                    {/* {s.storeName} - {s.tableName} */}
                     {s.qrData}
                   </a>
                 </div>
