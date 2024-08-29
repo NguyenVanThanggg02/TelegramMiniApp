@@ -1,6 +1,7 @@
 import  { useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
+  Avatar,
   Box,
   Button,
   DatePicker,
@@ -46,9 +47,13 @@ import ConfirmModal from "../../../components/modal/confirmModal";
 import { useCloudStorage } from "@telegram-apps/sdk-react";
 
 
+interface User {
+  avatar: string;
+}
+
 interface Order {
   uuid:string;
-  user?:string
+  user?:User
   created_at: string;
   store_name: string;
   table_uuid: string;
@@ -525,10 +530,10 @@ const OrderManagement: React.FC = () => {
                     className="order-table-mobile_box"
                   >
                     <Box flex alignItems="center" justifyContent="center">
-                      {/* <Avatar
-                        src={order.user.avatar}
+                      <Avatar
+                        src={order.user?.avatar}
                         style={{ marginRight: "10px" }}
-                      /> */}
+                      />
                       <Text size="xLarge" bold>
                         {
                           tableList.tables.find(
