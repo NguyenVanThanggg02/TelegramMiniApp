@@ -122,13 +122,11 @@ const TablePage: React.FC = () => {
   };
   
   const downloadImage = (blob: string, fileName: string): void => {
-    console.log(blob);
-    
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
     fakeLink.download = fileName;
 
-    fakeLink.href = 'https://i1-giaitri.vnecdn.net/2024/06/02/doraemon-1-jpeg-9271-1717343725.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=mNwQ3NJT3T1BH_LF49s1Fg';
+    fakeLink.href = blob;
     document.body.appendChild(fakeLink);
     fakeLink.click();
     document.body.removeChild(fakeLink);
