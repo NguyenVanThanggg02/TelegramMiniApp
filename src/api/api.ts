@@ -9,31 +9,13 @@ import {
 import { createTenantURL } from "@/api/urlHelper";
 
 
-interface User {
-  avatar: string;
-}
-
-interface Order {
-  uuid:string;
-  user?:User
-  created_at: string;
-  store_name: string;
-  table_uuid: string;
-  store_uuid: string
-  status: string;
-  products: { product_name: string; quantity: number; unit_price: number }[];
-  notes?: string;
-  actual_payment_amount: number;
-  value: number;
-}
-
 interface ApiResponse<T> {
   name?: string;
   uuid?: string;
   subdomain?: string;
   data?: T;       
   error?: string | unknown;    
-  orders?: Order[];
+  orders?: [];
   status?: string;
   expired_at?: string;
 }
