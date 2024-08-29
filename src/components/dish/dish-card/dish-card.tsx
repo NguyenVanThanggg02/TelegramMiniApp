@@ -6,13 +6,19 @@ import { useRecoilState } from "recoil";
 import { cartState } from "../../../state";
 
 // Define the types for the dish item and props
+interface DishImage {
+  uuid: string;
+  url: string;
+}
+
 interface DishItem {
   uuid: string;
   name: string;
   price: number;
-  images?: { url: string }[];
+  images?: DishImage[];
   describe?: string;
 }
+
 
 interface DishCardProps {
   isAdmin?: boolean;
