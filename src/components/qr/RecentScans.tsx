@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
+import { Button, Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
@@ -74,14 +74,14 @@ const RecentScans: React.FC = () => {
 
   return (
     <div className="recent-scans">
-      <button
+      <Button
         className="edit-button"
         hidden={scanList.length === 0}
         onClick={handleEditClick}
         style={{ color: "#0078ff", paddingTop: "10px" }}
       >
         <Icon icon="zi-delete" />
-      </button>
+      </Button>
       {/* value={index.toString()} */}
       <ul className="link-list">
         {scanList.length > 0 ? (
