@@ -27,7 +27,6 @@ import VoucherPage from '@/pages/admin/voucher';
 import VoucherFormPage from '@/pages/admin/voucher/form';
 import MenuCommonPage from '@/components/menu';
 import OrderManagement from '@/pages/admin/order-management';
-import PageWithBottomNavBar from '@/components/pageWithBottomNavbar';
 
 
 interface Route {
@@ -35,8 +34,6 @@ interface Route {
   Component: ComponentType;
   title?: string;
   icon?: JSX.Element;
-  children?: Route[];
-
 }
 
 export const routes: Route[] = [
@@ -78,16 +75,7 @@ export const routes: Route[] = [
     { path: "/admin/voucher/form/:store_uuid", Component: VoucherFormPage },
     { path: "/admin/voucher/update/:store_uuid/:voucher_uuid", Component: VoucherFormPage },
     // // MENU
-    {
-      path: "/menu/:store_uuid/:table_uuid",
-      Component: PageWithBottomNavBar,
-      children: [
-        {
-          path: "",
-          Component: MenuCommonPage 
-        }
-      ]
-    },
+    { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
 
   {
     path: '/ton-connect',
