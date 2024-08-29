@@ -111,8 +111,8 @@ const RecentScans: React.FC = () => {
                     href="#"
                     onClick={() => handleRedirect(s.qrData)}
                   >
-                    {s.storeName} - {s.tableName}
-                    {/* {s.qrData} */}
+                    {/* {s.storeName} - {s.tableName} */}
+                    {s.qrData}
                   </a>
                 </div>
               </div>
