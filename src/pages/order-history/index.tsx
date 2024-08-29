@@ -62,6 +62,7 @@ const OrderHistory: React.FC = () => {
       setOrderListByUser({
         is_update: true,
         orders: [],
+        /////
       });
     } else {
       snackbar.openSnackbar({
