@@ -29,8 +29,13 @@ interface OrderSubmitModalProps {
   isShow: boolean;
   onClose: () => void;
 }
+interface User {
+  avatar: string;
+}
+
 interface Order {
   uuid:string;
+  user?:User
   created_at: string;
   store_name: string;
   table_uuid: string;

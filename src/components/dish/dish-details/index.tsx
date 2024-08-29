@@ -40,7 +40,7 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
     if (dish) {
       setQuantity(dish.quantity || 1);
     } else {
-      setQuantity(1); // Reset to default if dish is null
+      setQuantity(1); 
     }
   }, [isShow, dish]);
 
@@ -49,7 +49,7 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
   };
 
   if (!dish) {
-    return null; // If dish is null, render nothing
+    return null; 
   }
 
   return (
