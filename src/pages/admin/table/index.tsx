@@ -18,13 +18,13 @@ import {
 import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
-import { APP_VERSION } from "../../../constants";
+// import { APP_VERSION } from "../../../constants";
 import QrCodeOutlinedIcon from "@mui/icons-material/QrCodeOutlined";
 import tableIcon from "../../../static/icons/table.png";
 import "./styles.scss";
 // import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
-import { createTenantURL } from "../../../api/urlHelper";
+// import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
 
 interface Table {
@@ -87,12 +87,17 @@ const TablePage: React.FC = () => {
     }
   };
 
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const url = createTenantURL();
+  //   let qr_url = `${url}/redirect?tableId=${table_uuid}&storeId=${store_uuid}&version=${APP_VERSION}&tenantId=${tenant_id}`;
+  //   return qr_url;
+  // };
   const linkBuilder = (table_uuid: string): string => {
-    const url = createTenantURL();
-    let qr_url = `${url}/redirect?tableId=${table_uuid}&storeId=${store_uuid}&version=${APP_VERSION}&tenantId=${tenant_id}`;
-
-    return qr_url;
+    return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
+  
+
+
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({

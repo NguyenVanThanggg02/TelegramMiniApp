@@ -20,27 +20,27 @@ import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
 
-interface StoreState {
-  uuid: string;
-  name: string;
-  subdomain: string;
-  created_at: string;
-  store_settings: []; 
-  ai_requests_count:number
-  turn_on_table?: boolean;  
-  tables_count?: number; 
-  turn_on_category?: boolean;
-  categories_count?: number;
-  turn_on_product?: boolean;
-  products_count?: number;
-  turn_on_voucher?: boolean; 
-  vouchers_count?: number;
-  turn_on_order?: boolean; 
-  orders_count?: number;
-  turn_on_staff?: boolean;  
-  staff_count?: number;
-  turn_on_sale_report?: boolean;
-}
+// interface StoreState {
+//   uuid: string;
+//   name: string;
+//   subdomain: string;
+//   created_at: string;
+//   store_settings: []; 
+//   ai_requests_count:number
+//   turn_on_table?: boolean;  
+//   tables_count?: number; 
+//   turn_on_category?: boolean;
+//   categories_count?: number;
+//   turn_on_product?: boolean;
+//   products_count?: number;
+//   turn_on_voucher?: boolean; 
+//   vouchers_count?: number;
+//   turn_on_order?: boolean; 
+//   orders_count?: number;
+//   turn_on_staff?: boolean;  
+//   staff_count?: number;
+//   turn_on_sale_report?: boolean;
+// }
 
 
 const Index: React.FC = () => {
@@ -61,10 +61,9 @@ const Index: React.FC = () => {
   try {
     const response = await getStoreList();
     if (response.data && !response.error) {
-      const storeData: StoreState[] = response.data as StoreState[];
       setStoreListState({
         is_update: true,
-        stores: storeData,
+        stores: [],
       });
     } else {
       console.log('err', response.error);
