@@ -5,7 +5,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "sandbox allow-scripts allow-downloads"
+            "value": "sandbox allow-scripts allow-downloads default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; worker-src 'self' blob:; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';"
           }
         ]
       }
