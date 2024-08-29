@@ -394,7 +394,7 @@ const OrderManagement: React.FC = () => {
     onFilterChange("date", value);
   };
   return (
-    <Page
+    <div
       className="section-container order-management-container"
       ref={isMobile ? scrollRef : null}
       style={{ height: "100px" }}
@@ -688,7 +688,7 @@ const OrderManagement: React.FC = () => {
         setIsShowModal={setShowModalConfirm}
         content={t("main.confirmCancel")}
       />
-    </Page>
+    </div>
   );
 }
 
