@@ -89,6 +89,7 @@ const RecentScans: React.FC = () => {
             <li key={index} className="link-recent">
               {isEditMode && (
                 <Checkbox
+                style={{marginLeft:'5px'}}
                   checked={selectedIndexes.includes(index)}
                   onChange={() => toggleSelect(index)}
                   value={index.toString()}
