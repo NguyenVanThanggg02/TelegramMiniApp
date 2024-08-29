@@ -22,7 +22,7 @@ interface DishDetailModalProps {
   isShow: boolean;
   onClose: () => void;
   onSubmit: (dish: Dish & { quantity: number }) => void;
-  dish: Dish;
+  dish: Dish | null; // Allow null or undefined
 }
 
 const DishDetailModal: React.FC<DishDetailModalProps> = ({
@@ -37,19 +37,27 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
   useEffect(() => {
     if (!isShow) return;
 
-    setQuantity(dish?.quantity || 1);
+    if (dish) {
+      setQuantity(dish.quantity || 1);
+    } else {
+      setQuantity(1); // Reset to default if dish is null
+    }
   }, [isShow, dish]);
 
   const resetDefault = () => {
     setQuantity(1);
   };
 
+  if (!dish) {
+    return null; // If dish is null, render nothing
+  }
+
   return (
     <Modal visible={isShow} onClose={onClose} className="dish-details-modal">
       <Box className="container">
         <Box className="header" flex justifyContent="center">
           <Box width={100} height={100} style={{ overflow: "hidden" }}>
-            {dish?.images && (
+            {dish.images && (
               <Swiper style={{ height: "100%" }}>
                 {dish.images.map((img) => (
                   <Swiper.Slide key={img.uuid} style={{ height: "100%" }}>
@@ -96,10 +104,9 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
               <Icon
                 icon="zi-minus-circle"
                 style={{
-                  pointerEvents: !quantity ? "none" : "visible",
-                  color: !quantity ? "grey" : "#141415",
+                  pointerEvents: quantity <= 1 ? "none" : "visible",
+                  color: quantity <= 1 ? "grey" : "#141415",
                 }}
-                
               />
             </Box>
             <Box className="fs-24" style={{ marginTop: "2px" }}>
@@ -110,7 +117,6 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
                 }}>
               <Icon
                 icon="zi-plus-circle"
-               
               />
             </Box>
           </Box>
@@ -128,6 +134,6 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
       </Box>
     </Modal>
   );
-}
+};
 
 export default DishDetailModal;
