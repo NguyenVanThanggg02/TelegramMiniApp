@@ -126,10 +126,10 @@ const TablePage: React.FC = () => {
     fakeLink.download = fileName;
 
     fakeLink.href = blob;
-    // document.body.appendChild(fakeLink);
-    // fakeLink.click();
-    // document.body.removeChild(fakeLink);
-    // fakeLink.remove();
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
   };
 
   return (
