@@ -67,7 +67,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       </Text.Title>
 
       <Box flex p={7}>
-        <Box width={25} mr={7}>
+        <Box style={{width:'25%'}} mr={7}>
           <img
             src={
               isAdmin
@@ -153,15 +153,6 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
           </Button>
         ) : (
           <>
-            {/* <Button
-              variant="secondary"
-              onClick={() => {
-                onPayment?.({ ...product, quantity });
-                onClose();
-              }}
-            >
-              {t("menu.payment")}
-            </Button> */}
             <Button
               onClick={() => {
                 onSubmit({ ...product, quantity });
