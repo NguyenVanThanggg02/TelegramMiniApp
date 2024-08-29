@@ -9,12 +9,12 @@ import { clone } from "lodash";
 // import { vibrate } from "zmp-sdk/apis";
 import { useTranslation } from "react-i18next";
 import { priceFormatter } from "../../utils/numberFormatter";
-// import { getSubdomain } from "../../api/apiBase";
 import { useNavigate } from "react-router-dom";
+import { getSubdomain } from "@/api/cloudStorageManager";
 
 interface OrderNotificationProps {
   authToken: string;
-  store_uuid: string;
+  store_uuid?: string;
 }
 
 interface WebSocketData {
@@ -35,11 +35,24 @@ interface Order {
   uuid:string;
   created_at: string;
   store_name: string;
+  table_uuid: string;
+  store_uuid: string
   status: string;
   products: { product_name: string; quantity: number; unit_price: number }[];
   notes?: string;
   actual_payment_amount: number;
   value: number;
+}
+
+interface ApiResponse<T> {
+  name?: string;
+  uuid?: string;
+  subdomain?: string;
+  data?: T;       
+  error?: string | unknown;    
+  orders?: [];
+  status?: string;
+  expired_at?: string;
 }
 
 const OrderNotification: React.FC<OrderNotificationProps> = ({
@@ -51,18 +64,19 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   const { t } = useTranslation("global");
   const [orderList, setOrderList] = useRecoilState(orderListState);
   const [, setOrder] = useRecoilState(orderState);
-  const [subdomain, ] = useState<string | undefined>();
+  const [subdomain, setSubdomain] = useState<string | undefined>();
   const navigate = useNavigate();
 
-  // const getOrderByUUID = async (order_uuid: string) => {
-  //   const data = await fetchOrderByUUID(store.uuid, order_uuid);
-  //   if (!data?.error) {
-  //     return data;
-  //   } else {
-  //     console.log("Error:", data?.error);
-  //     return [];
-  //   }
-  // };
+  const getOrderByUUID = async (order_uuid: string): Promise<Order | undefined> => {
+    const data: ApiResponse<Order> = await fetchOrderByUUID(store.uuid, order_uuid);
+    if (!data?.error && data?.data) {
+      return data.data;
+    } else {
+      console.log("Error:", data?.error);
+      return undefined;
+    }
+  };
+  
 
   const handleVibrate = async () => {
     // await vibrate({
@@ -82,17 +96,12 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
     });
   };
 
-  const handleUpdateOrderList = async (data: WebSocketData["message"], type: string) => {
-    const response = await fetchOrderByUUID(store.uuid, data.uuid);
-  
-    if (response.error || !response.data) {
-      console.error("Failed to retrieve the order, skipping update.");
-      return;
-    }
-  
-    const newOrder = response.data as Order; 
+  const handleUpdateOrderList = async (data: WebSocketData["message"], type: "create" | "update") => {
+    const newOrder = await getOrderByUUID(data.uuid);
+    if (!newOrder) return;
+
     let newOrderList = clone(orderList.orders);
-  
+
     switch (type) {
       case "create":
         newOrderList.unshift(newOrder);
@@ -106,6 +115,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
       default:
         break;
     }
+
   
     setOrderList({
       is_update: true,
@@ -114,16 +124,16 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   };
   
 
-  // const getTenant = async () => {
-  //   const tenant = await getSubdomain();
-  //   if (!tenant) return;
+  const getTenant = async () => {
+    const tenant = await getSubdomain();
+    if (!tenant) return;
 
-  //   setSubdomain(tenant);
-  // };
+    setSubdomain(tenant);
+  };
 
-  // useEffect(() => {
-  //   getTenant();
-  // }, []);
+  useEffect(() => {
+    getTenant();
+  }, []);
 
   useEffect(() => {
     if (authToken && store_uuid && subdomain && orderList.is_update) {

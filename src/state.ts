@@ -74,6 +74,7 @@ export const companyState = atom<CompanyState>({
 interface StoreState {
   uuid: string;
   name: string;
+  user?:string
   subdomain: string;
   created_at: string;
   store_settings: []; 
@@ -208,6 +209,8 @@ interface Order {
   uuid:string;
   created_at: string;
   store_name: string;
+  table_uuid: string;
+  store_uuid: string
   status: string;
   products: { product_name: string; quantity: number; unit_price: number }[];
   notes?: string;

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import  { useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   Box,
@@ -11,7 +11,6 @@ import {
   Text,
   useNavigate,
   useSnackbar,
-  Avatar,
 } from "zmp-ui";
 import {
   cartState,
@@ -42,16 +41,75 @@ import useBreakpoint from "../../../hooks/useBreakpoint";
 import OrderNotification from "../../../components/ws/order_notification";
 import { useTranslation } from "react-i18next";
 import AddIcon from "@mui/icons-material/Add";
-import { keepScreen, getStorage } from "zmp-sdk/apis";
 import moment from "moment";
 import Slider from "rc-slider";
 import ConfirmModal from "../../../components/modal/confirmModal";
+import { useCloudStorage } from "@telegram-apps/sdk-react";
 
-function OrderManagement() {
+
+interface Order {
+  uuid:string;
+  user?:string
+  created_at: string;
+  store_name: string;
+  table_uuid: string;
+  store_uuid: string
+  status: string;
+  products: { product_name: string; quantity: number; unit_price: number }[];
+  notes?: string;
+  actual_payment_amount: number;
+  value: number;
+}
+
+interface Table {
+  uuid: string;
+  name: string;
+}
+
+interface Product {
+  uuid: string;
+  name: string;
+  price: number;
+}
+
+interface TableListState {
+  is_update: boolean;
+  tables: Table[];
+}
+
+interface ProductListState {
+  is_update: boolean;
+  products: Product[];
+}
+
+interface Filter {
+  status: string;
+  date: Date | null;
+  search: string;
+}
+
+interface FetchOrderParams {
+  store_uuid: string | undefined;
+  page: number;
+  perPage: number;
+  date?: string; // Optional property
+  status?: string; // Optional property
+}
+interface ApiResponse<T> {
+  name?: string;
+  uuid?: string;
+  subdomain?: string;
+  data?: T;       
+  error?: string | unknown;    
+  orders?: [];
+  status?: string;
+  expired_at?: string;
+}
+const OrderManagement: React.FC = () => {
   const { t } = useTranslation("global");
   const navigate = useNavigate();
   const snackbar = useSnackbar();
-  const { store_uuid } = useParams();
+  const { store_uuid } = useParams<{ store_uuid: string }>();
   const { isMobile } = useBreakpoint();
 
   const orderStatusesSlider = {
@@ -61,76 +119,68 @@ function OrderManagement() {
   };
 
   const storeList = useRecoilValue(storeListState);
-  const [store, setStore] = useRecoilState(storeState);
+  const [, setStore] = useRecoilState(storeState);
   const [orderList, setOrderList] = useRecoilState(orderListState);
-  const [tableList, setTableList] = useRecoilState(tableListState);
-  const [cart, setCart] = useRecoilState(cartState);
+  const [tableList, setTableList] = useRecoilState<TableListState>(tableListState);
+  const [, setCart] = useRecoilState(cartState);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [productList, setProductList] = useRecoilState(productListState);
+  const [, setProductList] = useRecoilState<ProductListState>(productListState);
   const user = useRecoilValue(userState);
-  const [keepScreenOn, setKeepScreenOn] = useState(true);
+  // const [keepScreenOn, setKeepScreenOn] = useState(true);
+  const cloudStorage = useCloudStorage();
 
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [orderCancelled, setOrderCancelled] = useState({});
-  const [filter, setFilter] = useState({
+  const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false);
+  const [orderCancelled, ] = useState<Order>({} as Order);
+  const [filter, setFilter] = useState<Filter>({
     status: "all",
     date: null,
     search: "",
   });
-  const [hideDatePicker, setHideDatePicker] = useState(false);
+  const [hideDatePicker, setHideDatePicker] = useState<boolean>(false);
 
-  const [page, setPage] = useState(1);
-  const [isNoMoreOrder, setIsNoMoreOrder] = useState(false);
+  const [page, setPage] = useState<number>(1);
+  const [isNoMoreOrder, setIsNoMoreOrder] = useState<boolean>(false);
 
-  const scrollRef = useRef(null);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
 
-  const onFilterChange = (type, value) => {
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+
+
+  const onFilterChange = (type: keyof Filter, value: any) => {
     setFilter((prev) => ({ ...prev, [type]: value }));
   };
 
+
   const loadKeepScreenSetting = async () => {
     try {
-      const storageData = await getStorage({
-        keys: [KEEP_SCREEN_ON_STORE_KEY],
-      });
+      const storageData = await cloudStorage.get([KEEP_SCREEN_ON_STORE_KEY]);
       const storedKeepScreenOn = storageData[KEEP_SCREEN_ON_STORE_KEY];
 
       if (storedKeepScreenOn !== undefined) {
-        setKeepScreenOn(storedKeepScreenOn);
+        // setKeepScreenOn(JSON.parse(storedKeepScreenOn));
       }
     } catch (error) {
       console.log("Error loading keepScreenOn setting:", error);
     }
   };
 
-  const setKeepScreen = async () => {
-    try {
-      await keepScreen({
-        keepScreenOn: keepScreenOn,
-      });
-    } catch (error) {
-      // xử lý khi gọi api thất bại
-      console.log(error);
-    }
-  };
-
   const displayOrders = useMemo(
     () =>
       orderList.orders.length
-        ? orderList.orders.filter(
-            (item) =>
+        ? orderList.orders.filter((item) => {
+            const table = tableList.tables.find((table) => table.uuid === item.table_uuid);
+            return (
               !tableList.tables.length ||
-              tableList.tables
-                .find((table) => table.uuid === item.table_uuid)
-                .name.toLowerCase()
-                .includes(filter.search.toLowerCase()),
-          ) || []
+              (table?.name.toLowerCase().includes(filter.search.toLowerCase()) ?? false)
+            );
+          })
         : [],
     [orderList, filter, tableList],
   );
+  
 
-  const onChangeStatus = async (order, newStatus) => {
+  const onChangeStatus = async (order: Order, newStatus: string) => {
     const payload = {
       status: newStatus,
     };
@@ -140,64 +190,72 @@ function OrderManagement() {
 
       snackbar.openSnackbar({
         duration: 3000,
-        text: data.error,
+        text: String(data.error),
         type: "error",
       });
     }
   };
 
-  const goToOrderDetails = (order) => {
+  const goToOrderDetails = (order: Order) => {
     navigate(
       `/admin/order-management/details/index/${order.uuid}/${order.store_uuid}`,
     );
   };
 
   const fetchOrderDataByStore = async () => {
-    const params = {
+    const params: FetchOrderParams = {
       store_uuid,
       page,
       perPage: DEFAULT_PER_PAGE,
     };
+    
     if (filter.date && !hideDatePicker) {
       params.date = moment(filter.date).format("YYYY-MM-DD");
     }
+    
     if (filter.status && filter.status !== "all") {
       params.status = filter.status;
     }
-    const data = await fetchOrdersByStore(params);
-    if (!data?.error) {
+  
+    const response = await fetchOrdersByStore(params);
+  
+    const data: Order[] = response.data;
+  
+    if (!response.error) {
       setOrderList({
         is_update: true,
         orders: data.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at),
+          (a: Order, b: Order) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         ),
       });
       if (data.length < DEFAULT_PER_PAGE) setIsNoMoreOrder(true);
       setLoading({ ...loading, isLoading: false });
     } else {
       setLoading({ ...loading, isLoading: false });
-      console.error("Error fetching orders:", data.error);
+      console.error("Error fetching orders:", response.error);
     }
   };
+  
+  
 
-  const fetTableDataByStore = async (store_uuid) => {
+  const fetTableDataByStore = async (store_uuid: string) => {
     const data = await fetchTablesForStore(store_uuid);
     if (!data?.error) {
       setTableList({
         is_update: true,
-        tables: data,
+        tables: [],
       });
     } else {
       console.error("Error:", data.error);
     }
   };
 
-  const fetProductDataByStore = async (store_uuid) => {
+  const fetProductDataByStore = async (store_uuid: string) => {
     const data = await getProductListByStore(store_uuid, true);
     if (!data?.error) {
       setProductList({
         is_update: true,
-        products: data,
+        products: [],
       });
     } else {
       console.error("Error:", data.error);
@@ -217,16 +275,24 @@ function OrderManagement() {
     setLoading({ ...loading, isLoading: true });
     setCart([]);
     if (!store_uuid) return;
-
-    setStore(storeList.stores.find((item) => item.uuid === store_uuid));
-
-    setKeepScreen();
-
+  
+    const selectedStore = storeList.stores.find((item) => item.uuid === store_uuid);
+  
+    if (selectedStore) {
+      setStore(selectedStore);
+    } else {
+      // Handle the case when the store is not found
+      console.warn(`Store with uuid ${store_uuid} not found.`);
+      // Optionally, set a default value or perform some other action
+    }
+  
+    // setKeepScreen();
+  
     fetchOrderDataByStore();
     fetTableDataByStore(store_uuid);
     fetProductDataByStore(store_uuid);
   }, [store_uuid, storeList]);
-
+  
   // remove loading when get all needed data
   useEffect(() => {
     if (orderList.orders.length && tableList.tables.length)
@@ -238,39 +304,48 @@ function OrderManagement() {
     console.log("load more orders...");
     const newPage = page + 1;
     setPage(newPage);
-
-    const params = {
+  
+    const params: FetchOrderParams = {
       store_uuid,
       page: newPage,
       perPage: DEFAULT_PER_PAGE,
     };
+  
     if (filter.date && !hideDatePicker) {
       params.date = moment(filter.date).format("YYYY-MM-DD");
     }
+  
     if (filter.status && filter.status !== "all") {
       params.status = filter.status;
     }
-    const data = await fetchOrdersByStore(params);
-    if (!data?.error) {
+  
+    const response: ApiResponse<Order[]> = await fetchOrdersByStore(params);
+  
+    if (!response.error) {
+      // Check if response.data is defined
+      const orders: Order[] = response.data ?? []; // Default to empty array if undefined
+  
       setIsLoadingMore(false);
-
-      if (data?.length < DEFAULT_PER_PAGE) {
+  
+      if (orders.length < DEFAULT_PER_PAGE) {
         setIsNoMoreOrder(true);
         console.log("No more orders");
       }
-
+  
       setOrderList({
         is_update: true,
-        orders: [...data, ...orderList.orders].sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at),
+        orders: [...orders, ...orderList.orders].sort(
+          (a: Order, b: Order) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         ),
       });
     } else {
       setIsLoadingMore(false);
       setIsNoMoreOrder(true);
-      console.error("Error fetching orders:", data.error);
+      console.error("Error fetching orders:", response.error);
     }
   };
+  
+  
 
   useEffect(() => {
     if (isNoMoreOrder) return;
@@ -288,7 +363,7 @@ function OrderManagement() {
     };
 
     const handleTouchEnd = () => {
-      scrollRef.current.removeEventListener("touchmove", handleTouchMove);
+      scrollRef.current?.removeEventListener("touchmove", handleTouchMove);
     };
 
     const handleScroll = () => {
@@ -304,24 +379,30 @@ function OrderManagement() {
     };
 
     const container = scrollRef.current;
-    container.addEventListener("touchmove", handleTouchMove);
-    container.addEventListener("touchend", handleTouchEnd);
-    container.addEventListener("scroll", handleScroll);
+    container?.addEventListener("touchmove", handleTouchMove);
+    container?.addEventListener("touchend", handleTouchEnd);
+    container?.addEventListener("scroll", handleScroll);
 
     return () => {
-      container.removeEventListener("touchmove", handleTouchMove);
-      container.removeEventListener("touchend", handleTouchEnd);
-      container.removeEventListener("scroll", handleScroll);
+      container?.removeEventListener("touchmove", handleTouchMove);
+      container?.removeEventListener("touchend", handleTouchEnd);
+      container?.removeEventListener("scroll", handleScroll);
     };
   }, [isLoadingMore, isNoMoreOrder, orderList]);
-
+  const handleDateChange = (value: Date | undefined) => {
+    setSelectedDate(value);
+    onFilterChange("date", value);
+  };
   return (
     <Page
       className="section-container order-management-container"
       ref={isMobile ? scrollRef : null}
       style={{ height: "100px" }}
     >
-      <OrderNotification authToken={user.authToken} store_uuid={store_uuid} />
+      <OrderNotification
+        authToken={user.authToken}
+        store_uuid={store_uuid || ""}
+      />
       <Box
         className="toolbar"
         flex
@@ -341,12 +422,12 @@ function OrderManagement() {
             >
               {Object.values({ ALL: "all", ...ORDER_STATUS }).map(
                 (value, index) => (
-                  <Option
+                  <option
                     value={value}
                     title={t("orderManagement.statusSelect." + value)}
                     key={index}
                   />
-                ),
+                )
               )}
             </Select>
           </Box>
@@ -358,10 +439,8 @@ function OrderManagement() {
                 key="datePicker-hideDatePicker"
                 mask
                 maskClosable
-                value={null}
-                onChange={(value) => {
-                  onFilterChange("date", value);
-                }}
+                value={selectedDate} // Pass the state value here
+                onChange={handleDateChange}
                 onVisibilityChange={(visible) => {
                   if (!visible) {
                     setHideDatePicker(false);
@@ -369,27 +448,30 @@ function OrderManagement() {
                 }}
               />
             ) : (
-              <Box width="100%" style={{ position: "relative" }}>
+              <Box style={{ position: "relative", width: "100%" }}>
                 <DatePicker
                   key="datePicker-visible"
                   mask
                   maskClosable
-                  value={filter?.date}
+                  value={filter?.date ?? undefined} // Convert null to undefined
                   onChange={(value) => {
                     onFilterChange("date", value);
                   }}
                 />
+
                 {filter?.date && (
-                  <Icon
-                    icon="zi-close"
+                  <div
                     style={{
                       position: "absolute",
                       right: 12,
                       top: 12,
                       backgroundColor: "white",
+                      cursor: "pointer",
                     }}
                     onClick={() => setHideDatePicker(true)}
-                  />
+                  >
+                    <Icon icon="zi-close" />
+                  </div>
                 )}
               </Box>
             )}
@@ -443,39 +525,18 @@ function OrderManagement() {
                     className="order-table-mobile_box"
                   >
                     <Box flex alignItems="center" justifyContent="center">
-                      <Avatar
+                      {/* <Avatar
                         src={order.user.avatar}
                         style={{ marginRight: "10px" }}
-                      />
+                      /> */}
                       <Text size="xLarge" bold>
                         {
                           tableList.tables.find(
-                            (table) => table.uuid === order.table_uuid,
+                            (table) => table.uuid === order.table_uuid
                           )?.name
                         }
                       </Text>
                     </Box>
-
-                    {/* <OrderStatus
-                    status={order.status}
-                    onChange={(newStatus) => onChangeStatus(order, newStatus)}
-                  /> */}
-
-                    {/* {order.status !== ORDER_STATUS.DONE &&
-                      order.status !== ORDER_STATUS.CANCELLED && (
-                        <Box>
-                          <Button
-                            className="cancel-order-button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setShowModalConfirm(true);
-                              setOrderCancelled(order);
-                            }}
-                          >
-                            {t("orderManagement.cancelOrder")}
-                          </Button>
-                        </Box>
-                      )} */}
                   </Box>
                   <Box
                     flex
@@ -565,19 +626,19 @@ function OrderManagement() {
 
             <Box
               className="order-table_body"
-              ref={!isMobile ? scrollRef : null}
+              // ref={!isMobile ? scrollRef : null}
             >
               <table>
                 <tbody>
                   {displayOrders.map((order, i) => (
                     <tr key={i}>
                       <td className="col">
-                        <Avatar src={order.user.avatar} />
+                        {/* <Avatar src={order.user.avatar} /> */}
                       </td>
                       <td className="col">
                         {
                           tableList.tables.find(
-                            (table) => table.uuid === order.table_uuid,
+                            (table) => table.uuid === order.table_uuid
                           )?.name
                         }
                       </td>
@@ -622,7 +683,7 @@ function OrderManagement() {
         onConfirm={() => {
           onChangeStatus(orderCancelled, ORDER_STATUS.CANCELLED);
           setShowModalConfirm(false);
-          setOrderCancelled({});
+          // setOrderCancelled({});
         }}
         setIsShowModal={setShowModalConfirm}
         content={t("main.confirmCancel")}
