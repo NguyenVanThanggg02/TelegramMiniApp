@@ -1,12 +1,11 @@
 {
-    "version": 2,
     "headers": [
       {
         "source": "/(.*)",
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self' ; sandbox allow-scripts allow-forms allow-same-origin allow-downloads;"
+            "value": "sandbox allow-scripts allow-downloads"
           }
         ]
       }
