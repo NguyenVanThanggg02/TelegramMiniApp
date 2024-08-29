@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "headers": [
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; img-src 'self' https://your-image-domain.com; script-src 'self'; style-src 'self';"
+          }
+        ]
+      }
+    ]
+  }
+  
