@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
-import { Icon, Text, useSnackbar } from "zmp-ui";
+import { Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
@@ -20,13 +20,13 @@ const RecentScans: React.FC = () => {
   const { t } = useTranslation("global");
   const snackbar = useSnackbar();
 
-  // const toggleSelect = (index: number) => {
-  //   setSelectedIndexes((prevSelectedIndexes) =>
-  //     prevSelectedIndexes.includes(index)
-  //       ? prevSelectedIndexes.filter((i) => i !== index)
-  //       : [...prevSelectedIndexes, index],
-  //   );
-  // };
+  const toggleSelect = (index: number) => {
+    setSelectedIndexes((prevSelectedIndexes) =>
+      prevSelectedIndexes.includes(index)
+        ? prevSelectedIndexes.filter((i) => i !== index)
+        : [...prevSelectedIndexes, index],
+    );
+  };
 
   const handleEditClick = () => {
     setIsEditMode((prev) => !prev);
@@ -89,12 +89,13 @@ const RecentScans: React.FC = () => {
         {scanList.length > 0 ? (
           scanList.map((s, index) => (
             <li key={index} className="link-recent">
-              {/* {isEditMode && (
+              {isEditMode && (
                 <Checkbox
                   checked={selectedIndexes.includes(index)}
                   onChange={() => toggleSelect(index)}
+                  value={index.toString()}
                 />
-              )} */}
+              )}
               <div className="link-content">
                 <div className="link-icon">
                   <TableRestaurantIcon />
@@ -105,8 +106,8 @@ const RecentScans: React.FC = () => {
                     href="#"
                     onClick={() => handleRedirect(s.qrData)}
                   >
-                    {/* {s.storeName} - {s.tableName} */}
-                    {s.qrData}
+                    {s.storeName} - {s.tableName}
+                    {/* {s.qrData} */}
                   </a>
                 </div>
               </div>
@@ -121,7 +122,7 @@ const RecentScans: React.FC = () => {
               alignItems: "center",
               flexDirection: "column",
               height: "100vh",
-              paddingTop:'90px'
+              paddingTop: "90px",
             }}
           >
             <QrCodeIcon

@@ -73,7 +73,6 @@ const Index: React.FC = () => {
   };
 
   useEffect(() => {
-    // check hostname
     console.log(hostname);
     const isLocalhost = hostname === "localhost";
     console.log(isLocalhost ? "Running on localhost" : "Not localhost");
