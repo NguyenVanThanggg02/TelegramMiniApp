@@ -158,15 +158,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     };
   }, [menu]);
 
-  const handleSelectedDish = (dish: Dish) => {
-    const dishInCart = cart.find((item) => item.uuid === dish.uuid);
-    if (!dishInCart) {
-      setSelectedDish({ ...dish, quantity: 0 });
-      return;
-    }
+//   const handleSelectedDish = (dish: Dish) => {
+//     const dishInCart = cart.find((item) => item.uuid === dish.uuid);
+//     if (!dishInCart) {
+//       setSelectedDish({ ...dish, quantity: 0 });
+//       return;
+//     }
 
-    // setSelectedDish(dishInCart);
-  };
+//     // setSelectedDish(dishInCart);
+//   };
 
   const getStoreDetail = async () => {
     if (!store_uuid) return;
@@ -426,13 +426,13 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
               <DishMenu
                 dishMenu={displayProductList[cate]}
-                onDetails={(dish) => {
+                onDetails={() => {
                   setShowDishDetailsModal(true);
-                  handleSelectedDish(dish);
+                //   handleSelectedDish(dish);
                 }}
-                onOrder={(dish) => {
+                onOrder={() => {
                   setShowOrderModal(true);
-                  handleSelectedDish(dish);
+                //   handleSelectedDish(dish);
                 }}
               />
             </Box>
