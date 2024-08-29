@@ -6,13 +6,10 @@ import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 
-interface ScanItem {
-  qrData: string;
-}
 
 const RecentScans: React.FC = () => {
   const navigate = useNavigate();
-  const scanList: ScanItem[] = JSON.parse(localStorage.getItem("scanList") || "[]");
+  const scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const { t } = useTranslation("global");
@@ -85,6 +82,7 @@ const RecentScans: React.FC = () => {
       >
         <Icon icon="zi-delete" />
       </button>
+      {/* value={index.toString()} */}
       <ul className="link-list">
         {scanList.length > 0 ? (
           scanList.map((s, index) => (
@@ -104,9 +102,9 @@ const RecentScans: React.FC = () => {
                   <a style={{color:'black'}}
                     className="link-text-recent"
                     href="#"
-                    onClick={() => handleRedirect(s.qrData)}
+                    onClick={() => handleRedirect(s)}
                   >
-                    {s.qrData}
+                    {s}
                   </a>
                 </div>
               </div>
