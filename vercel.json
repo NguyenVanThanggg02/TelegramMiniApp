@@ -6,7 +6,7 @@
         "headers": [
           {
             "key": "Content-Security-Policy",
-            "value": "default-src 'self'; img-src 'self' https://your-image-domain.com; script-src 'self'; style-src 'self';"
+            "value": "default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; frame-src 'self' ; sandbox allow-scripts allow-forms allow-same-origin allow-downloads;"
           }
         ]
       }
