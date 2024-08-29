@@ -20,6 +20,9 @@ const RecentScans: React.FC = () => {
   const { t } = useTranslation("global");
   const snackbar = useSnackbar();
 
+  console.log(scanList);
+  
+
   const toggleSelect = (index: number) => {
     setSelectedIndexes((prevSelectedIndexes) =>
       prevSelectedIndexes.includes(index)
@@ -106,8 +109,8 @@ const RecentScans: React.FC = () => {
                     href="#"
                     onClick={() => handleRedirect(s.qrData)}
                   >
-                    {s.storeName} - {s.tableName}
-                    {/* {s.qrData} */}
+                    {/* {s.storeName} - {s.tableName} */}
+                    {s.qrData}
                   </a>
                 </div>
               </div>
