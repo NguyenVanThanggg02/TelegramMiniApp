@@ -3,10 +3,25 @@
   <head>
     <base href="/">
     <meta charset="utf-8"/>
+<<<<<<< HEAD
     <meta
     http-equiv="Content-Security-Policy"
     content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; worker-src 'self' blob:; script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';"
    />
+=======
+    <meta http-equiv="Content-Security-Policy"
+     content="
+        default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; 
+        script-src * 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; 
+        style-src * 'self' 'unsafe-inline' data:; 
+        img-src * data: blob:; 
+        font-src * data: blob:; 
+        connect-src *; 
+        frame-src *; 
+        child-src *;
+        worker-src 'self' blob:;
+   ">
+>>>>>>> c61cc79d977e80aa00dbbb3ab4d3f9d79488ee54
   
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
