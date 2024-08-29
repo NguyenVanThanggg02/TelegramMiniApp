@@ -28,7 +28,6 @@ import StoreDetailModal from "../store-information/storeDetail";
 import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
-import DishDetailModal from "../dish/dish-details";
 
 
 interface DishImage {
@@ -92,7 +91,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [productList, setProductList] = useRecoilState(productListState);
   const [cart, setCart] = useRecoilState(cartState);
 
-  const [showDishDetailsModal, setShowDishDetailsModal] = useState<boolean>(false);
+//   const [showDishDetailsModal, setShowDishDetailsModal] = useState<boolean>(false);
+  const [, setShowDishDetailsModal] = useState<boolean>(false);
   const [showOrderModal, setShowOrderModal] = useState<boolean>(false);
   const [showOrderSubmitModal, setShowOrderSubmitModal] = useState<boolean>(false);
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
@@ -487,15 +487,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         />
 
-        <DishDetailModal
+        {/* <DishDetailModal
           isShow={showDishDetailsModal}
-          dish={selectedDish}
+          dish={selectedDish || {}}
           onClose={() => {
             setShowDishDetailsModal(false);
             setSelectedDish(null);
           }}
           onSubmit={handleOrderInCart}
-        />
+        /> */}
 
         <OrderSubmitModal
           isShow={showOrderSubmitModal}
