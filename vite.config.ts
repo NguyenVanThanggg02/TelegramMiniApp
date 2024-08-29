@@ -16,9 +16,6 @@ export default defineConfig({
   },
   build: {
     sourcemap: true, // Bật tạo source maps
-    rollupOptions: {
-      external: ['file-saver'],
-    },
   },
   plugins: [
     // Allows using React dev server along with building a React application with Vite.

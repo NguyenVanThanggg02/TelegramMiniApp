@@ -2,8 +2,6 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
     "jsx": "react-jsx",
     "lib": [
       "ES2020",
@@ -11,7 +9,7 @@
       "DOM.Iterable"
     ],
     "module": "ESNext",
-    // "moduleResolution": "bundler",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
