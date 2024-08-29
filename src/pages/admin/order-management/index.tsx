@@ -6,7 +6,6 @@ import {
   DatePicker,
   Icon,
   Input,
-  Page,
   Select,
   Text,
   useNavigate,
