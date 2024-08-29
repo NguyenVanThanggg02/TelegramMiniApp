@@ -13,6 +13,17 @@
       "dangerouslyAllowSVG": false,
       "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox; allow-downloads",
       "contentDispositionType": "inline"
-    }
+    },
+    "headers": [
+      {
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "Content-Security-Policy",
+            "value": "sandbox allow-downloads allow-scripts; script-src 'self'; object-src 'none';"
+          }
+        ]
+      }
+    ]
   }
   
