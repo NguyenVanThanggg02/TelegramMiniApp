@@ -1,19 +1,21 @@
 .table-card-container {
   display: flex;
+  height: 100px;
   align-items: center;
-  background: #ffffff; /* Đảm bảo sử dụng màu sắc hex hoặc rgba thay vì các màu sắc phức tạp */
+  background: #fff;
   border-radius: 8px;
+  margin: 10px 0;
+  position: relative;
+  flex-direction: row;
   margin: 12px 0;
   position: relative;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Đảm bảo sử dụng giá trị rgba cho màu sắc bóng */
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .table-img {
   width: 86px;
   height: 86px;
   padding: 12px;
-  object-fit: cover; /* Đảm bảo hình ảnh không bị kéo dãn hoặc biến dạng */
-  border-radius: 8px; /* Tạo góc bo tròn cho hình ảnh, nếu cần */
 }
 
 .qr-icon {
@@ -21,6 +23,4 @@
   height: 40px;
   position: absolute;
   right: 10px;
-  top: 50%; /* Đặt icon ở giữa theo chiều dọc */
-  transform: translateY(-50%); /* Căn giữa icon theo chiều dọc */
 }
