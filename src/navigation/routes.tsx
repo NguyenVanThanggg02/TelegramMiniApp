@@ -48,6 +48,7 @@ export const routes: Route[] = [
   //ORDER
   { path: '/order-history', Component: OrderHistory, title: 'Order History'},
   { path: '/admin/order-management/index/:store_uuid', Component: OrderManagement},
+  { path: '/admin/order-management/create/index/:store_uuid', Component: MenuCommonPage},
     // ADMIN
     { path: '/admin/store/form', Component: StoreFormPage},
     { path: '/admin/store/index', Component: StorePage },
