@@ -20,29 +20,6 @@ import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
 
-// interface StoreState {
-//   uuid: string;
-//   name: string;
-//   subdomain: string;
-//   created_at: string;
-//   store_settings: []; 
-//   ai_requests_count:number
-//   turn_on_table?: boolean;  
-//   tables_count?: number; 
-//   turn_on_category?: boolean;
-//   categories_count?: number;
-//   turn_on_product?: boolean;
-//   products_count?: number;
-//   turn_on_voucher?: boolean; 
-//   vouchers_count?: number;
-//   turn_on_order?: boolean; 
-//   orders_count?: number;
-//   turn_on_staff?: boolean;  
-//   staff_count?: number;
-//   turn_on_sale_report?: boolean;
-// }
-
-
 const Index: React.FC = () => {
   const navigate = useNavigate();
   const [storeList, setStoreListState] = useRecoilState(storeListState);
@@ -374,20 +351,6 @@ const Index: React.FC = () => {
             {t("userOrder.orderHistory")}
           </Button>
         </Box>
-
-
-        <Box mt={1}>
-          <Button
-            fullWidth
-            style={{ margin: "10px 0", background: "var(--blue-color)" }}
-            onClick={() => navigate("/menu/:store_uuid/:table_uuid")}
-            prefixIcon={<HistoryIcon />}
-            size="large"
-          >
-            Đến menu
-          </Button>
-        </Box>
-
 
         {user.store_uuid ? (
           <Box mt={1}>
