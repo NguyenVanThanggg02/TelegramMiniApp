@@ -38,7 +38,7 @@ const OrderHistory: React.FC = () => {
       .map((item) => ({
         ...item,
         created_at: dateFormatterYYYYMMDD(item.created_at),
-      })); // mapping with new createdAt
+      })); // mapping with new createdAttttt
 
     return groupBy(filterOrders, (i:any) => i.created_at);
   }, [orderListByUser, selectedStore]);
