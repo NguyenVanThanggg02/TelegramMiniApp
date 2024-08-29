@@ -2,11 +2,23 @@ import React from "react";
 import { Box } from "zmp-ui";
 import DishCard from "./dish-card";
 
+// interface DishItem {
+//   uuid: string;
+//   name: string;
+//   price: number;
+//   images?: { url: string }[];
+//   describe?: string;
+// }
+
+interface DishImage {
+  uuid: string;
+  url: string;
+}
 interface DishItem {
   uuid: string;
   name: string;
   price: number;
-  images?: { url: string }[];
+  images?: DishImage[]; 
   describe?: string;
 }
 

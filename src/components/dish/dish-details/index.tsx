@@ -110,6 +110,7 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
                 }}>
               <Icon
                 icon="zi-plus-circle"
+               
               />
             </Box>
           </Box>
