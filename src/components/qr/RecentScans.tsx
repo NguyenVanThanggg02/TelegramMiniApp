@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
@@ -14,11 +14,17 @@ interface ScanItem {
 
 const RecentScans: React.FC = () => {
   const navigate = useNavigate();
-  const scanList: ScanItem[] = JSON.parse(localStorage.getItem("scanList") || "[]");
+  // const scanList: ScanItem[] = JSON.parse(localStorage.getItem("scanList") || "[]");
+  const [scanList, setScanList] = useState<ScanItem[]>([]);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const { t } = useTranslation("global");
   const snackbar = useSnackbar();
+
+  useEffect(() => {
+    const storedScanList = JSON.parse(localStorage.getItem("scanList") || "[]");
+    setScanList(storedScanList);
+  }, []);
 
   console.log(scanList);
   
