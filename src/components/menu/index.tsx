@@ -204,7 +204,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const resultPro: Record<string, Dish[]> = {};
     cateList.forEach((cate) => {
       resultPro[cate.name] = prodList.filter((prod) =>
-        prod.categories?.some((c) => c.uuid === cate.uuid),
+        prod.categories?.find((c) => c.uuid === cate.uuid),
       );
     });
     return resultPro;
@@ -248,16 +248,22 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   const fetchProductsByStore = async (store_uuid: string) => {
-    const data = await getProductListByStore(store_uuid, false);
-    if (!data?.error) {
-      setProductList({
-        is_update: true,
-        products: [],
-      });
-    } else {
-      console.error("Error fetching products:", data.error);
+    try {
+      const response: ApiResponse<Product[]> = await getProductListByStore(store_uuid, false);
+  
+      if (!response.error && Array.isArray(response.data)) {
+        setProductList({
+          is_update: true,
+          products: response.data, 
+        });
+      } else {
+        console.error("Error fetching products:", response.error);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
     }
   };
+  
 
   const fetchTablesByStore = async (store_uuid: string) => {
     const response = await fetchTablesForStore(store_uuid);

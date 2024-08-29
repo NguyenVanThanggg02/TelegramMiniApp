@@ -151,10 +151,25 @@ export const categoryState = atom<CategoryState>({
 });
 
 // ----- PRODUCT -----
+interface ProductImage {
+  uuid: string;
+  url: string;
+}
+interface Product {
+  uuid: string;
+  name: string;
+  price: number;
+  unit_price?: number;
+  quantity?: number;
+  images?: ProductImage[];
+  product_images?: ProductImage[];
+}
+
 interface ProductState {
   is_update: boolean;
-  products: [];
+  products: Product[];
 }
+
 
 export const productListState = atom<ProductState>({
   key: "product",
