@@ -22,7 +22,6 @@ interface DishItem {
   describe?: string;
 }
 
-
 interface DishMenuProps {
   dishMenu: DishItem[];
   onDetails: (dish: DishItem) => void;
