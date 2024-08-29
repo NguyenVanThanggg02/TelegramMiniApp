@@ -16,7 +16,6 @@ import DishOrderSheet from "../../components/dish/dish-order";
 import { priceFormatter } from "../../utils/numberFormatter";
 import { isEmpty, sum } from "lodash";
 import OrderSubmitModal from "../order-submit-modal";
-// import DishDetailModal from "../../components/dish/dish-details";
 import { useTranslation } from "react-i18next";
 import {
   fetchTablesForStore,
