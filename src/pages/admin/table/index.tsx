@@ -110,6 +110,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        console.log(dataUrl,"dataUrl");
+        
         downloadImage(dataUrl, "qr-code.png");
         alert("success");
       } catch (error) {
