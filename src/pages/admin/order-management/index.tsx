@@ -624,8 +624,8 @@ const OrderManagement: React.FC = () => {
 
             <Box
               className="order-table_body"
-              // ref={!isMobile ? scrollRef : null}
-            >
+              ref={isMobile ? scrollRef as React.MutableRefObject<HTMLDivElement> : undefined}
+              >
               <table>
                 <tbody>
                   {displayOrders.map((order, i) => (
