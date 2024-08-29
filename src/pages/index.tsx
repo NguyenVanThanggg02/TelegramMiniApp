@@ -33,6 +33,7 @@ const Index: React.FC = () => {
   const cloudStorage = initCloudStorage();
   const MAX_SCAN_COUNT = 5;
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
+  const [isProcessing, setIsProcessing] = useState(false); // Biến cờ để kiểm tra việc xử lý
 
  const getStoreData = async () => {
   try {
@@ -86,8 +87,11 @@ const Index: React.FC = () => {
     if (showScanner && videoRef.current) {
       qrScanner = new QrScanner(
         videoRef.current,
-        (result) => {
-          setTimeout(() => {
+        async (result) => {
+          if (isProcessing) return; // Ngăn không cho xử lý nhiều lần cùng một lúc
+
+          setIsProcessing(true); // Đặt biến cờ để kiểm tra
+          setTimeout(async () => {
             console.log(result);
             setScanResult(result.data);
             setShowScanner(false);
@@ -97,10 +101,12 @@ const Index: React.FC = () => {
             const tenantId = urlRedirect.searchParams.get("tenant_id");
 
             if (storeId && tableId && tenantId) {
-              handleScanQr(result.data, storeId, tableId, tenantId);
+              await handleScanQr(result.data, storeId, tableId, tenantId);
             } else {
               notifyErrorStoreNotFound();
             }
+
+            setIsProcessing(false); // Đặt lại biến cờ
           }, 1000);
         },
         {
@@ -116,7 +122,7 @@ const Index: React.FC = () => {
         qrScanner?.destroy();
       };
     }
-  }, [showScanner]);
+  }, [showScanner, isProcessing]);
 
   const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
