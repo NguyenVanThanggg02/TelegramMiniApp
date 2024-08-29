@@ -18,13 +18,13 @@ import {
 import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
-import { APP_VERSION } from "../../../constants";
+// import { APP_VERSION } from "../../../constants";
 import QrCodeOutlinedIcon from "@mui/icons-material/QrCodeOutlined";
 import tableIcon from "../../../static/icons/table.png";
 import "./styles.scss";
 // import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
-import { createTenantURL } from "../../../api/urlHelper";
+// import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
 
 interface Table {
