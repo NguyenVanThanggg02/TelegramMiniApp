@@ -105,7 +105,7 @@ const Index: React.FC = () => {
               notifyErrorStoreNotFound();
             }
 
-            setIsProcessing(false); // Đặt lại biến cờ
+            setIsProcessing(false); 
           }, 1000);
         },
         {
@@ -128,12 +128,12 @@ const Index: React.FC = () => {
     let scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
 
     if (scanCount >= MAX_SCAN_COUNT) {
-        scanList.shift();  // Xóa phần tử đầu tiên nếu đã đạt giới hạn
+        scanList.shift();  
     } else {
         scanCount++;
     }
 
-    scanList.push(qrData);  // Thêm quét mới vào danh sách
+    scanList.push(qrData);  
     localStorage.setItem("scanList", JSON.stringify(scanList));
     localStorage.setItem("scanCount", scanCount.toString());
     console.log(localStorage.getItem("scanCount"));

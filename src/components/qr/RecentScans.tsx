@@ -99,7 +99,7 @@ const RecentScans: React.FC = () => {
                   <TableRestaurantIcon />
                 </div>
                 <div className="link-details">
-                  <a style={{color:'black'}}
+                  <a
                     className="link-text-recent"
                     href="#"
                     onClick={() => handleRedirect(s)}
