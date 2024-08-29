@@ -27,7 +27,7 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
-
+import * as FileSaver from "file-saver";
 interface Table {
   uuid: string;
   name: string;
@@ -111,7 +111,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl, "qr-code.png");
+        // downloadImage(dataUrl, "qr-code.png");
+        saveImageFromBase64(dataUrl,'hahaha')
         alert("success");
       } catch (error) {
         console.error("Error saving QR code:", error);
@@ -121,18 +122,36 @@ const TablePage: React.FC = () => {
     }
   };
   
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
 
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
-
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
+  function saveImageFromBase64(base64Data: string, fileName: string): void {
+    // Extract the image MIME type and Base64 data from the data URL
+    const [header, data] = base64Data.split(',');
+    const mimeType = header.match(/:(.*?);/)?.[1] || 'image/png'; // Default to 'image/png' if MIME type is not found
+  
+    // Decode Base64 data to binary data
+    const byteCharacters = atob(data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+  
+    // Create a Blob with the binary data and MIME type
+    const blob = new Blob([byteArray], { type: mimeType });
+  
+    // Save the file using FileSaver
+    FileSaver.saveAs(blob, fileName);
+  }
   return (
     <Page className="page">
       <div className="section-container">
