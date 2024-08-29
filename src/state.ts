@@ -250,7 +250,8 @@ export const orderListByUserState = atom<OrderListState>({
   },
 });
 
-interface Image {
+interface DishImage {
+  uuid: string;
   url: string;
 }
 
@@ -259,7 +260,7 @@ interface CartItem {
   name: string;
   quantity: number;
   price: number;
-  images?: Image[]; 
+  images?: DishImage[]; 
 }
 
 
