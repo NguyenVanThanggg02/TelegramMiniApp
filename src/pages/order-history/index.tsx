@@ -12,24 +12,6 @@ import { ORDER_STATUS } from "../../constants";
 import LoadingComponent from "../../components/loading_component";
 import storeIcon from "../../static/icons/store.png";
 
-interface User {
-  avatar: string;
-}
-
-interface Order {
-  uuid:string;
-  user?:User
-  created_at: string;
-  store_name: string;
-  table_uuid: string;
-  store_uuid: string
-  status: string;
-  products: { product_name: string; quantity: number; unit_price: number }[];
-  notes?: string;
-  actual_payment_amount: number;
-  value: number;
-}
-
 const OrderHistory: React.FC = () => {
   const { t } = useTranslation("global");
 
@@ -77,10 +59,9 @@ const OrderHistory: React.FC = () => {
   const getHistoryOrders = async () => {
     const data = await fetchHistoryOrdersByStore();
     if (!data?.error) {
-      const orders = data.data as Order[]; 
       setOrderListByUser({
         is_update: true,
-        orders,
+        orders: [],
       });
     } else {
       snackbar.openSnackbar({
