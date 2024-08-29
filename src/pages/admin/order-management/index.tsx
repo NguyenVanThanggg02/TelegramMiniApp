@@ -8,7 +8,6 @@ import {
   Input,
   Select,
   Text,
-  useNavigate,
   useSnackbar,
 } from "zmp-ui";
 import {
@@ -29,7 +28,7 @@ import {
   KEEP_SCREEN_ON_STORE_KEY,
 } from "../../../constants";
 import { timePeriodFormatter } from "../../../utils/timePeriodFormatter";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   fetchOrdersByStore,
   fetchTablesForStore,
