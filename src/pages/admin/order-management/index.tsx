@@ -6,6 +6,7 @@ import {
   DatePicker,
   Icon,
   Input,
+  Page,
   Select,
   Text,
   useSnackbar,
@@ -89,9 +90,10 @@ interface Filter {
 interface FetchOrderParams {
   store_uuid: string | undefined;
   page: number;
-  perPage: number;
+  per_page: number;
   date?: string; // Optional property
   status?: string; // Optional property
+  order_by?: string
 }
 interface ApiResponse<T> {
   name?: string;
@@ -124,7 +126,7 @@ const OrderManagement: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setProductList] = useRecoilState<ProductListState>(productListState);
   const user = useRecoilValue(userState);
-  // const [keepScreenOn, setKeepScreenOn] = useState(true);
+  const [, setKeepScreenOn] = useState<boolean>(true);
   const cloudStorage = useCloudStorage();
 
   const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false);
@@ -156,12 +158,13 @@ const OrderManagement: React.FC = () => {
       const storedKeepScreenOn = storageData[KEEP_SCREEN_ON_STORE_KEY];
 
       if (storedKeepScreenOn !== undefined) {
-        // setKeepScreenOn(JSON.parse(storedKeepScreenOn));
+        setKeepScreenOn(JSON.parse(storedKeepScreenOn));
       }
     } catch (error) {
       console.log("Error loading keepScreenOn setting:", error);
     }
   };
+  
 
   const displayOrders = useMemo(
     () =>
@@ -204,8 +207,8 @@ const OrderManagement: React.FC = () => {
     const params: FetchOrderParams = {
       store_uuid,
       page,
-      perPage: DEFAULT_PER_PAGE,
-    };
+      per_page: DEFAULT_PER_PAGE,
+      order_by: "desc",    };
     
     if (filter.date && !hideDatePicker) {
       params.date = moment(filter.date).format("YYYY-MM-DD");
@@ -234,8 +237,6 @@ const OrderManagement: React.FC = () => {
     }
   };
   
-  
-
   const fetTableDataByStore = async (store_uuid: string) => {
     const data = await fetchTablesForStore(store_uuid);
     if (!data?.error) {
@@ -306,7 +307,8 @@ const OrderManagement: React.FC = () => {
     const params: FetchOrderParams = {
       store_uuid,
       page: newPage,
-      perPage: DEFAULT_PER_PAGE,
+      per_page: DEFAULT_PER_PAGE,
+      order_by: "desc",
     };
   
     if (filter.date && !hideDatePicker) {
@@ -392,10 +394,10 @@ const OrderManagement: React.FC = () => {
     onFilterChange("date", value);
   };
   return (
-    <div
+    <Page
       className="section-container order-management-container"
       ref={isMobile ? scrollRef : null}
-      style={{ height: "100px" }}
+      style={{ height: "100vh" }}
     >
       <OrderNotification
         authToken={user.authToken}
@@ -686,7 +688,7 @@ const OrderManagement: React.FC = () => {
         setIsShowModal={setShowModalConfirm}
         content={t("main.confirmCancel")}
       />
-    </div>
+    </Page>
   );
 }
 
