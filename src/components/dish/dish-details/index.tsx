@@ -96,8 +96,8 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
               <Icon
                 icon="zi-minus-circle"
                 style={{
-                  pointerEvents: quantity <= 1 ? "none" : "visible",
-                  color: quantity <= 1 ? "grey" : "#141415",
+                  pointerEvents: !quantity ? "none" : "visible",
+                  color: !quantity ? "grey" : "#141415",
                 }}
                 
               />
@@ -110,7 +110,6 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
                 }}>
               <Icon
                 icon="zi-plus-circle"
-               
               />
             </Box>
           </Box>
