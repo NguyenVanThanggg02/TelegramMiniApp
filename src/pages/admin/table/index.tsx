@@ -122,6 +122,8 @@ const TablePage: React.FC = () => {
   };
   
   const downloadImage = (blob: string, fileName: string): void => {
+    console.log(blob);
+    
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
     fakeLink.download = fileName;
