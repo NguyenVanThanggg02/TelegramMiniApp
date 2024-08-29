@@ -4,9 +4,8 @@
       "remotePatterns": [
         {
           "protocol": "https",
-          "hostname": "example.com",
-          "port": "",
-          "pathname": "/account123/**"
+          "hostname": "https://telegram-mini-app-psi.vercel.app/",
+          "pathname": "/**"
         }
       ],
       "minimumCacheTTL": 60,
