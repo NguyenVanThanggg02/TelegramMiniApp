@@ -119,23 +119,30 @@ const Index: React.FC = () => {
   }, [showScanner]);
 
   const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
-    let scanCount = parseInt(localStorage.getItem("scanCount") || "0");
+    let scanCount = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
 
-    if (scanCount >= MAX_SCAN_COUNT) {
-      scanList.shift();
-    } else {
-      scanCount++;
+    // Tăng scanCount lên 1
+    scanCount++;
+
+    // Nếu scanCount vượt quá giới hạn MAX_SCAN_COUNT, xóa phần tử đầu tiên trong scanList
+    if (scanCount > MAX_SCAN_COUNT) {
+        scanList.shift(); // Xóa phần tử đầu tiên
     }
 
+    // Thêm quét mới nhất vào danh sách
     scanList.push(qrData);
+
+    // Cập nhật localStorage với danh sách quét mới và scanCount
     localStorage.setItem("scanList", JSON.stringify(scanList));
     localStorage.setItem("scanCount", scanCount.toString());
-    console.log(localStorage.getItem("scanCount"));
-    console.log(localStorage.getItem("scanList"));
+
+    console.log("Updated scanCount:", localStorage.getItem("scanCount"));
+    console.log("Updated scanList:", localStorage.getItem("scanList"));
 
     redirectToMenu(storeId, tableId, tenantId);
-  };
+};
+
 
   const notifyErrorStoreNotFound = () => {
     snackbar.openSnackbar({
