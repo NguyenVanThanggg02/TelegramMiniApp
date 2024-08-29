@@ -25,7 +25,8 @@ import "./styles.scss";
 // import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
-import { domToPng } from "modern-screenshot";
+// import { domToPng } from "modern-screenshot";
+import { toPng } from 'html-to-image';
 
 interface Table {
   uuid: string;
@@ -103,13 +104,14 @@ const TablePage: React.FC = () => {
     });
   };
 
+
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
-        const dataUrl = await domToPng(element.current, { scale: 3 });
-        downloadImage(dataUrl, "hehe");
+        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        downloadImage(dataUrl, "qr-code.png");
         alert("success");
       } catch (error) {
         console.error("Error saving QR code:", error);
@@ -118,7 +120,7 @@ const TablePage: React.FC = () => {
       }
     }
   };
-
+  
   const downloadImage = (blob: string, fileName: string): void => {
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
