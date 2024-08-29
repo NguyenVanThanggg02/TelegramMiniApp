@@ -27,7 +27,6 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
-
 interface Table {
   uuid: string;
   name: string;
