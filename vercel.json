@@ -4,14 +4,15 @@
       "remotePatterns": [
         {
           "protocol": "https",
-          "hostname": "https://telegram-mini-app-psi.vercel.app/",
+          "hostname": "telegram-mini-app-psi.vercel.app",
           "pathname": "/**"
         }
       ],
       "minimumCacheTTL": 60,
       "formats": ["image/webp"],
       "dangerouslyAllowSVG": false,
-      "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox; allow-downloads",
+      "contentSecurityPolicy": "script-src 'none'; frame-src 'none'; sandbox allow-downloads;",
       "contentDispositionType": "inline"
     }
   }
+  
