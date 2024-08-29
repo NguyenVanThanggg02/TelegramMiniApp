@@ -118,24 +118,32 @@ const Index: React.FC = () => {
     }
   }, [showScanner]);
 
-  const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
-    let scanCount = parseInt(localStorage.getItem("scanCount") || '') || 0;
-    let scanList: string[] = JSON.parse(localStorage.getItem("scanList") || '') || [];
-
+  const handleScanQr = (
+    qrData: string,
+    storeId: string,
+    tableId: string,
+    tenantId: string
+  ): void => {
+    let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
+    let scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
+  
     if (scanCount >= MAX_SCAN_COUNT) {
-      scanList.shift();
+      scanList.shift(); 
     } else {
       scanCount++;
     }
-
-    scanList.push(qrData);
+  
+    scanList.push(qrData); 
+  
     localStorage.setItem("scanList", JSON.stringify(scanList));
     localStorage.setItem("scanCount", scanCount.toString());
+  
     console.log(localStorage.getItem("scanCount"));
     console.log(localStorage.getItem("scanList"));
-
+  
     redirectToMenu(storeId, tableId, tenantId);
   };
+  
 
   const notifyErrorStoreNotFound = () => {
     snackbar.openSnackbar({
