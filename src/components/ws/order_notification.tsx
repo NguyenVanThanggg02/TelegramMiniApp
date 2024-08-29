@@ -55,7 +55,7 @@ interface ApiResponse<T> {
   subdomain?: string;
   data?: T;       
   error?: string | unknown;    
-  orders?: [];
+  orders?: Order[];
   status?: string;
   expired_at?: string;
 }
