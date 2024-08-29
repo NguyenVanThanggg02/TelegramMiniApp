@@ -177,29 +177,69 @@ const Index: React.FC = () => {
 
 
   
-  const handleSelectImage = async (event:any) => {
+  // const handleSelectImage = async (event:any) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     try {
+  //       const result = await QrScanner.scanImage(file, {
+  //         returnDetailedScanResult: true,
+  //       });
+  //       const urlRedirect = new URL(result.data);
+  //       const storeId = urlRedirect.searchParams.get("storeId");
+  //       const tableId = urlRedirect.searchParams.get("tableId");
+  //       const tenantId = urlRedirect.searchParams.get("tenant_id");
+
+  //       if (storeId && tableId && tenantId) {
+  //         redirectToMenu(storeId, tableId, tenantId);
+  //       } else {
+  //         notifyErrorStoreNotFound();
+  //       }
+  //     } catch (error) {
+  //       console.error("Error during QR code scan:", error);
+  //       handleError("Lỗi quét mã qr");
+  //     }
+  //   }
+  // };
+
+
+
+  const handleSelectImage = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
       try {
-        const result = await QrScanner.scanImage(file, {
-          returnDetailedScanResult: true,
-        });
-        const urlRedirect = new URL(result.data);
-        const storeId = urlRedirect.searchParams.get("storeId");
-        const tableId = urlRedirect.searchParams.get("tableId");
-        const tenantId = urlRedirect.searchParams.get("tenant_id");
-
-        if (storeId && tableId && tenantId) {
-          redirectToMenu(storeId, tableId, tenantId);
-        } else {
-          notifyErrorStoreNotFound();
-        }
+        const img = new Image();
+        img.onload = async () => {
+          // Tiến hành quét mã QR sau khi hình ảnh được tải xong
+          try {
+            const result = await QrScanner.scanImage(file, {
+              returnDetailedScanResult: true,
+            });
+            const urlRedirect = new URL(result.data);
+            const storeId = urlRedirect.searchParams.get("storeId");
+            const tableId = urlRedirect.searchParams.get("tableId");
+            const tenantId = urlRedirect.searchParams.get("tenant_id");
+  
+            if (storeId && tableId && tenantId) {
+              redirectToMenu(storeId, tableId, tenantId);
+            } else {
+              notifyErrorStoreNotFound();
+            }
+          } catch (error) {
+            console.error("Error during QR code scan:", error);
+            handleError("Lỗi quét mã QR");
+          }
+        };
+        img.onerror = () => {
+          handleError("Lỗi tải hình ảnh.");
+        };
+        img.src = URL.createObjectURL(file);
       } catch (error) {
-        console.error("Error during QR code scan:", error);
-        handleError("Lỗi quét mã qr");
+        console.error("Error during image handling:", error);
+        handleError("Lỗi xử lý hình ảnh.");
       }
     }
   };
+  
 
   const handleClick = () => {
     fileInputRef.current?.click(); 
