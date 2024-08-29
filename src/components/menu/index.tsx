@@ -78,6 +78,33 @@ interface Store {
   metadata: string; 
 }
 
+
+interface ProductImage {
+  uuid: string;
+  url: string;
+}
+
+interface Product {
+  uuid: string;
+  name: string;
+  price: number;
+  unit_price?: number;
+  quantity?: number;
+  images?: ProductImage[];
+  product_images?: ProductImage[];
+}
+
+const defaultProduct: Product = {
+  uuid: '',
+  name: '',
+  price: 0,
+  unit_price: 0,
+  quantity: 1,
+  images: [],
+  product_images: []
+};
+
+
 const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
@@ -328,31 +355,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
     fetchData();
   }, [store_uuid]);
-
-  interface ProductImage {
-    uuid: string;
-    url: string;
-  }
-
-  interface Product {
-    uuid: string;
-    name: string;
-    price: number;
-    unit_price?: number;
-    quantity?: number;
-    images?: ProductImage[];
-    product_images?: ProductImage[];
-  }
-
-  const defaultProduct: Product = {
-    uuid: '',
-    name: '',
-    price: 0,
-    unit_price: 0,
-    quantity: 1,
-    images: [],
-    product_images: []
-  };
 
   return (
     <Page className="menu-page" ref={pageRef}>
