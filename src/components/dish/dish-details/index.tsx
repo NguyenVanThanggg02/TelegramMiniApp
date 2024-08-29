@@ -22,7 +22,7 @@ interface DishDetailModalProps {
   isShow: boolean;
   onClose: () => void;
   onSubmit: (dish: Dish & { quantity: number }) => void;
-  dish: Dish| null;
+  dish: Dish;
 }
 
 const DishDetailModal: React.FC<DishDetailModalProps> = ({
@@ -35,17 +35,14 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
   const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
-    if (!isShow || !dish) return;
+    if (!isShow) return;
 
     setQuantity(dish?.quantity || 1);
   }, [isShow, dish]);
 
-  if (!dish) return null;
-  
   const resetDefault = () => {
     setQuantity(1);
   };
-  
 
   return (
     <Modal visible={isShow} onClose={onClose} className="dish-details-modal">

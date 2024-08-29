@@ -6,19 +6,13 @@ import { useRecoilState } from "recoil";
 import { cartState } from "../../../state";
 
 // Define the types for the dish item and props
-interface DishImage {
-  uuid: string;
-  url: string;
-}
-
 interface DishItem {
   uuid: string;
   name: string;
   price: number;
-  images?: DishImage[];
+  images?: { url: string }[];
   describe?: string;
 }
-
 
 interface DishCardProps {
   isAdmin?: boolean;
@@ -87,6 +81,20 @@ const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetail
           <Text size="large" bold>
             {dishItem.name}
           </Text>
+          {/* Uncomment if description is needed
+          <Text
+            size="xSmall"
+            style={{
+              overflow: "hidden",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              padding: "5px 0",
+            }}
+          >
+            {dishItem.describe}
+          </Text>
+          */}
           <Text className="red-color caption-text" bold>
             ₫{priceFormatter(dishItem.price)}
           </Text>

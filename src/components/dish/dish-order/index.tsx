@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Sheet, Text, Box, Icon } from "zmp-ui";
 import { priceFormatter } from "../../../utils/numberFormatter";
 import "./styles.scss";
+import { DEFAULT_IMAGE_PRODUCT } from "../../../constants";
 import { useTranslation } from "react-i18next";
 
 interface ProductImage {
@@ -66,12 +67,12 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       </Text.Title>
 
       <Box flex p={7}>
-        <Box style={{width:'25%'}} mr={7}>
+        <Box width={25} mr={7}>
           <img
             src={
               isAdmin
-                ? product.product_images?.[0]?.url 
-                : product.images?.[0]?.url 
+                ? product.product_images?.[0]?.url || DEFAULT_IMAGE_PRODUCT
+                : product.images?.[0]?.url || DEFAULT_IMAGE_PRODUCT
             }
             alt="product img"
             style={{ borderRadius: "12px", width: "100px", height: "100px" }}
@@ -152,6 +153,15 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
           </Button>
         ) : (
           <>
+            {/* <Button
+              variant="secondary"
+              onClick={() => {
+                onPayment?.({ ...product, quantity });
+                onClose();
+              }}
+            >
+              {t("menu.payment")}
+            </Button> */}
             <Button
               onClick={() => {
                 onSubmit({ ...product, quantity });

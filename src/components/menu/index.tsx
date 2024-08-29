@@ -28,7 +28,6 @@ import StoreDetailModal from "../store-information/storeDetail";
 import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
-import DishDetailModal from "../dish/dish-details";
 
 
 interface DishImage {
@@ -79,23 +78,6 @@ interface Store {
   metadata: string; 
 }
 
-
-interface ProductImage {
-  uuid: string;
-  url: string;
-}
-
-interface Product {
-  uuid: string;
-  name: string;
-  price: number;
-  unit_price?: number;
-  quantity?: number;
-  images?: ProductImage[];
-  product_images?: ProductImage[];
-}
-
-
 const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
@@ -109,7 +91,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [productList, setProductList] = useRecoilState(productListState);
   const [cart, setCart] = useRecoilState(cartState);
 
-  const [showDishDetailsModal, setShowDishDetailsModal] = useState<boolean>(false);
+//   const [showDishDetailsModal, setShowDishDetailsModal] = useState<boolean>(false);
+  const [, setShowDishDetailsModal] = useState<boolean>(false);
   const [showOrderModal, setShowOrderModal] = useState<boolean>(false);
   const [showOrderSubmitModal, setShowOrderSubmitModal] = useState<boolean>(false);
   const [selectedDish, setSelectedDish] = useState<Dish | null>(null);
@@ -158,15 +141,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     };
   }, [menu]);
 
-  const handleSelectedDish = (dish: Dish) => {
-    const dishInCart = cart.find((item) => item.uuid === dish.uuid);
-    if (!dishInCart) {
-      setSelectedDish({ ...dish, quantity: 0 });
-      return;
-    }
+//   const handleSelectedDish = (dish: Dish) => {
+//     const dishInCart = cart.find((item) => item.uuid === dish.uuid);
+//     if (!dishInCart) {
+//       setSelectedDish({ ...dish, quantity: 0 });
+//       return;
+//     }
 
-    // setSelectedDish(dishInCart);
-  };
+//     // setSelectedDish(dishInCart);
+//   };
 
   const getStoreDetail = async () => {
     if (!store_uuid) return;
@@ -346,6 +329,31 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     fetchData();
   }, [store_uuid]);
 
+  interface ProductImage {
+    uuid: string;
+    url: string;
+  }
+
+  interface Product {
+    uuid: string;
+    name: string;
+    price: number;
+    unit_price?: number;
+    quantity?: number;
+    images?: ProductImage[];
+    product_images?: ProductImage[];
+  }
+
+  const defaultProduct: Product = {
+    uuid: '',
+    name: '',
+    price: 0,
+    unit_price: 0,
+    quantity: 1,
+    images: [],
+    product_images: []
+  };
+
   return (
     <Page className="menu-page" ref={pageRef}>
       <Box className="top-menu-container">
@@ -426,13 +434,13 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
               <DishMenu
                 dishMenu={displayProductList[cate]}
-                onDetails={(dish) => {
+                onDetails={() => {
                   setShowDishDetailsModal(true);
-                  handleSelectedDish(dish);
+                //   handleSelectedDish(dish);
                 }}
-                onOrder={(dish) => {
+                onOrder={() => {
                   setShowOrderModal(true);
-                  handleSelectedDish(dish);
+                //   handleSelectedDish(dish);
                 }}
               />
             </Box>
@@ -467,7 +475,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
         <DishOrderSheet
           isShow={showOrderModal}
-          product={selectedDish!}
+          product={selectedDish || defaultProduct}
           onClose={() => {
             setShowOrderModal(false);
             setSelectedDish(null);
@@ -479,15 +487,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         />
 
-        <DishDetailModal
+        {/* <DishDetailModal
           isShow={showDishDetailsModal}
-          dish={selectedDish}
+          dish={selectedDish || {}}
           onClose={() => {
             setShowDishDetailsModal(false);
             setSelectedDish(null);
           }}
           onSubmit={handleOrderInCart}
-        />
+        /> */}
 
         <OrderSubmitModal
           isShow={showOrderSubmitModal}
