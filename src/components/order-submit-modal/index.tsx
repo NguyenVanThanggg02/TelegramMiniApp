@@ -30,9 +30,11 @@ interface OrderSubmitModalProps {
   onClose: () => void;
 }
 interface Order {
-  uuid: string;
+  uuid:string;
   created_at: string;
   store_name: string;
+  table_uuid: string;
+  store_uuid: string
   status: string;
   products: { product_name: string; quantity: number; unit_price: number }[];
   notes?: string;
