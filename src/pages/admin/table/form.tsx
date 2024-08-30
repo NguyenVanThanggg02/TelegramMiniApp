@@ -85,8 +85,8 @@ const TableFormPage: React.FC = () => {
         </Box>
         
         {snackbarOpen && (
-           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-           <div style={{backgroundColor:'black'}} className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000} style={{backgroundColor:'black'}}>
+           <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
              {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
              {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
              {snackbarMessage}
