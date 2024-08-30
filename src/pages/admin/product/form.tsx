@@ -5,7 +5,6 @@ import {
   Input,
   Box,
   Page,
-  useSnackbar,
   Select,
   Switch,
   ImageViewer,
@@ -15,8 +14,10 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, storeState } from "../../../state";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { formatNumberToVND } from "../../../utils/numberFormatter";
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 import {
   sendCreateProductRequest,
@@ -85,7 +86,6 @@ const ProductFormPage: React.FC = () => {
   });
   const [errorForm, setErrorForm] = useState<ErrorForm>({});
 
-  const snackbar = useSnackbar();
 
   const [user, ] = useRecoilState(userState);
   const store = useRecoilValue(storeState);
@@ -93,7 +93,10 @@ const ProductFormPage: React.FC = () => {
   const [categoryList, setCategoryList] = useState<Category[]>([]);
 
   const navigate = useNavigate();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const [showButtonStatus, setShowButtonStatus] = useState<boolean>(false);
   const [images, setImages] = useState<ImageData[]>([]);
   const [imageUUIDs, setImageUUIDs] = useState<string[]>([]);
@@ -280,11 +283,9 @@ const ProductFormPage: React.FC = () => {
       ]);
     } else {
       console.error("Error fetching product details:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.fetchProductDetailFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.fetchProductDetailFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -349,22 +350,18 @@ const ProductFormPage: React.FC = () => {
     const data = await sendCreateProductRequest(payload);
     if (!data?.error) {
       console.log("Product created:", data);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.productCreateSuccess"),
-        type: "success",
-      });
-      navigate(-1);
+      setSnackbarMessage(t("snackbarMessage.productCreateSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+      setTimeout(() => {
+        navigate(-1); 
+      }, 2000);
+
     } else {
       console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof data.error === "string"
-            ? data.error
-            : t("snackbarMessage.productCreateFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.productCreateFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -375,22 +372,17 @@ const ProductFormPage: React.FC = () => {
     const data = await sendUpdateProductRequest(payload);
     if (!data?.error) {
       console.log("updated:", data);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.productUpdateSuccess"),
-        type: "success",
-      });
-      navigate(-1);
+      setSnackbarMessage(t("snackbarMessage.productUpdateSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+      setTimeout(() => {
+        navigate(-1); 
+      }, 2000);
     } else {
       console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof data.error === "string"
-            ? data.error
-            : t("snackbarMessage.productUpdateFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.productUpdateFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     }
   };
 
@@ -417,11 +409,11 @@ const ProductFormPage: React.FC = () => {
       setCategoryList(response.data);  
     } else {
       console.error("Error:", response.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.getCatFail"),
-        type: "countdown",
-      });
+      setSnackbarMessage(t("snackbarMessage.getCatFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
+     
+
     }
   };
   return (
@@ -602,6 +594,19 @@ const ProductFormPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
+        <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
       </div>
     </Page>
   );
