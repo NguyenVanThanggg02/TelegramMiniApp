@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, Input, Box, Page } from "zmp-ui";
-import "./styles.scss";
 
 import { editTable } from "../../../api/api";
 import { useTranslation } from "react-i18next";
@@ -86,7 +85,7 @@ const TableFormPage: React.FC = () => {
         
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-            <div className={snackbarType === "success" ? "snackbar-success" : "snackbar-error"}>
+            <div className={`snackbar snackbar--${snackbarType}`}>
               {snackbarMessage}
             </div>
           </Snackbar>
