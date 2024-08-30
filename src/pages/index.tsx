@@ -209,7 +209,6 @@ const Index: React.FC = () => {
       try {
         const img = new Image();
         img.onload = async () => {
-          // Tiến hành quét mã QR sau khi hình ảnh được tải xong
           try {
             const result = await QrScanner.scanImage(file, {
               returnDetailedScanResult: true,
