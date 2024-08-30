@@ -83,7 +83,7 @@ const TableFormPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <div style={{borderRadius:'10px',backgroundColor:'black'}}>
+        <div style={{borderRadius:'10px'}}>
         {snackbarOpen && (
            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
            <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
