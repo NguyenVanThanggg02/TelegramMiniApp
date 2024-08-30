@@ -83,7 +83,7 @@ const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetail
           />
         </Box>
         <Box>
-          <Text size="large" bold>
+          <Text size="large" bold style={{color:'black'}}>
             {dishItem.name}
           </Text>
           <Text className="red-color caption-text" bold>
@@ -103,18 +103,18 @@ const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetail
               <Icon
                 icon="zi-minus-circle"
                 className="red-color"
-                style={{ fontSize: "32px" }}
+                style={{ fontSize: "32px", color:'black' }}
               />
             </Box>
 
-            <Text size="xLarge" style={{ marginTop: "3px" }}>
+            <Text size="xLarge" style={{ marginTop: "3px", color:'black' }}>
               {itemInCart?.quantity || 0}
             </Text>
             <Box onClick={() => handleUpdateQuantity("increase")}>
               <Icon
                 icon="zi-plus-circle-solid"
                 className="red-color"
-                style={{ fontSize: "32px" }}
+                style={{ fontSize: "32px",color:'black' }}
               />
             </Box>
           </Box>
@@ -128,7 +128,7 @@ const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetail
             <Icon
               icon="zi-plus-circle-solid"
               className="red-color"
-              style={{ fontSize: "32px" }}
+              style={{ fontSize: "32px", color:'black' }}
             />
           </Box>
         )}
