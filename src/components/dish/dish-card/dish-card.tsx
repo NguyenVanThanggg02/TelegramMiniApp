@@ -128,7 +128,7 @@ const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetail
             <Icon
               icon="zi-plus-circle-solid"
               className="red-color"
-              style={{ fontSize: "32px", color:'black' }}
+              style={{ fontSize: "32px"}}
             />
           </Box>
         )}
