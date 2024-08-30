@@ -62,7 +62,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       autoHeight
       className="dish-order"
     >
-      <Text.Title size="xLarge" className="header-title">
+      <Text.Title size="xLarge" className="header-title" style={{color:'black'}}>
         {isAdmin ? t("orderManagement.updateDish") : t("menu.addNewDish")}
       </Text.Title>
 
@@ -80,7 +80,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
         </Box>
         <Box flex flexDirection="column" justifyContent="center">
           <Box mb={1}>
-            <Text size="xLarge" bold>
+            <Text size="xLarge" bold style={{color:'black'}}>
               {product.name}
             </Text>
           </Box>
@@ -128,7 +128,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       <Box>
         <Box className="box-summary" />
         <Box flex justifyContent="space-between" px={6} py={4}>
-          <Text className="title" style={{ padding: 0 }}>
+          <Text className="title" style={{ padding: 0,color:'black' }}>
             {t("menu.total")}
           </Text>
           <Text size="xLarge" bold className="red-color">
