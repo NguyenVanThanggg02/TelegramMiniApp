@@ -89,6 +89,7 @@ const TableFormPage: React.FC = () => {
            <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
              {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
              {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+             {snackbarMessage}
            </div>
          </Snackbar>
         )}
