@@ -50,18 +50,15 @@ const TableFormPage: React.FC = () => {
     if (!data?.error) {
       setSnackbarMessage(t("snackbarMessage.updateTableSuccess"));
       setSnackbarType("success");
+      setTimeout(() => {
+        setSnackbarOpen(false);
+      }, 3000);
+      navigate(-1); 
     } else {
       setSnackbarMessage(t("snackbarMessage.updateTableFail"));
       setSnackbarType("error");
     }
-    
     setSnackbarOpen(true);
-
-    // Tự động ẩn snackbar sau 3 giây
-    setTimeout(() => {
-      setSnackbarOpen(false);
-      navigate(-1); // Thực hiện điều hướng sau khi Snackbar đã ẩn
-    }, 3000);
   };
 
   return (
