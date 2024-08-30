@@ -158,7 +158,7 @@ const OrderHistory: React.FC = () => {
                       </Box>
                       <Box className="products">
                         {item.products.length &&
-                          item.products.map((item: any, index: any) => (
+                          item.products.map((product: any, index: any) => (
                             <Box
                               flex
                               justifyContent="space-between"
@@ -174,7 +174,7 @@ const OrderHistory: React.FC = () => {
                                 <Box>
                                   <Text size="large">
                                     <span className="fw-500">
-                                      {item.product_name} (x{item.quantity})
+                                      {product.product_name} (x{product.quantity})
                                     </span>
                                   </Text>
                                 </Box>
@@ -190,6 +190,87 @@ const OrderHistory: React.FC = () => {
                             </Box>
                           ))}
                       </Box>
+                      <Box
+                            flex
+                            justifyContent="space-between"
+                            alignItems="center"
+                            className="product-item"
+                          >
+                            <Box
+                              flex
+                              alignItems="center"
+                              className="product-info"
+                            >
+                              <Box>
+                                <Text size="large">
+                                  <span>
+                                    <span>
+                                      {t("orderManagement.orderDetail.total")}:
+                                    </span>
+                                  </span>
+                                </Text>
+                              </Box>
+                            </Box>
+                            <Box flex>
+                              {priceFormatter(
+                                item.products.reduce(
+                                  (total: any, product: any) =>
+                                    total +
+                                    product.unit_price * product.quantity,
+                                  0,
+                                ),
+                              ) !==
+                              priceFormatter(item.actual_payment_amount) ? (
+                                <>
+                                  <Text
+                                    className="red-color"
+                                    style={{
+                                      textDecorationLine: "line-through",
+                                    }}
+                                  >
+                                    <span style={{ paddingLeft: "6px" }}>
+                                      <small>
+                                        {" "}
+                                        {priceFormatter(
+                                          item.products.reduce(
+                                            (total: any, product: any) =>
+                                              total +
+                                              product.unit_price *
+                                                product.quantity,
+                                            0,
+                                          ),
+                                        )}
+                                        ₫{" "}
+                                      </small>
+                                    </span>
+                                  </Text>
+                                  <Text>
+                                    <span
+                                      style={{
+                                        paddingLeft: "6px",
+                                      }}
+                                    >
+                                      {priceFormatter(
+                                        item.actual_payment_amount,
+                                      )}
+                                      ₫
+                                    </span>
+                                  </Text>
+                                </>
+                              ) : (
+                                <Text>
+                                  <span
+                                    style={{
+                                      paddingLeft: "6px",
+                                    }}
+                                  >
+                                    {priceFormatter(item.actual_payment_amount)}
+                                    ₫
+                                  </span>
+                                </Text>
+                              )}
+                            </Box>
+                          </Box>
                       <Box pt={1}>
                         {item.notes && (
                           <Box className="note">
