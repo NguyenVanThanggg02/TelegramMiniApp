@@ -182,7 +182,7 @@ const OrderHistory: React.FC = () => {
                               <Box>
                                 <Text size="normal">
                                   {priceFormatter(
-                                    product.unit_price * product.quantity
+                                    item.unit_price * item.quantity,
                                   )}
                                   <span style={{ marginLeft: "2px" }}>₫</span>
                                 </Text>
