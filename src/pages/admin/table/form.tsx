@@ -24,7 +24,7 @@ const TableFormPage: React.FC = () => {
   const navigate = useNavigate();
   
   // Trạng thái để quản lý hiển thị của Snackbar
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
@@ -50,15 +50,14 @@ const TableFormPage: React.FC = () => {
     if (!data?.error) {
       setSnackbarMessage(t("snackbarMessage.updateTableSuccess"));
       setSnackbarType("success");
-      setSnackbarVisible(true);
-      navigate(-1);
     } else {
       setSnackbarMessage(t("snackbarMessage.updateTableFail"));
       setSnackbarType("error");
-      setSnackbarVisible(true);
     }
+    setSnackbarOpen(true);
     // Tự động ẩn snackbar sau 3 giây
-    setTimeout(() => setSnackbarVisible(false), 10000);
+    setTimeout(() => setSnackbarOpen(false), 3000);
+    navigate(-1);
   };
 
   return (
@@ -84,8 +83,8 @@ const TableFormPage: React.FC = () => {
         </Box>
         
         {/* Hiển thị Snackbar khi cần */}
-        {snackbarVisible && (
-          <Snackbar onClose={() => setSnackbarVisible(false)} duration={3000}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div className={snackbarType === "success" ? "snackbar-success" : "snackbar-error"}>
               {snackbarMessage}
             </div>
