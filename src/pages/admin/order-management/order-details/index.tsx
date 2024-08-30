@@ -14,7 +14,7 @@ import {
 } from "zmp-ui";
 import {
   loadingState,
-  // orderState,
+  orderState,
   productListState,
   spinnerState,
   tableListState,
@@ -36,8 +36,8 @@ import {
   fetchOrderByUUID,
   getProductListByStore,
   updateOrderRequest,
-  // updateQuantityProductRequest,
-  // updateStatusOrderRequest,
+  updateQuantityProductRequest,
+  updateStatusOrderRequest,
 } from "../../../../api/api";
 import { isEmpty, sum } from "lodash";
 // import AddProductModal from "../add-products-modal";
@@ -114,18 +114,6 @@ interface Payload {
   product_uuid: string;
 }
 
-// enum ORDER_STATUS  {
-//   PENDING = "pending",
-//   CONFIRMED = "confirmed",
-//   DELIVERED = "delivered",
-//   DONE = "done",
-//   WAIT_FOR_PAY = "wait_for_pay",
-//   PAYED = "payed",
-//   REFUNDED = "refunded",
-//   CANCELLED = "cancelled",
-// };
-
-
 const OrderManagementDetails: React.FC = () => {
   const { t } = useTranslation("global");
   const { order_uuid, store_uuid } = useParams<{ order_uuid: string; store_uuid: string }>();
@@ -137,7 +125,7 @@ const OrderManagementDetails: React.FC = () => {
   const [productList, setProductList] = useRecoilState(productListState);
   const tableList = useRecoilValue(tableListState);
   const user = useRecoilValue(userState);
-  // const orderGlobal = useRecoilValue(orderState);
+  const orderGlobal = useRecoilValue(orderState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setSpinner] = useRecoilState(spinnerState);
 
@@ -150,7 +138,7 @@ const OrderManagementDetails: React.FC = () => {
   // const [selectedProduct, ] = useState<Product>({} as Product);
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [, setIsAddingProduct] = useState(false);
-  // const [, setValSlider] = useState<number>(0);
+  const [, setValSlider] = useState<number>(0);
 
   const orderStatusesSlider = {
     0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
@@ -307,39 +295,39 @@ const OrderManagementDetails: React.FC = () => {
   // };
   
 
-  // const onChangeStatus = async (newStatus) => {
-  //   setSpinner(true);
-  //   const payload = {
-  //     status: newStatus,
-  //   };
+  const onChangeStatus = async (newStatus: any) => {
+    setSpinner(true);
+    const payload = {
+      status: newStatus,
+    };
 
-  //   if (newStatus === ORDER_STATUS.DONE) {
-  //     const orderItemsMapping = order.products
-  //       .filter(
-  //         (item) => item.delivery_status !== PRODUCT_ORDER_STATUS.FINISHED,
-  //       )
-  //       .map((item) => ({
-  //         order_item_uuid: item.order_item_uuid,
-  //         delivered_quantity: item.quantity,
-  //       }));
+    if (newStatus === ORDER_STATUS.DONE) {
+      const orderItemsMapping = order.products
+        .filter(
+          (item) => item.delivery_status !== PRODUCT_ORDER_STATUS.FINISHED,
+        )
+        .map((item) => ({
+          order_item_uuid: item.order_item_uuid,
+          delivered_quantity: item.quantity,
+        }));
 
-  //       await Promise.all(
-  //         orderItemsMapping.map((item) => {
-  //           return updateQuantityProductRequest(order.uuid, item);
-  //         }),
-  //       );
-  //     }
-  //   const data = await updateStatusOrderRequest(order.uuid, payload);
-  //   if (data?.error) {
-  //     console.error("Error:", data.error);
-  //     snackbar.openSnackbar({
-  //       duration: 3000,
-  //       text: String(data.error),
-  //       type: "error",
-  //     });
-  //   }
-  //   setSpinner(false);
-  // };
+        await Promise.all(
+          orderItemsMapping.map((item) => {
+            return updateQuantityProductRequest(order.uuid, item);
+          }),
+        );
+      }
+    const data = await updateStatusOrderRequest(order.uuid, payload);
+    if (data?.error) {
+      console.error("Error:", data.error);
+      snackbar.openSnackbar({
+        duration: 3000,
+        text: String(data.error),
+        type: "error",
+      });
+    }
+    setSpinner(false);
+  };
 
   const fetchProductsByStore = async (store_uuid: string) => {
     setLoading({ ...loading, isLoading: true });
@@ -454,20 +442,20 @@ const OrderManagementDetails: React.FC = () => {
   }, [productList]);
 
   // receive order on socket
-  // useEffect(() => {
-  //   if (orderGlobal?.uuid === order.uuid) {
-  //     setOrder(orderGlobal as Order);
+  useEffect(() => {
+    if (orderGlobal?.uuid === order.uuid) {
+      setOrder(orderGlobal as Order);
 
-  //     let statusSlider = 0;
-  //     if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
-  //       statusSlider = 50;
-  //     }
-  //     if (orderGlobal.status === ORDER_STATUS.DONE) {
-  //       statusSlider = 100;
-  //     }
-  //     setStatusOrderSlider(statusSlider);
-  //   }
-  // }, [orderGlobal]);
+      let statusSlider = 0;
+      if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
+        statusSlider = 50;
+      }
+      if (orderGlobal.status === ORDER_STATUS.DONE) {
+        statusSlider = 100;
+      }
+      setStatusOrderSlider(statusSlider);
+    }
+  }, [orderGlobal]);
 
   // const openChatScreen = async () => {
   //   try {
@@ -489,26 +477,26 @@ const OrderManagementDetails: React.FC = () => {
   }
   
   
-  // const handleChange = (value: number | number[]) => {
-  //   // Ensure value is a number
-  //   const numericValue = Array.isArray(value) ? value[0] : value;
-  //   setValSlider(numericValue);
+  const handleChange = (value: number | number[]) => {
+    // Ensure value is a number
+    const numericValue = Array.isArray(value) ? value[0] : value;
+    setValSlider(numericValue);
 
-  //   switch (numericValue) {
-  //     case 0:
-  //       onChangeStatus(ORDER_STATUS.PENDING);
-  //       break;
-  //     case 50:
-  //       onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
-  //       break;
-  //     case 100:
-  //       onChangeStatus(ORDER_STATUS.DONE);
-  //       break;
-  //     default:
-  //       // Handle other cases if needed
-  //       break;
-  //   }
-  // }
+    switch (numericValue) {
+      case 0:
+        onChangeStatus(ORDER_STATUS.PENDING);
+        break;
+      case 50:
+        onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
+        break;
+      case 100:
+        onChangeStatus(ORDER_STATUS.DONE);
+        break;
+      default:
+        // Handle other cases if needed
+        break;
+    }
+  }
   return (
     <>
       <OrderNotification store_uuid={store_uuid} authToken={user.authToken} />
@@ -559,17 +547,17 @@ const OrderManagementDetails: React.FC = () => {
                   const numericValue = Array.isArray(val) ? val[0] : val;
                   setStatusOrderSlider(numericValue);
 
-                  // switch (numericValue) {
-                  //   case 0:
-                  //     onChangeStatus(ORDER_STATUS.PENDING);
-                  //     break;
-                  //   case 50:
-                  //     onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
-                  //     break;
-                  //   case 100:
-                  //     onChangeStatus(ORDER_STATUS.DONE);
-                  //     break;
-                  // }
+                  switch (numericValue) {
+                    case 0:
+                      onChangeStatus(ORDER_STATUS.PENDING);
+                      break;
+                    case 50:
+                      onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
+                      break;
+                    case 100:
+                      onChangeStatus(ORDER_STATUS.DONE);
+                      break;
+                  }
                 }}
                 className={
                   order.status === ORDER_STATUS.DONE
@@ -687,7 +675,7 @@ const OrderManagementDetails: React.FC = () => {
                             value={valSlider}
                             marks={orderItemStatusesSlider}
                             step={100}
-                            // onChange={handleChange}
+                            onChange={handleChange}
                             className={
                               valSlider === 0
                                 ? "slider-yellow-theme"
@@ -850,7 +838,7 @@ const OrderManagementDetails: React.FC = () => {
       <ConfirmModal
         isShowModal={showModalConfirm}
         onConfirm={() => {
-          // onChangeStatus(ORDER_STATUS.CANCELLED);
+          onChangeStatus(ORDER_STATUS.CANCELLED);
           setShowModalConfirm(false);
         }}
         setIsShowModal={setShowModalConfirm}
