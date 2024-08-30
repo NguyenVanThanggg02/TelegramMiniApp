@@ -93,7 +93,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       <hr />
 
       <Box>
-        <Text className="title bg-gray">{t("menu.quantity")}</Text>
+        <Text className="title bg-gray" style={{color:'black'}}>{t("menu.quantity")}</Text>
         <Box flex justifyContent="center" textAlign="center" py={5}>
           <Box className="fs-24" pr={6} onClick={() => {
             if (quantity > 1) {
