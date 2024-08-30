@@ -58,7 +58,7 @@ const TableFormPage: React.FC = () => {
       setSnackbarVisible(true);
     }
     // Tự động ẩn snackbar sau 3 giây
-    setTimeout(() => setSnackbarVisible(false), 3000);
+    setTimeout(() => setSnackbarVisible(false), 10000);
   };
 
   return (
