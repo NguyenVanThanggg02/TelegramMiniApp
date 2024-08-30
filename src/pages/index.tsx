@@ -133,13 +133,14 @@ const Index: React.FC = () => {
       //get tableName
       const response = await fetchTablesForStore(storeId);
       const tables: Table[] = response.data as Table[]; 
-      
       const table = tables.find((table) => table.uuid === tableId);
       const tableName = table ? table.name : null;
       console.log(tableName);
 
       //get storeName
       const storeData = await getStoreByUUID(storeId);
+      console.log(storeData);
+      
       const storeName = storeData ? storeData.name : null;
       console.log(storeName);
 
