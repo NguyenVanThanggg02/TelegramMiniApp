@@ -80,7 +80,7 @@ const ScaneMenuPage: React.FC = () => {
 
   return (
     <div className="page" style={{padding:'20px 10px'}}>
-      <div className="section-container" style={{ backgroundColor: "white", height:'100vh' }}>
+      <div className="section-container" style={{ backgroundColor: "#f3f3f3", height:'95vh' }}>
         <div>
           <div style={{textAlign:'center'}}>
             <div>
@@ -96,7 +96,7 @@ const ScaneMenuPage: React.FC = () => {
           <div style={{marginTop:'5px', padding:'10px 10px'}}>
             { store.ai_requests_count !== undefined &&   store.ai_requests_count > 4 ? (
               <div   style={{textAlign:'center'}}>
-                <Text className="red-color" style={{fontSize:'20px'}}>
+                <Text className="red-color" style={{fontSize:'20px', color:'black'}}>
                   {t("productManagement.scanMenu.over_limit")}
                 </Text>
               </div>
@@ -111,10 +111,10 @@ const ScaneMenuPage: React.FC = () => {
             )}
             <List style={{ marginTop: "10px" }}>
               <div style={{display:'flex', textAlign:'center'}}>
-                <Text  style={{ flex: 1, fontSize:'20px' }}>
+                <Text  style={{ flex: 1, fontSize:'20px', color:'black' }}>
                   {t("productManagement.scanMenu.status")}
                 </Text>
-                <Text style={{ flex: 1, fontSize:'20px' }}>
+                <Text style={{ flex: 1, fontSize:'20px', color:'black' }}>
                   {t("productManagement.scanMenu.request_date")}
                 </Text>
               </div>
@@ -123,10 +123,10 @@ const ScaneMenuPage: React.FC = () => {
                   style={{ backgroundColor: "#fff", margin: "10px", display:'flex', textAlign:'center' }}
                   key={item.created_at}
                 >
-                  <Text style={{ flex: 1, fontSize:'20px' }}>
+                  <Text style={{ flex: 1, fontSize:'20px', color:'black' }}>
                     {item.status}
                   </Text>
-                  <Text style={{ flex: 1, fontSize:'20px' }}>
+                  <Text style={{ flex: 1, fontSize:'20px', color:'black' }}>
                     {timePeriodFormatter(item.created_at, t)}
                   </Text>
                 </div>
