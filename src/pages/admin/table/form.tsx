@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, Input, Box, Page } from "zmp-ui";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { editTable } from "../../../api/api";
 import { useTranslation } from "react-i18next";
 import { Snackbar } from "@telegram-apps/telegram-ui";
@@ -84,11 +85,12 @@ const TableFormPage: React.FC = () => {
         </Box>
         
         {snackbarOpen && (
-          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-            <div className={snackbarType === "success" ? "snackbar-success" : "snackbar-error"}>
-              {snackbarMessage}
-            </div>
-          </Snackbar>
+           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+           <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+             {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+             {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+           </div>
+         </Snackbar>
         )}
       </div>
     </Page>
