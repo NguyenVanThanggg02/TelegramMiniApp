@@ -58,7 +58,7 @@ const AddStoreUserForm: React.FC<AddStoreUserFormProps> = ({ store_uuid, onUserA
 
   return (
     <>
-      <Text size="large" style={{ fontWeight: 500 }}>
+      <Text size="large" style={{ fontWeight: 500, color:'black' }}>
         {t('userManagement.add_user')}
       </Text>
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -71,7 +71,7 @@ const AddStoreUserForm: React.FC<AddStoreUserFormProps> = ({ store_uuid, onUserA
             style={{ marginRight: '10px' }} // Adjust width as needed
           />
         </Box>
-        <Box mt={6} style={{ marginRight: '10px', marginTop: '0px' }}>
+        <Box mt={6} style={{ marginRight: '10px', marginTop: '0px', color:'black' }}>
           <Select
             placeholder={t('categoryManagement.selectRole')}
             value={role}

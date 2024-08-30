@@ -109,11 +109,11 @@ const UserPage: React.FC = () => {
             <img className="category-img" src={store_user.user.avatar}></img>
             <Box>
               <Box flex flexDirection="column">
-                <Text size="xLarge" bold style={{ marginLeft: "10px" }}>
+                <Text size="xLarge" bold style={{ marginLeft: "10px" , color:'black'}}>
                   {store_user.user.name}
                 </Text>
 
-                <Text size="xLarge" bold style={{ marginLeft: "10px" }}>
+                <Text size="xLarge" bold style={{ marginLeft: "10px",color:'black' }}>
                   {store_user.role}
                 </Text>
               </Box>
