@@ -72,14 +72,14 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
           : voucher.voucher_value + "%"}
       </Box>
       <Box className="voucher-card-right">
-        <Text size="xLarge" bold style={{ marginBottom: "8px" }}>
+        <Text size="xLarge" bold style={{ marginBottom: "8px", color:'black' }}>
           {voucher.voucher_code}
         </Text>
-        <Text size="small">
+        <Text size="small" style={{color:'black'}}>
           {t("voucherManagement.minValue")} ₫
           {shortPriceFormatter(voucher.voucher_min_order_value)}
         </Text>
-        <Text size="xxSmall" className="text-experied">
+        <Text size="xxSmall" className="text-experied" style={{color:'black'}}>
           {t("voucherManagement.experiedAt")}{" "}
           {new Date(voucher.expired_at).toLocaleDateString("en-GB")}
         </Text>

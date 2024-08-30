@@ -42,12 +42,12 @@ const VoucherDetailModal: React.FC<VoucherDetailModalProps> = ({
 
         <Box className="voucher-info">
           <Box mb={1}>
-            <Text size="large" bold>
+            <Text size="large" bold style={{color:'black'}}> 
               {voucher.name}
             </Text>
           </Box>
 
-          <Text size="large">{} ₫</Text>
+          <Text size="large" style={{color:'black'}}>{} ₫</Text>
         </Box>
 
         <Box className="divider" />

@@ -306,7 +306,7 @@ const VoucherFormPage: React.FC = () => {
           </Box>
 
           <Box mt={6}>
-            <Box>
+            <Box style={{color:'black'}}>
               <Switch
                 checked={showButtonStatus}
                 label={t("voucherManagement.createVoucher.active")}
