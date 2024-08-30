@@ -7,15 +7,23 @@ import "./styles.scss";
 import { useTranslation } from "react-i18next";
 
 // Define the type for product items
+interface ProductImage {
+  uuid: string;
+  url: string;
+}
 interface Product {
   uuid: string;
   name: string;
   price: number;
-  quantity: number;
-  images?: { url: string }[];
+  unit_price?: number;
+  quantity?: number;
+  images?: ProductImage[];
+  product_images?: ProductImage[];
+  order_item_uuid: string
+  delivered_quantity: string
+  product_uuid? : string
 }
 
-// Define the type for component props
 interface AddProductModalProps {
   isShow: boolean;
   onClose: () => void;
@@ -28,9 +36,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSu
   const [products, setProducts] = useState<Product[]>([]);
 
   const isChanged = useMemo(
-    () => products.some((productItem) => productItem.quantity > 0),
+    () => products.some((productItem) => (productItem.quantity || 0) > 0),
     [products]
   );
+  
 
   const onChangeQuantity = (type: "increase" | "decrease", product: Product) => {
     const newProducts = products.map((productItem) => {
@@ -38,7 +47,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSu
         return {
           ...productItem,
           quantity:
-            type === "increase" ? product.quantity + 1 : product.quantity - 1,
+          type === "increase" ? (productItem.quantity || 0) + 1 : (productItem.quantity || 0) - 1,
         };
       }
 
@@ -126,7 +135,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSu
           <Button
             disabled={!isChanged}
             onClick={() => {
-              onSubmit(products.filter((item) => item.quantity > 0));
+              onSubmit(products.filter((item) => (item.quantity || 0) > 0));
               onClose();
             }}
           >

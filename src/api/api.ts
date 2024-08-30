@@ -357,12 +357,30 @@ export const fetchVoucherDetails = async (voucher_uuid: string): Promise<ApiResp
 };
 
 // ----- INVOICE -----
-export const sendInvoice = async (dataToSend: any): Promise<ApiResponse<any>> => {
-  return sendPostRequest(`invoice`, {}, dataToSend, false);
+
+interface InvoiceData {
+  voucher?: {
+    voucher_type: string;
+    voucher_value: number;
+    voucher_min_order_value: number;
+  };
+}
+
+interface InvoiceResponse extends ApiResponse<InvoiceData> {
+  voucher?: {
+    voucher_type: string;
+    voucher_value: number;
+    voucher_min_order_value: number;
+  };
+}
+
+export const fetchInvoiceDetails = async (invoice_uuid: string): Promise<InvoiceResponse> => {
+  return sendGetRequest(`invoice/${invoice_uuid}`, {}, false, true);
 };
 
-export const fetchInvoiceDetails = async (invoice_uuid: string): Promise<ApiResponse<any>> => {
-  return sendGetRequest(`invoice/${invoice_uuid}`, {}, false, true);
+
+export const sendInvoice = async (dataToSend: any): Promise<ApiResponse<any>> => {
+  return sendPostRequest(`invoice`, {}, dataToSend, false);
 };
 
 

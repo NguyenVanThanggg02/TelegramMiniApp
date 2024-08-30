@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { openChat } from "zmp-sdk/apis";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   Box,
@@ -24,15 +23,14 @@ import {
 import { priceFormatter } from "../../../../utils/numberFormatter";
 import { shortPriceFormatter } from "../../../../utils/shortPriceFormatter";
 import {
-  DEFAULT_IMAGE_PRODUCT,
-  ORDER_STATUS,
+  // DEFAULT_IMAGE_PRODUCT,
+  // ORDER_STATUS,
   PRODUCT_ORDER_STATUS,
   VOUCHER_TYPE,
 } from "../../../../constants";
 import "./styles.scss";
-import OrderStatus from "../../../../components/order-status";
 import { timePeriodFormatter } from "../../../../utils/timePeriodFormatter";
-import DishOrderSheet from "../../../../components/dish/dish-order";
+// import DishOrderSheet from "../../../../components/dish/dish-order";
 import {
   fetchInvoiceDetails,
   fetchOrderByUUID,
@@ -42,8 +40,8 @@ import {
   updateStatusOrderRequest,
 } from "../../../../api/api";
 import { isEmpty, sum } from "lodash";
-import AddProductModal from "../add-products-modal";
-import useBreakpoint from "../../../../hooks/useBreakpoint";
+// import AddProductModal from "../add-products-modal";
+// import useBreakpoint from "../../../../hooks/useBreakpoint";
 import OrderNotification from "../../../../components/ws/order_notification";
 import { useTranslation } from "react-i18next";
 
@@ -53,10 +51,86 @@ import ConfirmModal from "../../../../components/modal/confirmModal";
 
 import dmIcon from "../../../../static/icons/dm.png";
 
-function OrderManagementDetails() {
+// interface ProductImage {
+//   uuid: string;
+//   url: string;
+// }
+// interface Product {
+//   uuid: string;
+//   name: string;
+//   price: number;
+//   unit_price?: number;
+//   quantity?: number;
+//   images?: ProductImage[];
+//   product_images?: ProductImage[];
+//   order_item_uuid: string
+//   delivered_quantity: string
+//   product_uuid? : string
+// }
+
+interface User {
+  avatar: string;
+  name?: string;
+}
+
+interface Order {
+  invoice_uuid?: string;
+  uuid: string;
+  user?: User;
+  created_at: string;
+  store_name: string;
+  table_uuid: string;
+  store_uuid: string;
+  status: string;
+  products: {
+    delivered_quantity?:string;
+    order_item_uuid?: string;
+    delivery_status?: string
+    name?: string;
+    product_images?:string;
+    product_name: string;
+    quantity: number;
+    unit_price: number;
+    uuid: string;
+    product_uuid?: string;
+  }[];
+  notes?: string;
+  actual_payment_amount: number;
+  value: number;
+}
+
+interface InvoiceData {
+  voucher?: {
+    voucher_type: string;
+    voucher_value: number;
+    voucher_min_order_value: number;
+  };
+}
+
+interface Payload {
+  store_uuid: string;
+  order: Order;
+  uuid: string;
+  product_uuid: string;
+}
+
+enum ORDER_STATUS  {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  DELIVERED = "delivered",
+  DONE = "done",
+  WAIT_FOR_PAY = "wait_for_pay",
+  PAYED = "payed",
+  REFUNDED = "refunded",
+  CANCELLED = "cancelled",
+};
+
+
+const OrderManagementDetails: React.FC = () => {
   const { t } = useTranslation("global");
-  const { order_uuid, store_uuid } = useParams();
-  const { isMobile } = useBreakpoint();
+  const { order_uuid, store_uuid } = useParams<{ order_uuid: string; store_uuid: string }>();
+
+  // const { isMobile } = useBreakpoint();
 
   const snackbar = useSnackbar();
 
@@ -65,7 +139,18 @@ function OrderManagementDetails() {
   const user = useRecoilValue(userState);
   const orderGlobal = useRecoilValue(orderState);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [spinner, setSpinner] = useRecoilState(spinnerState);
+  const [, setSpinner] = useRecoilState(spinnerState);
+
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [order, setOrder] = useState<Order>({} as Order);
+  const [statusOrderSlider, setStatusOrderSlider] = useState(0);
+  const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
+  const [notes, setNotes] = useState("");
+  // const [isShowOrderUpdate, setIsShowOrderUpdate] = useState(false);
+  // const [selectedProduct, ] = useState<Product>({} as Product);
+  const [enabledNotes, setEnabledNotes] = useState(false);
+  const [, setIsAddingProduct] = useState(false);
+  const [, setValSlider] = useState<number>(0);
 
   const orderStatusesSlider = {
     0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
@@ -76,55 +161,47 @@ function OrderManagementDetails() {
     0: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.PENDING),
     100: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.FINISHED),
   };
-  const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [order, setOrder] = useState({});
-  const [statusOrderSlider, setStatusOrderSlider] = useState(0);
-  const [invoiceData, setInvoiceData] = useState(null);
-  const [notes, setNotes] = useState("");
-  const [isShowOrderUpdate, setIsShowOrderUpdate] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState({});
-  const [enabledNotes, setEnabledNotes] = useState(false);
-  const [isAddingProduct, setIsAddingProduct] = useState(false);
+
 
   const isEditableOrder = useMemo(
     () => order.status === ORDER_STATUS.PENDING,
     [order],
   );
 
-  const onOpenUpdateProduct = (product) => {
-    setIsShowOrderUpdate(true);
-    setSelectedProduct(product);
-  };
+  // const onOpenUpdateProduct = (product: Product) => {
+  //   setIsShowOrderUpdate(true);
+  //   setSelectedProduct(product);
+  // };
 
-  const onUpdateDeliveryQuantity = async (product) => {
-    const payload = {
-      order_item_uuid: product.order_item_uuid,
-      delivered_quantity: product.delivered_quantity,
-    };
+  // const onUpdateDeliveryQuantity = async (product: Product) => {
+  //  const payload = {
+  //   order_item_uuid: product.order_item_uuid,
+  //   delivered_quantity: product.delivered_quantity,
+  // };
 
-    setSpinner(true);
-    const data = await updateQuantityProductRequest(order.uuid, payload);
-    if (!data?.error) {
-      setOrder(data);
-      setNotes(data.notes);
+  //   setSpinner(true);
+  //   const data = await updateQuantityProductRequest(order.uuid, payload);
+  //   if (!data?.error) {
+  //     setOrder(data.data as Order);
+  //     setNotes(data.data.notes);
 
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.deliveredSuccess"),
-        type: "success",
-      });
-    } else {
-      console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: data.error,
-        type: "error",
-      });
-    }
-    setSpinner(false);
-  };
+  //     snackbar.openSnackbar({
+  //       duration: 3000,
+  //       text: t("snackbarMessage.deliveredSuccess"),
+  //       type: "success",
+  //     });
+  //   } else {
+  //     console.error("Error:", data.error);
+  //     snackbar.openSnackbar({
+  //       duration: 3000,
+  //       text: String(data.error),
+  //       type: "error",
+  //     });
+  //   }
+  //   setSpinner(false);
+  // };
 
-  const onSubmitUpdateProductOrder = async (payload) => {
+  const onSubmitUpdateProductOrder = async (payload: Payload) => {
     const mappingPayload = {
       store_uuid,
       order: {
@@ -141,63 +218,96 @@ function OrderManagementDetails() {
 
     const data = await updateOrderRequest(mappingPayload);
     if (!data?.error) {
-      setOrder(data);
-      setNotes(data.notes);
+      setOrder(data.data as Order);
+      setNotes(data.data.notes);
       setSpinner(false);
     } else {
       console.error("Error:", data.error);
       snackbar.openSnackbar({
         duration: 3000,
-        text: data.error,
+        text: String(data.error),
         type: "error",
       });
       setSpinner(false);
     }
   };
 
-  const onUpdateQuantity = (productUpdated) => {
-    const productsPayload = [
-      ...order.products.filter(
-        (item) => item.product_uuid !== productUpdated.product_uuid,
-      ),
-      productUpdated,
-    ];
-    const payload = {
-      store_uuid,
-      order: {
-        ...order,
-        products: productsPayload,
-      },
-    };
-    onSubmitUpdateProductOrder(payload);
-  };
+  // const onUpdateQuantity = (productUpdated: Product) => {
+  //   const productsPayload = [
+  //     ...order.products.filter(
+  //       (item) => item.product_uuid !== productUpdated.product_uuid,
+  //     ),
+  //     {
+  //       product_name: productUpdated.name, 
+  //       quantity: productUpdated.quantity || 0,
+  //       unit_price: productUpdated.unit_price || productUpdated.price,
+  //       uuid: productUpdated.uuid,
+  //       product_uuid: productUpdated.product_uuid,
+  //     },
+  //   ];
+  
+  //   const payload: Payload = {
+  //     store_uuid: order.store_uuid,
+  //     uuid: productUpdated.uuid,
+  //     product_uuid: productUpdated.product_uuid || "",
+  //     order: {
+  //       ...order,
+  //       products: productsPayload,
+  //     },
+  //   };
+  
+  //   onSubmitUpdateProductOrder(payload);
+  // };
+  
+
 
   const onUpdateNotes = () => {
-    const payload = {
-      store_uuid,
+    const payload: Payload = {
+      store_uuid: order.store_uuid,   
+      uuid: order.uuid,               
+      product_uuid: "",              
       order: {
         ...order,
-        notes,
+        notes,                        
       },
     };
-
+  
     setEnabledNotes(false);
     onSubmitUpdateProductOrder(payload);
   };
+  
 
-  const onAddProductToOrder = (newProducts) => {
-    const payload = {
-      store_uuid,
-      order: {
-        ...order,
-        products: [...order.products, ...newProducts],
-      },
-    };
+  // const onAddProductToOrder = (newProducts: Product[]) => {
+  //   const payload: Payload = {
+  //     store_uuid: order.store_uuid, 
+  //     uuid: order.uuid, 
+  //     product_uuid: "", 
+  //     order: {
+  //       ...order,
+  //       products: [
+  //         ...order.products.map(product => ({
+  //           product_name: product.name|| '',
+  //           quantity: product.quantity || 0,
+  //           unit_price: product.unit_price || 0,
+  //           uuid: product.uuid,
+  //           product_uuid: product.product_uuid,
+  //         })),
+  //         ...newProducts.map(product => ({
+  //           product_name: product.name,
+  //           quantity: product.quantity || 0,
+  //           unit_price: product.unit_price || 0,
+  //           uuid: product.uuid,
+  //           product_uuid: product.product_uuid,
+  //         })),
+  //       ],
+  //     },
+  //   };
+  
+  //   onSubmitUpdateProductOrder(payload);
+  // };
+  
 
-    onSubmitUpdateProductOrder(payload);
-  };
-
-  const onChangeStatus = async (newStatus) => {
+  const onChangeStatus = async (newStatus: ORDER_STATUS) => {
     setSpinner(true);
     const payload = {
       status: newStatus,
@@ -213,32 +323,31 @@ function OrderManagementDetails() {
           delivered_quantity: item.quantity,
         }));
 
-      Promise.all(
-        orderItemsMapping.forEach((item) => {
-          updateQuantityProductRequest(order.uuid, item);
-        }),
-      );
-    }
-
+        await Promise.all(
+          orderItemsMapping.map((item) => {
+            return updateQuantityProductRequest(order.uuid, item);
+          }),
+        );
+      }
     const data = await updateStatusOrderRequest(order.uuid, payload);
     if (data?.error) {
       console.error("Error:", data.error);
       snackbar.openSnackbar({
         duration: 3000,
-        text: data.error,
+        text: String(data.error),
         type: "error",
       });
     }
     setSpinner(false);
   };
 
-  const fetchProductsByStore = async (store_uuid) => {
+  const fetchProductsByStore = async (store_uuid: string) => {
     setLoading({ ...loading, isLoading: true });
     const data = await getProductListByStore(store_uuid, false);
     if (!data?.error) {
       setProductList({
         is_update: true,
-        products: data,
+        products: [],
       });
       setLoading({ ...loading, isLoading: false });
     } else {
@@ -282,7 +391,7 @@ function OrderManagementDetails() {
     [order, tableList],
   );
 
-  const getInvoiceData = async (invoice_uuid) => {
+  const getInvoiceData = async (invoice_uuid: string) => {
     console.log(`...getInvoiceData..invoice_uuid: ${invoice_uuid}`);
 
     const data = await fetchInvoiceDetails(invoice_uuid);
@@ -295,10 +404,14 @@ function OrderManagementDetails() {
   };
 
   const getOrderByUuid = async () => {
+    if (!store_uuid || !order_uuid) {
+      return;
+    }
     setSpinner(true);
     const data = await fetchOrderByUUID(store_uuid, order_uuid);
     if (!data?.error) {
-      setOrder(data);
+      const order = data.data; 
+      setOrder(order);
 
       let statusSlider = 0;
       if (data.status === ORDER_STATUS.WAIT_FOR_PAY) {
@@ -308,7 +421,7 @@ function OrderManagementDetails() {
         statusSlider = 100;
       }
       setStatusOrderSlider(statusSlider);
-      setNotes(data?.notes);
+      setNotes(order.notes || "");
     } else {
       console.error("Error fetching products:", data.error);
     }
@@ -332,6 +445,9 @@ function OrderManagementDetails() {
   }, [order]);
 
   useEffect(() => {
+    if(!store_uuid) {
+      return
+    }
     if (!productList.products.length) {
       fetchProductsByStore(store_uuid);
     }
@@ -340,7 +456,7 @@ function OrderManagementDetails() {
   // receive order on socket
   useEffect(() => {
     if (orderGlobal?.uuid === order.uuid) {
-      setOrder(orderGlobal);
+      setOrder(orderGlobal as Order);
 
       let statusSlider = 0;
       if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
@@ -353,18 +469,46 @@ function OrderManagementDetails() {
     }
   }, [orderGlobal]);
 
-  const openChatScreen = async () => {
-    try {
-      await openChat({
-        type: "user",
-        id: order?.user?.zalo_id,
-        message: "Xin Chào",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const openChatScreen = async () => {
+  //   try {
+  //     await openChat({
+  //       type: "user",
+  //       id: order?.user?.zalo_id,
+  //       message: "Xin Chào",
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  interface Table {
+    uuid: string;
+    name: string;
+  }
+  function isTable(table: false | Table | undefined): table is Table {
+    return table !== false && table !== undefined;
+  }
+  
+  
+  const handleChange = (value: number | number[]) => {
+    // Ensure value is a number
+    const numericValue = Array.isArray(value) ? value[0] : value;
+    setValSlider(numericValue);
 
+    switch (numericValue) {
+      case 0:
+        onChangeStatus(ORDER_STATUS.PENDING);
+        break;
+      case 50:
+        onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
+        break;
+      case 100:
+        onChangeStatus(ORDER_STATUS.DONE);
+        break;
+      default:
+        // Handle other cases if needed
+        break;
+    }
+  }
   return (
     <>
       <OrderNotification store_uuid={store_uuid} authToken={user.authToken} />
@@ -393,9 +537,12 @@ function OrderManagementDetails() {
           </Box>
         </Box>
         <Box className="header">
-          <Box>
-            <Text className="fs-20 header__table-name">{table.name}</Text>
-          </Box>
+          {isTable(table) && (
+            <Box>
+              <Text className="fs-20 header__table-name">{table.name}</Text>
+            </Box>
+          )}
+
           {order.status === ORDER_STATUS.CANCELLED ? (
             <Box className="order-cancelled red-color">
               <Text>{t("orderManagement.orderCancelled")}</Text>
@@ -409,9 +556,10 @@ function OrderManagementDetails() {
                 step={50}
                 vertical={false}
                 onChange={(val) => {
-                  setStatusOrderSlider(val);
+                  const numericValue = Array.isArray(val) ? val[0] : val;
+                  setStatusOrderSlider(numericValue);
 
-                  switch (val) {
+                  switch (numericValue) {
                     case 0:
                       onChangeStatus(ORDER_STATUS.PENDING);
                       break;
@@ -458,14 +606,14 @@ function OrderManagementDetails() {
                   >
                     <Box flex alignItems="center" className="product-info">
                       <Box mr={6} flex alignItems="center">
-                        <img
+                        {/* <img
                           src={
                             item.product_images?.[0]?.url ||
                             DEFAULT_IMAGE_PRODUCT
                           }
                           alt="dish img"
                           className="product-image"
-                        />
+                        /> */}
                       </Box>
                       <Box>
                         <Text size="large">
@@ -473,11 +621,16 @@ function OrderManagementDetails() {
                           {item.quantity}
                           x){" "}
                           {isEditableOrder && (
-                            <Icon
-                              icon="zi-post"
-                              style={{ color: "blue", verticalAlign: "top" }}
-                              onClick={() => onOpenUpdateProduct(item)}
-                            />
+                            <Box
+                            // onClick={() =>
+                            //   onOpenUpdateProduct(item as Product)
+                            // }
+                            >
+                              <Icon
+                                icon="zi-post"
+                                style={{ color: "blue", verticalAlign: "top" }}
+                              />
+                            </Box>
                           )}
                         </Text>
                         <Box flex style={{ gap: "8px" }}>
@@ -503,22 +656,22 @@ function OrderManagementDetails() {
                             {t("orderManagement.orderDetail.delivered")}:
                           </Text>
                           <Select
-                            value={item.delivered_quantity.toString()}
-                            onChange={(e) =>
-                              onUpdateDeliveryQuantity({
-                                ...item,
-                                delivered_quantity: +e,
-                              })
-                            }
+                            value={item.delivered_quantity?.toString()}
+                            // onChange={(e) =>
+                            //   onUpdateDeliveryQuantity({
+                            //     ...item,
+                            //     delivered_quantity: +!e,
+                            //   })
+                            // }
                             mask
                             closeOnSelect
                           >
                             {[...Array(item.quantity + 1).keys()].map((num) => (
-                              <Option
+                              <option
                                 key={num.toString()}
                                 title={num.toString()}
                                 value={num.toString()}
-                                disabled={num < item.delivered_quantity}
+                                // disabled={num < item.delivered_quantity}
                               />
                             ))}
                           </Select>
@@ -534,16 +687,7 @@ function OrderManagementDetails() {
                             value={valSlider}
                             marks={orderItemStatusesSlider}
                             step={100}
-                            onChange={(val) => {
-                              // only change status order when status is pending
-                              if (valSlider === 0) {
-                                // call api update status order item is finished
-                                onUpdateDeliveryQuantity({
-                                  ...item,
-                                  delivered_quantity: item.quantity,
-                                });
-                              }
-                            }}
+                            onChange={handleChange}
                             className={
                               valSlider === 0
                                 ? "slider-yellow-theme"
@@ -563,14 +707,14 @@ function OrderManagementDetails() {
               flex
               alignItems="center"
               style={{ gap: "4px" }}
-              ml={!isMobile && 3}
+              // ml={!isMobile && 3}
               mb={2}
+              onClick={() => setIsAddingProduct(true)}
             >
               <Icon
                 icon="zi-plus-circle-solid"
                 size={40}
                 style={{ color: "red", height: "40px" }}
-                onClick={() => setIsAddingProduct(true)}
               />{" "}
               <Text size="large">
                 {t("orderManagement.orderDetail.addDish")}
@@ -591,10 +735,6 @@ function OrderManagementDetails() {
               </Text>
               <Text size="large">{priceFormatter(totalBill)}₫</Text>
             </Box>
-            {console.log(`order.status: ${order.status}`)}
-            {console.log(
-              `order?.actual_payment_amount: ${order?.actual_payment_amount}`,
-            )}
 
             {invoiceData?.voucher && (
               <>
@@ -628,27 +768,30 @@ function OrderManagementDetails() {
             <Input
               placeholder={t("orderManagement.orderDetail.notePlaceholder")}
               value={notes}
-              onChangeCapture={(e) => setNotes(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setNotes(e.target.value)
+              }
               disabled={!enabledNotes}
             />
+
             {isEditableOrder && (
               <>
                 {enabledNotes ? (
-                  <Icon
-                    icon="zi-check"
-                    size={30}
-                    style={{ color: "green" }}
-                    onClick={onUpdateNotes}
-                  />
+                  <Box onClick={onUpdateNotes}>
+                    <Icon
+                      icon="zi-check"
+                      size={30}
+                      style={{ color: "green" }}
+                    />
+                  </Box>
                 ) : (
-                  <Icon
-                    icon="zi-post"
-                    size={30}
-                    style={{ color: "red" }}
+                  <Box
                     onClick={() => {
                       setEnabledNotes(true);
                     }}
-                  />
+                  >
+                    <Icon icon="zi-post" size={30} style={{ color: "red" }} />
+                  </Box>
                 )}
               </>
             )}
@@ -667,34 +810,34 @@ function OrderManagementDetails() {
             </Box>
           )}
 
-        <DishOrderSheet
+        {/* <DishOrderSheet
           isShow={isShowOrderUpdate}
           isAdmin
           product={selectedProduct}
           onClose={() => setIsShowOrderUpdate(false)}
           onSubmit={onUpdateQuantity}
-        />
+        /> */}
 
-        <AddProductModal
+        {/* <AddProductModal
           isShow={isAddingProduct}
           data={productList.products
             .filter(
               (productItem) =>
                 !order.products?.find(
-                  (item) => item.product_uuid === productItem.uuid,
-                ),
+                  (item) => item.product_uuid === productItem.uuid
+                )
             )
             .map((item) => ({ ...item, quantity: 0 }))}
           onClose={() => setIsAddingProduct(false)}
           onSubmit={onAddProductToOrder}
-        />
+        /> */}
 
         <Box
           flex
           flexDirection="column"
           justifyContent="center"
           alignItems="center"
-          onClick={() => openChatScreen()}
+          // onClick={() => openChatScreen()}
         >
           <Avatar size={55} src={dmIcon} style={{ marginRight: "10px" }} />
 
