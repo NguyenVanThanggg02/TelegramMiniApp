@@ -109,14 +109,14 @@ const StoreFormPage: React.FC = () => {
   }, [activationCode]);
 
   const handleSubmit = async () => {
-    if (!user.has_phone && showButton) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.pleaseLinkPhoneNumber"),
-        type: "countdown",
-      });
-      return;
-    }
+    // if (!user.has_phone && showButton) {
+    //   snackbar.openSnackbar({
+    //     duration: 3000,
+    //     text: t("snackbarMessage.pleaseLinkPhoneNumber"),
+    //     type: "countdown",
+    //   });
+    //   return;
+    // }
     const response = await createStore({
       store: {
         name: storeName,
