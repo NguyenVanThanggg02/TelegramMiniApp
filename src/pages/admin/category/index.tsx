@@ -180,7 +180,7 @@ const CategoryPage: React.FC = () => {
       />
       <Box flex alignItems="center" justifyContent="center" mt={2}>
         <InfoOutlinedIcon style={{ fontSize: "20px" }} />
-        <Text className="txtDragDrop">{t("categoryManagement.dragDrop")}</Text>
+        <Text className="txtDragDrop" style={{color:'black'}}>{t("categoryManagement.dragDrop")}</Text>
       </Box>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
@@ -203,7 +203,7 @@ const CategoryPage: React.FC = () => {
                           <Text
                             size="xLarge"
                             bold
-                            style={{ marginLeft: "10px" }}
+                            style={{ marginLeft: "10px", color:'black' }}
                           >
                             {cat.name}
                           </Text>

@@ -253,7 +253,7 @@ const Index: React.FC = () => {
       <UserCard isAdmin={true} />
       </Box>
       <Box flex flexDirection="column" className="section-container">
-        <Box style={{ textAlign: "center" }}>
+        <Box style={{ textAlign: "center" , color:'black'}}>
           <Text size="xLarge" bold>
             {t("main.scanQrDes")}
           </Text>

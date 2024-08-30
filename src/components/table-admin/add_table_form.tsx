@@ -65,7 +65,7 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
         value={tableName}
         onChange={(e) => setTableName(e.target.value)}
         placeholder={t('tableManagement.enterTableName')}
-        style={{ marginRight: '10px' }}
+        style={{ marginRight: '10px', color:'black' }}
         showCount
         maxLength={10}
       />

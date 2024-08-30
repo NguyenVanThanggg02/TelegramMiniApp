@@ -70,7 +70,7 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ store_uuid, onCategor
         value={catName}
         onChange={(e) => setCatName(e.target.value)}
         placeholder={t("categoryManagement.categoryNameEnter")}
-        style={{ marginRight: "10px" }}
+        style={{ marginRight: "10px", color:'black' }}
         showCount
         maxLength={20}
       />
