@@ -587,7 +587,7 @@ const ProductFormPage: React.FC = () => {
           </Box>
 
           <Box mt={6}>
-            <Box>
+            <Box style={{color:'black'}}>
               <Switch
                 checked={showButtonStatus}
                 label={t("productManagement.createProduct.display")}

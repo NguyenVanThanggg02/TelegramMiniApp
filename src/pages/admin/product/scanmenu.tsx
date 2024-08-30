@@ -80,14 +80,14 @@ const ScaneMenuPage: React.FC = () => {
 
   return (
     <div className="page" style={{padding:'20px 10px'}}>
-      <div className="section-container" style={{ backgroundColor: "#f3f3f3" }}>
+      <div className="section-container" style={{ backgroundColor: "white", height:'100vh' }}>
         <div>
           <div style={{textAlign:'center'}}>
             <div>
-            <Text style={{fontSize:'20px'}}>{t("productManagement.scanMenu.title")}</Text>
+            <Text style={{fontSize:'20px', color:'black'}}>{t("productManagement.scanMenu.title")}</Text>
             </div>
             <Text>{t("productManagement.scanMenu.description")}</Text>
-            <Text>
+            <Text style={{color:'black'}}>
               {t("productManagement.scanMenu.current_count")}:{" "}
               {store.ai_requests_count}/5
             </Text>

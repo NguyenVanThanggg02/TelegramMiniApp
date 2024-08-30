@@ -53,7 +53,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </Box>
       <Box className="product-card-right">
-        <Text size="xLarge" bold className="product-name">
+        <Text size="xLarge" bold className="product-name" style={{color:'black'}}>
           {product.name}
         </Text>
         {product.status === PRODUCT_STATUS.DISPLAY ? (
@@ -65,7 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {t('productManagement.status.hidden')}
           </Box>
         )}
-        <Text size="normal">₫{priceFormatter(product.price)}</Text>
+        <Text size="normal" style={{color:'black'}}>₫{priceFormatter(product.price)}</Text>
         <Text size="xxSmall" className="text-category">
           {t('storeManagement.categories')}:
           {product.categories.map((item, index) =>

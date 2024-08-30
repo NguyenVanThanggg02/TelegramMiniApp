@@ -146,7 +146,7 @@ const CategoryFormPage: React.FC = () => {
             style={{color:'gray'}}
           >
             {storeList.stores.map((store) => (
-              <Option title={store.name} key={store.uuid} value={store.uuid} />
+              <Option title={store.name} key={store.uuid} value={store.uuid}  />
             ))}
           </Select>
 
