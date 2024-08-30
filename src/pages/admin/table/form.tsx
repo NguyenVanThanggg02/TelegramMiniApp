@@ -64,7 +64,7 @@ const TableFormPage: React.FC = () => {
 
   return (
     <Page className="page">
-      <div className="section-container" style={{display:'flex'}}>
+      <div className="section-container">
         <Box>
           <Input
             id="name"
@@ -85,11 +85,13 @@ const TableFormPage: React.FC = () => {
         </Box>
         
         {snackbarOpen && (
-           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000} style={{backgroundColor:'black', display:'flex'}}>
+           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000} style={{backgroundColor:'black'}}>
            <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+            <div style={{display:'flex'}}>
              {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
              {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
              {snackbarMessage}
+             </div>
            </div>
          </Snackbar>
         )}
