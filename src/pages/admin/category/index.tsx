@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Page,
-  useSnackbar,
   Box,
   Button,
   Text,
 } from "zmp-ui";
 import { useRecoilState, } from "recoil";
 import AddCategoryForm from "../../../components/category-admin/add_category_form";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { loadingState, storeListState } from "../../../state";
 import {
   deleteCategory,
@@ -23,6 +23,7 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import ConfirmModal from "../../../components/modal/confirmModal";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface Category {
   name: string;
@@ -41,12 +42,16 @@ const CategoryPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const [categories, setCategories] = useState<Category[]>([]);
-  const snackbar = useSnackbar();
   const navigate = useNavigate();
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   const handleCategoryAdded = () => {
     fetchCategoryData();
@@ -69,19 +74,16 @@ const CategoryPage: React.FC = () => {
         setCategories(sortedCategories);
       } else {
         console.error("Error:", response.error);
-        snackbar.openSnackbar({
-          duration: 10000,
-          text: t("snackbarMessage.getCatFail"),
-          type: "countdown",
-        });
+        setSnackbarMessage(t("snackbarMessage.getCatFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
+
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      snackbar.openSnackbar({
-        duration: 10000,
-        text: t("snackbarMessage.getCatFail"),
-        type: "countdown",
-      });
+      setSnackbarMessage(t("snackbarMessage.getCatFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     } finally {
       setLoading({ ...loading, isLoading: false });
     }
@@ -105,20 +107,14 @@ const CategoryPage: React.FC = () => {
     
     if (JSON.stringify(data)) {
       fetchCategoryData();
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.deleteSuccess"),
-        type: "success",
-      });
+      setSnackbarMessage(t("snackbarMessage.deleteSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof data.error === "string"
-            ? data.error
-            : t("snackbarMessage.deleteFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.deleteFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -146,11 +142,9 @@ const CategoryPage: React.FC = () => {
       cat_uuids: [...newList.map((c) => c.uuid)],
     });
     if (!data?.error) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.updateCatSuccess"),
-        type: "success",
-      });
+        setSnackbarMessage(t("snackbarMessage.updateCatSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
     } else {
       const newList = reorder(
         categories,
@@ -158,11 +152,9 @@ const CategoryPage: React.FC = () => {
         result.source.index,
       );
       setCategories([...newList]);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.updateCatFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     }
   };
 
@@ -227,6 +219,19 @@ const CategoryPage: React.FC = () => {
           )}
         </Droppable>
       </DragDropContext>
+      <div style={{borderRadius:'10px', backgroundColor:'black'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };
