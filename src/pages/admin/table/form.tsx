@@ -85,7 +85,7 @@ const TableFormPage: React.FC = () => {
         
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-            <div className={`snackbar snackbar--${snackbarType}`}>
+            <div className={snackbarType === "success" ? "snackbar-success" : "snackbar-error"}>
               {snackbarMessage}
             </div>
           </Snackbar>

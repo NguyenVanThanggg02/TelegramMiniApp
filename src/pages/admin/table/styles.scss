@@ -24,16 +24,3 @@
   position: absolute;
   right: 10px;
 }
-.snackbar {
-  padding: 10px;
-  border-radius: 4px;
-  color: white;
-
-  &--success {
-    color: green; 
-  }
-
-  &--error {
-    color: red; 
-  }
-}
