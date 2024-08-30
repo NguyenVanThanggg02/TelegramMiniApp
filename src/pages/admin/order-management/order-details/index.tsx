@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   Box,
-  Icon,
+  // Icon,
   Input,
   Page,
   Select,
@@ -35,7 +35,7 @@ import {
   fetchInvoiceDetails,
   fetchOrderByUUID,
   getProductListByStore,
-  updateOrderRequest,
+  // updateOrderRequest,
   updateQuantityProductRequest,
   updateStatusOrderRequest,
 } from "../../../../api/api";
@@ -98,12 +98,12 @@ interface InvoiceData {
   };
 }
 
-interface Payload {
-  store_uuid: string;
-  order: Order;
-  uuid: string;
-  product_uuid: string;
-}
+// interface Payload {
+//   store_uuid: string;
+//   order: Order;
+//   uuid: string;
+//   product_uuid: string;
+// }
 
 const OrderManagementDetails: React.FC = () => {
   const { t } = useTranslation("global");
@@ -125,10 +125,10 @@ const OrderManagementDetails: React.FC = () => {
   const [statusOrderSlider, setStatusOrderSlider] = useState(0);
   const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
   const [notes, setNotes] = useState("");
-  const [, setIsShowOrderUpdate] = useState(false);
-  const [, setSelectedProduct ] = useState<Product>({} as Product);
-  const [enabledNotes, setEnabledNotes] = useState(false);
-  const [, setIsAddingProduct] = useState(false);
+  // const [, setIsShowOrderUpdate] = useState(false);
+  // const [, setSelectedProduct ] = useState<Product>({} as Product);
+  const [enabledNotes, ] = useState(false);
+  // const [, setIsAddingProduct] = useState(false);
   const [, setValSlider] = useState<number>(0);
 
   const orderStatusesSlider = {
@@ -142,15 +142,15 @@ const OrderManagementDetails: React.FC = () => {
   };
 
 
-  const isEditableOrder = useMemo(
-    () => order.status === ORDER_STATUS.PENDING,
-    [order],
-  );
+  // const isEditableOrder = useMemo(
+  //   () => order.status === ORDER_STATUS.PENDING,
+  //   [order],
+  // );
 
-  const onOpenUpdateProduct = (product: Product) => {
-    setIsShowOrderUpdate(true);
-    setSelectedProduct(product);
-  };
+  // const onOpenUpdateProduct = (product: Product) => {
+  //   setIsShowOrderUpdate(true);
+  //   setSelectedProduct(product);
+  // };
 
   const onUpdateDeliveryQuantity = async (product: Product) => {
    const payload = {
@@ -180,36 +180,36 @@ const OrderManagementDetails: React.FC = () => {
     setSpinner(false);
   };
 
-  const onSubmitUpdateProductOrder = async (payload: Payload) => {
-    const mappingPayload = {
-      store_uuid,
-      order: {
-        ...payload.order,
-        products: payload.order.products.map(
-          ({ uuid, product_uuid, quantity }) => ({
-            uuid: product_uuid || uuid,
-            quantity,
-          }),
-        ),
-      },
-    };
-    setSpinner(true);
+  // const onSubmitUpdateProductOrder = async (payload: Payload) => {
+  //   const mappingPayload = {
+  //     store_uuid,
+  //     order: {
+  //       ...payload.order,
+  //       products: payload.order.products.map(
+  //         ({ uuid, product_uuid, quantity }) => ({
+  //           uuid: product_uuid || uuid,
+  //           quantity,
+  //         }),
+  //       ),
+  //     },
+  //   };
+  //   setSpinner(true);
 
-    const data = await updateOrderRequest(mappingPayload);
-    if (!data?.error) {
-      setOrder(data.data as Order);
-      setNotes(data.data.notes);
-      setSpinner(false);
-    } else {
-      console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
-      setSpinner(false);
-    }
-  };
+  //   const data = await updateOrderRequest(mappingPayload);
+  //   if (!data?.error) {
+  //     setOrder(data.data as Order);
+  //     setNotes(data.data.notes);
+  //     setSpinner(false);
+  //   } else {
+  //     console.error("Error:", data.error);
+  //     snackbar.openSnackbar({
+  //       duration: 3000,
+  //       text: String(data.error),
+  //       type: "error",
+  //     });
+  //     setSpinner(false);
+  //   }
+  // };
 
   // const onUpdateQuantity = (productUpdated: Product) => {
   //   const productsPayload = [
@@ -239,20 +239,20 @@ const OrderManagementDetails: React.FC = () => {
   
 
 
-  const onUpdateNotes = () => {
-    const payload: Payload = {
-      store_uuid: order.store_uuid,   
-      uuid: order.uuid,               
-      product_uuid: "",              
-      order: {
-        ...order,
-        notes,                        
-      },
-    };
+  // const onUpdateNotes = () => {
+  //   const payload: Payload = {
+  //     store_uuid: order.store_uuid,   
+  //     uuid: order.uuid,               
+  //     product_uuid: "",              
+  //     order: {
+  //       ...order,
+  //       notes,                        
+  //     },
+  //   };
   
-    setEnabledNotes(false);
-    onSubmitUpdateProductOrder(payload);
-  };
+  //   setEnabledNotes(false);
+  //   onSubmitUpdateProductOrder(payload);
+  // };
   
 
 //   const onAddProductToOrder = (newProducts: Product[]) => {
@@ -595,7 +595,7 @@ const OrderManagementDetails: React.FC = () => {
                           <span className="fw-500">{item.product_name}</span> (
                           {item.quantity}
                           x){" "}
-                          {isEditableOrder && (
+                          {/* {isEditableOrder && (
                             <Box
                             onClick={() =>
                               onOpenUpdateProduct(item)
@@ -606,7 +606,7 @@ const OrderManagementDetails: React.FC = () => {
                                 style={{ color: "blue", verticalAlign: "top" }}
                               />
                             </Box>
-                          )}
+                          )} */}
                         </Text>
                         <Box flex style={{ gap: "8px" }}>
                           <Text size="normal">
@@ -678,7 +678,7 @@ const OrderManagementDetails: React.FC = () => {
               })}
           </Box>
 
-          {isEditableOrder && (
+          {/* {isEditableOrder && (
             <Box
               flex
               alignItems="center"
@@ -696,7 +696,7 @@ const OrderManagementDetails: React.FC = () => {
                 {t("orderManagement.orderDetail.addDish")}
               </Text>
             </Box>
-          )}
+          )} */}
 
           <Box>
             <Box
@@ -750,7 +750,7 @@ const OrderManagementDetails: React.FC = () => {
               disabled={!enabledNotes}
             />
 
-            {isEditableOrder && (
+            {/* {isEditableOrder && (
               <>
                 {enabledNotes ? (
                   <Box onClick={onUpdateNotes}>
@@ -770,7 +770,7 @@ const OrderManagementDetails: React.FC = () => {
                   </Box>
                 )}
               </>
-            )}
+            )} */}
           </Box>
         </Box>
 
