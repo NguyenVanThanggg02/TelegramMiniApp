@@ -8,7 +8,7 @@ import {
 } from "zmp-ui";
 import { storeListState, userState } from "../state";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { getStoreList } from "../api/api";
+import { fetchTablesForStore, getStoreByUUID, getStoreList } from "../api/api";
 import UserCard from "../components/user-card";
 import { useTranslation } from "react-i18next";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
@@ -19,6 +19,11 @@ import { initCloudStorage } from "@telegram-apps/sdk-react";
 import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
+
+interface Table {
+  uuid: string;
+  name: string;
+}
 
 const Index: React.FC = () => {
   const navigate = useNavigate();
@@ -87,9 +92,9 @@ const Index: React.FC = () => {
       qrScanner = new QrScanner(
         videoRef.current,
         async (result) => {
-          if (isProcessing) return; // Ngăn không cho xử lý nhiều lần cùng một lúc
+          if (isProcessing) return; 
 
-          setIsProcessing(true); // Đặt biến cờ để kiểm tra
+          setIsProcessing(true); 
           setTimeout(async () => {
             console.log(result);
             setScanResult(result.data);
@@ -123,7 +128,29 @@ const Index: React.FC = () => {
     }
   }, [showScanner, isProcessing]);
 
-  const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
+  const getNamesByStoreAndTable = async (storeId: string, tableId: string) => {
+    try {
+      //get tableName
+      const response = await fetchTablesForStore(storeId);
+      const tables: Table[] = response.data as Table[]; 
+      
+      const table = tables.find((table) => table.uuid === tableId);
+      const tableName = table ? table.name : null;
+      console.log(tableName);
+
+      //get storeName
+      const storeData = await getStoreByUUID(storeId);
+      const storeName = storeData ? storeData.name : null;
+      console.log(storeName);
+
+      return { storeName, tableName };
+    } catch (error) {
+      console.error("Error fetching store or table name:", error);
+      return { storeName: null, tableName: null };
+    }
+  };
+
+  const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
 
@@ -133,15 +160,18 @@ const Index: React.FC = () => {
         scanCount++;
     }
 
+    const { storeName, tableName } = await getNamesByStoreAndTable(storeId, tableId);
+    
+    if (storeName && tableName){
+
     scanList.push(qrData);  
     localStorage.setItem("scanList", JSON.stringify(scanList));
     localStorage.setItem("scanCount", scanCount.toString());
     console.log(localStorage.getItem("scanCount"));
     console.log(localStorage.getItem("scanList"));
-
+}
     redirectToMenu(storeId, tableId, tenantId);
 };
-
 
   const notifyErrorStoreNotFound = () => {
     snackbar.openSnackbar({
@@ -174,34 +204,6 @@ const Index: React.FC = () => {
   const hanldeReScanQr = () => {
     navigate("/recent-scan");
   };
-
-
-  
-  // const handleSelectImage = async (event:any) => {
-  //   const file = event.target.files[0];
-  //   if (file) {
-  //     try {
-  //       const result = await QrScanner.scanImage(file, {
-  //         returnDetailedScanResult: true,
-  //       });
-  //       const urlRedirect = new URL(result.data);
-  //       const storeId = urlRedirect.searchParams.get("storeId");
-  //       const tableId = urlRedirect.searchParams.get("tableId");
-  //       const tenantId = urlRedirect.searchParams.get("tenant_id");
-
-  //       if (storeId && tableId && tenantId) {
-  //         redirectToMenu(storeId, tableId, tenantId);
-  //       } else {
-  //         notifyErrorStoreNotFound();
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during QR code scan:", error);
-  //       handleError("Lỗi quét mã qr");
-  //     }
-  //   }
-  // };
-
-
 
   const handleSelectImage = async (event: any) => {
     const file = event.target.files[0];

@@ -6,10 +6,15 @@ import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 
+interface ScanData {
+  qrData: string;
+  storeName: string;
+  tableName: string;
+}
 
 const RecentScans: React.FC = () => {
   const navigate = useNavigate();
-  const scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
+  const scanList: ScanData[] = JSON.parse(localStorage.getItem("scanList") || "[]");
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const { t } = useTranslation("global");
@@ -103,9 +108,10 @@ const RecentScans: React.FC = () => {
                   <a
                     className="link-text-recent"
                     href="#"
-                    onClick={() => handleRedirect(s)}
+                    onClick={() => handleRedirect(s.qrData)}
                   >
-                    {s}
+                    {s.storeName} - {s.tableName}
+                    {/* {s} */}
                   </a>
                 </div>
               </div>
