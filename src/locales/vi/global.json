@@ -300,6 +300,7 @@
     "addTableFail": "Thêm bàn thất bại",
     "updateTableSuccess": "Cập nhật bàn thành công",
     "updateTableFail": "Cập nhật bàn thất bại",
+    "UpdateTableDueToError": "Tên bàn không chứa kí tự đặc biệt",
     "codeValid": "Mã kích hoạt có thể sử dụng",
     "codeInvalid": "Mã kích hoạt không hợp lệ",
     "codeNotFound": "Không tìm thấy mã kích hoạt!",

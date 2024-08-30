@@ -299,6 +299,7 @@
     "addTableFail": "Failed to add table",
     "updateTableSuccess": "Update table successfully",
     "updateTableFail": "Failed to update table",
+    "UpdateTableDueToError": "Table name does not contain special characters.",
     "codeValid": "Activation code can be use",
     "codeInvalid": "Invalid activation code",
     "codeNotFound": "Activation code not found!",
