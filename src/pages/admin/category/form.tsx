@@ -32,12 +32,13 @@ interface CategoryForm {
 
 const CategoryFormPage: React.FC = () => {
   const { t } = useTranslation("global");
-  const [category, ] = useRecoilState(categoryState);
+  const [category] = useRecoilState(categoryState);
   const { store_uuid, category_uuid } = useParams<{ store_uuid?: string; category_uuid?: string }>();
   const [form, setForm] = React.useState<CategoryForm>({ ...category });
   const storeList = useRecoilValue(storeListState);
 
   const navigate = useNavigate();
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
@@ -120,10 +121,6 @@ const CategoryFormPage: React.FC = () => {
   const handleSubmit = () => {
     if (form.uuid) {
       updateCategoryByName(form.uuid, form.name);
-    } else {
-      setSnackbarMessage(t("snackbarMessage.updateCatFail"));
-      setSnackbarType("error");
-      setSnackbarOpen(true);
     }
   };
 
@@ -136,7 +133,7 @@ const CategoryFormPage: React.FC = () => {
             label={t("categoryManagement.categoryName")}
             type="text"
             placeholder={t("categoryManagement.categoryName")}
-            value={form.name}
+            value={form?.name}
             onChange={(e) => handleChangeInput("name", e.target.value)}
             showCount
             maxLength={20}
@@ -146,7 +143,7 @@ const CategoryFormPage: React.FC = () => {
             id="store_uuid"
             label={t("categoryManagement.store")}
             closeOnSelect
-            value={form.store_uuid}
+            value={store_uuid}
             disabled
             style={{color:'gray'}}
           >
@@ -161,7 +158,7 @@ const CategoryFormPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <div style={{borderRadius:'10px'}}>
+        <div style={{borderRadius:'10px', backgroundColor:'black'}}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
               <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
