@@ -110,7 +110,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
 
             />
           </Box>
-          <Box className="fs-24" style={{ marginTop: "6px" }}>
+          <Box className="fs-24" style={{ marginTop: "6px", color:'black' }}>
             {quantity}
           </Box>
           <Box className="fs-24" pl={6} onClick={() => {
@@ -118,7 +118,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
           }}>
             <Icon
               icon="zi-plus-circle"
-              style={{ fontSize: "32px" }}
+              style={{ fontSize: "32px", color:'black' }}
 
             />
           </Box>
