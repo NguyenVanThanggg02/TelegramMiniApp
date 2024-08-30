@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { Button, Input, Box, Page, useSnackbar } from "zmp-ui";
+import { Button, Input, Box, Page } from "zmp-ui";
 
-// import { useRecoilValue } from "recoil";
-// import { userState } from "../../../state";
 import { editTable } from "../../../api/api";
 import { useTranslation } from "react-i18next";
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface FormState {
   uuid?: string;
@@ -15,17 +14,19 @@ interface FormState {
 const TableFormPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid: string }>();
-  // const user = useRecoilValue(userState);
-  const [searchParams, ] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const table_name = searchParams.get("table_name");
   const [form, setForm] = useState<FormState>({
     uuid: table_uuid,
     name: table_name || "",
   });
 
-  const snackbar = useSnackbar();
   const navigate = useNavigate();
-
+  
+  // Thêm trạng thái để quản lý hiển thị của Snackbar
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  
   const handleChangeInput = (field: keyof FormState, value: string) => {
     setForm({ ...form, [field]: value });
   };
@@ -35,7 +36,6 @@ const TableFormPage: React.FC = () => {
       updateTableByName(form.uuid, form.name);
     }
   };
-
 
   const updateTableByName = async (uuid: string, name: string) => {
     let payload = {
@@ -47,18 +47,14 @@ const TableFormPage: React.FC = () => {
     };
     const data = await editTable(payload);
     if (!data?.error) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.updateTableSuccess"),
-        type: "success",
-      });
+      setSnackbarMessage(t("snackbarMessage.updateTableSuccess"));
+      setSnackbarVisible(true);
+      setTimeout(() => setSnackbarVisible(false), 3000); 
       navigate(-1);
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.updateTableFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.updateTableFail"));
+      setSnackbarVisible(true);
+      setTimeout(() => setSnackbarVisible(false), 3000); 
     }
   };
 
@@ -83,6 +79,13 @@ const TableFormPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
+        
+        {/* Hiển thị Snackbar nếu cần thiết */}
+        {snackbarVisible && (
+          <Snackbar onClose={() => setSnackbarVisible(false)}>
+            {snackbarMessage}
+          </Snackbar>
+        )}
       </div>
     </Page>
   );
