@@ -14,7 +14,7 @@ import {
 } from "zmp-ui";
 import {
   loadingState,
-  orderState,
+  // orderState,
   productListState,
   spinnerState,
   tableListState,
@@ -137,7 +137,7 @@ const OrderManagementDetails: React.FC = () => {
   const [productList, setProductList] = useRecoilState(productListState);
   const tableList = useRecoilValue(tableListState);
   const user = useRecoilValue(userState);
-  const orderGlobal = useRecoilValue(orderState);
+  // const orderGlobal = useRecoilValue(orderState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setSpinner] = useRecoilState(spinnerState);
 
@@ -454,20 +454,20 @@ const OrderManagementDetails: React.FC = () => {
   }, [productList]);
 
   // receive order on socket
-  useEffect(() => {
-    if (orderGlobal?.uuid === order.uuid) {
-      setOrder(orderGlobal as Order);
+  // useEffect(() => {
+  //   if (orderGlobal?.uuid === order.uuid) {
+  //     setOrder(orderGlobal as Order);
 
-      let statusSlider = 0;
-      if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
-        statusSlider = 50;
-      }
-      if (orderGlobal.status === ORDER_STATUS.DONE) {
-        statusSlider = 100;
-      }
-      setStatusOrderSlider(statusSlider);
-    }
-  }, [orderGlobal]);
+  //     let statusSlider = 0;
+  //     if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
+  //       statusSlider = 50;
+  //     }
+  //     if (orderGlobal.status === ORDER_STATUS.DONE) {
+  //       statusSlider = 100;
+  //     }
+  //     setStatusOrderSlider(statusSlider);
+  //   }
+  // }, [orderGlobal]);
 
   // const openChatScreen = async () => {
   //   try {
