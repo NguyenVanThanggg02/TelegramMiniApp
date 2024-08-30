@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Button, Input, Box, Page } from "zmp-ui";
+import "./styles.scss";
 
 import { editTable } from "../../../api/api";
 import { useTranslation } from "react-i18next";
