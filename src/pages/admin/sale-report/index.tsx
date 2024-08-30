@@ -61,8 +61,8 @@ const SaleReportPage: React.FC = () => {
 
   return (
     <Page className="section-container">
-      <Box mt={2}>
-        <Text>{t("saleReport.fromDate")}</Text>
+      <Box mt={2} style={{color:'black'}}>
+        <Text style={{color:'black'}}>{t("saleReport.fromDate")}</Text>
         <DatePicker
           mask
           maskClosable
@@ -73,8 +73,8 @@ const SaleReportPage: React.FC = () => {
         />
       </Box>
 
-      <Box mt={2}>
-        <Text>{t("saleReport.toDate")}</Text>
+      <Box mt={2} style={{color:'black'}}>
+        <Text style={{color:'black'}}>{t("saleReport.toDate")}</Text>
         <DatePicker
           mask
           maskClosable
@@ -100,7 +100,7 @@ const SaleReportPage: React.FC = () => {
             border: "1px solid green",
           }}
         >
-          <Text size="xLarge" bold style={{ marginBottom: "8px" }}>
+          <Text size="xLarge" bold style={{ marginBottom: "8px",color:'black' }}>
             {formatNumberToVND(totalValue)} VND
           </Text>
         </Box>
