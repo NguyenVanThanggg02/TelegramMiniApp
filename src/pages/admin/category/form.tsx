@@ -41,6 +41,7 @@ const CategoryFormPage: React.FC = () => {
   const storeList = useRecoilValue(storeListState);
 
   const navigate = useNavigate();
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
@@ -104,6 +105,7 @@ const CategoryFormPage: React.FC = () => {
       setSnackbarMessage(t("snackbarMessage.updateCatFail"));
       setSnackbarType("error");
     }
+    setSnackbarOpen(true);
   };
 
   const handleSubmit = () => {
