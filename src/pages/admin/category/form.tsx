@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Button,
   Input,
   Box,
   Page,
-  useSnackbar,
   Select,
 } from "zmp-ui";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   // categoryListState,
@@ -21,6 +21,7 @@ import {
   editCategoryByCategoryUUID,
 } from "../../../api/api";
 import { useTranslation } from "react-i18next";
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 const { Option } = Select;
 
@@ -39,9 +40,11 @@ const CategoryFormPage: React.FC = () => {
   // const user = useRecoilValue(userState);
   const storeList = useRecoilValue(storeListState);
 
-  const snackbar = useSnackbar();
   const navigate = useNavigate();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const handleChangeInput = (field: keyof CategoryForm, value: string) => {
     setForm({ ...form, [field]: value });
   };
@@ -66,11 +69,8 @@ const CategoryFormPage: React.FC = () => {
       });
     } else {
       console.error("Error fetching category details:", response.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.fetchProductDetailFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.fetchProductDetailFail"));
+      setSnackbarType("error");
     }
   };
 
@@ -93,22 +93,16 @@ const CategoryFormPage: React.FC = () => {
         uuid: data.uuid,
       }));
 
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.updateCatSuccess"),
-        type: "success",
-      });
-      navigate(-1);
+      setSnackbarMessage(t("snackbarMessage.updateCatSuccess"));
+      setSnackbarType("success");
+      setTimeout(() => {
+        setSnackbarOpen(false);
+        navigate(-1); 
+      }, 2000);
     } else {
       console.error("Error update category", response.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof response.error === "string"
-            ? response.error
-            : t("snackbarMessage.updateCatFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.updateCatFail"));
+      setSnackbarType("error");
     }
   };
 
@@ -156,6 +150,19 @@ const CategoryFormPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
+        <div style={{borderRadius:'10px'}}>
+        {snackbarOpen && (
+           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+           <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+            <div style={{display:'flex'}}>
+             {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+             {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+             {snackbarMessage}
+             </div>
+           </div>
+         </Snackbar>
+        )}
+        </div>
       </div>
     </Page>
   );
