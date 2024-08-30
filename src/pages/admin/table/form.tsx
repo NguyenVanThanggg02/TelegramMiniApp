@@ -64,7 +64,7 @@ const TableFormPage: React.FC = () => {
 
   return (
     <Page className="page">
-      <div className="section-container">
+      <div className="section-container" style={{display:'flex'}}>
         <Box>
           <Input
             id="name"
