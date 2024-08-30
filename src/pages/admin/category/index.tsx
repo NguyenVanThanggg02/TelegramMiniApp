@@ -179,7 +179,7 @@ const CategoryPage: React.FC = () => {
         onConfirm={() => onDeleteCategory()}
       />
       <Box flex alignItems="center" justifyContent="center" mt={2}>
-        <InfoOutlinedIcon style={{ fontSize: "20px" }} />
+        <InfoOutlinedIcon style={{ fontSize: "20px", color:'black' }} />
         <Text className="txtDragDrop" style={{color:'black'}}>{t("categoryManagement.dragDrop")}</Text>
       </Box>
       <DragDropContext onDragEnd={onDragEnd}>

@@ -143,6 +143,7 @@ const CategoryFormPage: React.FC = () => {
             closeOnSelect
             value={store_uuid}
             disabled
+            style={{color:'gray'}}
           >
             {storeList.stores.map((store) => (
               <Option title={store.name} key={store.uuid} value={store.uuid} />
