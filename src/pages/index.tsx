@@ -138,9 +138,8 @@ const Index: React.FC = () => {
       console.log(tableName);
 
       //get storeName
-      const storeData = await getStoreByUUID(storeId);
-      console.log(storeData);
-      
+      const data = await getStoreByUUID(storeId);
+      const storeData = data.data;
       const storeName = storeData ? storeData.name : null;
       console.log(storeName);
 
