@@ -416,7 +416,7 @@ const OrderManagement: React.FC = () => {
       >
         <Box flex alignItems="center" className="toolbar_filter">
           <Box className="toolbar_filter_search">
-            <Text>{t("orderManagement.status")}</Text>
+            <Text style={{color:'black'}}>{t("orderManagement.status")}</Text>
             <Select
               closeOnSelect
               mask
@@ -438,7 +438,7 @@ const OrderManagement: React.FC = () => {
           </Box>
 
           <Box className="toolbar_filter_search">
-            <Text>{t("orderManagement.date")}</Text>
+            <Text style={{color:'black'}}>{t("orderManagement.date")}</Text>
             {hideDatePicker ? (
               <DatePicker
                 key="datePicker-hideDatePicker"
@@ -483,7 +483,7 @@ const OrderManagement: React.FC = () => {
           </Box>
 
           <Box className="toolbar_filter_search">
-            <Text>{t("orderManagement.search")}</Text>
+            <Text style={{color:'black'}}>{t("orderManagement.search")}</Text>
             <Input.Search
               className="search-input"
               onChange={(e) => onFilterChange("search", e.target.value)}
@@ -534,7 +534,7 @@ const OrderManagement: React.FC = () => {
                         src={order.user?.avatar}
                         style={{ marginRight: "10px" }}
                       />
-                      <Text size="xLarge" bold>
+                      <Text size="xLarge" bold style={{color:'black'}}>
                         {
                           tableList.tables.find(
                             (table) => table.uuid === order.table_uuid
@@ -549,8 +549,8 @@ const OrderManagement: React.FC = () => {
                     alignItems="center"
                     className="order-table-mobile_box"
                   >
-                    <Text bold>{t("orderManagement.orderTime")}</Text>
-                    <Text>{timePeriodFormatter(order.created_at, t)}</Text>
+                    <Text bold style={{color:'black'}}>{t("orderManagement.orderTime")}</Text>
+                    <Text style={{color:'black'}}>{timePeriodFormatter(order.created_at, t)}</Text>
                   </Box>
                   <Box
                     flex
@@ -558,12 +558,12 @@ const OrderManagement: React.FC = () => {
                     alignItems="center"
                     className="order-table-mobile_box"
                   >
-                    <Text bold>{t("orderManagement.notes")}</Text>
-                    <Text>{order.notes}</Text>
+                    <Text bold style={{color:'black'}}>{t("orderManagement.notes")}</Text>
+                    <Text style={{color:'black'}}>{order.notes}</Text>
                   </Box>
                   {order.status === ORDER_STATUS.CANCELLED ? (
                     <Box className="order-cancelled red-color">
-                      <Text>{t("orderManagement.orderCancelled")}</Text>
+                      <Text style={{color:'black'}}>{t("orderManagement.orderCancelled")}</Text>
                     </Box>
                   ) : (
                     <Box
@@ -677,7 +677,7 @@ const OrderManagement: React.FC = () => {
 
         {isLoadingMore && (
           <Box>
-            <Text size="large">Loading...</Text>
+            <Text size="large" style={{color:'black'}}>Loading...</Text>
           </Box>
         )}
       </Box>

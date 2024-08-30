@@ -95,10 +95,10 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSu
                     />
                   </Box>
                   <Box>
-                    <Text size="large" bold>
+                    <Text size="large" bold style={{color:'black'}}>
                       {productItem.name}
                     </Text>
-                    <Text className="red-color caption-text">
+                    <Text className="red-color caption-text" style={{color:'black'}}>
                       ₫{priceFormatter(productItem.price)}
                     </Text>
                   </Box>
@@ -114,7 +114,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSu
                     }}
                   />
                   </Box>
-                  <Text className="fs-22" style={{ width: "20px" }}>
+                  <Text className="fs-22" style={{ width: "20px", color:'black' }}>
                     {productItem.quantity}
                   </Text>
                   <Box onClick={() => onChangeQuantity("increase", productItem)}>

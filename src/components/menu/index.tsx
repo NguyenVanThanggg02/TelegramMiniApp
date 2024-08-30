@@ -370,7 +370,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               style={{ paddingLeft: "10px", paddingBottom: "10px" }}
             >
               <TableRestaurantIcon />
-              <Text size="xLarge" bold style={{ paddingLeft: "5px" }}>
+              <Text size="xLarge" bold style={{ paddingLeft: "5px",color:'black' }}>
                 {table?.name}
               </Text>
             </Box>
@@ -454,10 +454,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             style={true ? { bottom: "48px" } : { bottom: "0" }}
           >
             <Box className="sticky-payment" flex justifyContent="space-between">
-              <Text size="large" bold>
+              <Text size="large" bold style={{color:'black'}}>
                 {t("menu.order")}
               </Text>
-              <Text size="large">
+              <Text size="large" style={{color:'black'}}>
                 {cart.length} {t("menu.dish")}・{priceFormatter(totalBill)}
               </Text>
             </Box>
