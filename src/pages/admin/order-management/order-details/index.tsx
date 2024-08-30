@@ -444,14 +444,14 @@ const OrderManagementDetails: React.FC = () => {
     if (orderGlobal?.uuid === order.uuid) {
       setOrder(orderGlobal as Order);
 
-      let statusSlider = 0;
-      if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
-        statusSlider = 50;
-      }
-      if (orderGlobal.status === ORDER_STATUS.DONE) {
-        statusSlider = 100;
-      }
-      setStatusOrderSlider(statusSlider);
+      // let statusSlider = 0;
+      // if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
+      //   statusSlider = 50;
+      // }
+      // if (orderGlobal.status === ORDER_STATUS.DONE) {
+      //   statusSlider = 100;
+      // }
+      // setStatusOrderSlider(statusSlider);
     }
   }, [orderGlobal]);
 
