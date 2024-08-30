@@ -443,19 +443,19 @@ const OrderManagementDetails: React.FC = () => {
 
   // receive order on socket
   useEffect(() => {
-    if (orderGlobal?.uuid === order.uuid) {
+    if (orderGlobal && orderGlobal.uuid === order.uuid) {
       setOrder(orderGlobal as Order);
-
+  
       let statusSlider = 0;
       if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
         statusSlider = 50;
-      }
-      if (orderGlobal.status === ORDER_STATUS.DONE) {
+      } else if (orderGlobal.status === ORDER_STATUS.DONE) {
         statusSlider = 100;
       }
       setStatusOrderSlider(statusSlider);
     }
-  }, [orderGlobal]);
+  }, [orderGlobal, order.uuid]); // Ensure order.uuid is also a dependency
+  
 
   // const openChatScreen = async () => {
   //   try {
