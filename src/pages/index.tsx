@@ -152,7 +152,8 @@ const Index: React.FC = () => {
 
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
-    let scanList: string[] = JSON.parse(localStorage.getItem("scanList") || "[]");
+    let scanList: { qrData: string; storeName: string; tableName: string }[] = 
+        JSON.parse(localStorage.getItem("scanList") || "[]");
 
     if (scanCount >= MAX_SCAN_COUNT) {
         scanList.shift();  
@@ -164,7 +165,7 @@ const Index: React.FC = () => {
     
     if (storeName && tableName){
 
-    scanList.push(qrData);  
+    scanList.push({ qrData, storeName, tableName });  
     localStorage.setItem("scanList", JSON.stringify(scanList));
     localStorage.setItem("scanCount", scanCount.toString());
     console.log(localStorage.getItem("scanCount"));
