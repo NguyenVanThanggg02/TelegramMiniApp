@@ -23,9 +23,10 @@ const TableFormPage: React.FC = () => {
 
   const navigate = useNavigate();
   
-  // Thêm trạng thái để quản lý hiển thị của Snackbar
+  // Trạng thái để quản lý hiển thị của Snackbar
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
   const handleChangeInput = (field: keyof FormState, value: string) => {
     setForm({ ...form, [field]: value });
@@ -48,14 +49,16 @@ const TableFormPage: React.FC = () => {
     const data = await editTable(payload);
     if (!data?.error) {
       setSnackbarMessage(t("snackbarMessage.updateTableSuccess"));
+      setSnackbarType("success");
       setSnackbarVisible(true);
-      setTimeout(() => setSnackbarVisible(false), 3000); 
       navigate(-1);
     } else {
       setSnackbarMessage(t("snackbarMessage.updateTableFail"));
+      setSnackbarType("error");
       setSnackbarVisible(true);
-      setTimeout(() => setSnackbarVisible(false), 3000); 
     }
+    // Tự động ẩn snackbar sau 3 giây
+    setTimeout(() => setSnackbarVisible(false), 3000);
   };
 
   return (
@@ -80,10 +83,12 @@ const TableFormPage: React.FC = () => {
           </Box>
         </Box>
         
-        {/* Hiển thị Snackbar nếu cần thiết */}
+        {/* Hiển thị Snackbar khi cần */}
         {snackbarVisible && (
-          <Snackbar onClose={() => setSnackbarVisible(false)}>
-            {snackbarMessage}
+          <Snackbar onClose={() => setSnackbarVisible(false)} duration={3000}>
+            <div className={snackbarType === "success" ? "snackbar-success" : "snackbar-error"}>
+              {snackbarMessage}
+            </div>
           </Snackbar>
         )}
       </div>
