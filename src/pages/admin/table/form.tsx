@@ -23,7 +23,6 @@ const TableFormPage: React.FC = () => {
 
   const navigate = useNavigate();
   
-  // Trạng thái để quản lý hiển thị của Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
@@ -47,6 +46,7 @@ const TableFormPage: React.FC = () => {
       },
     };
     const data = await editTable(payload);
+    
     if (!data?.error) {
       setSnackbarMessage(t("snackbarMessage.updateTableSuccess"));
       setSnackbarType("success");
@@ -54,10 +54,14 @@ const TableFormPage: React.FC = () => {
       setSnackbarMessage(t("snackbarMessage.updateTableFail"));
       setSnackbarType("error");
     }
+    
     setSnackbarOpen(true);
+
     // Tự động ẩn snackbar sau 3 giây
-    setTimeout(() => setSnackbarOpen(false), 3000);
-    navigate(-1);
+    setTimeout(() => {
+      setSnackbarOpen(false);
+      navigate(-1); // Thực hiện điều hướng sau khi Snackbar đã ẩn
+    }, 3000);
   };
 
   return (
@@ -82,7 +86,6 @@ const TableFormPage: React.FC = () => {
           </Box>
         </Box>
         
-        {/* Hiển thị Snackbar khi cần */}
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div className={snackbarType === "success" ? "snackbar-success" : "snackbar-error"}>
