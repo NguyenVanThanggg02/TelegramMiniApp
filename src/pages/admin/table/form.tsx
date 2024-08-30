@@ -52,8 +52,8 @@ const TableFormPage: React.FC = () => {
       setSnackbarType("success");
       setTimeout(() => {
         setSnackbarOpen(false);
+        navigate(-1); 
       }, 3000);
-      navigate(-1); 
     } else {
       setSnackbarMessage(t("snackbarMessage.updateTableFail"));
       setSnackbarType("error");
