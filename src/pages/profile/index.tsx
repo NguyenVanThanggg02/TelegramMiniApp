@@ -37,7 +37,6 @@ const ProfilePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
 
   // const [copied, setCopied] = useState(false);
   const [copiedToken, setCopiedToken] = useState(false);
@@ -65,8 +64,14 @@ const ProfilePage: React.FC = () => {
 
   const onChangeLanguage = (value: string) => {
     i18n.changeLanguage(value);
-    cloudStorage.set('language', value);
+    
+    const data = {
+      language: value,
+    };
+  
+    cloudStorage.set('language', JSON.stringify(data));
   };
+  
 
     const handleCloseToken = () => {
       setShowToken(false);
