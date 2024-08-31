@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, List, Page, Box, useSnackbar } from "zmp-ui";
+import { Button, List, Page, Box } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import VoucherDetailModal from "../../../components/voucher/voucher-detail/voucherDetailModal";
 import { loadingState } from "../../../state";
@@ -9,6 +9,10 @@ import { getVoucherByStore } from "../../../api/api";
 import AddIcon from "@mui/icons-material/Add";
 import VoucherCard from "@/components/voucher/voucher-card/voucherCard";
 import { VoucherStatus, VoucherType } from "@/constants";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface Voucher {
   voucher_code: string;
@@ -33,8 +37,10 @@ const VoucherPage: React.FC = () => {
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | {}>({});
   const [vouchers, setVouchers] = useState<Voucher[]>([]);
   const { store_uuid } = useParams<{ store_uuid: string }>();
-  const snackbar = useSnackbar();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
     fetchVoucherData();
@@ -53,14 +59,11 @@ const VoucherPage: React.FC = () => {
       ]);
     } else {
       console.error("Error:", response.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof response.error === "string"
-            ? response.error
-            : t("snackbarMessage.getVoucherFail"),
-        type: "error",
-      });
+      setSnackbarMessage(typeof response.error === "string"
+        ? response.error
+        : t("snackbarMessage.getVoucherFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
     setLoading({ ...loading, isLoading: false });
   };
@@ -98,6 +101,19 @@ const VoucherPage: React.FC = () => {
         }}
         onUse={() => {}}
       />
+       <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };
