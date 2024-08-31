@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 // import { useCloudStorage, useLaunchParams, type User } from '@telegram-apps/sdk-react';
 
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
-
 import { loadingState, userState } from "../state";
 import { useRecoilState } from "recoil";
 // import appConfig from "../../app-config.json";
@@ -12,8 +11,11 @@ import { useTranslation } from "react-i18next";
 import LoadingComponent from "./loading_component";
 import SpinnerComponent from "./spinner";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
-import { useSnackbar } from "zmp-ui";
 // import { values } from "lodash";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
+
 
 interface AuthCheckerProps {
   children: React.ReactNode;
@@ -35,8 +37,10 @@ interface PostLoginResponse {
 }
 const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
   const { t, i18n } = useTranslation("global");
-  const snackbar = useSnackbar();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const cloudStorage = initCloudStorage();
   const { initDataRaw } = retrieveLaunchParams();
 
@@ -166,13 +170,12 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
   }, [isInitialMount]); // Sử dụng dependency để trigger effect khi user thay đổi
   useEffect(() => {
     if (errorLogin) {
-      snackbar.openSnackbar({
-        duration: 10000,
-        text: t("snackbarMessage.loginFail"),
-        type: "countdown",
-      });
+     
+      setSnackbarMessage(t("snackbarMessage.loginFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
-  }, [errorLogin, snackbar]);
+  }, [errorLogin]);
   if (errorLogin || !user.login) return null;
 
   return (
@@ -180,6 +183,19 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
       <LoadingComponent />
       <SpinnerComponent />
       {children}
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </>
   );
 };
