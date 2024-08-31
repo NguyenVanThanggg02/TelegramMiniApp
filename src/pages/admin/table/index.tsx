@@ -5,7 +5,6 @@ import {
   Button,
   Box,
   Text,
-  // useSnackbar,
 } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -18,11 +17,14 @@ import {
 import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 // import { APP_VERSION } from "../../../constants";
 import QrCodeOutlinedIcon from "@mui/icons-material/QrCodeOutlined";
 import tableIcon from "../../../static/icons/table.png";
 import "./styles.scss";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
@@ -34,11 +36,15 @@ interface Table {
 }
 
 const TablePage: React.FC = () => {
-  // const { t } = useTranslation("global");
+  const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
   const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -111,9 +117,15 @@ const TablePage: React.FC = () => {
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
         downloadImage(dataUrl, "qr-code.png");
-        alert("success");
+        setSnackbarMessage(t("tableManagement.saveQrNoti"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
+
       } catch (error) {
         console.error("Error saving QR code:", error);
+        setSnackbarMessage(t("tableManagement.saveQrFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       } finally {
         setSpinner(false);
       }
@@ -180,6 +192,25 @@ const TablePage: React.FC = () => {
         </List>
         {tables?.length > 0 && (
           <QRCodeMultiplyViewer listItems={tables} handleSave={handleSaveQr} />
+        )}
+      </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
+              </div>
+            </div>
+          </Snackbar>
         )}
       </div>
     </Page>

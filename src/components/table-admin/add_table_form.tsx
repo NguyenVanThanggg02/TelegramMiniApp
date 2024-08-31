@@ -64,32 +64,38 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <Input
         type="text"
         value={tableName}
         onChange={(e) => setTableName(e.target.value)}
-        placeholder={t('tableManagement.enterTableName')}
-        style={{ marginRight: '10px', color:'black' }}
+        placeholder={t("tableManagement.enterTableName")}
+        style={{ marginRight: "10px", color: "black" }}
         showCount
         maxLength={10}
       />
       <Button onClick={handleAddTable} prefixIcon={<AddIcon />}>
-        {t('tableManagement.table')}
+        {t("tableManagement.table")}
       </Button>
-      <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </div>
   );
 };

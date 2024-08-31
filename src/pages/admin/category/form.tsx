@@ -7,8 +7,11 @@ import {
   Page,
   Select,
 } from "zmp-ui";
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   categoryState,
@@ -19,7 +22,6 @@ import {
   editCategoryByCategoryUUID,
 } from "../../../api/api";
 import { useTranslation } from "react-i18next";
-import { Snackbar } from "@telegram-apps/telegram-ui";
 
 const { Option } = Select;
 
