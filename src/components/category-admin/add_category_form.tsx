@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Button, Input, useSnackbar } from "zmp-ui";
+import { Button, Input } from "zmp-ui";
 import { addCategoryToStore } from "../../api/api";
 import { useTranslation } from "react-i18next";
 import AddIcon from "@mui/icons-material/Add";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
-// Define the types for the props
 interface AddCategoryFormProps {
   store_uuid: string;
   onCategoryAdded: () => void;
@@ -13,7 +15,11 @@ interface AddCategoryFormProps {
 const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ store_uuid, onCategoryAdded }) => {
   const { t } = useTranslation("global");
   const [catName, setCatName] = useState<string>("");
-  const snackbar = useSnackbar();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   const handleAddCategory = async () => {
     if (catName) {
@@ -30,36 +36,29 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ store_uuid, onCategor
         if (!data?.error) {
           onCategoryAdded();
           setCatName("");
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: t("snackbarMessage.addCatSuccess"),
-            type: "success",
-          });
+          setSnackbarMessage(t("snackbarMessage.addCatSuccess"));
+          setSnackbarType("success");
+          setSnackbarOpen(true);
+
         } else {
           console.error("Error adding category:", data.error);
-          snackbar.openSnackbar({
-            duration: 3000,
-            text:
-              typeof data.error === "string"
-                ? data.error
-                : t("snackbarMessage.addCatFail"),
-            type: "error",
-          });
+          setSnackbarMessage( typeof data.error === "string"
+            ? data.error
+            : t("snackbarMessage.addCatFail"),);
+          setSnackbarType("error");
+          setSnackbarOpen(true);
+
         }
       } catch (error) {
         console.error("Unexpected error:", error);
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.addCatFail"),
-          type: "error",
-        });
+        setSnackbarMessage(t("snackbarMessage.addCatFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       }
     } else {
-      snackbar.openSnackbar({
-        duration: 10000,
-        text: t("snackbarMessage.catNameEmpty"),
-        type: "countdown",
-      });
+      setSnackbarMessage(t("snackbarMessage.catNameEmpty"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -77,6 +76,19 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ store_uuid, onCategor
       <Button onClick={handleAddCategory} prefixIcon={<AddIcon />}>
         {t("categoryManagement.category")}
       </Button>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </div>
   );
 };

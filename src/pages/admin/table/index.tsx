@@ -57,7 +57,6 @@ const TablePage: React.FC = () => {
   );
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
-  // const snackbar = useSnackbar();
   const [, setSpinner] = useRecoilState(spinnerState);
 
   const handleTableAdded = () => {
@@ -108,7 +107,6 @@ const TablePage: React.FC = () => {
       search: `?table_name=${tableName}`,
     });
   };
-
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
