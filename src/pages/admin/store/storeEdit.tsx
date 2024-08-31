@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from "react";
-import { Button, Input, Box, Page, useSnackbar, Select } from "zmp-ui";
+import { Button, Input, Box, Page, Select } from "zmp-ui";
 import { getStoreByUUID, updateStore } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,6 +10,10 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { userState } from "../../../state";
 import { useRecoilState } from "recoil";
 import { SelectValueType } from "zmp-ui/select";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface StoreDetail {
   description?: string;
@@ -38,8 +42,11 @@ const StoreEditPage: React.FC = () => {
   const [image, setImage] = useState<string>("");
   const [imageUUID, setImageUUID] = useState<string>("");
 
-  const snackbar = useSnackbar();
   const navigate = useNavigate();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     if (storeData) {
@@ -86,19 +93,15 @@ const StoreEditPage: React.FC = () => {
         setImage(data.urls[0]);
         setImageUUID(data.uuids[0]);
 
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.uploadImageSuccess"),
-          type: "success",
-        });
+        setSnackbarMessage(t("snackbarMessage.uploadImageSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
       },
       fail: (error) => {
         console.log(error);
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.uploadImageFail"),
-          type: "error",
-        });
+        setSnackbarMessage(t("snackbarMessage.uploadImageFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       },
     });
   };
@@ -124,18 +127,16 @@ const StoreEditPage: React.FC = () => {
     };
     const data = await updateStore(payload);
     if (!data?.error) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.updateStoreSuccess"),
-        type: "success",
-      });
-      navigate(-1);
+        setSnackbarMessage(t("snackbarMessage.updateStoreSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
+        setTimeout(() => {
+          navigate(-1); 
+        }, 2000);
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "success",
-      });
+      setSnackbarMessage(String(data.error));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
     }
   };
 
@@ -497,6 +498,19 @@ const StoreEditPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
+        <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
       </div>
     </Page>
   );

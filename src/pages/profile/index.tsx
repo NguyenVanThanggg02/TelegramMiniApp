@@ -9,8 +9,6 @@ import {
   Button,
   Switch,
   Modal,
-  useSnackbar,
-  // useSnackbar,
 } from "zmp-ui";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
@@ -26,13 +24,20 @@ import usa from "../../static/icons/usa.png";
 import vietnam from "../../static/icons/vietnam.png";
 import { useNavigate } from "react-router-dom";
 import { getLoginToken } from "../../api/api";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 const ProfilePage: React.FC = () => {
   // const { version, apiVersion, zaloVersion, platform } = getSystemInfo();
   const user = useRecoilValue(userState);
   const { t, i18n } = useTranslation("global");
   const navigate = useNavigate();
-  const snackbar = useSnackbar();
+  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   // const [copied, setCopied] = useState(false);
   const [copiedToken, setCopiedToken] = useState(false);
@@ -129,11 +134,9 @@ const ProfilePage: React.FC = () => {
       setShowToken(true);
       setTimer(60);
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -311,6 +314,19 @@ const ProfilePage: React.FC = () => {
           )}
         </Box>
       </Modal>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };

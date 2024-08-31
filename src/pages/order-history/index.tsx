@@ -3,7 +3,7 @@ import "./styles.scss";
 import { loadingState, orderListByUserState, userState } from "../../state";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { fetchHistoryOrdersByStore } from "../../api/api";
-import { Box, Page, Select, Text, useSnackbar } from "zmp-ui";
+import { Box, Page, Select, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import { groupBy, isEmpty } from "lodash";
 import { dateFormatterYYYYMMDD } from "../../utils/dateFormatter";
@@ -11,6 +11,9 @@ import { priceFormatter } from "../../utils/numberFormatter";
 import { ORDER_STATUS } from "../../constants";
 import LoadingComponent from "../../components/loading_component";
 import storeIcon from "../../static/icons/store.png";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface User {
   avatar: string;
@@ -38,8 +41,10 @@ const OrderHistory: React.FC = () => {
   const [orderListByUser, setOrderListByUser] = useRecoilState(orderListByUserState);
 
   const [selectedStore, setSelectedStore] = useState<string>(t("orderHistory.allStore"));
-  const snackbar = useSnackbar();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
 
@@ -83,14 +88,11 @@ const OrderHistory: React.FC = () => {
         orders,
       });
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof data.error === "string"
-            ? data.error
-            : t("snackbarMessage.fetchOrderHistoryFailed"),
-        type: "error",
-      });
+      setSnackbarMessage(typeof data.error === "string"
+        ? data.error
+        : t("snackbarMessage.fetchOrderHistoryFailed"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
 
     setLoading({ ...loading, isLoading: false });
@@ -328,6 +330,19 @@ const OrderHistory: React.FC = () => {
           <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
         )}
       </Box>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 }

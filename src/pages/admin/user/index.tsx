@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Page,
-  useSnackbar,
   List,
   Box,
   Button,
@@ -10,6 +9,10 @@ import {
 } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import AddStoreUserForm from "../../../components/store-user/add_store_user_form";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 import { loadingState } from "../../../state";
 import { deleteUserStore, getUserByStore } from "../../../api/api";
@@ -32,7 +35,10 @@ interface StoreUserRole {
 const UserPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const snackbar = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const [loading, setLoading] = useRecoilState(loadingState);
   const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);
   const [storeUsers, setStoreUsers] = useState<StoreUserRole[]>([]);
@@ -58,11 +64,9 @@ const UserPage: React.FC = () => {
     } else {
       console.error("Error:", data.error);
       setLoading({ ...loading, isLoading: false });
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -74,18 +78,14 @@ const UserPage: React.FC = () => {
     });
     if (!data?.error) {
       fetchUserListData();
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.deleteSuccess"),
-        type: "success",
-      });
+      setSnackbarMessage(t("snackbarMessage.deleteSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
     } else {
       console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -130,6 +130,19 @@ const UserPage: React.FC = () => {
           </Box>
         ))}
       </List>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };
