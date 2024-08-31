@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Icon, Text, useSnackbar } from "zmp-ui";
+import { Checkbox, Icon, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface ScanData {
   qrData: string;
@@ -18,7 +21,11 @@ const RecentScans: React.FC = () => {
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const { t } = useTranslation("global");
-  const snackbar = useSnackbar();
+  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   console.log(scanList);
 
@@ -64,10 +71,9 @@ const RecentScans: React.FC = () => {
   };
 
   const notifyErrorStoreNotFound = () => {
-    snackbar.openSnackbar({
-      text: t("main.not_found"),
-      type: "error",
-    });
+    setSnackbarMessage(t("main.not_found"));
+    setSnackbarType("error");
+    setSnackbarOpen(true);
   };
 
   const redirectToMenu = (storeId: string, tableId: string, tenantId: string) => {
@@ -165,6 +171,19 @@ const RecentScans: React.FC = () => {
           </button>
         </div>
       )}
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </div>
   );
 };

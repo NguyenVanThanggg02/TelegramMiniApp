@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Input, useSnackbar } from 'zmp-ui';
+import { Button, Input } from 'zmp-ui';
 import { createStore, validateCode } from '../../api/api';
 import { useTranslation } from 'react-i18next';
 import { textToDomain } from '../../utils/stringFormatter.util';
 import AddIcon from '@mui/icons-material/Add';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface AddStoreFormProps {
   authToken: string;
@@ -17,8 +20,10 @@ const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
   const [activationCode, setActivationCode] = useState<string>('');
   const [checkedCode, setCheckedCode] = useState<string>('');
   const [codeValid, setCodeValid] = useState<boolean>(false);
-  const snackbar = useSnackbar();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   useEffect(() => {
     if (activationCode.length > 0 && activationCode !== checkedCode) {
       const controller = new AbortController();
@@ -29,10 +34,10 @@ const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
           .then((response) => {
             if (response.error) {
               setCodeValid(false);
-              snackbar.openSnackbar({
-                text: t('snackbarMessage.codeValidationFailed'),
-                type: 'error',
-              });
+              setSnackbarMessage(t("snackbarMessage.codeValidationFailed"));
+              setSnackbarType("error");
+              setSnackbarOpen(true);
+              
               setCheckedCode(activationCode);
               return Promise.reject(new Error(t('snackbarMessage.codeValidationFailed')));
             }
@@ -41,23 +46,21 @@ const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
             if (data) {
               if (data.status === 'actived') {
                 setCodeValid(true);
-                snackbar.openSnackbar({
-                  text: t('snackbarMessage.codeValid'),
-                  type: 'success',
-                });
+               
+                setSnackbarMessage(t("snackbarMessage.codeValid"));
+                setSnackbarType("success");
+                setSnackbarOpen(true);
               } else {
                 setCodeValid(false);
-                snackbar.openSnackbar({
-                  text: t('snackbarMessage.codeInvalid'),
-                  type: 'error',
-                });
+                setSnackbarMessage(t("snackbarMessage.codeInvalid"));
+                setSnackbarType("error");
+                setSnackbarOpen(true);
               }
             } else {
               setCodeValid(false);
-              snackbar.openSnackbar({
-                text: t('snackbarMessage.codeInvalid'),
-                type: 'error',
-              });
+              setSnackbarMessage(t("snackbarMessage.codeInvalid"));
+                setSnackbarType("error");
+                setSnackbarOpen(true);
             }
   
             setCheckedCode(activationCode);
@@ -74,7 +77,7 @@ const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
         controller.abort(); 
       };
     }
-  }, [activationCode, snackbar, t]);
+  }, [activationCode, t]);
   
 
   const handleAddStore = async () => {
@@ -89,24 +92,23 @@ const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
       });
 
       if (!data?.error) {
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t('snackbarMessage.createStoreSuccess'),
-          type: 'success',
-        });
+     
+
+        setSnackbarMessage(t("snackbarMessage.createStoreSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
+
         onStoreAdded();
       } else {
         console.error('Error creating store:', data.error);
-        snackbar.openSnackbar({
-          text: String(data.error),
-          type: 'error',
-        });
+        setSnackbarMessage(String(data.error));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       }
     } else {
-      snackbar.openSnackbar({
-        text: t('snackbarMessage.missingInformation'),
-        type: 'error',
-      });
+      setSnackbarMessage(t('snackbarMessage.missingInformation'));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     }
   };
 
@@ -135,6 +137,19 @@ const AddStoreForm: React.FC<AddStoreFormProps> = ({ onStoreAdded }) => {
       <Button onClick={handleAddStore} prefixIcon={<AddIcon />}>
         {t('storeManagement.store')}
       </Button>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </div>
   );
 };
