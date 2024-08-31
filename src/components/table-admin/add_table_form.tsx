@@ -19,9 +19,17 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
+  const containsInvalidChars = (str: string) => {
+    return /[^\p{L}\p{M}\p{N}\s]/u.test(str);
+  };
 
   const handleAddTable = async () => {
-    if (tableName.trim()) {
+    if (containsInvalidChars(tableName)) {
+      setSnackbarMessage(t("snackbarMessage.addTableFailDueToError"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
+      return;
+    }
       const payload = {
         store_uuid: store_uuid,
         tables: [
@@ -31,7 +39,6 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
         ],
       };
 
-      try {
         const data = await addTableToStore(payload);
         if (!data?.error) {
           onTableAdded();
@@ -42,20 +49,13 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
           setSnackbarOpen(true);
 
         } else {
-        setSnackbarMessage(t("snackbarMessage.addTableFail"));
+        setSnackbarMessage(typeof data.error === "string"
+          ? data.error
+          : t("snackbarMessage.addTableFail"),);
         setSnackbarType("error");
         setSnackbarOpen(true);
         }
-      } catch (error) {
-        setSnackbarMessage(t("snackbarMessage.serverError"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      }
-    } else {
-      setSnackbarMessage(t("snackbarMessage.tableNameEmpty"));
-      setSnackbarType("error");
-      setSnackbarOpen(true);
-    }
+    
   };
 
   return (

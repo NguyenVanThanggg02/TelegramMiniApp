@@ -297,6 +297,7 @@
     "deleteSuccess": "Item deleted successfully",
     "addTableSuccess": "Add table successfully",
     "addTableFail": "Failed to add table",
+    "addTableFailDueToError": "Adding table failed due to special characters",
     "updateTableSuccess": "Update table successfully",
     "updateTableFail": "Failed to update table",
     "UpdateTableDueToError": "Table name does not contain special characters.",

@@ -298,6 +298,7 @@
     "deleteSuccess": "Xóa đối tượng thành công",
     "addTableSuccess": "Thêm bàn thành công",
     "addTableFail": "Thêm bàn thất bại",
+    "addTableFailDueToError": "Thêm bàn thất bại do có kí tự đặc biệt",
     "updateTableSuccess": "Cập nhật bàn thành công",
     "updateTableFail": "Cập nhật bàn thất bại",
     "UpdateTableDueToError": "Tên bàn không chứa kí tự đặc biệt",
