@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Input, useSnackbar, Select, Box, Text } from 'zmp-ui';
+import { Button, Input, Select, Box, Text } from 'zmp-ui';
 import { addUserStore } from '../../api/api';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface AddStoreUserFormProps {
   store_uuid: string;
@@ -13,7 +17,10 @@ const AddStoreUserForm: React.FC<AddStoreUserFormProps> = ({ store_uuid, onUserA
   const { t } = useTranslation('global');
   const [userUUID, setUserUUID] = useState<string>('');
   const [role, setRole] = useState<string>('staff');
-  const snackbar = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   const handleAddUserStore = async () => {
     if (userUUID) {
@@ -28,31 +35,23 @@ const AddStoreUserForm: React.FC<AddStoreUserFormProps> = ({ store_uuid, onUserA
         if (!data?.error) {
           onUserAdded();
           setUserUUID('');
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: t('snackbarMessage.addUserSuccess'),
-            type: 'success',
-          });
+          setSnackbarMessage(t("snackbarMessage.addUserSuccess"));
+          setSnackbarType("success");
+          setSnackbarOpen(true);
         } else {
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: typeof data.error === 'string' ? data.error : t('snackbarMessage.userIDIncorrect'),
-            type: 'error',
-          });
+        setSnackbarMessage(typeof data.error === 'string' ? data.error : t('snackbarMessage.userIDIncorrect'));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
         }
       } catch (error) {
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t('snackbarMessage.serverError'),
-          type: 'error',
-        });
+        setSnackbarMessage(t("snackbarMessage.serverError"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       }
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t('snackbarMessage.userUUIDEmpty'),
-        type: 'countdown',
-      });
+        setSnackbarMessage(t("snackbarMessage.userUUIDEmpty"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     }
   };
 
@@ -95,6 +94,19 @@ const AddStoreUserForm: React.FC<AddStoreUserFormProps> = ({ store_uuid, onUserA
             {t('userManagement.add')}
           </Button>
         </Box>
+        <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
       </div>
     </>
   );
