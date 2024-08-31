@@ -104,7 +104,9 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
       setSnackbarType("success");
       setSnackbarOpen(true);
       if (tableSelected) {
-        navigate(-1);
+        setTimeout(() => {
+          navigate(-1); 
+        }, 2000);
       }
     } else {
       setSnackbarMessage(String(response.error));
