@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   Input,
-  useSnackbar,
   Select,
 } from 'zmp-ui';
 import './styles.scss';
@@ -24,6 +23,9 @@ import {
 } from '../../state';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface OrderSubmitModalProps {
   isShow: boolean;
@@ -49,7 +51,6 @@ interface Order {
 
 const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) => {
   const { t } = useTranslation('global');
-  const snackbar = useSnackbar();
   const navigate = useNavigate();
   const { Option } = Select;
 
@@ -64,6 +65,10 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const [note, setNote] = useState<string>('');
   const [,setSpinner] = useRecoilState(spinnerState);
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const totalBill = useMemo(
     () => sum(cart.map((item) => item.price * item.quantity)),
     [cart],
@@ -94,22 +99,17 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           orders: [...orderListByUser.orders, newOrder],
         });
       }
-  
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t('snackbarMessage.createOrderSuccess'),
-        type: 'success',
-      });
-  
+      
+      setSnackbarMessage(t("snackbarMessage.createOrderSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
       if (tableSelected) {
         navigate(-1);
       }
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(response.error),
-        type: 'error',
-      });
+      setSnackbarMessage(String(response.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
     setSpinner(false);
   };
@@ -214,6 +214,19 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           {t('menu.submitOrder')}: {priceFormatter(totalBill)}₫
         </Button>
       </Box>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Modal>
   );
 };
