@@ -10,7 +10,6 @@ import {
   Page,
   Select,
   Text,
-  useSnackbar,
 } from "zmp-ui";
 import {
   cartState,
@@ -45,6 +44,9 @@ import moment from "moment";
 import Slider from "rc-slider";
 import ConfirmModal from "../../../components/modal/confirmModal";
 import { useCloudStorage } from "@telegram-apps/sdk-react";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 
 interface User {
@@ -113,10 +115,12 @@ interface ApiResponse<T> {
 const OrderManagement: React.FC = () => {
   const { t } = useTranslation("global");
   const navigate = useNavigate();
-  const snackbar = useSnackbar();
   const { store_uuid } = useParams<{ store_uuid: string }>();
   const { isMobile } = useBreakpoint();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const orderStatusesSlider = {
     0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
     50: t("orderManagement.statusSelect." + ORDER_STATUS.WAIT_FOR_PAY),
@@ -194,11 +198,9 @@ const OrderManagement: React.FC = () => {
     if (data?.error) {
       console.error("Error:", data.error);
 
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -694,6 +696,19 @@ const OrderManagement: React.FC = () => {
         setIsShowModal={setShowModalConfirm}
         content={t("main.confirmCancel")}
       />
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 }

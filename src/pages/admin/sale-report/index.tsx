@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Button, Text, Box, Page, DatePicker, useSnackbar } from "zmp-ui";
+import { Button, Text, Box, Page, DatePicker } from "zmp-ui";
 import { useParams } from "react-router-dom";
 // import { useRecoilValue } from "recoil";
 // import { userState } from "../../../state";
 import { getSaleReport } from "../../../api/api";
 import { useTranslation } from "react-i18next";
 import { formatNumberToVND } from "../../../utils/numberFormatter";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface FilterState {
   fromDate: Date;
@@ -23,7 +26,10 @@ const SaleReportPage: React.FC = () => {
     toDate: new Date(new Date().setDate(new Date().getDate() + 1)),
   });
 
-  const snackbar = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   const handleSearch = async () => {
     setLoading(true);
@@ -45,11 +51,9 @@ const SaleReportPage: React.FC = () => {
       setTotalValue(totalValue);
     } catch (error: unknown) {
       console.error("Error fetching sale report:", (error as Error).message);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: (error as Error).message,
-        type: "error",
-      });
+      setSnackbarMessage((error as Error).message);
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     }
     setLoading(false);
   };
@@ -105,6 +109,19 @@ const SaleReportPage: React.FC = () => {
           </Text>
         </Box>
       )}
+       <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };

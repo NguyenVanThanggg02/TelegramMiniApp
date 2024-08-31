@@ -8,13 +8,15 @@ import {
   Page,
   Button,
   Box,
-  useSnackbar,
 } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import ProductCard from "../../../components/product/product-card";
 import ConfirmModal from "../../../components/modal/confirmModal";
 import AddIcon from "@mui/icons-material/Add";
 import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface Category {
   name: string;
@@ -43,8 +45,10 @@ const ProductPage: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const snackbar = useSnackbar();
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
     // Gọi API để lấy danh sách sản phẩm từ store_uuid
@@ -88,20 +92,17 @@ const ProductPage: React.FC = () => {
 
     if (JSON.stringify(data)) {
       fetchProductList(); // Cập nhật lại danh sách sản phẩm sau khi xoá thành công
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.deleteSuccess"),
-        type: "success",
-      });
+      setSnackbarMessage(t("snackbarMessage.deleteSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text:
-          typeof data.error === "string"
-            ? data.error
-            : t("snackbarMessage.deleteFail"),
-        type: "error",
-      });
+
+      setSnackbarMessage(typeof data.error === "string"
+        ? data.error
+        : t("snackbarMessage.deleteFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
     }
   };
 
@@ -142,6 +143,19 @@ const ProductPage: React.FC = () => {
           ></ProductCard>
         ))}
       </List>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };

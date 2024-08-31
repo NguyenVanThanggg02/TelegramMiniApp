@@ -4,7 +4,6 @@ import {
   Input,
   Box,
   Page,
-  useSnackbar,
   Text,
 } from "zmp-ui";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -18,6 +17,10 @@ import { useTranslation } from "react-i18next";
 import { textToDomain } from "../../../utils/stringFormatter.util";
 import { useNavigate } from "react-router-dom";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
+
 const cloudStorage = initCloudStorage();
 
 interface CodeValid {
@@ -39,8 +42,10 @@ const StoreFormPage: React.FC = () => {
   const [codeValid, setCodeValid] = useState<CodeValid | null>(null);
 
   const [, setStoreListState] = useRecoilState(storeListState);
-
-  const snackbar = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const navigate = useNavigate();
   const [showButton, setShowButton] = useState(true);
 
@@ -76,23 +81,21 @@ const StoreFormPage: React.FC = () => {
               expired_at: data.expired_at,
             };
             setCodeValid(codeValid);
-            snackbar.openSnackbar({
-              text: t("snackbarMessage.codeValid"),
-              type: "success",
-            });
+            setSnackbarMessage(t("snackbarMessage.codeValid"));
+            setSnackbarType("success");
+            setSnackbarOpen(true);
           } else {
             setCodeValid(null);
-            snackbar.openSnackbar({
-              text: t("snackbarMessage.codeInvalid"),
-              type: "error",
-            });
+            setSnackbarMessage(t("snackbarMessage.codeInvalid"));
+            setSnackbarType("error");
+            setSnackbarOpen(true);
           }
         } else {
           setCodeValid(null);
-          snackbar.openSnackbar({
-            text: t("snackbarMessage.codeNotFound"),
-            type: "error",
-          });
+          
+          setSnackbarMessage(t("snackbarMessage.codeNotFound"));
+          setSnackbarType("error");
+          setSnackbarOpen(true);
           setCheckedCode(activationCode);
           if (!signal.aborted) {
             console.error("Error validating code:", response.error);
@@ -144,18 +147,15 @@ const StoreFormPage: React.FC = () => {
       await cloudStorage.set('defaultStore', response.data);
       await cloudStorage.set('subdomain', response.data.subdomain);
       // Hiển thị snackbar khi lưu thành công
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.createStoreSuccess"),
-        type: "success",
-      });
+      
+      setSnackbarMessage(t("snackbarMessage.createStoreSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
       navigate(-1);
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(response.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(response.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -269,6 +269,19 @@ const StoreFormPage: React.FC = () => {
             <img src="https://stg-smart-order.sgp1.digitaloceanspaces.com/store_ad.png" />
           </Box>
         </Box>
+        <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
       </div>
     </Page>
   );
