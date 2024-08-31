@@ -64,14 +64,9 @@ const ProfilePage: React.FC = () => {
 
   const onChangeLanguage = (value: string) => {
     i18n.changeLanguage(value);
-    
-    const data = {
-      language: value,
-    };
-  
-    cloudStorage.set('language', JSON.stringify(data));
+    cloudStorage.set('language', value);
+    console.log(value);
   };
-  
 
     const handleCloseToken = () => {
       setShowToken(false);
