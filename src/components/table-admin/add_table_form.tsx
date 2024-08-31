@@ -31,7 +31,7 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
       return;
     }
     if (tableName.trim() === '') {
-      setSnackbarMessage(t("snackbarMessage.emptyTableName"));
+      setSnackbarMessage(t("snackbarMessage.addTableFail"));
       setSnackbarType("error");
       setSnackbarOpen(true);
       return;
@@ -56,7 +56,7 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
         } else {
         setSnackbarMessage(typeof data.error === "string"
           ? data.error
-          : t("snackbarMessage.addTableFail"),);
+          : t("snackbarMessage.addTableFail"));
         setSnackbarType("error");
         setSnackbarOpen(true);
         }
