@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Input, useSnackbar } from 'zmp-ui';
+import { Button, Input } from 'zmp-ui';
 import { addTableToStore } from '../../api/api';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
-
+import { Snackbar } from "@telegram-apps/telegram-ui";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 interface AddTableFormProps {
   store_uuid: string;
   onTableAdded: () => void;
@@ -12,7 +14,11 @@ interface AddTableFormProps {
 const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded }) => {
   const { t } = useTranslation('global');
   const [tableName, setTableName] = useState<string>('');
-  const snackbar = useSnackbar();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
 
   const handleAddTable = async () => {
     if (tableName.trim()) {
@@ -30,31 +36,25 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
         if (!data?.error) {
           onTableAdded();
           setTableName('');
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: t('snackbarMessage.addTableSuccess'),
-            type: 'success',
-          });
+          
+          setSnackbarMessage(t("snackbarMessage.addTableSuccess"));
+          setSnackbarType("success");
+          setSnackbarOpen(true);
+
         } else {
-          snackbar.openSnackbar({
-            duration: 3000,
-            text: typeof data.error === 'string' ? data.error : t('snackbarMessage.addTableFail'),
-            type: 'error',
-          });
+        setSnackbarMessage(t("snackbarMessage.addTableFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
         }
       } catch (error) {
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t('snackbarMessage.serverError'),
-          type: 'error',
-        });
+        setSnackbarMessage(t("snackbarMessage.serverError"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       }
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t('snackbarMessage.tableNameEmpty'),
-        type: 'warning',
-      });
+      setSnackbarMessage(t("snackbarMessage.tableNameEmpty"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -72,6 +72,19 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
       <Button onClick={handleAddTable} prefixIcon={<AddIcon />}>
         {t('tableManagement.table')}
       </Button>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </div>
   );
 };
