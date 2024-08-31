@@ -4,7 +4,6 @@ import {
   Input,
   Box,
   Page,
-  useSnackbar,
   Select,
   Switch,
   DatePicker,
@@ -19,6 +18,11 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { VOUCHER_TYPE } from "../../../constants";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
+
 const { Option } = Select;
 
 interface FormState {
@@ -31,7 +35,6 @@ interface FormState {
   voucher_min_order_value: string;
   store_uuid?: string
 }
-
 
 const VoucherFormPage: React.FC = () => {
   const { t } = useTranslation("global");
@@ -48,7 +51,10 @@ const VoucherFormPage: React.FC = () => {
   const navigate = useNavigate();
   const [showButtonStatus, setShowButtonStatus] = useState<boolean>(false);
   const [isEmptyField, setIsEmptyField] = useState<boolean>(false);
-  const snackbar = useSnackbar();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   const handleChangeInput = (field: keyof FormState, value: string | number | (string | number)[] | undefined) => {
     // Convert value to a string if it's not undefined
@@ -92,11 +98,9 @@ const VoucherFormPage: React.FC = () => {
   const loadVoucherDetails = async (voucher_uuid: string) => {
     const response  = await fetchVoucherDetails(voucher_uuid);
     if (response .error) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.fetchVoucherDetailFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.fetchVoucherDetailFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
       return;
     }
   
@@ -115,11 +119,9 @@ const VoucherFormPage: React.FC = () => {
 
       setShowButtonStatus(data.status === "active");
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.fetchVoucherDetailFail"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.fetchVoucherDetailFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -131,11 +133,9 @@ const VoucherFormPage: React.FC = () => {
       !form.expired_at
     ) {
       setIsEmptyField(true);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.fillRequireInput"),
-        type: "error",
-      });
+      setSnackbarMessage(t("snackbarMessage.fillRequireInput"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
       return;
     }
     if (voucher_uuid && voucher_uuid !== "null") {
@@ -150,28 +150,24 @@ const VoucherFormPage: React.FC = () => {
 
     const data = await addVoucherToStore(payload);
     if (!data?.error) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.voucherCreateSuccess"),
-        type: "success",
-      });
-      navigate(-1);
+      setSnackbarMessage(t("snackbarMessage.voucherCreateSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+      setTimeout(() => {
+        navigate(-1); 
+      }, 2000);
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
   const updateVoucher = async () => {
     if (!voucher_uuid) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.invalidVoucherUuid"),
-        type: "error",
-      });
+        setSnackbarMessage(t("snackbarMessage.invalidVoucherUuid"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       return;
     }
   
@@ -179,22 +175,19 @@ const VoucherFormPage: React.FC = () => {
     const data = await updateVoucherRequest(voucher_uuid, payload);
   
     if (!data?.error) {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.voucherUpdateSuccess"),
-        type: "success",
-      });
-      navigate(-1);
+      setSnackbarMessage(t("snackbarMessage.voucherUpdateSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+      setTimeout(() => {
+        navigate(-1); 
+      }, 2000);
     } else {
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
   
-
   const buildPayload = () => {
     return {
       voucher: {
@@ -321,6 +314,19 @@ const VoucherFormPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
+        <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
       </div>
     </Page>
   );
