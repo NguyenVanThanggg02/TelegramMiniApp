@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useSnackbar } from "zmp-ui";
 // import { sendPostLogin } from "../api/api";
 // import { useCloudStorage, useLaunchParams, type User } from '@telegram-apps/sdk-react';
 

@@ -103,11 +103,9 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
       setSnackbarMessage(t("snackbarMessage.createOrderSuccess"));
       setSnackbarType("success");
       setSnackbarOpen(true);
-      if (tableSelected) {
         setTimeout(() => {
           navigate(-1); 
         }, 2000);
-      }
     } else {
       setSnackbarMessage(String(response.error));
       setSnackbarType("error");
@@ -115,7 +113,6 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
     }
     setSpinner(false);
   };
-  
 
   useEffect(() => {
     if (!isShow) resetDefault();
