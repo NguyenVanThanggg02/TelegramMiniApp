@@ -30,6 +30,12 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
       setSnackbarOpen(true);
       return;
     }
+    if (tableName.trim() === '') {
+      setSnackbarMessage(t("snackbarMessage.emptyTableName"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
+      return;
+    }
       const payload = {
         store_uuid: store_uuid,
         tables: [
@@ -43,7 +49,6 @@ const AddTableForm: React.FC<AddTableFormProps> = ({ store_uuid, onTableAdded })
         if (!data?.error) {
           onTableAdded();
           setTableName('');
-          
           setSnackbarMessage(t("snackbarMessage.addTableSuccess"));
           setSnackbarType("success");
           setSnackbarOpen(true);
