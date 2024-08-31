@@ -3,13 +3,14 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
+  initCloudStorage,
   initNavigator, useLaunchParams,
   useMiniApp,
   useThemeParams,
   useViewport,
 } from '@telegram-apps/sdk-react';
 import { AppRoot } from '@telegram-apps/telegram-ui';
-import { type FC, useEffect, useMemo } from 'react';
+import { type FC, useEffect, useMemo, useState } from 'react';
 import {
   Navigate,
   Route,
@@ -30,6 +31,19 @@ export const App: FC = () => {
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
+  const cloudStorage = initCloudStorage();
+  const [language, setLanguage] = useState<string>('en');
+
+  useEffect(() => {
+    const fetchLanguage = async () => {
+      const storedLanguage = await cloudStorage.get('language');
+      if (storedLanguage) {
+        setLanguage(storedLanguage);
+        i18next.changeLanguage(storedLanguage);
+      }
+    };
+    fetchLanguage();
+  }, [cloudStorage]);
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
@@ -37,7 +51,7 @@ export const App: FC = () => {
 
   i18next.init({
     interpolation: { escapeValue: false },
-    lng: 'en',
+    lng: language,
     fallbackLng: "en",
     resources: {
       en: {
