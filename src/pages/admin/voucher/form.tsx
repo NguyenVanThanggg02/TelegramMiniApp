@@ -116,8 +116,11 @@ const VoucherFormPage: React.FC = () => {
         status: data.status,
         voucher_min_order_value: formatNumberToVND(data.voucher_min_order_value.toString()),
       });
-
-      setShowButtonStatus(data.status === "active");
+      if (data.status == "inactive") {
+        setShowButtonStatus(false);
+      } else {
+        setShowButtonStatus(true);
+      }
     } else {
       setSnackbarMessage(t("snackbarMessage.fetchVoucherDetailFail"));
       setSnackbarType("error");

@@ -412,8 +412,6 @@ const ProductFormPage: React.FC = () => {
       setSnackbarMessage(t("snackbarMessage.getCatFail"));
       setSnackbarType("error");
       setSnackbarOpen(true);
-     
-
     }
   };
   return (
