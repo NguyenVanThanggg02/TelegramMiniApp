@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   Page,
-  useSnackbar,
   Select,
   Spinner,
   Button,
@@ -14,6 +13,10 @@ import {
   storeState,
   userState,
 } from "../../../state";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
+
 import { getStoreListByTenantID, createFollowRequest } from "../../../api/api";
 import "./styles.scss";
 import { useTranslation } from "react-i18next";
@@ -68,7 +71,10 @@ const StorePage: React.FC = () => {
   const navigate = useNavigate();
   const [user, setUserState] = useRecoilState(userState);
   const [errorGetStore, setErrorGetStore] = useState<null | boolean>(null);
-  const snackbar = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const [store, setStore] = useRecoilState(storeState);
   const [folowOALoading, setFolowOALoading] = useState<boolean>(false);
   const cloudStorage = initCloudStorage();
@@ -165,11 +171,9 @@ const StorePage: React.FC = () => {
         setFolowOALoading(false);
       },
       fail: () => {
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.followedOAFailed"),
-          type: "error",
-        });
+        setSnackbarMessage(t("snackbarMessage.followedOAFailed"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       },
     });
   };
@@ -187,24 +191,20 @@ const StorePage: React.FC = () => {
       },
       fail: () => {
         console.log("failed to followed OA");
-        snackbar.openSnackbar({
-          duration: 3000,
-          text: t("snackbarMessage.followedOAFailed"),
-          type: "error",
-        });
+        setSnackbarMessage(t("snackbarMessage.followedOAFailed"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       },
     });
   };
 
   useEffect(() => {
     if (errorGetStore) {
-      snackbar.openSnackbar({
-        duration: 10000,
-        text: t("snackbarMessage.getStoreFail"),
-        type: "countdown",
-      });
+      setSnackbarMessage(t("snackbarMessage.getStoreFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
-  }, [errorGetStore, snackbar]);
+  }, [errorGetStore]);
 
   const sendRequestGetStore = async () => {
     setLoading({ ...loading, isLoading: true });
@@ -376,6 +376,19 @@ const StorePage: React.FC = () => {
           </Box>
         </Box>
       </Box>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };
