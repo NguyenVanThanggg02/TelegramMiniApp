@@ -245,9 +245,10 @@ const OrderManagement: React.FC = () => {
   const fetTableDataByStore = async (store_uuid: string) => {
     const data = await fetchTablesForStore(store_uuid);
     if (!data?.error) {
+      const tables = data.data as Table[]
       setTableList({
         is_update: true,
-        tables: [],
+        tables,
       });
     } else {
       console.error("Error:", data.error);
