@@ -165,7 +165,7 @@ const OrderManagementDetails: React.FC = () => {
 
     setSpinner(true);
     const data = await updateQuantityProductRequest(order.uuid, payload);
-    console.log(data);
+    console.log(data.data);
 
     if (!data?.error) {
       setOrder(data.data);
