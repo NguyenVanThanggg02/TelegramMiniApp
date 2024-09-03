@@ -54,14 +54,15 @@ interface User {
 }
 
 interface Order {
-  uuid:string;
-  user?:User
+  invoice_uuid?: string;
+  uuid: string;
+  user?: User;
   created_at: string;
   store_name: string;
   table_uuid: string;
-  store_uuid: string
+  store_uuid: string;
   status: string;
-  products: { product_name: string; quantity: number; unit_price: number }[];
+  products: Product[]; 
   notes?: string;
   actual_payment_amount: number;
   value: number;
@@ -72,10 +73,23 @@ interface Table {
   name: string;
 }
 
+interface ProductImage {
+  uuid: string;
+  url: string;
+}
 interface Product {
   uuid: string;
   name: string;
-  price: number;
+  price:number
+  unit_price?: number;
+  quantity?: number;
+  images?: ProductImage[];
+  product_name: string;
+  product_images?: ProductImage[];
+  order_item_uuid: string
+  delivered_quantity: number
+  product_uuid? : string
+  delivery_status: string
 }
 
 interface TableListState {
