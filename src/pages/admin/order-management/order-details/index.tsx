@@ -450,7 +450,7 @@ const isEditableOrder = useMemo(() => {
 
   // receive order on socket
   useEffect(() => {
-    if (orderGlobal && orderGlobal.uuid === order.uuid) {
+    if (orderGlobal?.uuid === order.uuid) {
         console.log(orderGlobal);
         
       setOrder(orderGlobal);
