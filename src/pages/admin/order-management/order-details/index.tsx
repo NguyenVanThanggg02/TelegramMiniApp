@@ -217,14 +217,14 @@ const isEditableOrder = useMemo(() => {
     }
   };
 
-  const onUpdateQuantity = (productUpdated: Product) => {
+  const onUpdateQuantity = (productUpdated: Product & { quantity: number }) => {
     const productsPayload = [
       ...order.products.filter(
         (item) => item.product_uuid !== productUpdated.product_uuid
       ),
       {
-        ...productUpdated, 
-        order_item_uuid: productUpdated.order_item_uuid || "", 
+        ...productUpdated,
+        order_item_uuid: productUpdated.order_item_uuid || "",
         delivered_quantity: productUpdated.delivered_quantity ?? 0,
         delivery_status: productUpdated.delivery_status || "",
       },
@@ -242,6 +242,7 @@ const isEditableOrder = useMemo(() => {
   
     onSubmitUpdateProductOrder(payload);
   };
+  
   
 
 
