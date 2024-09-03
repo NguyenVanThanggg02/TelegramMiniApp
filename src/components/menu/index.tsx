@@ -40,6 +40,7 @@ interface Dish {
   uuid: string;
   name: string;
   price: number;
+  unit_price?: number,
   describe?: string;
   quantity?: number;
   images?: DishImage[];
@@ -365,6 +366,24 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     fetchData();
   }, [store_uuid]);
 
+  const transformDishToProduct = (dish: Dish): Product => {
+    return {
+      uuid: dish.uuid,
+      name: dish.name,
+      price: dish.price,
+      unit_price: dish.unit_price,
+      quantity: dish.quantity,
+      images: dish.images,
+      product_name: dish.name, // Or some other logic to determine product_name
+      product_images: dish.images, // Or some other logic to determine product_images
+      order_item_uuid: '', // Provide default or derive this value as needed
+      delivered_quantity: dish.quantity || 0, // Provide default or derive this value as needed
+      product_uuid: '', // Provide default or derive this value as needed
+      delivery_status: '' // Provide default or derive this value as needed
+    };
+  };
+  
+
   return (
     <Page className="menu-page" ref={pageRef}>
       <Box className="top-menu-container">
@@ -484,19 +503,20 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           </Box>
         )}
 
-        <DishOrderSheet
-          isShow={showOrderModal}
-          product={selectedDish || defaultProduct}
-          onClose={() => {
-            setShowOrderModal(false);
-            setSelectedDish(null);
-          }}
-          onSubmit={handleOrderInCart}
-          onPayment={(dishOrder) => {
-            handleOrderInCart(dishOrder);
-            setShowOrderSubmitModal(true);
-          }}
-        />
+<DishOrderSheet
+  isShow={showOrderModal}
+  product={transformDishToProduct(selectedDish || defaultProduct)}
+  onClose={() => {
+    setShowOrderModal(false);
+    setSelectedDish(null);
+  }}
+  onSubmit={handleOrderInCart}
+  onPayment={(dishOrder) => {
+    handleOrderInCart(dishOrder);
+    setShowOrderSubmitModal(true);
+  }}
+/>
+
 
         <DishDetailModal
           isShow={showDishDetailsModal}
