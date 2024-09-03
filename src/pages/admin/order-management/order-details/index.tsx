@@ -119,6 +119,8 @@ const OrderManagementDetails: React.FC = () => {
   const snackbar = useSnackbar();
 
   const [productList, setProductList] = useRecoilState(productListState);
+  console.log(productList);
+  
   const tableList = useRecoilValue(tableListState);
   const user = useRecoilValue(userState);
   const orderGlobal = useRecoilValue(orderState);
