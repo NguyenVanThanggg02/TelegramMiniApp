@@ -469,6 +469,41 @@ const isEditableOrder = useMemo(() => {
   function isTable(table: false | Table | undefined): table is Table {
     return table !== false && table !== undefined;
   }
+
+  const handleChange = (val: number | number[]) => {
+    // Kiểm tra xem val có phải là mảng không
+    if (Array.isArray(val)) {
+      // Xử lý nếu val là mảng (có thể bạn không cần xử lý trường hợp này nếu chỉ số cần là số)
+      // Ví dụ: Chọn giá trị đầu tiên trong mảng
+      val = val[0];
+    }
+  
+    // Đảm bảo rằng val là kiểu number
+    if (typeof val === 'number') {
+      // Cập nhật trạng thái
+      setStatusOrderSlider(val);
+  
+      // Xử lý trạng thái dựa trên giá trị val
+      switch (val) {
+        case 0:
+          onChangeStatus(ORDER_STATUS.PENDING);
+          break;
+        case 50:
+          onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
+          break;
+        case 100:
+          onChangeStatus(ORDER_STATUS.DONE);
+          break;
+        default:
+          // Xử lý trường hợp không phù hợp
+          break;
+      }
+    }
+  };
+  
+ 
+  
+
   return (
     <>
       <OrderNotification store_uuid={store_uuid} authToken={user.authToken} />
@@ -515,22 +550,7 @@ const isEditableOrder = useMemo(() => {
                 marks={orderStatusesSlider}
                 step={50}
                 vertical={false}
-                onChange={(val) => {
-                  const numericValue = Array.isArray(val) ? val[0] : val;
-                  setStatusOrderSlider(numericValue);
-
-                  switch (numericValue) {
-                    case 0:
-                      onChangeStatus(ORDER_STATUS.PENDING);
-                      break;
-                    case 50:
-                      onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
-                      break;
-                    case 100:
-                      onChangeStatus(ORDER_STATUS.DONE);
-                      break;
-                  }
-                }}
+                onChange={handleChange}
                 className={
                   order.status === ORDER_STATUS.DONE
                     ? "slider-green-theme"
