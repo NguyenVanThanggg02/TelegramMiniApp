@@ -443,7 +443,7 @@ const isEditableOrder = useMemo(() => {
     if(!store_uuid) {
       return
     }
-    if (productList.products.length) {
+    if (!productList.products.length) {
       fetchProductsByStore(store_uuid);
     }
   }, [productList]);
