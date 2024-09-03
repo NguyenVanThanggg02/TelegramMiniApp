@@ -121,7 +121,7 @@ const OrderManagementDetails: React.FC = () => {
   const [, setSpinner] = useRecoilState(spinnerState);
 
   const [showModalConfirm, setShowModalConfirm] = useState(false);
-  const [order, setOrder] = useState<Order>({} as Order);
+  const [order, setOrder] = useState({} as Order);
   const [statusOrderSlider, setStatusOrderSlider] = useState(0);
   const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
   const [notes, setNotes] = useState("");
@@ -145,6 +145,7 @@ const OrderManagementDetails: React.FC = () => {
 const isEditableOrder = useMemo(() => {
   console.log("Order status:", order.status);
   console.log("Order",order);
+  
   return order.status === ORDER_STATUS.PENDING;
 }, [order]);
 
