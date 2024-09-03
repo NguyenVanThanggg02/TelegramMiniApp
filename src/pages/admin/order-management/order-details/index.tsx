@@ -51,6 +51,11 @@ import ConfirmModal from "../../../../components/modal/confirmModal";
 
 import dmIcon from "../../../../static/icons/dm.png";
 
+interface Table {
+    uuid: string;
+    name: string;
+  }
+
 interface ProductImage {
   uuid: string;
   url: string;
@@ -120,6 +125,16 @@ const OrderManagementDetails: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setSpinner] = useRecoilState(spinnerState);
 
+  const orderStatusesSlider = {
+    0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
+    50: t("orderManagement.statusSelect." + ORDER_STATUS.WAIT_FOR_PAY),
+    100: t("orderManagement.statusSelect." + ORDER_STATUS.DONE),
+  };
+  const orderItemStatusesSlider = {
+    0: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.PENDING),
+    100: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.FINISHED),
+  };
+
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [order, setOrder] = useState({} as Order);
   const [statusOrderSlider, setStatusOrderSlider] = useState(0);
@@ -130,15 +145,11 @@ const OrderManagementDetails: React.FC = () => {
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
 
-  const orderStatusesSlider = {
-    0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
-    50: t("orderManagement.statusSelect." + ORDER_STATUS.WAIT_FOR_PAY),
-    100: t("orderManagement.statusSelect." + ORDER_STATUS.DONE),
-  };
-  const orderItemStatusesSlider = {
-    0: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.PENDING),
-    100: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.FINISHED),
-  };
+const isEditableOrder = useMemo(() => {
+  console.log("Order status:", order.status);
+  console.log("Order",order);
+  return order.status === ORDER_STATUS.PENDING;
+}, [order]);
 
   const onOpenUpdateProduct = (product: Product) => {
     setIsShowOrderUpdate(true);
@@ -257,8 +268,8 @@ const OrderManagementDetails: React.FC = () => {
             ...order,
             products: [
                 ...order.products.map(product => ({
-                    name: product.name,  // Ensure name is included
-                    price: product.price,  // Ensure price is included
+                    name: product.name,  
+                    price: product.price,  
                     product_name: product.product_name || '',  
                     quantity: product.quantity ?? 0,
                     unit_price: product.unit_price ?? 0,
@@ -267,31 +278,27 @@ const OrderManagementDetails: React.FC = () => {
                     order_item_uuid: product.order_item_uuid,  
                     delivered_quantity: product.delivered_quantity,  
                     delivery_status: product.delivery_status,  
-                    product_images: product.product_images || [],  // Ensure product_images is included
+                    product_images: product.product_images || [],  
                 })),
                 ...newProducts.map(product => ({
-                    name: product.name,  // Ensure name is included
-                    price: product.price,  // Ensure price is included
+                    name: product.name,  
+                    price: product.price,  
                     product_name: product.product_name || '',  
                     quantity: product.quantity ?? 0,
                     unit_price: product.unit_price ?? 0,
                     uuid: product.uuid,
                     product_uuid: product.product_uuid,
-                    order_item_uuid: "",  // Set to default or empty string as needed
-                    delivered_quantity: 0,  // Set default value as needed
-                    delivery_status: "",  // Set default value as needed
-                    product_images: product.product_images || [],  // Ensure product_images is included
+                    order_item_uuid: "",  
+                    delivered_quantity: 0,  
+                    delivery_status: "",  
+                    product_images: product.product_images || [],  
                 })),
             ],
         },
     };
 
     onSubmitUpdateProductOrder(payload);
-};
-
-
-  
-  
+};  
 
   const onChangeStatus = async (newStatus: any) => {
     setSpinner(true);
@@ -398,6 +405,7 @@ const OrderManagementDetails: React.FC = () => {
     if (!data?.error) {
       const order = data.data; 
       console.log(order);
+      
       setOrder(order);
 
       let statusSlider = 0;
@@ -414,16 +422,6 @@ const OrderManagementDetails: React.FC = () => {
     }
     setSpinner(false);
   };
-
-  const isEditableOrder = useMemo(() => {
-    if (!order || !order.status) {
-      return false;
-    }
-    console.log("Order status:", order.status);
-    console.log("Order", order);
-    return order.status === ORDER_STATUS.PENDING;
-  }, [order]);
-  
 
   useEffect(() => {
     if (!order_uuid || !store_uuid) return;
@@ -452,7 +450,9 @@ const OrderManagementDetails: React.FC = () => {
 
   // receive order on socket
   useEffect(() => {
-    if (orderGlobal?.uuid === order.uuid) {
+    if (orderGlobal && orderGlobal.uuid === order.uuid) {
+        console.log(orderGlobal);
+        
       setOrder(orderGlobal);
 
       let statusSlider = 0;
@@ -466,10 +466,6 @@ const OrderManagementDetails: React.FC = () => {
     }
   }, [orderGlobal]);
 
-  interface Table {
-    uuid: string;
-    name: string;
-  }
   function isTable(table: false | Table | undefined): table is Table {
     return table !== false && table !== undefined;
   }
