@@ -165,7 +165,6 @@ const OrderManagementDetails: React.FC = () => {
 
     setSpinner(true);
     const data = await updateQuantityProductRequest(order.uuid, payload);
-    console.log(data.data);
 
     if (!data?.error) {
       setOrder(data.data);
@@ -660,15 +659,15 @@ const OrderManagementDetails: React.FC = () => {
                             marks={orderItemStatusesSlider}
                             step={100}
                             onChange={() => {
-                              if (valSlider === 0) {
-                                const deliveredQuantity: number =
-                                  item.delivered_quantity ?? item.quantity;
-                                onUpdateDeliveryQuantity({
-                                  ...item,
-                                  delivered_quantity: deliveredQuantity,
+                                // only change status order when status is pending
+                                if (valSlider === 0) {
+                                  // call api update status order item is finished
+                                  onUpdateDeliveryQuantity({
+                                    ...item,
+                                    delivered_quantity: item.quantity ?? 0, 
                                 });
-                              }
-                            }}
+                                }
+                              }}
                             className={
                               valSlider === 0
                                 ? "slider-yellow-theme"
