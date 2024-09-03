@@ -478,19 +478,18 @@ const OrderManagementDetails: React.FC = () => {
 
     switch (numericValue) {
       case 0:
-        onChangeStatus(ORDER_STATUS.PENDING);
+        setOrder({ ...order, status: ORDER_STATUS.PENDING });
         break;
       case 50:
-        onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
+        setOrder({ ...order, status: ORDER_STATUS.WAIT_FOR_PAY });
         break;
       case 100:
-        onChangeStatus(ORDER_STATUS.DONE);
+        setOrder({ ...order, status: ORDER_STATUS.DONE });
         break;
       default:
-        // Handle other cases if needed
         break;
     }
-  }
+  };
   return (
     <>
       <OrderNotification store_uuid={store_uuid} authToken={user.authToken} />
@@ -537,22 +536,7 @@ const OrderManagementDetails: React.FC = () => {
                 marks={orderStatusesSlider}
                 step={50}
                 vertical={false}
-                onChange={(val) => {
-                  const numericValue = Array.isArray(val) ? val[0] : val;
-                  setStatusOrderSlider(numericValue);
-
-                  switch (numericValue) {
-                    case 0:
-                      onChangeStatus(ORDER_STATUS.PENDING);
-                      break;
-                    case 50:
-                      onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
-                      break;
-                    case 100:
-                      onChangeStatus(ORDER_STATUS.DONE);
-                      break;
-                  }
-                }}
+                onChange={handleChange}
                 className={
                   order.status === ORDER_STATUS.DONE
                     ? "slider-green-theme"
