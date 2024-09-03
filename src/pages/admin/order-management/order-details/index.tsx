@@ -143,6 +143,8 @@ const OrderManagementDetails: React.FC = () => {
 
 const isEditableOrder = useMemo(() => {
   console.log("Order status:", order.status);
+  console.log("Order",order);
+  
   return order.status === ORDER_STATUS.PENDING;
 }, [order]);
 
