@@ -409,10 +409,10 @@ const isEditableOrder = useMemo(() => {
       setOrder(order);
 
       let statusSlider = 0;
-      if (data.status === ORDER_STATUS.WAIT_FOR_PAY) {
+      if (order.status === ORDER_STATUS.WAIT_FOR_PAY) {
         statusSlider = 50;
       }
-      if (data.status === ORDER_STATUS.DONE) {
+      if (order.status === ORDER_STATUS.DONE) {
         statusSlider = 100;
       }
       setStatusOrderSlider(statusSlider);
