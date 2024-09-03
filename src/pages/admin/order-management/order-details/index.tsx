@@ -89,7 +89,16 @@ interface Order {
   actual_payment_amount: number;
   value: number;
 }
-
+interface ApiResponse<T> {
+    name?: string;
+    uuid?: string;
+    subdomain?: string;
+    data?: T;       
+    error?: string | unknown;    
+    orders?: [];
+    status?: string;
+    expired_at?: string;
+  }
 interface InvoiceData {
   voucher?: {
     voucher_type: string;
@@ -139,17 +148,38 @@ const OrderManagementDetails: React.FC = () => {
     0: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.PENDING),
     100: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.FINISHED),
   };
-
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const response: ApiResponse<Order> = await fetchOrderByUUID(store_uuid as string, order_uuid as string);
+        if (response.data) {
+          setOrder(response.data); 
+        } else {
+          console.error('No data found in response');
+        }
+      } catch (error) {
+        console.error('Error fetching order:', error);
+      }
+    };
+  
+    fetchOrder();
+  }, [store_uuid, order_uuid]);
+  
+  
 
   const isEditableOrder = useMemo(() => {
-    if (!order) {
-      return false; 
-    }
+    if (!order) return false; 
     console.log("Order status:", order.status);
     console.log("Order", order);
     return order.status === ORDER_STATUS.PENDING;
   }, [order]);
-  
+
+// const isEditableOrder = useMemo(() => {
+//   console.log("Order status:", order.status);
+//   console.log("Order",order);
+//   return order.status === ORDER_STATUS.PENDING;
+// }, [order]);
+
   const onOpenUpdateProduct = (product: Product) => {
     setIsShowOrderUpdate(true);
     setSelectedProduct(product);
