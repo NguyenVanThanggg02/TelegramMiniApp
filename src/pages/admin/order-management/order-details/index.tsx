@@ -340,9 +340,10 @@ const isEditableOrder = useMemo(() => {
     setLoading({ ...loading, isLoading: true });
     const data = await getProductListByStore(store_uuid, false);
     if (!data?.error) {
+      const products = data.data as Product[]
       setProductList({
         is_update: true,
-        products: [],
+        products
       });
       setLoading({ ...loading, isLoading: false });
     } else {
