@@ -167,7 +167,7 @@ const isEditableOrder = useMemo(() => {
     setSpinner(true);
     const data = await updateQuantityProductRequest(order.uuid, payload);
     if (!data?.error) {
-      setOrder(data.data as Order);
+      setOrder(data.data);
       setNotes(data.data.notes);
 
       snackbar.openSnackbar({
@@ -657,7 +657,7 @@ const isEditableOrder = useMemo(() => {
                             value={valSlider}
                             marks={orderItemStatusesSlider}
                             step={100}
-                            onChange={(_val) => {
+                            onChange={() => {
                               if (valSlider === 0) {
                                 const deliveredQuantity: number =
                                   item.delivered_quantity ?? item.quantity;
