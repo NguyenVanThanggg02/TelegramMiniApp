@@ -96,12 +96,16 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       autoHeight
       className="dish-order"
     >
-      <Text.Title size="xLarge" className="header-title" style={{color:'black'}}>
+      <Text.Title
+        size="xLarge"
+        className="header-title"
+        style={{ color: "black" }}
+      >
         {isAdmin ? t("orderManagement.updateDish") : t("menu.addNewDish")}
       </Text.Title>
 
       <Box flex p={7}>
-        <Box style={{width:'25%'}} mr={7}>
+        <Box style={{ width: "25%" }} mr={7}>
           <img
             src={
               isAdmin
@@ -114,7 +118,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
         </Box>
         <Box flex flexDirection="column" justifyContent="center">
           <Box mb={1}>
-            <Text size="xLarge" bold style={{color:'black'}}>
+            <Text size="xLarge" bold style={{ color: "black" }}>
               {product.name}
             </Text>
           </Box>
@@ -127,13 +131,19 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       <hr />
 
       <Box>
-        <Text className="title bg-gray" style={{color:'black'}}>{t("menu.quantity")}</Text>
+        <Text className="title bg-gray" style={{ color: "black" }}>
+          {t("menu.quantity")}
+        </Text>
         <Box flex justifyContent="center" textAlign="center" py={5}>
-          <Box className="fs-24" pr={6} onClick={() => {
-            if (quantity > 1) {
-              setQuantity(quantity - 1);
-            }
-          }}>
+          <Box
+            className="fs-24"
+            pr={6}
+            onClick={() => {
+              if (quantity > 1) {
+                setQuantity(quantity - 1);
+              }
+            }}
+          >
             <Icon
               icon="zi-minus-circle"
               style={{
@@ -141,19 +151,21 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
                 color: quantity <= 1 ? "grey" : "#141415",
                 fontSize: "32px",
               }}
-
             />
           </Box>
-          <Box className="fs-24" style={{ marginTop: "6px", color:'black' }}>
+          <Box className="fs-24" style={{ marginTop: "6px", color: "black" }}>
             {quantity}
           </Box>
-          <Box className="fs-24" pl={6} onClick={() => {
-            setQuantity(quantity + 1);
-          }}>
+          <Box
+            className="fs-24"
+            pl={6}
+            onClick={() => {
+              setQuantity(quantity + 1);
+            }}
+          >
             <Icon
               icon="zi-plus-circle"
-              style={{ fontSize: "32px", color:'black' }}
-
+              style={{ fontSize: "32px", color: "black" }}
             />
           </Box>
         </Box>
@@ -162,7 +174,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       <Box>
         <Box className="box-summary" />
         <Box flex justifyContent="space-between" px={6} py={4}>
-          <Text className="title" style={{ padding: 0,color:'black' }}>
+          <Text className="title" style={{ padding: 0, color: "black" }}>
             {t("menu.total")}
           </Text>
           <Text size="xLarge" bold className="red-color">
@@ -175,7 +187,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       </Box>
 
       <Box flex justifyContent="space-around" p={4} className="submit-section">
-      {isAdmin ? (
+        {isAdmin ? (
           <Button
             onClick={() => {
               if (isProduct(product)) {
@@ -188,19 +200,17 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
             {t("orderManagement.updateDish")}
           </Button>
         ) : (
-          <>
-            <Button
-              onClick={() => {
-                if (isProduct(product)) {
-                  onSubmit({ ...product, quantity });
-                }
-                onClose();
-              }}
-              style={{ width: "100%" }}
-            >
-              {t("menu.addToOrder")}
-            </Button>
-          </>
+          <Button
+            onClick={() => {
+              if (isProduct(product)) {
+                onSubmit({ ...product, quantity });
+              }
+              onClose();
+            }}
+            style={{ width: "100%" }}
+          >
+            {t("menu.addToOrder")}
+          </Button>
         )}
       </Box>
     </Sheet>

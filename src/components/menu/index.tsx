@@ -279,9 +279,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     }
   };
   
-  
-  
-
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
       const response: ApiResponse<Product[]> = await getProductListByStore(store_uuid, false);
