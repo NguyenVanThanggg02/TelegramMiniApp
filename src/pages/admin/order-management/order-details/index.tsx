@@ -140,13 +140,6 @@ const OrderManagementDetails: React.FC = () => {
     100: t("orderManagement.statusItemSelect." + PRODUCT_ORDER_STATUS.FINISHED),
   };
 
-
-const isEditableOrder = useMemo(() => {
-  console.log("Order status:", order.status);
-  console.log("Order",order);
-  return order.status === ORDER_STATUS.PENDING;
-}, [order]);
-
   const onOpenUpdateProduct = (product: Product) => {
     setIsShowOrderUpdate(true);
     setSelectedProduct(product);
@@ -422,6 +415,12 @@ const isEditableOrder = useMemo(() => {
     }
     setSpinner(false);
   };
+  const isEditableOrder = useMemo(() => {
+    console.log("Order status:", order.status);
+    console.log("Order",order);
+    return order.status === ORDER_STATUS.PENDING;
+  }, [order]);
+  
 
   useEffect(() => {
     if (!order_uuid || !store_uuid) return;
