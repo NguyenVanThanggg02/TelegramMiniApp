@@ -147,11 +147,10 @@ const OrderManagementDetails: React.FC = () => {
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
 
-const isEditableOrder = useMemo(() => {
-  console.log("Order status:", order.status);
-  console.log("Order",order);
-  return order.status === ORDER_STATUS.PENDING;
-}, [order]);
+  const isEditableOrder = useMemo(
+    () => order.status === ORDER_STATUS.PENDING,
+    [order],
+  );
 
   const onOpenUpdateProduct = (product: Product) => {
     setIsShowOrderUpdate(true);
@@ -166,6 +165,8 @@ const isEditableOrder = useMemo(() => {
 
     setSpinner(true);
     const data = await updateQuantityProductRequest(order.uuid, payload);
+    console.log(data);
+
     if (!data?.error) {
       setOrder(data.data);
       setNotes(data.data.notes);
