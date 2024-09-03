@@ -129,7 +129,6 @@ const OrderManagementDetails: React.FC = () => {
   const [selectedProduct, setSelectedProduct ] = useState<Product>({} as Product);
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
-  console.log("Order",order);
 
   const orderStatusesSlider = {
     0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
@@ -145,7 +144,6 @@ const OrderManagementDetails: React.FC = () => {
 const isEditableOrder = useMemo(() => {
   console.log("Order status:", order.status);
   console.log("Order",order);
-  
   return order.status === ORDER_STATUS.PENDING;
 }, [order]);
 
@@ -406,6 +404,8 @@ const isEditableOrder = useMemo(() => {
     const data = await fetchOrderByUUID(store_uuid, order_uuid);
     if (!data?.error) {
       const order = data.data; 
+      console.log(order);
+      
       setOrder(order);
 
       let statusSlider = 0;
