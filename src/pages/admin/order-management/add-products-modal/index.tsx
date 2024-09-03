@@ -40,26 +40,32 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSu
   console.log(products);
   
   const isChanged = useMemo(
-    () => products.some((productItem) => (productItem.quantity || 0) > 0),
+    () => products.some((productItem) => productItem.quantity),
     [products]
   );
   
-
   const onChangeQuantity = (type: "increase" | "decrease", product: Product) => {
     const newProducts = products.map((productItem) => {
       if (productItem.uuid === product.uuid) {
+        const currentQuantity = productItem.quantity || 0;
+  
         return {
           ...productItem,
           quantity:
-          type === "increase" ? (productItem.quantity || 0) + 1 : (productItem.quantity || 0) - 1,
+            type === "increase"
+              ? currentQuantity + 1
+              : currentQuantity > 0
+              ? currentQuantity - 1
+              : 0, 
         };
       }
-
+  
       return productItem;
     });
-
+  
     setProducts(newProducts);
   };
+  
 
   useEffect(() => {
     setProducts(data || []);
