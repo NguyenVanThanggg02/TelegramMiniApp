@@ -8,7 +8,6 @@ import {
   Page,
   Select,
   Text,
-  useSnackbar,
   Avatar,
   Button,
 } from "zmp-ui";
@@ -50,6 +49,10 @@ import "rc-slider/assets/index.css";
 import ConfirmModal from "../../../../components/modal/confirmModal";
 
 import dmIcon from "../../../../static/icons/dm.png";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface Table {
     uuid: string;
@@ -116,7 +119,10 @@ const OrderManagementDetails: React.FC = () => {
 
   // const { isMobile } = useBreakpoint();
 
-  const snackbar = useSnackbar();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+
 
   const [productList, setProductList] = useRecoilState(productListState);
   console.log(productList);
@@ -170,18 +176,14 @@ const OrderManagementDetails: React.FC = () => {
       setOrder(data.data);
       setNotes(data.data.notes);
 
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: t("snackbarMessage.deliveredSuccess"),
-        type: "success",
-      });
+      setSnackbarMessage(t("snackbarMessage.deliveredSuccess"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
     } else {
       console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
     setSpinner(false);
   };
@@ -208,11 +210,9 @@ const OrderManagementDetails: React.FC = () => {
       setSpinner(false);
     } else {
       console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
       setSpinner(false);
     }
   };
@@ -328,11 +328,9 @@ const OrderManagementDetails: React.FC = () => {
     const data = await updateStatusOrderRequest(order.uuid, payload);
     if (data?.error) {
       console.error("Error:", data.error);
-      snackbar.openSnackbar({
-        duration: 3000,
-        text: String(data.error),
-        type: "error",
-      });
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
     setSpinner(false);
   };
@@ -659,15 +657,15 @@ const OrderManagementDetails: React.FC = () => {
                             marks={orderItemStatusesSlider}
                             step={100}
                             onChange={() => {
-                                // only change status order when status is pending
-                                if (valSlider === 0) {
-                                  // call api update status order item is finished
-                                  onUpdateDeliveryQuantity({
-                                    ...item,
-                                    delivered_quantity: item.quantity ?? 0, 
+                              // only change status order when status is pending
+                              if (valSlider === 0) {
+                                // call api update status order item is finished
+                                onUpdateDeliveryQuantity({
+                                  ...item,
+                                  delivered_quantity: item.quantity ?? 0,
                                 });
-                                }
-                              }}
+                              }
+                            }}
                             className={
                               valSlider === 0
                                 ? "slider-yellow-theme"
@@ -835,6 +833,25 @@ const OrderManagementDetails: React.FC = () => {
         setIsShowModal={setShowModalConfirm}
         content={t("main.confirmCancel")}
       />
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
+              </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </>
   );
 }
