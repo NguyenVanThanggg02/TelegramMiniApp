@@ -13,21 +13,55 @@ interface ProductImage {
 interface Product {
   uuid: string;
   name: string;
-  price: number;
+  price:number
   unit_price?: number;
   quantity?: number;
   images?: ProductImage[];
+  product_name: string;
   product_images?: ProductImage[];
+  order_item_uuid: string
+  delivered_quantity: number
+  product_uuid? : string
+  delivery_status: string
+}
+
+
+interface DishImage {
+  uuid: string;
+  url: string;
+}
+interface Category {
+  name: string;
+  describe: string;
+  store_uuid: string;
+  uuid: string;
+}
+
+interface Dish {
+  uuid: string;
+  name: string;
+  price: number;
+  describe?: string;
+  quantity?: number;
+  images?: DishImage[];
+  categories?: Category[];
+  product_images?: ProductImage[];
+  unit_price?: number;
+}
+
+function isProduct(product: Product | Dish): product is Product {
+  return (product as Product).product_name !== undefined;
 }
 
 interface DishOrderSheetProps {
   isShow: boolean;
   isAdmin?: boolean;
-  product: Product;
+  product: Product | Dish;
   onClose: () => void;
   onSubmit: (product: Product & { quantity: number }) => void;
   onPayment?: (product: Product & { quantity: number }) => void;
 }
+
 
 const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
   isShow,
@@ -141,10 +175,12 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
       </Box>
 
       <Box flex justifyContent="space-around" p={4} className="submit-section">
-        {isAdmin ? (
+      {isAdmin ? (
           <Button
             onClick={() => {
-              onSubmit({ ...product, quantity });
+              if (isProduct(product)) {
+                onSubmit({ ...product, quantity });
+              }
               onClose();
             }}
             style={{ width: "100%" }}
@@ -155,7 +191,9 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
           <>
             <Button
               onClick={() => {
-                onSubmit({ ...product, quantity });
+                if (isProduct(product)) {
+                  onSubmit({ ...product, quantity });
+                }
                 onClose();
               }}
               style={{ width: "100%" }}
