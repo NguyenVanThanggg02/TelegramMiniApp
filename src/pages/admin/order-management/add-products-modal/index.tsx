@@ -11,17 +11,20 @@ interface ProductImage {
   uuid: string;
   url: string;
 }
+
 interface Product {
   uuid: string;
   name: string;
-  price: number;
+  price:number
   unit_price?: number;
   quantity?: number;
   images?: ProductImage[];
+  product_name: string;
   product_images?: ProductImage[];
   order_item_uuid: string
-  delivered_quantity: string
+  delivered_quantity: number
   product_uuid? : string
+  delivery_status: string
 }
 
 interface AddProductModalProps {
