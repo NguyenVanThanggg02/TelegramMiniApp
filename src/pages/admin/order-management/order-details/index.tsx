@@ -601,11 +601,7 @@ const isEditableOrder = useMemo(() => {
                           {item.quantity}
                           x){" "}
                           {isEditableOrder && (
-                            <Box
-                            onClick={() =>
-                              onOpenUpdateProduct(item)
-                            }
-                            >
+                            <Box onClick={() => onOpenUpdateProduct(item)}>
                               <Icon
                                 icon="zi-post"
                                 style={{ color: "blue", verticalAlign: "top" }}
@@ -646,14 +642,16 @@ const isEditableOrder = useMemo(() => {
                             mask
                             closeOnSelect
                           >
-                            {[...Array((item.quantity ?? 0) + 1).keys()].map((num) => (
-                              <option
-                                key={num.toString()}
-                                title={num.toString()}
-                                value={num.toString()}
-                                disabled={num < item.delivered_quantity}
-                              />
-                            ))}
+                            {[...Array((item.quantity ?? 0) + 1).keys()].map(
+                              (num) => (
+                                <option
+                                  key={num.toString()}
+                                  title={num.toString()}
+                                  value={num.toString()}
+                                  disabled={num < item.delivered_quantity}
+                                />
+                              )
+                            )}
                           </Select>
                           <Text>
                             {" "}
@@ -668,16 +666,15 @@ const isEditableOrder = useMemo(() => {
                             marks={orderItemStatusesSlider}
                             step={100}
                             onChange={(_val) => {
-                                if (valSlider === 0) {
-                                  const deliveredQuantity: number = item.delivered_quantity ?? item.quantity;
-                                  onUpdateDeliveryQuantity({
-                                    ...item,
-                                    delivered_quantity: deliveredQuantity,
-                                  });
-                                }
-                              }}
-                              
-
+                              if (valSlider === 0) {
+                                const deliveredQuantity: number =
+                                  item.delivered_quantity ?? item.quantity;
+                                onUpdateDeliveryQuantity({
+                                  ...item,
+                                  delivered_quantity: deliveredQuantity,
+                                });
+                              }
+                            }}
                             className={
                               valSlider === 0
                                 ? "slider-yellow-theme"
@@ -817,15 +814,7 @@ const isEditableOrder = useMemo(() => {
                   (item) => item.product_uuid === productItem.uuid
                 )
             )
-            .map((item) => ({
-              ...item, 
-              quantity: 0, 
-              product_name: item.name,
-              order_item_uuid: "",  
-              delivered_quantity: 0, 
-              delivery_status: "" 
-            }))}
-   
+            .map((item) => ({ ...item, quantity: 0 }))}
           onClose={() => setIsAddingProduct(false)}
           onSubmit={onAddProductToOrder}
         />
