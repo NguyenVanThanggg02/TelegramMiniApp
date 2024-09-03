@@ -242,10 +242,21 @@ export const orderListState = atom<OrderListState>({
   },
 });
 
-export const orderState = atom<Order | undefined>({
+export const orderState = atom<Order>({
   key: "orderState",
-  default: undefined, 
+  default: {
+    uuid: "", 
+    created_at: "", 
+    store_name: "", 
+    table_uuid: "", 
+    store_uuid: "", 
+    status: "", 
+    products: [], 
+    actual_payment_amount: 0, 
+    value: 0, 
+  },
 });
+
 
 export const currentOrderByStoreClientSideState = atom<Record<string, Order>>({
   key: "currentOrderByStoreClientSide",

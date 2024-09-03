@@ -216,8 +216,8 @@ const OrderManagementDetails: React.FC = () => {
         (item) => item.product_uuid !== productUpdated.product_uuid
       ),
       {
-        ...productUpdated, // spread all properties from the updated product
-        order_item_uuid: productUpdated.order_item_uuid || "", // ensure required fields are present
+        ...productUpdated, 
+        order_item_uuid: productUpdated.order_item_uuid || "", 
         delivered_quantity: productUpdated.delivered_quantity ?? 0,
         delivery_status: productUpdated.delivery_status || "",
       },
