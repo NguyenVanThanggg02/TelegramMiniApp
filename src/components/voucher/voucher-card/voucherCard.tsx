@@ -18,7 +18,7 @@ interface VoucherCardProps {
   isAdmin?: boolean;
   voucher: Voucher;
   hasUseButton?: boolean;
-  onDetails: (voucher: Voucher) => void;
+  onDetails?: (voucher: Voucher) => void; 
   onUse?: () => void;
   displayStatus?: boolean;
 }
@@ -60,7 +60,9 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       flex
       className="voucher-card-container"
       onClick={() => {
-        onDetails(voucher);
+        if (onDetails) {
+          onDetails(voucher);
+        }
       }}
     >
       <Box className="voucher-background"></Box>

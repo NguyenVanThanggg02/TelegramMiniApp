@@ -1,0 +1,31 @@
+.payment-modal {
+  .zaui-modal-content {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .main {
+    padding: 30px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+
+    .products {
+      .product-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+    }
+  }
+
+  .action {
+    position: fixed;
+    bottom: 12px;
+    width: calc(100% - 48px);
+  }
+
+  .voucher-view-container {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+  }
+}
