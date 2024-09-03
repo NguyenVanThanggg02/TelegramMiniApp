@@ -112,7 +112,10 @@ interface Payload {
 
 const OrderManagementDetails: React.FC = () => {
   const { t } = useTranslation("global");
-  const { order_uuid, store_uuid } = useParams<{ order_uuid: string; store_uuid: string }>();
+  const { order_uuid, store_uuid } = useParams<{
+    order_uuid: string;
+    store_uuid: string;
+  }>();
 
   // const { isMobile } = useBreakpoint();
 
@@ -141,15 +144,17 @@ const OrderManagementDetails: React.FC = () => {
   const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
   const [notes, setNotes] = useState("");
   const [isShowOrderUpdate, setIsShowOrderUpdate] = useState(false);
-  const [selectedProduct, setSelectedProduct ] = useState<Product>({} as Product);
+  const [selectedProduct, setSelectedProduct] = useState<Product>(
+    {} as Product
+  );
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
 
-const isEditableOrder = useMemo(() => {
-  console.log("Order status:", order.status);
-  console.log("Order",order);
-  return order.status === ORDER_STATUS.PENDING;
-}, [order]);
+  const isEditableOrder = useMemo(() => {
+    console.log("Order status:", order.status);
+    console.log("Order", order);
+    return order.status === ORDER_STATUS.PENDING;
+  }, [order]);
 
   const onOpenUpdateProduct = (product: Product) => {
     setIsShowOrderUpdate(true);
@@ -157,10 +162,10 @@ const isEditableOrder = useMemo(() => {
   };
 
   const onUpdateDeliveryQuantity = async (product: Product) => {
-   const payload = {
-    order_item_uuid: product.order_item_uuid,
-    delivered_quantity: product.delivered_quantity,
-  };
+    const payload = {
+      order_item_uuid: product.order_item_uuid,
+      delivered_quantity: product.delivered_quantity,
+    };
 
     setSpinner(true);
     const data = await updateQuantityProductRequest(order.uuid, payload);
@@ -193,7 +198,7 @@ const isEditableOrder = useMemo(() => {
           ({ uuid, product_uuid, quantity }) => ({
             uuid: product_uuid || uuid,
             quantity,
-          }),
+          })
         ),
       },
     };
@@ -221,13 +226,13 @@ const isEditableOrder = useMemo(() => {
         (item) => item.product_uuid !== productUpdated.product_uuid
       ),
       {
-        ...productUpdated, 
-        order_item_uuid: productUpdated.order_item_uuid || "", 
+        ...productUpdated,
+        order_item_uuid: productUpdated.order_item_uuid || "",
         delivered_quantity: productUpdated.delivered_quantity ?? 0,
         delivery_status: productUpdated.delivery_status || "",
       },
     ];
-  
+
     const payload: Payload = {
       store_uuid: order.store_uuid,
       uuid: productUpdated.uuid,
@@ -237,68 +242,65 @@ const isEditableOrder = useMemo(() => {
         products: productsPayload,
       },
     };
-  
+
     onSubmitUpdateProductOrder(payload);
   };
-  
-
 
   const onUpdateNotes = () => {
     const payload: Payload = {
-      store_uuid: order.store_uuid,   
-      uuid: order.uuid,               
-      product_uuid: "",              
+      store_uuid: order.store_uuid,
+      uuid: order.uuid,
+      product_uuid: "",
       order: {
         ...order,
-        notes,                        
+        notes,
       },
     };
-  
+
     setEnabledNotes(false);
     onSubmitUpdateProductOrder(payload);
   };
-  
 
   const onAddProductToOrder = (newProducts: Product[]) => {
     const payload: Payload = {
-        store_uuid: order.store_uuid,
-        uuid: order.uuid,
-        product_uuid: "",
-        order: {
-            ...order,
-            products: [
-                ...order.products.map(product => ({
-                    name: product.name,  
-                    price: product.price,  
-                    product_name: product.product_name || '',  
-                    quantity: product.quantity ?? 0,
-                    unit_price: product.unit_price ?? 0,
-                    uuid: product.uuid,
-                    product_uuid: product.product_uuid,
-                    order_item_uuid: product.order_item_uuid,  
-                    delivered_quantity: product.delivered_quantity,  
-                    delivery_status: product.delivery_status,  
-                    product_images: product.product_images || [],  
-                })),
-                ...newProducts.map(product => ({
-                    name: product.name,  
-                    price: product.price,  
-                    product_name: product.product_name || '',  
-                    quantity: product.quantity ?? 0,
-                    unit_price: product.unit_price ?? 0,
-                    uuid: product.uuid,
-                    product_uuid: product.product_uuid,
-                    order_item_uuid: "",  
-                    delivered_quantity: 0,  
-                    delivery_status: "",  
-                    product_images: product.product_images || [],  
-                })),
-            ],
-        },
+      store_uuid: order.store_uuid,
+      uuid: order.uuid,
+      product_uuid: "",
+      order: {
+        ...order,
+        products: [
+          ...order.products.map((product) => ({
+            name: product.name,
+            price: product.price,
+            product_name: product.product_name || "",
+            quantity: product.quantity ?? 0,
+            unit_price: product.unit_price ?? 0,
+            uuid: product.uuid,
+            product_uuid: product.product_uuid,
+            order_item_uuid: product.order_item_uuid,
+            delivered_quantity: product.delivered_quantity,
+            delivery_status: product.delivery_status,
+            product_images: product.product_images || [],
+          })),
+          ...newProducts.map((product) => ({
+            name: product.name,
+            price: product.price,
+            product_name: product.product_name || "",
+            quantity: product.quantity ?? 0,
+            unit_price: product.unit_price ?? 0,
+            uuid: product.uuid,
+            product_uuid: product.product_uuid,
+            order_item_uuid: "",
+            delivered_quantity: 0,
+            delivery_status: "",
+            product_images: product.product_images || [],
+          })),
+        ],
+      },
     };
 
     onSubmitUpdateProductOrder(payload);
-};  
+  };
 
   const onChangeStatus = async (newStatus: any) => {
     setSpinner(true);
@@ -309,19 +311,19 @@ const isEditableOrder = useMemo(() => {
     if (newStatus === ORDER_STATUS.DONE) {
       const orderItemsMapping = order.products
         .filter(
-          (item) => item.delivery_status !== PRODUCT_ORDER_STATUS.FINISHED,
+          (item) => item.delivery_status !== PRODUCT_ORDER_STATUS.FINISHED
         )
         .map((item) => ({
           order_item_uuid: item.order_item_uuid,
           delivered_quantity: item.quantity,
         }));
 
-        await Promise.all(
-          orderItemsMapping.map((item) => {
-            return updateQuantityProductRequest(order.uuid, item);
-          }),
-        );
-      }
+      await Promise.all(
+        orderItemsMapping.map((item) => {
+          return updateQuantityProductRequest(order.uuid, item);
+        })
+      );
+    }
     const data = await updateStatusOrderRequest(order.uuid, payload);
     if (data?.error) {
       console.error("Error:", data.error);
@@ -352,8 +354,12 @@ const isEditableOrder = useMemo(() => {
   const totalBill = useMemo(
     () =>
       order.products?.length &&
-    sum(order.products.map((item) => (item.unit_price ?? 0) * (item.quantity ?? 0))),
-    [order],
+      sum(
+        order.products.map(
+          (item) => (item.unit_price ?? 0) * (item.quantity ?? 0)
+        )
+      ),
+    [order]
   );
   const voucherInformation = useMemo(() => {
     if (!invoiceData?.voucher) return;
@@ -376,13 +382,9 @@ const isEditableOrder = useMemo(() => {
         return "";
     }
   }, [invoiceData]);
-  const table = useMemo(
-    () =>
-      !isEmpty(order) &&
-      !isEmpty(tableList.tables) &&
-      tableList.tables.find((item) => item.uuid === order.table_uuid),
-    [order, tableList],
-  );
+  const table = useMemo(() => {
+    return tableList.tables.find((item) => item.uuid === order.table_uuid);
+  }, [order, tableList]);
 
   const getInvoiceData = async (invoice_uuid: string) => {
     console.log(`...getInvoiceData..invoice_uuid: ${invoice_uuid}`);
@@ -403,9 +405,9 @@ const isEditableOrder = useMemo(() => {
     setSpinner(true);
     const data = await fetchOrderByUUID(store_uuid, order_uuid);
     if (!data?.error) {
-      const order = data.data; 
+      const order = data.data;
       console.log(order);
-      
+
       setOrder(order);
 
       let statusSlider = 0;
@@ -424,12 +426,10 @@ const isEditableOrder = useMemo(() => {
   };
 
   useEffect(() => {
-    if (!order_uuid || !store_uuid) return;
-
-    getOrderByUuid();
+    if (order_uuid && store_uuid) getOrderByUuid();
   }, [order_uuid, store_uuid]);
-
   // get invoice when order paying
+
   useEffect(() => {
     if (!order || !order?.invoice_uuid) {
       setInvoiceData(null);
@@ -439,32 +439,22 @@ const isEditableOrder = useMemo(() => {
     getInvoiceData(order.invoice_uuid);
   }, [order]);
 
-  useEffect(() => {
-    if(!store_uuid) {
-      return
-    }
-    if (!productList.products.length) {
+ useEffect(() => {
+    if (store_uuid && !productList.products.length) {
       fetchProductsByStore(store_uuid);
     }
-  }, [productList]);
+  }, [store_uuid, productList.products]);
 
   // receive order on socket
   useEffect(() => {
-    if (orderGlobal && orderGlobal.uuid === order.uuid) {
-        console.log(orderGlobal);
-        
+    if (orderGlobal?.uuid === order.uuid) {
       setOrder(orderGlobal);
-
       let statusSlider = 0;
-      if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) {
-        statusSlider = 50;
-      }
-      if (orderGlobal.status === ORDER_STATUS.DONE) {
-        statusSlider = 100;
-      }
+      if (orderGlobal.status === ORDER_STATUS.WAIT_FOR_PAY) statusSlider = 50;
+      if (orderGlobal.status === ORDER_STATUS.DONE) statusSlider = 100;
       setStatusOrderSlider(statusSlider);
     }
-  }, [orderGlobal]);
+  }, [orderGlobal, order.uuid]);
 
   function isTable(table: false | Table | undefined): table is Table {
     return table !== false && table !== undefined;
@@ -581,11 +571,7 @@ const isEditableOrder = useMemo(() => {
                           {item.quantity}
                           x){" "}
                           {isEditableOrder && (
-                            <Box
-                            onClick={() =>
-                              onOpenUpdateProduct(item)
-                            }
-                            >
+                            <Box onClick={() => onOpenUpdateProduct(item)}>
                               <Icon
                                 icon="zi-post"
                                 style={{ color: "blue", verticalAlign: "top" }}
@@ -626,14 +612,16 @@ const isEditableOrder = useMemo(() => {
                             mask
                             closeOnSelect
                           >
-                            {[...Array((item.quantity ?? 0) + 1).keys()].map((num) => (
-                              <option
-                                key={num.toString()}
-                                title={num.toString()}
-                                value={num.toString()}
-                                disabled={num < item.delivered_quantity}
-                              />
-                            ))}
+                            {[...Array((item.quantity ?? 0) + 1).keys()].map(
+                              (num) => (
+                                <option
+                                  key={num.toString()}
+                                  title={num.toString()}
+                                  value={num.toString()}
+                                  disabled={num < item.delivered_quantity}
+                                />
+                              )
+                            )}
                           </Select>
                           <Text>
                             {" "}
@@ -648,16 +636,15 @@ const isEditableOrder = useMemo(() => {
                             marks={orderItemStatusesSlider}
                             step={100}
                             onChange={(_val) => {
-                                if (valSlider === 0) {
-                                  const deliveredQuantity: number = item.delivered_quantity ?? item.quantity;
-                                  onUpdateDeliveryQuantity({
-                                    ...item,
-                                    delivered_quantity: deliveredQuantity,
-                                  });
-                                }
-                              }}
-                              
-
+                              if (valSlider === 0) {
+                                const deliveredQuantity: number =
+                                  item.delivered_quantity ?? item.quantity;
+                                onUpdateDeliveryQuantity({
+                                  ...item,
+                                  delivered_quantity: deliveredQuantity,
+                                });
+                              }
+                            }}
                             className={
                               valSlider === 0
                                 ? "slider-yellow-theme"
@@ -798,14 +785,13 @@ const isEditableOrder = useMemo(() => {
                 )
             )
             .map((item) => ({
-              ...item, 
-              quantity: 0, 
+              ...item,
+              quantity: 0,
               product_name: item.name,
-              order_item_uuid: "",  
-              delivered_quantity: 0, 
-              delivery_status: "" 
+              order_item_uuid: "",
+              delivered_quantity: 0,
+              delivery_status: "",
             }))}
-   
           onClose={() => setIsAddingProduct(false)}
           onSubmit={onAddProductToOrder}
         />
