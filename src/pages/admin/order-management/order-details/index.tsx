@@ -129,7 +129,6 @@ const OrderManagementDetails: React.FC = () => {
   const [selectedProduct, setSelectedProduct ] = useState<Product>({} as Product);
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
-  const [, setValSlider] = useState<number>(0);
 
   const orderStatusesSlider = {
     0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
@@ -469,27 +468,6 @@ const OrderManagementDetails: React.FC = () => {
   function isTable(table: false | Table | undefined): table is Table {
     return table !== false && table !== undefined;
   }
-  
-  
-  const handleChange = (value: number | number[]) => {
-    // Ensure value is a number
-    const numericValue = Array.isArray(value) ? value[0] : value;
-    setValSlider(numericValue);
-
-    switch (numericValue) {
-      case 0:
-        setOrder({ ...order, status: ORDER_STATUS.PENDING });
-        break;
-      case 50:
-        setOrder({ ...order, status: ORDER_STATUS.WAIT_FOR_PAY });
-        break;
-      case 100:
-        setOrder({ ...order, status: ORDER_STATUS.DONE });
-        break;
-      default:
-        break;
-    }
-  };
   return (
     <>
       <OrderNotification store_uuid={store_uuid} authToken={user.authToken} />
@@ -536,7 +514,22 @@ const OrderManagementDetails: React.FC = () => {
                 marks={orderStatusesSlider}
                 step={50}
                 vertical={false}
-                onChange={handleChange}
+                onChange={(val) => {
+                  const numericValue = Array.isArray(val) ? val[0] : val;
+                  setStatusOrderSlider(numericValue);
+
+                  switch (numericValue) {
+                    case 0:
+                      onChangeStatus(ORDER_STATUS.PENDING);
+                      break;
+                    case 50:
+                      onChangeStatus(ORDER_STATUS.WAIT_FOR_PAY);
+                      break;
+                    case 100:
+                      onChangeStatus(ORDER_STATUS.DONE);
+                      break;
+                  }
+                }}
                 className={
                   order.status === ORDER_STATUS.DONE
                     ? "slider-green-theme"
@@ -653,7 +646,16 @@ const OrderManagementDetails: React.FC = () => {
                             value={valSlider}
                             marks={orderItemStatusesSlider}
                             step={100}
-                            onChange={handleChange}
+                            onChange={(_val) => {
+                                if (valSlider === 0) {
+                                  const deliveredQuantity: number = item.delivered_quantity ?? item.quantity;
+                                  onUpdateDeliveryQuantity({
+                                    ...item,
+                                    delivered_quantity: deliveredQuantity,
+                                  });
+                                }
+                              }}
+                              
 
                             className={
                               valSlider === 0
