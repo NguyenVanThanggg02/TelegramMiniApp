@@ -443,7 +443,7 @@ const isEditableOrder = useMemo(() => {
     if(!store_uuid) {
       return
     }
-    if (!productList.products.length) {
+    if (productList.products.length) {
       fetchProductsByStore(store_uuid);
     }
   }, [productList]);
@@ -471,19 +471,12 @@ const isEditableOrder = useMemo(() => {
   }
 
   const handleChange = (val: number | number[]) => {
-    // Kiểm tra xem val có phải là mảng không
     if (Array.isArray(val)) {
-      // Xử lý nếu val là mảng (có thể bạn không cần xử lý trường hợp này nếu chỉ số cần là số)
-      // Ví dụ: Chọn giá trị đầu tiên trong mảng
       val = val[0];
     }
   
-    // Đảm bảo rằng val là kiểu number
     if (typeof val === 'number') {
-      // Cập nhật trạng thái
       setStatusOrderSlider(val);
-  
-      // Xử lý trạng thái dựa trên giá trị val
       switch (val) {
         case 0:
           onChangeStatus(ORDER_STATUS.PENDING);
@@ -495,14 +488,10 @@ const isEditableOrder = useMemo(() => {
           onChangeStatus(ORDER_STATUS.DONE);
           break;
         default:
-          // Xử lý trường hợp không phù hợp
           break;
       }
     }
   };
-  
- 
-  
 
   return (
     <>
