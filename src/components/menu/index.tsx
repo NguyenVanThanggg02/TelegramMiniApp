@@ -88,16 +88,11 @@ interface ProductImage {
 interface Product {
   uuid: string;
   name: string;
-  price:number
+  price: number;
   unit_price?: number;
   quantity?: number;
   images?: ProductImage[];
-  product_name: string;
   product_images?: ProductImage[];
-  order_item_uuid: string
-  delivered_quantity: number
-  product_uuid? : string
-  delivery_status: string
 }
 
 const defaultProduct: Product = {
@@ -107,12 +102,7 @@ const defaultProduct: Product = {
   unit_price: 0,
   quantity: 1,
   images: [],
-  product_name: 'Product',
-  product_images: [],
-  order_item_uuid:'',
-  delivered_quantity: 0,
-  delivery_status: '',
-  product_uuid:'',
+  product_images: []
 };
 
 
@@ -279,6 +269,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     }
   };
   
+  
+  
+
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
       const response: ApiResponse<Product[]> = await getProductListByStore(store_uuid, false);
