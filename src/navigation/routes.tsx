@@ -27,6 +27,7 @@ import VoucherPage from '@/pages/admin/voucher';
 import VoucherFormPage from '@/pages/admin/voucher/form';
 import MenuCommonPage from '@/components/menu';
 import OrderManagement from '@/pages/admin/order-management';
+import OrderManagementDetails from '@/pages/admin/order-management/order-details';
 
 
 interface Route {
@@ -49,7 +50,7 @@ export const routes: Route[] = [
   { path: '/order-history', Component: OrderHistory, title: 'Order History'},
   { path: '/admin/order-management/index/:store_uuid', Component: OrderManagement},
   { path: '/admin/order-management/create/index/:store_uuid', Component: MenuCommonPage},
-  // { path: '/admin/order-management/details/index/:order_uuid/:store_uuid', Component: OrderManagementDetails},
+  { path: '/admin/order-management/details/index/:order_uuid/:store_uuid', Component: OrderManagementDetails},
     // ADMIN
     { path: '/admin/store/form', Component: StoreFormPage},
     { path: '/admin/store/index', Component: StorePage },
