@@ -105,7 +105,7 @@ const OrderPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   console.log(currentOrder);
-  console.log(currentOrder.notes);
+  console.log(currentOrder.status);
 
 
   const totalBill = useMemo(() => {
@@ -471,11 +471,11 @@ const OrderPage: React.FC = () => {
                       ))}
                   </Box>
                   <Box flex justifyContent="space-between">
-                    {currentOrder.notes ? (
+                  {typeof currentOrder.notes === 'string' && currentOrder.notes ? (
                       <Box className="note">
                         <Text size="large">
                           <b>{t("orderManagement.notes")}</b>:{" "}
-                          <i>"{currentOrder.data.notes}"</i>
+                          <i>"{currentOrder.notes}"</i>
                         </Text>
                       </Box>
                     ) : (
