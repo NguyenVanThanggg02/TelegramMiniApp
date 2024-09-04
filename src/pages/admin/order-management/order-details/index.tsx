@@ -53,6 +53,7 @@ import dmIcon from "../../../../static/icons/dm.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import { color } from "html2canvas/dist/types/css/types/color";
 
 interface Table {
     uuid: string;
@@ -514,11 +515,11 @@ const OrderManagementDetails: React.FC = () => {
             src={order?.user?.avatar}
             style={{ marginRight: "10px" }}
           />
-          <Text size="xLarge" bold>
+          <Text size="xLarge" bold style={{color:'black'}}>
             {order?.user?.name}
           </Text>
           <Box style={{ position: "absolute", right: "10px" }}>
-            <Text className="fs-17" style={{ fontStyle: "italic" }}>
+            <Text className="fs-17" style={{ fontStyle: "italic", color:'black' }}>
               {timePeriodFormatter(order.created_at, t)}
             </Text>
           </Box>
@@ -526,7 +527,7 @@ const OrderManagementDetails: React.FC = () => {
         <Box className="header">
           {isTable(table) && (
             <Box>
-              <Text className="fs-20 header__table-name">{table.name}</Text>
+              <Text className="fs-20 header__table-name" style={{color:'black'}}>{table.name}</Text>
             </Box>
           )}
 
@@ -588,7 +589,7 @@ const OrderManagementDetails: React.FC = () => {
                         />
                       </Box>
                       <Box>
-                        <Text size="large">
+                        <Text size="large" style={{color:'black'}}>
                           <span className="fw-500">{item.product_name}</span> (
                           {item.quantity}
                           x){" "}
@@ -602,7 +603,7 @@ const OrderManagementDetails: React.FC = () => {
                           )}
                         </Text>
                         <Box flex style={{ gap: "8px" }}>
-                          <Text size="normal">
+                          <Text size="normal" style={{color:'black'}}>
                             {priceFormatter(item.unit_price)}
                             <span style={{ marginLeft: "2px" }}>₫</span>
                           </Text>
@@ -620,7 +621,7 @@ const OrderManagementDetails: React.FC = () => {
                     {order.status !== ORDER_STATUS.CANCELLED && (
                       <>
                         <Box className="quantity">
-                          <Text>
+                          <Text style={{color:'black'}}>
                             {t("orderManagement.orderDetail.delivered")}:
                           </Text>
                           <Select
@@ -645,7 +646,7 @@ const OrderManagementDetails: React.FC = () => {
                               )
                             )}
                           </Select>
-                          <Text>
+                          <Text style={{color:'black'}}>
                             {" "}
                             / {item.quantity}{" "}
                             {t("orderManagement.orderDetail.dish")}
