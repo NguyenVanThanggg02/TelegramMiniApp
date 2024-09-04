@@ -720,7 +720,7 @@ const OrderPage: React.FC = () => {
         {!isEmpty(currentOrder) && (
           <PaymentModal
             show={showPaymentModal}
-            order={currentOrder.data}
+            order={currentOrder.products}
             onClose={() => setShowPaymentModal(false)}
             onPayment={zalo_pay_setting ? onZaloPay : onManuallyPayment}
           />
