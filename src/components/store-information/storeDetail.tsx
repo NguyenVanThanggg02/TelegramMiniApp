@@ -75,27 +75,27 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </Box>
           <Box flex flexDirection="row" alignItems="center" mt={3}>
             <Box>
-              <Text style={{ fontSize: "21px" }} bold>
+              <Text style={{ fontSize: "21px",color:'black' }} bold>
                 {storeData?.name}
               </Text>
             </Box>
           </Box>
           <Box mt={6} style={{ padding: "0 20px" }}>
-            <Text>{storeDetail?.description}</Text>
+            <Text style={{color:'black'}}>{storeDetail?.description}</Text>
           </Box>
         </Box>
         <Box>
           <List>
             {storeDetail?.address && (
               <List.Item
-                style={{ marginBottom: "0" }}
+                style={{ marginBottom: "0", color:'black' }}
                 title={t("menu.address")}
                 subTitle={storeDetail?.address}
               />
             )}
             {storeDetail?.phoneNumber && (
               <List.Item
-                style={{ marginBottom: "0" }}
+                style={{ marginBottom: "0", color:'black' }}
                 title={t("menu.phoneNumber")}
               >
                 <Text>{storeDetail?.phoneNumber}</Text>
@@ -104,7 +104,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
 
             {storeDetail?.bankName && (
               <List.Item
-                style={{ marginBottom: "0" }}
+                style={{ marginBottom: "0", color:'black' }}
                 title={t("menu.bankName")}
               >
                 <Text>{storeDetail?.bankName}</Text>
@@ -113,6 +113,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
 
             {storeDetail?.bankAccount && (
               <List.Item
+              style={{color:'black'}}
                 title={t("menu.bankAccount")}
               >
                 <Text>{storeDetail?.bankAccount}</Text>
