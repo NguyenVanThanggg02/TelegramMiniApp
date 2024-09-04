@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
@@ -29,7 +29,7 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
-import PageWithBottomNavBar from "../pageWithBottomNavbar";
+import BottomNavBar from "../bottom-navbar";
 
 
 interface DishImage {
@@ -557,7 +557,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         />
       </Box>
-      <PageWithBottomNavBar/>
+      <Outlet />
+      <BottomNavBar />
     </Page>
   );
 };
