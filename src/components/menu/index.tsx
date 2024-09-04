@@ -29,6 +29,7 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
+import PageWithBottomNavBar from "../pageWithBottomNavbar";
 
 
 interface DishImage {
@@ -543,6 +544,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         />
       </Box>
+    <PageWithBottomNavBar/>
     </Page>
   );
 };

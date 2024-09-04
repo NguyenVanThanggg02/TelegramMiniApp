@@ -45,14 +45,19 @@ export const routes: Route[] = [
   // USER
   { path: '/', Component: Index},
   { path: '/user/form', Component: FormPage, title: 'Form Page' },
-  { path: '/user/profile', Component: ProfilePage},
+  // { path: '/user/profile', Component: ProfilePage},
   { path: '/about', Component: AboutPage},
   //ORDER
   { path: '/order-history', Component: OrderHistory, title: 'Order History'},
   { path: '/admin/order-management/index/:store_uuid', Component: OrderManagement},
   { path: '/admin/order-management/create/index/:store_uuid', Component: MenuCommonPage},
   { path: '/admin/order-management/details/index/:order_uuid/:store_uuid', Component: OrderManagementDetails},
+
+  // need bottom navbar
   { path: '/user/order/:store_uuid', Component: OrderPage},
+  { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
+  { path: '/user/profile', Component: ProfilePage},
+
     // ADMIN
     { path: '/admin/store/form', Component: StoreFormPage},
     { path: '/admin/store/index', Component: StorePage },
@@ -79,7 +84,7 @@ export const routes: Route[] = [
     { path: "/admin/voucher/form/:store_uuid", Component: VoucherFormPage },
     { path: "/admin/voucher/update/:store_uuid/:voucher_uuid", Component: VoucherFormPage },
     // // MENU
-    { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
+    // { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
 
   {
     path: '/ton-connect',
