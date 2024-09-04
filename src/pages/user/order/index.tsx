@@ -105,6 +105,9 @@ const OrderPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
+console.log(currentOrder);
+
+
   const totalBill = useMemo(() => {
     if (
       typeof currentOrder?.actual_payment_amount === 'number' && 
