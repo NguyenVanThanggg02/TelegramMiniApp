@@ -81,6 +81,11 @@ interface Order {
   value: number;
 }
 
+interface PaymentPayload {
+  order_uuid: Order;
+  voucher_code?: string;
+}
+
 const OrderPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
@@ -255,13 +260,13 @@ const OrderPage: React.FC = () => {
     setShowPaymentModal(false);
   };
 
-  const onManuallyPayment = async () => {
-    const payload = {
+  const onManuallyPayment = async (voucher: string) => {
+    const payload: PaymentPayload = {
       order_uuid: currentOrder.uuid,
     };
-    // if (voucher) {
-    //   payload.voucher_code = voucher;
-    // }
+    if (voucher) {
+      payload.voucher_code = voucher;
+    }
 
     const response = await sendInvoice(payload);
     const data = response.data
