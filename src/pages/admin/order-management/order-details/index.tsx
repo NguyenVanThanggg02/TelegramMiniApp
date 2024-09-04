@@ -695,7 +695,7 @@ const OrderManagementDetails: React.FC = () => {
                 size={40}
                 style={{ color: "red", height: "40px" }}
               />{" "}
-              <Text size="large">
+              <Text size="large" style={{color:'black'}}>
                 {t("orderManagement.orderDetail.addDish")}
               </Text>
             </Box>
@@ -709,17 +709,17 @@ const OrderManagementDetails: React.FC = () => {
               alignItems="center"
               mb={2}
             >
-              <Text size="large" bold>
+              <Text size="large" bold style={{color:'black'}}>
                 {t("orderManagement.orderDetail.total")}:
               </Text>
-              <Text size="large">{priceFormatter(totalBill)}₫</Text>
+              <Text size="large" style={{color:'black'}}>{priceFormatter(totalBill)}₫</Text>
             </Box>
 
             {invoiceData?.voucher && (
               <>
                 <Box flex justifyContent="space-between" className="red-color">
-                  <Text>{voucherInformation}</Text>
-                  <Text>
+                  <Text style={{color:'black'}}>{voucherInformation}</Text>
+                  <Text style={{color:'black'}}>
                     -
                     {priceFormatter(order.value - order?.actual_payment_amount)}
                     ₫
@@ -751,6 +751,7 @@ const OrderManagementDetails: React.FC = () => {
                 setNotes(e.target.value)
               }
               disabled={!enabledNotes}
+              style={{color:'black'}}
             />
 
             {isEditableOrder && (
