@@ -93,7 +93,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
   const totalBill = useMemo(
     () =>
       order && Array.isArray(order) 
-        ? order.products.reduce(
+        ? order.reduce(
             (acc, cur) => {
               const unitPrice = cur.unit_price ?? 0; 
               const quantity = cur.quantity ?? 0; 
