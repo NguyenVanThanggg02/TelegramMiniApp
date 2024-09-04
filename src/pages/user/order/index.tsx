@@ -30,6 +30,7 @@ import {
   DEFAULT_IMAGE_PRODUCT,
   ORDER_STATUS,
   ORDER_STATUS_NOT_FINISHED_ARR,
+  OrderStatus,
 } from "../../../constants";
 
 import "./styles.scss";
@@ -74,7 +75,7 @@ interface Order {
   store_name: string;
   table_uuid: string;
   store_uuid: string;
-  status: string;
+  status: OrderStatus;
   products: Product[]; 
   notes?: string;
   actual_payment_amount: number;
@@ -477,7 +478,8 @@ const OrderPage: React.FC = () => {
                       ))}
                   </Box>
                   <Box flex justifyContent="space-between">
-                  {typeof currentOrder.notes === 'string' && currentOrder.notes ? (
+                    {typeof currentOrder.notes === "string" &&
+                    currentOrder.notes ? (
                       <Box className="note">
                         <Text size="large">
                           <b>{t("orderManagement.notes")}</b>:{" "}
@@ -511,13 +513,13 @@ const OrderPage: React.FC = () => {
                     >
                       {t("userOrder.orderMore")}
                     </Button>
-                 
+
                   <Button
                     onClick={() => {
-                        setShowPaymentModal(true);
-                        setDisableMenuPayment(true);
-                        // handleCreateOrder();
-                      }}
+                      setShowPaymentModal(true);
+                      setDisableMenuPayment(true);
+                      // handleCreateOrder();
+                    }}
                   >
                     {t("menu.payment")}
                   </Button>
@@ -575,7 +577,8 @@ const OrderPage: React.FC = () => {
                                 <Box>
                                   <Text size="normal">
                                     {priceFormatter(
-                                      (product.unit_price ?? 0) * (product.quantity ?? 0)
+                                      (product.unit_price ?? 0) *
+                                        (product.quantity ?? 0)
                                     )}
                                     <span style={{ marginLeft: "2px" }}>₫</span>
                                   </Text>
@@ -608,9 +611,10 @@ const OrderPage: React.FC = () => {
                                 item.products.reduce(
                                   (total, product) =>
                                     total +
-                                    (product.unit_price ?? 0) * (product.quantity ?? 0),
-                                  0,
-                                ),
+                                    (product.unit_price ?? 0) *
+                                      (product.quantity ?? 0),
+                                  0
+                                )
                               ) !==
                               priceFormatter(item.actual_payment_amount) ? (
                                 <>
@@ -627,9 +631,10 @@ const OrderPage: React.FC = () => {
                                           item.products.reduce(
                                             (total, product) =>
                                               total +
-                                            (product.unit_price ?? 0) * (product.quantity ?? 0),
-                                            0,
-                                          ),
+                                              (product.unit_price ?? 0) *
+                                                (product.quantity ?? 0),
+                                            0
+                                          )
                                         )}
                                         ₫{" "}
                                       </small>
@@ -642,7 +647,7 @@ const OrderPage: React.FC = () => {
                                       }}
                                     >
                                       {priceFormatter(
-                                        item.actual_payment_amount,
+                                        item.actual_payment_amount
                                       )}
                                       ₫
                                     </span>
@@ -730,13 +735,21 @@ const OrderPage: React.FC = () => {
           onClose={() => setShowOrderMore(false)}
           onSubmit={onSubmitOrderMore}
         />
-        <div style={{borderRadius:'10px'}}>
+        <div style={{ borderRadius: "10px" }}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+              <div
+                className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+              >
+                <div style={{ display: "flex" }}>
+                  {snackbarType === "success" && (
+                    <CheckCircleIcon
+                      style={{ marginRight: 8, color: "green" }}
+                    />
+                  )}
+                  {snackbarType === "error" && (
+                    <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                  )}
                   {snackbarMessage}
                 </div>
               </div>
