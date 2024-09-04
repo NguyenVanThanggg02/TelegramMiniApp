@@ -31,6 +31,9 @@ export const ORDER_STATUS = {
   CANCELLED: "cancelled",
 };
 
+export type OrderStatus = typeof ORDER_STATUS[keyof typeof ORDER_STATUS];
+
+
 export const ORDER_STATUS_NOT_FINISHED_ARR = ["payed", "refunded", "cancelled"];
 
 export const PRODUCT_ORDER_STATUS = {
