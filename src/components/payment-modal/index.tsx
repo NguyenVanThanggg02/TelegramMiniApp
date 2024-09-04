@@ -92,7 +92,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
   
   const totalBill = useMemo(
     () =>
-      order.products && Array.isArray(order.products) 
+      order && Array.isArray(order) 
         ? order.products.reduce(
             (acc, cur) => {
               const unitPrice = cur.unit_price ?? 0; 
@@ -207,7 +207,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
           <Text.Title size="xLarge">{t("menu.payment")}</Text.Title>
         </Box>
         <Box className="products">
-          {order.products.length &&
+          {order.products &&
             order.products.map((item, index) => (
               <Box
                 flex
