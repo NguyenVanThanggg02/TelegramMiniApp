@@ -1,0 +1,88 @@
+.order-history-container {
+  margin-bottom: 48px;
+
+  .header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .current-order {
+    padding: 16px 0;
+
+    &__title {
+      margin-bottom: 12px;
+    }
+
+    .refresh-btn {
+      padding: 4px 10px;
+      height: 32px;
+      border-radius: 8px;
+      background-color: var(--blue-color);
+    }
+
+    &__main {
+      position: relative;
+
+      .current-order__status {
+        position: absolute;
+        font-size: 14px;
+        right: 0;
+        top: 0;
+        border-radius: 0 8px 0 8px;
+        z-index: 10;
+        text-align: center;
+        padding: 6px 12px;
+        line-height: 12px;
+      }
+
+      .products-and-note {
+        padding: 10px 20px;
+        padding-top: 24px;
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+
+        .products {
+          .product-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+          }
+        }
+
+        .note {
+          padding: 12px 0;
+        }
+      }
+
+      .actions {
+        margin-top: 12px;
+        .zaui-btn {
+          width: 100%;
+          margin-top: 12px;
+        }
+      }
+    }
+  }
+
+  .order-history {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+
+    .products-and-note {
+      // padding-top: 28px;
+
+      .products {
+        .product-item {
+          padding: 8px 0;
+        }
+      }
+
+      .note {
+        padding: 0;
+      }
+    }
+  }
+}

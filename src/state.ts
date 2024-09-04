@@ -71,13 +71,18 @@ export const companyState = atom<CompanyState>({
 });
 // ----- STORE -----
 
+interface StoreSettings {
+  name: string;
+  value: string;
+}
+
 interface StoreState {
   uuid: string;
   name: string;
   user?:string
   subdomain: string;
   created_at: string;
-  store_settings: []; 
+  store_settings?: StoreSettings[]; 
   ai_requests_count?:number
   turn_on_table?: boolean;  
   tables_count?: number; 

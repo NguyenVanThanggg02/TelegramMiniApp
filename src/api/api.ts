@@ -9,7 +9,7 @@ import {
 import { createTenantURL } from "@/api/urlHelper";
 
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   name?: string;
   uuid?: string;
   subdomain?: string;
