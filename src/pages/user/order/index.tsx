@@ -401,7 +401,7 @@ const OrderPage: React.FC = () => {
         <Box className="header">{t("menu.order")}</Box>
         <Box className="current-order">
           <Box>
-            <Box flex justifyContent="space-between" alignItems="center">
+            <Box flex justifyContent="space-between" alignItems="center" style={{color:'black'}}>
               <Text size="xLarge" bold className="current-order__title">
                 {t("userOrder.currentOrder")}
               </Text>
@@ -454,13 +454,13 @@ const OrderPage: React.FC = () => {
                                 }}
                               />
                             </Box>
-                            <Box>
-                              <Text size="large">
+                            <Box> 
+                              <Text size="large" style={{color:'black'}}>
                                 <span className="fw-500">
                                   {item.product_name}
                                 </span>
                               </Text>
-                              <Box flex style={{ gap: "8px" }}>
+                              <Box flex style={{ gap: "8px", color:'black' }} >
                                 <Text size="normal">
                                   {priceFormatter(item.unit_price)}
                                   <span style={{ marginLeft: "2px" }}>₫</span>
@@ -468,7 +468,7 @@ const OrderPage: React.FC = () => {
                               </Box>
                             </Box>
                           </Box>
-                          <Box>
+                          <Box style={{color:'black'}}>
                             <Text size="xLarge">x{item.quantity}</Text>
                           </Box>
                         </Box>
@@ -477,7 +477,7 @@ const OrderPage: React.FC = () => {
                   <Box flex justifyContent="space-between">
                     {typeof currentOrder.notes === "string" &&
                     currentOrder.notes ? (
-                      <Box className="note">
+                      <Box className="note" style={{color:'black'}}>
                         <Text size="large">
                           <b>{t("orderManagement.notes")}</b>:{" "}
                           <i>"{currentOrder.notes}"</i>
@@ -496,7 +496,7 @@ const OrderPage: React.FC = () => {
                         <Text size="large" bold>
                           {t("orderManagement.orderDetail.total")}:
                         </Text>
-                        <Text size="large">{priceFormatter(totalBill)}₫</Text>
+                        <Text size="large" style={{color:'black'}}>{priceFormatter(totalBill)}₫</Text>
                       </Box>
                     ) : (
                       <Box />
@@ -523,14 +523,14 @@ const OrderPage: React.FC = () => {
                 </Box>
               </Box>
             ) : (
-              <Box>{t("userOrder.noHaveOrdersYet")}</Box>
+              <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
             )}
           </Box>
         </Box>
 
         <Box className="order-history">
           <Box>
-            <Text size="xLarge" bold className="current-order__title">
+            <Text size="xLarge" bold className="current-order__title" style={{color:'black'}}>
               {t("userOrder.orderHistory")}
             </Text>
             {!isEmpty(orderHistoryList) ? (
@@ -712,7 +712,7 @@ const OrderPage: React.FC = () => {
                 </Box>
               ))
             ) : (
-              <Box>{t("userOrder.noHaveOrdersYet")}</Box>
+              <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
             )}
           </Box>
         </Box>
