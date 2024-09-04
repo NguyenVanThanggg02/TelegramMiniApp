@@ -494,7 +494,8 @@ const OrderManagementDetails: React.FC = () => {
       }
     }
   };
-
+  console.log(`order.status: ${order.status}`);
+  console.log(`order?.actual_payment_amount: ${order?.actual_payment_amount}`);
   return (
     <>
       <OrderNotification store_uuid={store_uuid} authToken={user.authToken} />
