@@ -53,6 +53,7 @@ import SaleReportPage from '@/pages/admin/sale-report';
 import StoreEditPage from '@/pages/admin/store/storeEdit';
 import VoucherFormPage from '@/pages/admin/voucher/form';
 import VoucherPage from '@/pages/admin/voucher';
+import { AnimationRoutes } from 'zmp-ui';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -116,37 +117,93 @@ export const App: FC = () => {
           <AuthChecker>
             <Routes>
               <Route element={<PageWithBottomNavBar />}>
-                <Route path="/" element={<Index />} />
-                <Route path="/user/form" element={<FormPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/order-history" element={<OrderHistory />} />
                 <Route path="/user/order/:store_uuid" element={<OrderPage />} />
                 <Route path="/user/profile" element={<ProfilePage />} />
-                <Route path="/menu/:store_uuid/:table_uuid" element={<MenuCommonPage />} />
-                <Route path="/recent-scan" element={<RecentScans />} />
-                <Route path="/ton-connect" element={<TONConnectPage />} />
+                <Route
+                  path="/menu/:store_uuid/:table_uuid"
+                  element={<MenuCommonPage />}
+                />
               </Route>
-              <Route path="/admin/order-management/index/:store_uuid" element={<OrderManagement />} />
-              <Route path="/admin/order-management/create/index/:store_uuid" element={<MenuCommonPage />} />
-              <Route path="/admin/order-management/details/index/:order_uuid/:store_uuid" element={<OrderManagementDetails />} />
+            </Routes>
+            <AnimationRoutes>
+              <Route path="/" element={<Index />} />
+              <Route path="/user/form" element={<FormPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/order-history" element={<OrderHistory />} />
+              <Route path="/recent-scan" element={<RecentScans />} />
+              <Route path="/ton-connect" element={<TONConnectPage />} />
+              <Route
+                path="/admin/order-management/index/:store_uuid"
+                element={<OrderManagement />}
+              />
+              <Route
+                path="/admin/order-management/create/index/:store_uuid"
+                element={<MenuCommonPage />}
+              />
+              <Route
+                path="/admin/order-management/details/index/:order_uuid/:store_uuid"
+                element={<OrderManagementDetails />}
+              />
               <Route path="/admin/store/form" element={<StoreFormPage />} />
               <Route path="/admin/store/index" element={<StorePage />} />
-              <Route path="/admin/user/index/:store_uuid" element={<UserPage />} />
-              <Route path="/admin/product/index/:store_uuid" element={<ProductPage />} />
-              <Route path="/admin/product/form/:store_uuid" element={<ProductFormPage />} />
-              <Route path="/admin/product/update/:store_uuid/:product_uuid" element={<ProductFormPage />} />
-              <Route path="/admin/product/scanmenu/:store_uuid" element={<ScaneMenuPage />} />
-              <Route path="/admin/category/form/:store_uuid/:category_uuid" element={<CategoryFormPage />} />
-              <Route path="/admin/category/index/:store_uuid" element={<CategoryPage />} />
-              <Route path="/admin/table/index/:store_uuid" element={<TablePage />} />
-              <Route path="/admin/table/form/:store_uuid/:table_uuid" element={<TableFormPage />} />
-              <Route path="/admin/sale-report/:store_uuid" element={<SaleReportPage />} />
-              <Route path="/admin/store/edit/:store_uuid" element={<StoreEditPage />} />
-              <Route path="/admin/voucher/index/:store_uuid" element={<VoucherPage />} />
-              <Route path="/admin/voucher/form/:store_uuid" element={<VoucherFormPage />} />
-              <Route path="/admin/voucher/update/:store_uuid/:voucher_uuid" element={<VoucherFormPage />} />
+              <Route
+                path="/admin/user/index/:store_uuid"
+                element={<UserPage />}
+              />
+              <Route
+                path="/admin/product/index/:store_uuid"
+                element={<ProductPage />}
+              />
+              <Route
+                path="/admin/product/form/:store_uuid"
+                element={<ProductFormPage />}
+              />
+              <Route
+                path="/admin/product/update/:store_uuid/:product_uuid"
+                element={<ProductFormPage />}
+              />
+              <Route
+                path="/admin/product/scanmenu/:store_uuid"
+                element={<ScaneMenuPage />}
+              />
+              <Route
+                path="/admin/category/form/:store_uuid/:category_uuid"
+                element={<CategoryFormPage />}
+              />
+              <Route
+                path="/admin/category/index/:store_uuid"
+                element={<CategoryPage />}
+              />
+              <Route
+                path="/admin/table/index/:store_uuid"
+                element={<TablePage />}
+              />
+              <Route
+                path="/admin/table/form/:store_uuid/:table_uuid"
+                element={<TableFormPage />}
+              />
+              <Route
+                path="/admin/sale-report/:store_uuid"
+                element={<SaleReportPage />}
+              />
+              <Route
+                path="/admin/store/edit/:store_uuid"
+                element={<StoreEditPage />}
+              />
+              <Route
+                path="/admin/voucher/index/:store_uuid"
+                element={<VoucherPage />}
+              />
+              <Route
+                path="/admin/voucher/form/:store_uuid"
+                element={<VoucherFormPage />}
+              />
+              <Route
+                path="/admin/voucher/update/:store_uuid/:voucher_uuid"
+                element={<VoucherFormPage />}
+              />
               <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
+            </AnimationRoutes>
           </AuthChecker>
         </AppRoot>
       </I18nextProvider>
