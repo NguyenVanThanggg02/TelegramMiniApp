@@ -30,7 +30,6 @@ import {
   DEFAULT_IMAGE_PRODUCT,
   ORDER_STATUS,
   ORDER_STATUS_NOT_FINISHED_ARR,
-  OrderStatus,
 } from "../../../constants";
 
 import "./styles.scss";
@@ -75,7 +74,7 @@ interface Order {
   store_name: string;
   table_uuid: string;
   store_uuid: string;
-  status: OrderStatus;
+  status: string;
   products: Product[]; 
   notes?: string;
   actual_payment_amount: number;
@@ -100,14 +99,12 @@ const OrderPage: React.FC = () => {
   const [currentOrder, setCurrentOrder] = useRecoilState(
     currentOrderByStoreClientSideState,
   );
-  const [selectedOrderKey, ] = useState<string | null>(null);
-
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setSpinner] = useRecoilState(spinnerState);
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showOrderMore, setShowOrderMore] = useState(false);
-  const [disableMenuPayment, setDisableMenuPayment] = useState(false);
+  const [, setDisableMenuPayment] = useState(false);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -115,7 +112,6 @@ const OrderPage: React.FC = () => {
   console.log(currentOrder);
   console.log(currentOrder.status);
 
-  const order = selectedOrderKey ? currentOrder[selectedOrderKey] : null;
 
   const totalBill = useMemo(() => {
     if (
@@ -509,28 +505,19 @@ const OrderPage: React.FC = () => {
                   </Box>
                 </Box>
                 <Box className="actions">
-                {order?.status === ORDER_STATUS.PENDING && (
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
                     >
                       {t("userOrder.orderMore")}
                     </Button>
-                  )}
                  
-                 <Button
+                  <Button
                     onClick={() => {
-                      if (order?.status === ORDER_STATUS.PENDING) {
                         setShowPaymentModal(true);
-                      } else if (
-                        order?.status === ORDER_STATUS.WAIT_FOR_PAY
-                      ) {
                         setDisableMenuPayment(true);
-                        setShowPaymentModal(false);
                         // handleCreateOrder();
-                      }
-                    }}
-                    disabled={disableMenuPayment}
+                      }}
                   >
                     {t("menu.payment")}
                   </Button>
