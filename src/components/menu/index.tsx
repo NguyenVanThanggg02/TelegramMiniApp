@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
@@ -143,6 +143,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -374,12 +377,12 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       unit_price: dish.unit_price,
       quantity: dish.quantity,
       images: dish.images,
-      product_name: dish.name, // Or some other logic to determine product_name
-      product_images: dish.images, // Or some other logic to determine product_images
-      order_item_uuid: '', // Provide default or derive this value as needed
-      delivered_quantity: dish.quantity || 0, // Provide default or derive this value as needed
-      product_uuid: '', // Provide default or derive this value as needed
-      delivery_status: '' // Provide default or derive this value as needed
+      product_name: dish.name, 
+      product_images: dish.images, 
+      order_item_uuid: '', 
+      delivered_quantity: dish.quantity || 0, 
+      product_uuid: '', 
+      delivery_status: '' 
     };
   };
   
@@ -402,6 +405,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               <Text size="xLarge" bold style={{ paddingLeft: "5px",color:'black' }}>
                 {table?.name}
               </Text>
+            </Box>
+            <Box>
+            <Button
+            className="fw-500"
+            onClick={() =>
+              navigate(`/admin/order-management/create/index/${store_uuid}`)
+            }
+          >
+            Don hang
+          </Button>
             </Box>
           </Box>
         )}
