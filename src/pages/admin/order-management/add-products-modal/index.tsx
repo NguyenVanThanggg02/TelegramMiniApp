@@ -37,7 +37,6 @@ interface AddProductModalProps {
 const AddProductModal: React.FC<AddProductModalProps> = ({ isShow, onClose, onSubmit, data }) => {
   const { t } = useTranslation("global");
   const [products, setProducts] = useState<Product[]>([]);
-  console.log(products);
   
   const isChanged = useMemo(
     () => products.some((productItem) => productItem.quantity),

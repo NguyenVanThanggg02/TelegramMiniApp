@@ -88,7 +88,6 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
   const [voucherData, setVoucherData] = useState<Voucher | null>(null);
   const [voucher, setVoucher] = useState("");
   const [errorVoucher, setErrorVoucher] = useState("");
-  console.log(order);
   
   const totalBill = useMemo(
     () =>
