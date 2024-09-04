@@ -204,7 +204,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
           <Text.Title size="xLarge">{t("menu.payment")}</Text.Title>
         </Box>
         <Box className="products">
-          {order.products.length &&
+          {Array.isArray(order.products.length) &&
             order.products.map((item, index) => (
               <Box
                 flex
