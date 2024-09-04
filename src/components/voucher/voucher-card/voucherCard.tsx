@@ -70,7 +70,7 @@ const VoucherCard: React.FC<VoucherCardProps> = ({
       <Box className="voucher-card-left">
         -
         {voucher.voucher_type === VOUCHER_TYPE.BY_VALUE
-          ? shortPriceFormatter(voucher.voucher_value)+ "K"
+          ? shortPriceFormatter(voucher.voucher_value)
           : voucher.voucher_value + "%"}
       </Box>
       <Box className="voucher-card-right">
