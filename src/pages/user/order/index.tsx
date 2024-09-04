@@ -100,7 +100,7 @@ const OrderPage: React.FC = () => {
   const [currentOrder, setCurrentOrder] = useRecoilState(
     currentOrderByStoreClientSideState,
   );
-  const [selectedOrderKey, setSelectedOrderKey] = useState<string | null>(null);
+  const [selectedOrderKey, ] = useState<string | null>(null);
 
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setSpinner] = useRecoilState(spinnerState);
