@@ -498,33 +498,24 @@ const OrderPage: React.FC = () => {
                     )}
                   </Box>
                 </Box>
-                {/* <Box className="actions">
-                  {currentOrder.status === ORDER_STATUS.PENDING && (
+                <Box className="actions">
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
                     >
                       {t("userOrder.orderMore")}
                     </Button>
-                  )}
                  
                   <Button
                     onClick={() => {
-                      if (currentOrder.status === ORDER_STATUS.PENDING) {
-                        setShowPaymentModal(true);
-                      } else if (
-                        currentOrder.status === ORDER_STATUS.WAIT_FOR_PAY
-                      ) {
                         setDisableMenuPayment(true);
                         setShowPaymentModal(false);
                         // handleCreateOrder();
-                      }
-                    }}
-                    disabled={disableMenuPayment}
+                      }}
                   >
                     {t("menu.payment")}
                   </Button>
-                </Box> */}
+                </Box>
               </Box>
             ) : (
               <Box>{t("userOrder.noHaveOrdersYet")}</Box>
