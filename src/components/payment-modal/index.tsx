@@ -203,7 +203,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
       </Box>
       <Box className="main" mt={8}>
         <Box mb={2}>
-          <Text.Title size="xLarge">{t("menu.payment")}</Text.Title>
+          <Text.Title size="xLarge" style={{color:'black'}}>{t("menu.payment")}</Text.Title>
         </Box>
         <Box className="products">
           {Array.isArray(order) &&
@@ -231,12 +231,12 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
                     />
                   </Box>
                   <Box>
-                    <Text size="large">
+                    <Text size="large" style={{color:'black'}}>
                       <span className="fw-500">
                         {item.product_name} <span>(x{item.quantity})</span>
                       </span>
                     </Text>
-                    <Box flex style={{ gap: "8px" }}>
+                    <Box flex style={{ gap: "8px", color:'black' }}>
                       <Text size="normal">
                         {priceFormatter(item.unit_price)}
                         <span style={{ marginLeft: "2px" }}>₫</span>
@@ -245,7 +245,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
                   </Box>
                 </Box>
                 <Box>
-                  <Text size="xLarge">
+                  <Text size="xLarge" style={{color:'black'}}>
                     {priceFormatter(
                       (item.unit_price ?? 0) * (item.quantity ?? 0)
                     )}
@@ -255,8 +255,8 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
             ))}
         </Box>
         <Box className="total-bill" flex justifyContent="space-between" my={2}>
-          <Text bold>{t("orderManagement.orderDetail.total")}:</Text>
-          <Text>
+          <Text bold style={{color:'black'}}>{t("orderManagement.orderDetail.total")}:</Text>
+          <Text style={{color:'black'}}>
             <span style={{ paddingLeft: "6px" }}>
               {priceFormatter(totalBill)}₫
             </span>
@@ -265,7 +265,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
         {totalBillUsingVoucher && (
           <>
             <Box flex justifyContent="space-between" mb={2}>
-              <span>{t("orderManagement.orderDetail.reduce")}:</span>
+              <span style={{color:'black'}}>{t("orderManagement.orderDetail.reduce")}:</span>
               <Text className="red-color">
                 <span style={{ paddingLeft: "6px" }}>
                   -{priceFormatter(totalBillUsingVoucher.reduce)}₫
@@ -273,7 +273,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
               </Text>
             </Box>
             <Box flex justifyContent="space-between" mb={4}>
-              <span>{t("orderManagement.orderDetail.totalPayment")}:</span>
+              <span style={{color:'black'}}>{t("orderManagement.orderDetail.totalPayment")}:</span>
               <Text className="red-color">
                 <span style={{ paddingLeft: "6px" }}>
                   {priceFormatter(totalBillUsingVoucher.price)}₫
@@ -283,7 +283,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
           </>
         )}
         <Box>
-          <Text>{t("userOrder.voucherIfHave")}</Text>
+          <Text style={{color:'black'}}>{t("userOrder.voucherIfHave")}</Text>
           <Input
             type="text"
             value={voucher}
