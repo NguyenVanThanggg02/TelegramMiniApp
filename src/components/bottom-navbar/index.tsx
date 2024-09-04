@@ -8,11 +8,10 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import {useNavigate } from "zmp-ui"; // Thay đổi đây
 
-// Define the type for props if needed
 interface BottomNavBarProps {
-  // Define any props if needed, otherwise use empty object
 }
 
 const BottomNavBar: React.FC<BottomNavBarProps> = () => {
