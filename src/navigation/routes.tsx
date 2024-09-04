@@ -29,6 +29,7 @@ import MenuCommonPage from '@/components/menu';
 import OrderManagement from '@/pages/admin/order-management';
 import OrderManagementDetails from '@/pages/admin/order-management/order-details';
 import OrderPage from '@/pages/user/order';
+import PageWithBottomNavBarWrapper from './PageWithBottomNavBarWrapper';
 
 
 interface Route {
@@ -54,7 +55,10 @@ export const routes: Route[] = [
   { path: '/admin/order-management/details/index/:order_uuid/:store_uuid', Component: OrderManagementDetails},
 
   // need bottom navbar
-  { path: '/user/order/:store_uuid', Component: OrderPage},
+  {
+    path: '/user/order/:store_uuid',
+    Component: () => <PageWithBottomNavBarWrapper component={OrderPage} />,
+  },
   { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
   { path: '/user/profile', Component: ProfilePage},
 

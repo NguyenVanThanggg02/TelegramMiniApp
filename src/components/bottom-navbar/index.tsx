@@ -49,7 +49,6 @@ const BottomNavBar: React.FC<BottomNavBarProps> = () => {
         key="menu"
         icon={<RestaurantMenuOutlinedIcon />}
         activeIcon={<RestaurantMenuOutlinedIcon />}
-        //linkTo={`/menu/${store.uuid}/${table.uuid}?tenant_id=${store.subdomain}`}
         onClick={() =>
           navigate({
             pathname: `/menu/${store.uuid}/${table.uuid}`,
@@ -57,13 +56,7 @@ const BottomNavBar: React.FC<BottomNavBarProps> = () => {
           })
         }
       />
-      {/* <BottomNavigation.Item
-        label={t("navbar.promotion.promotion")}
-        key="promotion"
-        icon={<ConfirmationNumberOutlinedIcon />}
-        activeIcon={<ConfirmationNumberIcon />}
-        linkTo="/user/promotion"
-      /> */}
+      
       <BottomNavigation.Item
         key="order"
         label={t("navbar.order")}
