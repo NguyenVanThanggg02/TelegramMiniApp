@@ -53,7 +53,6 @@ import SaleReportPage from '@/pages/admin/sale-report';
 import StoreEditPage from '@/pages/admin/store/storeEdit';
 import VoucherFormPage from '@/pages/admin/voucher/form';
 import VoucherPage from '@/pages/admin/voucher';
-import { AnimationRoutes } from 'zmp-ui';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -125,7 +124,7 @@ export const App: FC = () => {
                 />
               </Route>
             </Routes>
-            <AnimationRoutes>
+            <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/user/form" element={<FormPage />} />
               <Route path="/about" element={<AboutPage />} />
@@ -203,7 +202,7 @@ export const App: FC = () => {
                 element={<VoucherFormPage />}
               />
               <Route path="*" element={<Navigate to="/" />} />
-            </AnimationRoutes>
+            </Routes>
           </AuthChecker>
         </AppRoot>
       </I18nextProvider>
