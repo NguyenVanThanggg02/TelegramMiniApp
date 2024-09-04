@@ -410,7 +410,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             <Button
             className="fw-500"
             onClick={() =>
-              navigate(`/admin/order-management/create/index/${store_uuid}`)
+              navigate(`/user/order/${store_uuid}`)
             }
           >
             Don hang
