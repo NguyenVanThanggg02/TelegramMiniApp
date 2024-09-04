@@ -508,8 +508,8 @@ const OrderPage: React.FC = () => {
                  
                   <Button
                     onClick={() => {
-                        setDisableMenuPayment(true);
                         setShowPaymentModal(true);
+                        setDisableMenuPayment(true);
                         // handleCreateOrder();
                       }}
                   >

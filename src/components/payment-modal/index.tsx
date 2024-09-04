@@ -207,8 +207,8 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
           <Text.Title size="xLarge">{t("menu.payment")}</Text.Title>
         </Box>
         <Box className="products">
-          {order.products &&
-            order.products.map((item, index) => (
+          {Array.isArray(order) &&
+            order.map((item, index) => (
               <Box
                 flex
                 justifyContent="space-between"
@@ -302,7 +302,7 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
       <Box className="action">
         <Button
           fullWidth
-          disabled={!!errorVoucher} 
+          disabled={!!errorVoucher}
           onClick={() => onPayment(voucher)}
         >
           {t("menu.payment")}
