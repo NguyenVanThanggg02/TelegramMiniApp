@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Button, Page, Text } from "zmp-ui";
 import {
   ApiResponse,
@@ -81,7 +81,7 @@ interface Order {
   value: number;
 }
 
-const OrderPage = () => {
+const OrderPage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid: string }>();
 

@@ -28,6 +28,7 @@ import VoucherFormPage from '@/pages/admin/voucher/form';
 import MenuCommonPage from '@/components/menu';
 import OrderManagement from '@/pages/admin/order-management';
 import OrderManagementDetails from '@/pages/admin/order-management/order-details';
+import OrderPage from '@/pages/user/order';
 
 
 interface Route {
@@ -51,6 +52,7 @@ export const routes: Route[] = [
   { path: '/admin/order-management/index/:store_uuid', Component: OrderManagement},
   { path: '/admin/order-management/create/index/:store_uuid', Component: MenuCommonPage},
   { path: '/admin/order-management/details/index/:order_uuid/:store_uuid', Component: OrderManagementDetails},
+  { path: '/user/order/:store_uuid', Component: OrderPage},
     // ADMIN
     { path: '/admin/store/form', Component: StoreFormPage},
     { path: '/admin/store/index', Component: StorePage },
