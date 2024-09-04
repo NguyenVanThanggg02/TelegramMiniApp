@@ -53,7 +53,6 @@ import dmIcon from "../../../../static/icons/dm.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import { color } from "html2canvas/dist/types/css/types/color";
 
 interface Table {
     uuid: string;
