@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Page, Text } from "zmp-ui";
+import { Box, Button, Text } from "zmp-ui";
 import {
   ApiResponse,
   fetchCurrentOrdersByStoreClientSide,
