@@ -104,8 +104,7 @@ const OrderPage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
-console.log(currentOrder);
+  console.log(currentOrder.products);
 
 
   const totalBill = useMemo(() => {
