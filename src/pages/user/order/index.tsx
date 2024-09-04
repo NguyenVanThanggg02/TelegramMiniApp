@@ -263,7 +263,8 @@ const OrderPage: React.FC = () => {
     //   payload.voucher_code = voucher;
     // }
 
-    const data = await sendInvoice(payload);
+    const response = await sendInvoice(payload);
+    const data = response.data
     if (!data?.error) {
       setSnackbarMessage(t("snackbarMessage.paymentOrderSuccess"));
       setSnackbarType("success");
