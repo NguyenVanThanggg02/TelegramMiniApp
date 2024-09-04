@@ -92,17 +92,19 @@ function PaymentModal({ show, order, onClose, onPayment }: PaymentModalProps) {
   
   const totalBill = useMemo(
     () =>
-      order &&
-      order.products.reduce(
-        (acc, cur) => {
-          const unitPrice = cur.unit_price ?? 0; 
-          const quantity = cur.quantity ?? 0; 
-          return acc + unitPrice * quantity;
-        },
-        0
-      ),
-    [order],
+      order.products && Array.isArray(order.products) 
+        ? order.products.reduce(
+            (acc, cur) => {
+              const unitPrice = cur.unit_price ?? 0; 
+              const quantity = cur.quantity ?? 0; 
+              return acc + unitPrice * quantity;
+            },
+            0
+          )
+        : 0, 
+    [order]
   );
+  
   
 
   const totalBillUsingVoucher = useMemo(() => {
