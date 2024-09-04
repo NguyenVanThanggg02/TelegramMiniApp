@@ -398,7 +398,7 @@ const OrderPage: React.FC = () => {
     <>
       <LoadingComponent />
       <Page className="section-container order-history-container">
-        <Box className="header">{t("menu.order")}</Box>
+        <Box className="header" style={{color:'black'}}>{t("menu.order")}</Box>
         <Box className="current-order">
           <Box>
             <Box flex justifyContent="space-between" alignItems="center" style={{color:'black'}}>
@@ -563,7 +563,7 @@ const OrderPage: React.FC = () => {
                                   className="product-info"
                                 >
                                   <Box>
-                                    <Text size="large">
+                                    <Text size="large" style={{color:'black'}}>
                                       <span className="fw-500">
                                         {product.product_name} (x
                                         {product.quantity})
@@ -572,12 +572,12 @@ const OrderPage: React.FC = () => {
                                   </Box>
                                 </Box>
                                 <Box>
-                                  <Text size="normal">
+                                  <Text size="normal" style={{color:'black'}}>
                                     {priceFormatter(
                                       (product.unit_price ?? 0) *
                                         (product.quantity ?? 0)
                                     )}
-                                    <span style={{ marginLeft: "2px" }}>₫</span>
+                                    <span style={{ marginLeft: "2px", color:'black' }}>₫</span>
                                   </Text>
                                 </Box>
                               </Box>
@@ -594,7 +594,7 @@ const OrderPage: React.FC = () => {
                               className="product-info"
                             >
                               <Box>
-                                <Text size="large">
+                                <Text size="large" style={{color:'black'}}>
                                   <span>
                                     <span>
                                       {t("orderManagement.orderDetail.total")}:
@@ -640,7 +640,7 @@ const OrderPage: React.FC = () => {
                                   <Text>
                                     <span
                                       style={{
-                                        paddingLeft: "6px",
+                                        paddingLeft: "6px",color:'black'
                                       }}
                                     >
                                       {priceFormatter(
@@ -668,7 +668,7 @@ const OrderPage: React.FC = () => {
                         <Box pt={3} pb={2}>
                           {item.notes && (
                             <Box className="note">
-                              <Text size="large">
+                              <Text size="large" style={{color:'black'}}>
                                 {t("orderManagement.notes")}:{" "}
                                 <i>"{item.notes}"</i>
                               </Text>
