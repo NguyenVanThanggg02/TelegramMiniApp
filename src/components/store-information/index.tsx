@@ -67,7 +67,7 @@ const StoreInformation: React.FC<StoreInformationProps> = ({ storeData, onDetail
         />
       </Box>
       <Box>
-        <Text size="large" bold>
+        <Text size="large" bold style={{color:'black'}}>
           {storeData.name}
         </Text>
       </Box>

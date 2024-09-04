@@ -401,7 +401,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               alignItems="center"
               style={{ paddingLeft: "10px", paddingBottom: "10px" }}
             >
-              <TableRestaurantIcon />
+              <TableRestaurantIcon style={{color:'black'}} />
               <Text size="xLarge" bold style={{ paddingLeft: "5px",color:'black' }}>
                 {table?.name}
               </Text>
