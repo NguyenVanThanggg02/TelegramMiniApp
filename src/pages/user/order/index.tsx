@@ -99,12 +99,12 @@ const OrderPage: React.FC = () => {
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showOrderMore, setShowOrderMore] = useState(false);
-  const [disableMenuPayment, setDisableMenuPayment] = useState(false);
+  const [, setDisableMenuPayment] = useState(false);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  console.log(currentOrder.products);
+  console.log(currentOrder);
 
 
   const totalBill = useMemo(() => {
@@ -497,8 +497,8 @@ const OrderPage: React.FC = () => {
                     )}
                   </Box>
                 </Box>
-                <Box className="actions">
-                  {currentOrder.data.status === ORDER_STATUS.PENDING && (
+                {/* <Box className="actions">
+                  {currentOrder.status === ORDER_STATUS.PENDING && (
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
@@ -506,18 +506,13 @@ const OrderPage: React.FC = () => {
                       {t("userOrder.orderMore")}
                     </Button>
                   )}
-                  {/* <Button
-                    onClick={() => setShowPaymentModal(true)}
-                    disabled={disableMenuPayment}
-                  >
-                    {t("menu.payment")}
-                  </Button> */}
+                 
                   <Button
                     onClick={() => {
-                      if (currentOrder.data.status === ORDER_STATUS.PENDING) {
+                      if (currentOrder.status === ORDER_STATUS.PENDING) {
                         setShowPaymentModal(true);
                       } else if (
-                        currentOrder.data.status === ORDER_STATUS.WAIT_FOR_PAY
+                        currentOrder.status === ORDER_STATUS.WAIT_FOR_PAY
                       ) {
                         setDisableMenuPayment(true);
                         setShowPaymentModal(false);
@@ -528,7 +523,7 @@ const OrderPage: React.FC = () => {
                   >
                     {t("menu.payment")}
                   </Button>
-                </Box>
+                </Box> */}
               </Box>
             ) : (
               <Box>{t("userOrder.noHaveOrdersYet")}</Box>
