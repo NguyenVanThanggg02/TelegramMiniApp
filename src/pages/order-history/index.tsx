@@ -194,7 +194,7 @@ const OrderHistory: React.FC = () => {
                                 className="product-info"
                               >
                                 <Box>
-                                  <Text size="large">
+                                  <Text size="large" style={{color:'black'}}>
                                     <span className="fw-500">
                                       {product.product_name} (x{product.quantity})
                                     </span>
@@ -202,7 +202,7 @@ const OrderHistory: React.FC = () => {
                                 </Box>
                               </Box>
                               <Box>
-                                <Text size="normal">
+                                <Text size="normal" style={{color:'black'}} >
                                   {priceFormatter(
                                     product.unit_price * product.quantity
                                   )}
@@ -224,7 +224,7 @@ const OrderHistory: React.FC = () => {
                               className="product-info"
                             >
                               <Box>
-                                <Text size="large">
+                                <Text size="large" style={{color:'black'}}>
                                   <span>
                                     <span>
                                       {t("orderManagement.orderDetail.total")}:
@@ -269,7 +269,7 @@ const OrderHistory: React.FC = () => {
                                   <Text>
                                     <span
                                       style={{
-                                        paddingLeft: "6px",
+                                        paddingLeft: "6px",color:'black'
                                       }}
                                     >
                                       {priceFormatter(
@@ -283,7 +283,7 @@ const OrderHistory: React.FC = () => {
                                 <Text>
                                   <span
                                     style={{
-                                      paddingLeft: "6px",
+                                      paddingLeft: "6px",color:'black'
                                     }}
                                   >
                                     {priceFormatter(item.actual_payment_amount)}
@@ -296,7 +296,7 @@ const OrderHistory: React.FC = () => {
                       <Box pt={1}>
                         {item.notes && (
                           <Box className="note">
-                            <Text size="large">
+                            <Text size="large" style={{color:'black'}}>
                               {t("orderManagement.notes")}:{" "}
                               <i>"{item.notes}"</i>
                             </Text>
