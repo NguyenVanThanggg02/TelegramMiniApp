@@ -420,8 +420,8 @@ const OrderPage: React.FC = () => {
                 </Box>
                 <Box className="products-and-note">
                   <Box className="products">
-                    {currentOrder.data.products.length &&
-                      currentOrder.data.products.map((item, index) => (
+                    {Array.isArray(currentOrder.products) &&
+                      currentOrder.products.map((item, index) => (
                         <Box
                           flex
                           justifyContent="space-between"
