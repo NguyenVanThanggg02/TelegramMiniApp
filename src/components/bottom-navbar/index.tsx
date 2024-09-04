@@ -8,8 +8,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
-import {useNavigate } from "zmp-ui"; // Thay đổi đây
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface BottomNavBarProps {
 }
