@@ -27,7 +27,7 @@ import { getLoginToken } from "../../api/api";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 const ProfilePage: React.FC = () => {
   // const { version, apiVersion, zaloVersion, platform } = getSystemInfo();
   const user = useRecoilValue(userState);
@@ -187,18 +187,35 @@ const ProfilePage: React.FC = () => {
             </List.Item>
             <List.Item>
               <Text style={{ color: "black" }}>{t("profile.userId")}</Text>
-              <Text
-                style={{ color: "gray", marginTop: "10px", cursor: "pointer" }}
-                onClick={() => copyUserIdToClipboard(user.uuid)}
+              <Box
+                className="total-bill"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
               >
-                {user.uuid}
-              </Text>
+                <Box>
+                  <Text
+                    style={{
+                      color: "gray",
+                      marginTop: "10px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => copyUserIdToClipboard(user.uuid)}
+                  >
+                    {user.uuid}
+                  </Text>
+                </Box>
+                <Box>
+                  <ContentCopyIcon />
+                </Box>
+              </Box>
             </List.Item>
-
 
             <List.Item>
               <Text style={{ color: "black" }}>{t("profile.role")} </Text>
-              <Text style={{ color: "gray",marginTop: "10px" }}>
+              <Text style={{ color: "gray", marginTop: "10px" }}>
                 {user.role.replace("_", " ")}
               </Text>
             </List.Item>
@@ -225,7 +242,7 @@ const ProfilePage: React.FC = () => {
                 <div>
                   <Switch checked={keepScreenOn} onChange={toggleKeepScreen} />
                 </div>
-                <div style={{marginLeft:'10px', marginTop:'-7px'}}>
+                <div style={{ marginLeft: "10px", marginTop: "-7px" }}>
                   <Text style={{ color: "black" }}>
                     {t("profile.keepScreen")}
                   </Text>
@@ -325,19 +342,25 @@ const ProfilePage: React.FC = () => {
           )}
         </Box>
       </Modal>
-      <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Page>
   );
 };
