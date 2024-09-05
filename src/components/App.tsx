@@ -12,6 +12,7 @@ import {
 import { AppRoot } from '@telegram-apps/telegram-ui';
 import { type FC, useEffect, useMemo, useState } from 'react';
 import {
+  BrowserRouter,
   Navigate,
   Route,
   Router,
@@ -89,6 +90,7 @@ export const App: FC = () => {
           appearance={miniApp.isDark ? "dark" : "light"}
           platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
         >
+          <BrowserRouter>
            <AuthChecker> 
             <Router location={location} navigator={reactNavigator}>
               <Routes>
@@ -99,6 +101,7 @@ export const App: FC = () => {
               </Routes>
             </Router>
            </AuthChecker> 
+           </BrowserRouter>
         </AppRoot>
       </I18nextProvider>
     </RecoilRoot>
