@@ -4,6 +4,11 @@ import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import DEFAULT_IMAGE_STORE from '../../static/icons/store-background.png';
 
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 interface StoreDetail {
   avatar?: {
     url?: string;
@@ -29,24 +34,25 @@ interface StoreDetailModalProps {
 
 const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, onClose }) => {
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
-  // const [copied, setCopied] = useState(false);
+  const { t } = useTranslation('global');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     if (!storeData) return;
     try {
       setStoreDetail(JSON.parse(storeData.metadata || '{}'));
     } catch {
-      // Handle JSON parsing error if needed
     }
   }, [storeData]);
-
-  // const copyToClipboard = (text: string) => {
-  //   navigator.clipboard.writeText(text);
-  //   setCopied(true);
-  //   setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
-  // };
-
-  const { t } = useTranslation('global');
+  
+  const copyBankAccountToClipboard = (bankAccount: string) => {
+    navigator.clipboard.writeText(bankAccount);
+    setSnackbarMessage(t("snackbarMessage.copiedUserId"));
+    setSnackbarType("success");
+    setSnackbarOpen(true);
+  };
 
   return (
     <Modal visible={isShow} onClose={onClose} className="dish-details-modal">
@@ -75,27 +81,27 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </Box>
           <Box flex flexDirection="row" alignItems="center" mt={3}>
             <Box>
-              <Text style={{ fontSize: "21px",color:'black' }} bold>
+              <Text style={{ fontSize: "21px", color: "black" }} bold>
                 {storeData?.name}
               </Text>
             </Box>
           </Box>
           <Box mt={6} style={{ padding: "0 20px" }}>
-            <Text style={{color:'black'}}>{storeDetail?.description}</Text>
+            <Text style={{ color: "black" }}>{storeDetail?.description}</Text>
           </Box>
         </Box>
         <Box>
           <List>
             {storeDetail?.address && (
               <List.Item
-                style={{ marginBottom: "0", color:'black' }}
+                style={{ marginBottom: "0", color: "black" }}
                 title={t("menu.address")}
                 subTitle={storeDetail?.address}
               />
             )}
             {storeDetail?.phoneNumber && (
               <List.Item
-                style={{ marginBottom: "0", color:'black' }}
+                style={{ marginBottom: "0", color: "black" }}
                 title={t("menu.phoneNumber")}
               >
                 <Text>{storeDetail?.phoneNumber}</Text>
@@ -104,7 +110,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
 
             {storeDetail?.bankName && (
               <List.Item
-                style={{ marginBottom: "0", color:'black' }}
+                style={{ marginBottom: "0", color: "black" }}
                 title={t("menu.bankName")}
               >
                 <Text>{storeDetail?.bankName}</Text>
@@ -113,15 +119,51 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
 
             {storeDetail?.bankAccount && (
               <List.Item
-              style={{color:'black'}}
+                style={{ color: "black" }}
                 title={t("menu.bankAccount")}
               >
-                <Text>{storeDetail?.bankAccount}</Text>
+                <Box
+                  className="total-bill"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                  onClick={() => copyBankAccountToClipboard(storeDetail?.bankAccount || '')}
+                > 
+                  <Box>
+                    <Text>{storeDetail?.bankAccount}</Text>
+                  </Box>
+                  <Box>
+                    <ContentCopyIcon
+                      style={{ color: "gray", fontSize: "20px" }}
+                    />
+                  </Box>
+                </Box>
               </List.Item>
             )}
           </List>
         </Box>
       </Box>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
+              </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Modal>
   );
 };
