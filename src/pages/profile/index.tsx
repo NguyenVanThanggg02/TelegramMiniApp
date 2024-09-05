@@ -41,7 +41,7 @@ const ProfilePage: React.FC = () => {
   // const [copied, setCopied] = useState(false);
   const [copiedToken, setCopiedToken] = useState(false);
   const [showToken, setShowToken] = useState(false);
-  const [tokenLogin, ] = useState("");
+  const [tokenLogin, setTokenLogin] = useState("");
   const [keepScreenOn, setKeepScreenOn] = useState(KEEP_SCREEN_ON_DEFAULT);
   const cloudStorage = initCloudStorage();
 
@@ -129,9 +129,10 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleGetToken = async () => {
-    const data = await getLoginToken();
+    const respone = await getLoginToken();
+    const data = respone.data
     if (!data?.error) {
-      cloudStorage.get("auth_token");
+      setTokenLogin(data.token);
       setShowToken(true);
       setTimer(60);
     } else {
