@@ -560,26 +560,61 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       </Page>
       <Box
         flex
-        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center",
+          borderTop: "1px solid #e0e0e0", // Optional: add border top if needed
+          padding: "10px 0", // Add padding to space out icons and text
+          backgroundColor: "#fff", // Background color (if needed)
+        }}
       >
         <Box
           flex
-          style={{ display: "flex", alignItems: "center", marginRight: "20px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#f44336", // Red color for active item
+            fontSize: "12px",
+          }}
         >
-          <RestaurantMenuOutlinedIcon />
-          Thực đơn
+          <RestaurantMenuOutlinedIcon
+            style={{ color: "#f44336", fontSize: "24px" }}
+          />
+          <span>Thực đơn</span>
         </Box>
+
         <Box
           flex
-          style={{ display: "flex", alignItems: "center", marginRight: "20px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#757575", // Grey color for inactive items
+            fontSize: "12px",
+          }}
           onClick={() => navigate(`/user/order/${store_uuid}`)}
         >
-          <AssignmentOutlinedIcon />
-          Đơn hàng
+          <AssignmentOutlinedIcon
+            style={{ color: "#757575", fontSize: "24px" }}
+          />
+          <span>Đơn hàng</span>
         </Box>
-        <Box flex style={{ display: "flex", alignItems: "center" }}>
-          <PersonOutlinedIcon />
-          Cá nhân
+
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#757575", // Grey color for inactive items
+            fontSize: "12px",
+          }}
+        >
+          <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
+          <span>Cá nhân</span>
         </Box>
       </Box>
     </>
