@@ -5,10 +5,12 @@
 
 .menu-page {
   height: 100vh;
-  overflow: auto;
-  .zaui-tabs-tabbar-active-line {
-    background-color: var(--red-color);
-  }
+  // overflow: auto;
+  // .zaui-tabs-tabbar-active-line {
+  //   background-color: var(--red-color);
+  // }
+  overflow-y: scroll; /* Cho phép cuộn dọc */
+  scrollbar-width: none; /* Ẩn thanh cuộn cho Firefox */
 
   .zaui-tabs-tabbar-item {
     color: var(--grey-color);
@@ -63,4 +65,7 @@
   .menu-tabs-container {
     position: fixed;
   }
+}
+.menu-page::-webkit-scrollbar {
+  display: none; 
 }
