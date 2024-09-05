@@ -147,12 +147,12 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
       >
         <Box onClick={onClose} className="back-icon">
           <Icon
-            style={{ fontSize: '36px' }}
+            style={{ fontSize: "36px" }}
             icon="zi-chevron-left"
             className="grey-color"
           />
         </Box>
-        <Text className="fs-22">{t('menu.order')}</Text>
+        <Text className="fs-22">{t("menu.order")}</Text>
         <Box mr={6} />
       </Box>
 
@@ -171,41 +171,51 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
                   <img
                     src={item.images?.[0]?.url || DEFAULT_IMAGE_PRODUCT}
                     alt="dish img"
-                    style={{ width: '80px', height: '80px' }}
+                    style={{ width: "80px", height: "80px" }}
                   />
                 </Box>
                 <Box>
-                  <Text size="large" style={{color:'black'}}>
+                  <Text size="large" style={{ color: "black" }}>
                     {item.quantity}x <span className="fw-500">{item.name}</span>
                   </Text>
                 </Box>
               </Box>
-              <Box flex justifyContent="flex-end" width={80} style={{color:'black'}}>
+              <Box
+                flex
+                justifyContent="flex-end"
+                width={80}
+                style={{ color: "black" }}
+              >
                 {priceFormatter(item.price)}
-                <span style={{ marginLeft: '2px' }}>₫</span>
+                <span style={{ marginLeft: "2px" }}>₫</span>
               </Box>
             </Box>
           ))}
         </Box>
-        <Text className="title" style={{ padding: 0,color:'black' }}>
-            {t("menu.total")}
-          </Text>
-        <Box className="total-bill" flex justifyContent="flex-end">
-          <Text size="xLarge" bold style={{color:'black'}}>
-            {priceFormatter(totalBill)}
-            <span style={{ paddingLeft: '3px'}}>₫</span>
-          </Text>
+
+        <Box className="total-bill">
+          <Box>
+            <Text className="title" style={{ padding: 0, color: "black" }}>
+              {t("menu.total")}
+            </Text>
+          </Box>
+          <Box flex justifyContent="flex-end">
+            <Text size="xLarge" bold style={{ color: "black" }}>
+              {priceFormatter(totalBill)}
+              <span style={{ paddingLeft: "3px" }}>₫</span>
+            </Text>
+          </Box>
         </Box>
 
         {!table.uuid && (
           <Box p={3} mt={3}>
             <Select
               id="table-select"
-              placeholder={t('orderManagement.selectTable')}
-              errorText={t('orderManagement.tableMustSelect')}
+              placeholder={t("orderManagement.selectTable")}
+              errorText={t("orderManagement.tableMustSelect")}
               onChange={(value) => {
                 setTableSelected(value as string); // Ensure value is string
-                setTableStatus('');
+                setTableStatus("");
               }}
               status={tableStatus}
               closeOnSelect
@@ -219,7 +229,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
 
         <Box p={3} style={{ paddingTop: 0 }}>
           <Input
-            placeholder={t('orderManagement.orderDetail.notePlaceholder')}
+            placeholder={t("orderManagement.orderDetail.notePlaceholder")}
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
@@ -231,22 +241,28 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           onClick={onOrderSubmit}
           disabled={!table.uuid && !tableSelected}
         >
-          {t('menu.submitOrder')}: {priceFormatter(totalBill)}₫
+          {t("menu.submitOrder")}: {priceFormatter(totalBill)}₫
         </Button>
       </Box>
-      <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Modal>
   );
 };
