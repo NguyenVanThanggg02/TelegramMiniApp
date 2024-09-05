@@ -55,8 +55,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
   };
 
   return (
-    <Modal onClose={onClose}>
-    <Modal visible={isShow}  className="dish-details-modal">
+    <Modal visible={isShow} onClose={onClose} className="dish-details-modal">
       <Box className="container">
         <Box onClick={onClose} className="close-btn">
           <Icon icon="zi-chevron-left" className="close-icon" />
@@ -146,8 +145,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </List>
         </Box>
       </Box>
-    </Modal>
-    <div style={{ borderRadius: "10px" }}>
+      <div style={{ borderRadius: "10px" }}>
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
@@ -167,6 +165,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
         )}
       </div>
     </Modal>
+    
   );
 };
 
