@@ -14,9 +14,6 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../state";
 import { initCloudStorage } from "@telegram-apps/sdk";
 import { useTranslation } from "react-i18next";
-import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
-import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import {
   LANGUAGE,
   APP_VERSION,
@@ -25,7 +22,7 @@ import {
 } from "../../constants";
 import usa from "../../static/icons/usa.png";
 import vietnam from "../../static/icons/vietnam.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getLoginToken } from "../../api/api";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -36,7 +33,6 @@ const ProfilePage: React.FC = () => {
   const user = useRecoilValue(userState);
   const { t, i18n } = useTranslation("global");
   const navigate = useNavigate();
-  const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
   
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -151,7 +147,6 @@ const ProfilePage: React.FC = () => {
   }, [keepScreenOn]);
 
   return (
-    <>
     <Page style={{ minHeight: "unset", paddingBottom: 30 }}>
       <Box
         flex
@@ -352,71 +347,6 @@ const ProfilePage: React.FC = () => {
         )}
       </div>
     </Page>
-    <Box
-        flex
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          borderTop: "1px solid #e0e0e0",
-          backgroundColor: "#fff",
-          position: "sticky",
-          bottom: 0, 
-          left: 0, 
-          right: 0, 
-        }}
-      >
-        <Box
-          flex
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#757575",
-            fontSize: "12px",
-          }}
-          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
-        >
-          <RestaurantMenuOutlinedIcon
-            style={{ color: "#757575", fontSize: "24px" }}
-          />
-          <span>{t("navbar.menu")}</span>
-        </Box>
-
-        <Box
-          flex
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#757575",
-            fontSize: "12px",
-          }}
-          onClick={() => navigate(`/user/order/${store_uuid}`)}
-        >
-          <AssignmentOutlinedIcon
-            style={{ color: "#757575", fontSize: "24px" }}
-          />
-          <span>{t("navbar.order")}</span>
-        </Box>
-
-        <Box
-          flex
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#f44336",
-            fontSize: "12px",
-          }}
-          onClick={() => navigate('/user/profile')}
-        >
-          <PersonOutlinedIcon style={{ color: "#f44336", fontSize: "24px" }} />
-          <span>{t("navbar.user")}</span>
-        </Box>
-      </Box>
-    </>
   );
 };
 
