@@ -515,15 +515,15 @@ const OrderPage: React.FC = () => {
                   </Box>
                 </Box>
                 <Box className="actions">
-                  {/* {JSON.stringify(currentOrder.status) ===
-                    ORDER_STATUS.PENDING && ( */}
+                  {String(currentOrder.status) ===
+                    ORDER_STATUS.PENDING && (
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
                     >
                       {t("userOrder.orderMore")}
                     </Button>
-                   {/* )} */}
+                  )}
 
                   <Button
                     onClick={() => {
