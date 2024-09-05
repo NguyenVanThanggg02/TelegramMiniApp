@@ -567,10 +567,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           alignItems: "center",
           borderTop: "1px solid #e0e0e0",
           backgroundColor: "#fff",
-          bottom: 0, 
+          position: "sticky",
+          bottom: 5, 
           left: 0, 
           right: 0, 
-          zIndex: 1000,
         }}
       >
         <Box
