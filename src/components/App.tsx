@@ -25,7 +25,6 @@ import i18next from "i18next";
 import global_en from "@/locales/en/global.json";
 import global_vi from "@/locales/vi/global.json";
 import AuthChecker from './auth_checker';
-import { ZMPRouter } from 'zmp-ui';
 
 export const App: FC = () => {
   const lp = useLaunchParams();
@@ -90,18 +89,16 @@ export const App: FC = () => {
           appearance={miniApp.isDark ? "dark" : "light"}
           platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
         >
-          <ZMPRouter>
-            <AuthChecker>
-              <Router location={location} navigator={reactNavigator}>
-                <Routes>
-                  {routes.map((route) => (
-                    <Route key={route.path} {...route} />
-                  ))}
-                  <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-              </Router>
-            </AuthChecker>
-          </ZMPRouter>
+           <AuthChecker> 
+            <Router location={location} navigator={reactNavigator}>
+              <Routes>
+                {routes.map((route) => (
+                  <Route key={route.path} {...route} />
+                ))}
+                <Route path="*" element={<Navigate to="/" />} />
+              </Routes>
+            </Router>
+           </AuthChecker> 
         </AppRoot>
       </I18nextProvider>
     </RecoilRoot>
