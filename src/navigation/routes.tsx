@@ -29,7 +29,7 @@ import MenuCommonPage from '@/components/menu';
 import OrderManagement from '@/pages/admin/order-management';
 import OrderManagementDetails from '@/pages/admin/order-management/order-details';
 import OrderPage from '@/pages/user/order';
-import PageWithBottomNavBar from '@/components/pageWithBottomNavbar';
+// import PageWithBottomNavBar from '@/components/pageWithBottomNavbar';
 
 
 interface Route {
