@@ -189,9 +189,9 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
         </Box>
 
         <Box className="total-bill" flex justifyContent="flex-end">
-          <Text size="xLarge" bold>
+          <Text size="xLarge" bold style={{color:'black'}}>
             {priceFormatter(totalBill)}
-            <span style={{ paddingLeft: '3px', color:'black' }}>₫</span>
+            <span style={{ paddingLeft: '3px'}}>₫</span>
           </Text>
         </Box>
 
