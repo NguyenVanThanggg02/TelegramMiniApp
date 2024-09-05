@@ -223,18 +223,6 @@ const ProfilePage: React.FC = () => {
             </List.Item>
 
             <List.Item>
-              <Text style={{ color: "black" }}>
-                {t("profile.zalo_version")}
-              </Text>
-            </List.Item>
-
-            <List.Item>
-              <Text style={{ color: "black" }}>
-                {t("profile.zalo_mini_app_version")}
-              </Text>
-            </List.Item>
-
-            <List.Item>
               <div style={{ display: "flex" }}>
                 <div>
                   <Switch checked={keepScreenOn} onChange={toggleKeepScreen} />
