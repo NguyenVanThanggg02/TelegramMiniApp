@@ -193,7 +193,14 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           ))}
         </Box>
 
-        <Box className="total-bill" flex>
+        <Box
+          className="total-bill"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Box>
             <Text className="title" bold style={{ padding: 0, color: "black" }}>
               {t("menu.total")}
