@@ -288,19 +288,11 @@ const OrderPage: React.FC = () => {
         }
   
         // Check status
-        if (
-          data.status === ORDER_STATUS.DONE ||
-          data.status === ORDER_STATUS.WAIT_FOR_PAY ||
-          data.status === ORDER_STATUS.PAYED
-        ) {
+        if (data.data.status !== ORDER_STATUS.PENDING) {
           setDisableMenuPayment(true);
-        } else {
-          const hasDeliveredQuantityGreaterThanZero = data.data.products.some(
-            (product: Product) => product.delivered_quantity > 0
-          );
-  
-          setDisableMenuPayment(!hasDeliveredQuantityGreaterThanZero);
-        }
+      } else {
+          setDisableMenuPayment(false); 
+      }
   
         setCurrentOrder(data.data);
       } else {
