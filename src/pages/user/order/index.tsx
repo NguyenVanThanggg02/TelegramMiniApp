@@ -784,7 +784,7 @@ const OrderPage: React.FC = () => {
           borderTop: "1px solid #e0e0e0",
           backgroundColor: "#fff",
           position: "sticky",
-          bottom: 5, 
+          bottom: 0, 
           left: 0, 
           right: 0, 
         }}
@@ -800,7 +800,7 @@ const OrderPage: React.FC = () => {
           }}
         >
           <RestaurantMenuOutlinedIcon
-            style={{ color: "#f44336", fontSize: "24px" }}
+            style={{ color: "#757575", fontSize: "24px" }}
           />
           <span>{t("navbar.menu")}</span>
         </Box>
@@ -817,7 +817,7 @@ const OrderPage: React.FC = () => {
           onClick={() => navigate(`/user/order/${store_uuid}`)}
         >
           <AssignmentOutlinedIcon
-            style={{ color: "#757575", fontSize: "24px" }}
+            style={{ color: "#f44336", fontSize: "24px" }}
           />
           <span>{t("navbar.order")}</span>
         </Box>
