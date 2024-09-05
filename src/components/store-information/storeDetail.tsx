@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Modal, Icon, Text, List } from 'zmp-ui';
+import { Box, Modal, Icon, Text, List, Page } from 'zmp-ui';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import DEFAULT_IMAGE_STORE from '../../static/icons/store-background.png';
@@ -55,6 +55,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
   };
 
   return (
+    <Page>
     <Modal visible={isShow} onClose={onClose} className="dish-details-modal">
       <Box className="container">
         <Box onClick={onClose} className="close-btn">
@@ -145,7 +146,8 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </List>
         </Box>
       </Box>
-      <div style={{ borderRadius: "10px" }}>
+    </Modal>
+    <div style={{ borderRadius: "10px" }}>
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
@@ -164,7 +166,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </Snackbar>
         )}
       </div>
-    </Modal>
+    </Page>
   );
 };
 
