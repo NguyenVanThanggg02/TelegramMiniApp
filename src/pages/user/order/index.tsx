@@ -111,9 +111,6 @@ const OrderPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
-  console.log(currentOrder.status);
-  console.log(disableMenuPayment);
-  
   const totalBill = useMemo(() => {
     if (
       typeof currentOrder?.actual_payment_amount === 'number' && 
@@ -516,8 +513,7 @@ const OrderPage: React.FC = () => {
                   </Box>
                 </Box>
                 <Box className="actions">
-                  {String(currentOrder.status) ===
-                    ORDER_STATUS.PENDING && (
+                  {String(currentOrder.status) === ORDER_STATUS.PENDING && (
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
@@ -525,17 +521,12 @@ const OrderPage: React.FC = () => {
                       {t("userOrder.orderMore")}
                     </Button>
                   )}
-
                   <Button
                     onClick={() => {
-                      if (
-                        String(currentOrder.status) ===
-                        ORDER_STATUS.PENDING
-                      ) {
+                      if (String(currentOrder.status) === ORDER_STATUS.PENDING) {
                         setShowPaymentModal(true);
                       } else if (
-                        String(currentOrder.status) ===
-                        ORDER_STATUS.WAIT_FOR_PAY
+                        String(currentOrder.status) === ORDER_STATUS.WAIT_FOR_PAY
                       ) {
                         setDisableMenuPayment(true);
                         setShowPaymentModal(false);
