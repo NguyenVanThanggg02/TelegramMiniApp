@@ -376,7 +376,7 @@ const OrderPage: React.FC = () => {
   return (
     <>
       <LoadingComponent />
-      <Page className="section-container order-history-container" style={{height:'100vh',padding:'30px 0px', }}>
+      <Page className="section-container order-history-container" style={{height:'100vh',padding:'30px 16px'}}>
         <Box className="header" style={{ color: "black" }}>
           {t("menu.order")}
         </Box>
