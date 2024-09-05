@@ -392,7 +392,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   return (
     <>
-      <Page className="menu-page" ref={pageRef} style={{height:'100vh'}}>
+      <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -565,9 +565,12 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           flexDirection: "row",
           justifyContent: "space-around",
           alignItems: "center",
-          borderTop: "1px solid #e0e0e0", // Optional: add border top if needed
-          backgroundColor: "#fff", // Background color (if needed)
-          paddingBottom:'20px'
+          borderTop: "1px solid #e0e0e0",
+          backgroundColor: "#fff",
+          bottom: 0, 
+          left: 0, 
+          right: 0, 
+          zIndex: 1000,
         }}
       >
         <Box
@@ -576,7 +579,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            color: "#f44336", // Red color for active item
+            color: "#f44336",
             fontSize: "12px",
           }}
         >
@@ -592,7 +595,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            color: "#757575", // Grey color for inactive items
+            color: "#757575",
             fontSize: "12px",
           }}
           onClick={() => navigate(`/user/order/${store_uuid}`)}
@@ -609,7 +612,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            color: "#757575", // Grey color for inactive items
+            color: "#757575",
             fontSize: "12px",
           }}
         >
