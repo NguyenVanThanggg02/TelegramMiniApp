@@ -111,6 +111,8 @@ const OrderPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
+  console.log(currentOrder.status);
+  
   const totalBill = useMemo(() => {
     if (
       typeof currentOrder?.actual_payment_amount === 'number' && 
@@ -398,10 +400,17 @@ const OrderPage: React.FC = () => {
     <>
       <LoadingComponent />
       <Page className="section-container order-history-container">
-        <Box className="header" style={{color:'black'}}>{t("menu.order")}</Box>
+        <Box className="header" style={{ color: "black" }}>
+          {t("menu.order")}
+        </Box>
         <Box className="current-order">
           <Box>
-            <Box flex justifyContent="space-between" alignItems="center" style={{color:'black'}}>
+            <Box
+              flex
+              justifyContent="space-between"
+              alignItems="center"
+              style={{ color: "black" }}
+            >
               <Text size="xLarge" bold className="current-order__title">
                 {t("userOrder.currentOrder")}
               </Text>
@@ -454,13 +463,13 @@ const OrderPage: React.FC = () => {
                                 }}
                               />
                             </Box>
-                            <Box> 
-                              <Text size="large" style={{color:'black'}}>
+                            <Box>
+                              <Text size="large" style={{ color: "black" }}>
                                 <span className="fw-500">
                                   {item.product_name}
                                 </span>
                               </Text>
-                              <Box flex style={{ gap: "8px", color:'black' }} >
+                              <Box flex style={{ gap: "8px", color: "black" }}>
                                 <Text size="normal">
                                   {priceFormatter(item.unit_price)}
                                   <span style={{ marginLeft: "2px" }}>₫</span>
@@ -468,7 +477,7 @@ const OrderPage: React.FC = () => {
                               </Box>
                             </Box>
                           </Box>
-                          <Box style={{color:'black'}}>
+                          <Box style={{ color: "black" }}>
                             <Text size="xLarge">x{item.quantity}</Text>
                           </Box>
                         </Box>
@@ -477,7 +486,7 @@ const OrderPage: React.FC = () => {
                   <Box flex justifyContent="space-between">
                     {typeof currentOrder.notes === "string" &&
                     currentOrder.notes ? (
-                      <Box className="note" style={{color:'black'}}>
+                      <Box className="note" style={{ color: "black" }}>
                         <Text size="large">
                           <b>{t("orderManagement.notes")}</b>:{" "}
                           <i>"{currentOrder.notes}"</i>
@@ -496,7 +505,9 @@ const OrderPage: React.FC = () => {
                         <Text size="large" bold>
                           {t("orderManagement.orderDetail.total")}:
                         </Text>
-                        <Text size="large" style={{color:'black'}}>{priceFormatter(totalBill)}₫</Text>
+                        <Text size="large" style={{ color: "black" }}>
+                          {priceFormatter(totalBill)}₫
+                        </Text>
                       </Box>
                     ) : (
                       <Box />
@@ -504,7 +515,8 @@ const OrderPage: React.FC = () => {
                   </Box>
                 </Box>
                 <Box className="actions">
-                {(JSON.stringify(currentOrder.status)) === ORDER_STATUS.PENDING && (
+                  {JSON.stringify(currentOrder.status) ===
+                    ORDER_STATUS.PENDING && (
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
@@ -513,12 +525,16 @@ const OrderPage: React.FC = () => {
                     </Button>
                   )}
 
-<Button
+                  <Button
                     onClick={() => {
-                      if (JSON.stringify(currentOrder.status) === ORDER_STATUS.PENDING) {
+                      if (
+                        JSON.stringify(currentOrder.status) ===
+                        ORDER_STATUS.PENDING
+                      ) {
                         setShowPaymentModal(true);
                       } else if (
-                        JSON.stringify(currentOrder.status) === ORDER_STATUS.WAIT_FOR_PAY
+                        JSON.stringify(currentOrder.status) ===
+                        ORDER_STATUS.WAIT_FOR_PAY
                       ) {
                         setDisableMenuPayment(true);
                         setShowPaymentModal(false);
@@ -532,14 +548,21 @@ const OrderPage: React.FC = () => {
                 </Box>
               </Box>
             ) : (
-              <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
+              <Box style={{ color: "black" }}>
+                {t("userOrder.noHaveOrdersYet")}
+              </Box>
             )}
           </Box>
         </Box>
 
         <Box className="order-history">
           <Box>
-            <Text size="xLarge" bold className="current-order__title" style={{color:'black'}}>
+            <Text
+              size="xLarge"
+              bold
+              className="current-order__title"
+              style={{ color: "black" }}
+            >
               {t("userOrder.orderHistory")}
             </Text>
             {!isEmpty(orderHistoryList) ? (
@@ -572,7 +595,10 @@ const OrderPage: React.FC = () => {
                                   className="product-info"
                                 >
                                   <Box>
-                                    <Text size="large" style={{color:'black'}}>
+                                    <Text
+                                      size="large"
+                                      style={{ color: "black" }}
+                                    >
                                       <span className="fw-500">
                                         {product.product_name} (x
                                         {product.quantity})
@@ -581,12 +607,22 @@ const OrderPage: React.FC = () => {
                                   </Box>
                                 </Box>
                                 <Box>
-                                  <Text size="normal" style={{color:'black'}}>
+                                  <Text
+                                    size="normal"
+                                    style={{ color: "black" }}
+                                  >
                                     {priceFormatter(
                                       (product.unit_price ?? 0) *
                                         (product.quantity ?? 0)
                                     )}
-                                    <span style={{ marginLeft: "2px", color:'black' }}>₫</span>
+                                    <span
+                                      style={{
+                                        marginLeft: "2px",
+                                        color: "black",
+                                      }}
+                                    >
+                                      ₫
+                                    </span>
                                   </Text>
                                 </Box>
                               </Box>
@@ -603,7 +639,7 @@ const OrderPage: React.FC = () => {
                               className="product-info"
                             >
                               <Box>
-                                <Text size="large" style={{color:'black'}}>
+                                <Text size="large" style={{ color: "black" }}>
                                   <span>
                                     <span>
                                       {t("orderManagement.orderDetail.total")}:
@@ -649,7 +685,8 @@ const OrderPage: React.FC = () => {
                                   <Text>
                                     <span
                                       style={{
-                                        paddingLeft: "6px",color:'black'
+                                        paddingLeft: "6px",
+                                        color: "black",
                                       }}
                                     >
                                       {priceFormatter(
@@ -677,7 +714,7 @@ const OrderPage: React.FC = () => {
                         <Box pt={3} pb={2}>
                           {item.notes && (
                             <Box className="note">
-                              <Text size="large" style={{color:'black'}}>
+                              <Text size="large" style={{ color: "black" }}>
                                 {t("orderManagement.notes")}:{" "}
                                 <i>"{item.notes}"</i>
                               </Text>
@@ -721,7 +758,9 @@ const OrderPage: React.FC = () => {
                 </Box>
               ))
             ) : (
-              <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
+              <Box style={{ color: "black" }}>
+                {t("userOrder.noHaveOrdersYet")}
+              </Box>
             )}
           </Box>
         </Box>
