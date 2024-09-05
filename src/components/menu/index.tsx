@@ -559,7 +559,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         </Box>
       </Page>
       <Box
-        flex
+      className="hidden-scrollbar"
         style={{
           display: "flex",
           flexDirection: "row",
