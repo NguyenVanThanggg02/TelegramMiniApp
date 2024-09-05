@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Page, Text } from "zmp-ui";
+import { Box, Button,Text } from "zmp-ui";
 import {
   ApiResponse,
   fetchCurrentOrdersByStoreClientSide,
@@ -397,7 +397,7 @@ const OrderPage: React.FC = () => {
   return (
     <>
       <LoadingComponent />
-      <Page className="section-container order-history-container">
+      <div className="section-container order-history-container">
         <Box className="header" style={{color:'black'}}>{t("menu.order")}</Box>
         <Box className="current-order">
           <Box>
@@ -753,7 +753,7 @@ const OrderPage: React.FC = () => {
             </Snackbar>
           )}
         </div>
-      </Page>
+      </div>
     </>
   );
 };

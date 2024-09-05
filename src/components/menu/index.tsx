@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { Page, Text, Box, Button } from "zmp-ui";
+import { Text, Box, Button } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
 import {
@@ -388,7 +388,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   return (
-    <Page className="menu-page" ref={pageRef}>
+    <div className="menu-page" ref={pageRef}>
       <Box className="top-menu-container">
         {table_uuid && storeDetail && (
           <Box>
@@ -556,7 +556,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         />
       </Box>
-    </Page>
+    </div>
   );
 };
 
