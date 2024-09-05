@@ -193,9 +193,9 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           ))}
         </Box>
 
-        <Box className="total-bill">
+        <Box className="total-bill" flex>
           <Box>
-            <Text className="title" style={{ padding: 0, color: "black" }}>
+            <Text className="title" bold style={{ padding: 0, color: "black" }}>
               {t("menu.total")}
             </Text>
           </Box>
