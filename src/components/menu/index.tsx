@@ -567,6 +567,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           alignItems: "center",
           borderTop: "1px solid #e0e0e0", // Optional: add border top if needed
           backgroundColor: "#fff", // Background color (if needed)
+          paddingBottom:'20px'
         }}
       >
         <Box
