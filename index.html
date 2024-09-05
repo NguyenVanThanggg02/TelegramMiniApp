@@ -10,10 +10,11 @@
     img-src 'self' data: blob: https:;
     script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ;
     worker-src 'self' blob:;
+    clipboard-write 'self';
+
   "
    />
-   <meta http-equiv="Permissions-Policy" content="clipboard-write=self; clipboard-read=self">
-   
+  
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
