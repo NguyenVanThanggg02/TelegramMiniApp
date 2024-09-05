@@ -111,6 +111,9 @@ const OrderPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
+  console.log(disableMenuPayment);
+  
+
   const totalBill = useMemo(() => {
     if (
       typeof currentOrder?.actual_payment_amount === 'number' && 
@@ -134,7 +137,6 @@ const OrderPage: React.FC = () => {
 
     return zaloPaySetting?.trim().toLowerCase() === "true" ? true : false;
   }, [storeList]);
-  console.log(zalo_pay_setting);
 
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
