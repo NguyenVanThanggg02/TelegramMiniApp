@@ -194,6 +194,7 @@ const ProfilePage: React.FC = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                 }}
+                onClick={() => copyUserIdToClipboard(user.uuid)}
               >
                 <Box>
                   <Text
@@ -202,13 +203,14 @@ const ProfilePage: React.FC = () => {
                       marginTop: "10px",
                       cursor: "pointer",
                     }}
-                    onClick={() => copyUserIdToClipboard(user.uuid)}
                   >
                     {user.uuid}
                   </Text>
                 </Box>
                 <Box>
-                  <ContentCopyIcon />
+                  <ContentCopyIcon
+                    style={{ color: "gray", fontSize: "20px" }}
+                  />
                 </Box>
               </Box>
             </List.Item>
