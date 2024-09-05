@@ -392,7 +392,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   return (
     <>
-      <Page className="menu-page" ref={pageRef}>
+      <Page className="menu-page" ref={pageRef} style={{height:'100vh'}}>
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -566,7 +566,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           justifyContent: "space-around",
           alignItems: "center",
           borderTop: "1px solid #e0e0e0", // Optional: add border top if needed
-          padding: "10px 0", // Add padding to space out icons and text
           backgroundColor: "#fff", // Background color (if needed)
         }}
       >
