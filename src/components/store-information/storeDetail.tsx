@@ -8,6 +8,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { useNavigate } from 'react-router-dom';
 
 interface StoreDetail {
   avatar?: {
@@ -38,6 +39,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!storeData) return;
@@ -52,6 +54,9 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
     setSnackbarMessage(t("snackbarMessage.copiedBankAccount"));
     setSnackbarType("success");
     setSnackbarOpen(true);
+    setTimeout(() => {
+      navigate(-1); 
+    }, 500);
   };
 
   return (
