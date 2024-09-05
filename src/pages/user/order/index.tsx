@@ -91,8 +91,7 @@ interface PaymentPayload {
 
 const OrderPage: React.FC = () => {
   const { t } = useTranslation("global");
-  const { store_uuid } = useParams<{ store_uuid: string }>();
-
+  const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
   const [productList, setProductList] = useRecoilState(productListState);
   const [store, setStore] = useRecoilState(storeState);
   const [storeList, ] = useRecoilState(storeListState);
@@ -377,7 +376,7 @@ const OrderPage: React.FC = () => {
   return (
     <>
       <LoadingComponent />
-      <Page className="section-container order-history-container">
+      <Page className="section-container order-history-container" style={{height:'100vh'}}>
         <Box className="header" style={{ color: "black" }}>
           {t("menu.order")}
         </Box>
@@ -798,6 +797,7 @@ const OrderPage: React.FC = () => {
             color: "#757575",
             fontSize: "12px",
           }}
+          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
