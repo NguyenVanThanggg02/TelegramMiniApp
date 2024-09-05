@@ -4,9 +4,9 @@ import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import DEFAULT_IMAGE_STORE from '../../static/icons/store-background.png';
 
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-// import ErrorIcon from '@mui/icons-material/Error';
-// import { Snackbar } from "@telegram-apps/telegram-ui";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface StoreDetail {
@@ -35,9 +35,9 @@ interface StoreDetailModalProps {
 const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, onClose }) => {
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
   const { t } = useTranslation('global');
-  // const [snackbarOpen, setSnackbarOpen] = useState(false);
-  // const [snackbarMessage, setSnackbarMessage] = useState("");
-  // const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     if (!storeData) return;
@@ -49,7 +49,9 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
   
   const copyBankAccountToClipboard = (bankAccount: string) => {
     navigator.clipboard.writeText(bankAccount);
-    alert('successfully')
+    setSnackbarMessage(t("snackbarMessage.copiedUserId"));
+    setSnackbarType("success");
+    setSnackbarOpen(true);
   };
 
   return (
@@ -143,7 +145,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </List>
         </Box>
       </Box>
-      {/* <div style={{ borderRadius: "10px" }}>
+      <div style={{ borderRadius: "10px" }}>
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
@@ -161,7 +163,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
             </div>
           </Snackbar>
         )}
-      </div> */}
+      </div>
     </Modal>
   );
 };
