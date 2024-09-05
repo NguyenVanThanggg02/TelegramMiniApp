@@ -105,7 +105,7 @@ const OrderPage: React.FC = () => {
 
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showOrderMore, setShowOrderMore] = useState(false);
-  const [, setDisableMenuPayment] = useState(false);
+  const [disableMenuPayment, setDisableMenuPayment] = useState(false);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -504,19 +504,28 @@ const OrderPage: React.FC = () => {
                   </Box>
                 </Box>
                 <Box className="actions">
+                {(JSON.stringify(currentOrder.status)) === ORDER_STATUS.PENDING && (
                     <Button
                       variant="secondary"
                       onClick={() => setShowOrderMore(true)}
                     >
                       {t("userOrder.orderMore")}
                     </Button>
+                  )}
 
-                  <Button
+<Button
                     onClick={() => {
-                      setShowPaymentModal(true);
-                      setDisableMenuPayment(true);
-                      // handleCreateOrder();
+                      if (JSON.stringify(currentOrder.status) === ORDER_STATUS.PENDING) {
+                        setShowPaymentModal(true);
+                      } else if (
+                        JSON.stringify(currentOrder.status) === ORDER_STATUS.WAIT_FOR_PAY
+                      ) {
+                        setDisableMenuPayment(true);
+                        setShowPaymentModal(false);
+                        // handleCreateOrder();
+                      }
                     }}
+                    disabled={disableMenuPayment}
                   >
                     {t("menu.payment")}
                   </Button>
