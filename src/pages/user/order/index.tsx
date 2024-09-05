@@ -199,42 +199,6 @@ const OrderPage: React.FC = () => {
       setSpinner(false);
     }
   };
-
-  // const handleCreateOrder = async (invoice_uuid: string) => {
-  //   const { subdomain } = await getStorage({
-  //     keys: ["subdomain"],
-  //   });
-
-  //   try {
-  //     const items = Array.isArray(currentOrder.products) 
-  //     ? currentOrder.products.map((item) => ({
-  //         id: item.product_uuid,
-  //         amount: (item.unit_price ?? 0) * (item.quantity ?? 0),
-  //       }))
-  //     : [];
-
-  //     const { actual_payment_amount } = currentOrder;
-  //     console.log(actual_payment_amount);
-
-  //     const data = await Payment.createOrder({
-  //       desc: `Thanh toán đơn hàng ${currentOrder.uuid}`,
-  //       item: items,
-  //       amount: actual_payment_amount,
-  //       extradata: JSON.stringify({
-  //         invoice_uuid: invoice_uuid,
-  //         tenant_id: subdomain,
-  //       }),
-  //       // method: "ZALOPAY_SANDBOX", // Chỉ cần cung cấp giá trị enum trực tiếp
-  //       mac: currentOrder.mac,
-  //     });
-
-  //     const { orderId } = data;
-  //     await updatePaymentMethod(invoice_uuid, orderId, store_uuid);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const onZaloPay = async () => {
     const payload = {
       order_uuid: currentOrder.uuid,
@@ -395,6 +359,11 @@ const OrderPage: React.FC = () => {
     getData();
   }, [user.authToken, store_uuid]);
   
+  useEffect(() => {
+    if (String(currentOrder.status) === ORDER_STATUS.WAIT_FOR_PAY) {
+      setDisableMenuPayment(true);
+    }
+  }, [currentOrder.status]);
 
   return (
     <>
