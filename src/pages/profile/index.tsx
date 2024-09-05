@@ -4,6 +4,7 @@ import {
   List,
   Text,
   Box,
+  Page,
   Select,
   Button,
   Switch,
@@ -144,7 +145,7 @@ const ProfilePage: React.FC = () => {
   }, [keepScreenOn]);
 
   return (
-    <div style={{ minHeight: "unset", paddingBottom: 30 }}>
+    <Page style={{ minHeight: "unset", paddingBottom: 30 }}>
       <Box
         flex
         flexDirection="column"
@@ -326,7 +327,7 @@ const ProfilePage: React.FC = () => {
             </Snackbar>
           )}
         </div>
-    </div>
+    </Page>
   );
 };
 

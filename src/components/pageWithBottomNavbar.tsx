@@ -8,10 +8,10 @@ interface PageWithBottomNavBarProps {
 
 const PageWithBottomNavBar: React.FC<PageWithBottomNavBarProps> = ({ children }) => {
   return (
-    <div>
+    <>
       <Outlet />
       <BottomNavBar>{children}</BottomNavBar> 
-    </div>
+    </>
   );
 }
 export default PageWithBottomNavBar
