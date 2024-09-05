@@ -247,6 +247,7 @@
   },
   "snackbarMessage": {
     "copiedUserId":"UserId copied successfully.",
+    "copiedBankAccount":"Account number copied successfully",
     "loginFail": "Failed to login",
     "getStoreFail": "Failed get store",
     "getCategoryFail": "Failed get Category list",

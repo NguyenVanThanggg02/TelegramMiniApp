@@ -248,6 +248,7 @@
   },
   "snackbarMessage": {
     "copiedUserId":"Sao chép ID người dùng thành công",
+    "copiedBankAccount":"Sao chép số tài khoản thành công",
     "loginFail": "Đăng nhập thất bại",
     "getStoreFail": "Lấy danh thông tin cửa hàng thất bại",
     "getCategoryFail": "Lấy danh sách danh mục thất bại",
