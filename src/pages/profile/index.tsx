@@ -80,6 +80,13 @@ const ProfilePage: React.FC = () => {
     //   setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
     // };
 
+    const copyUserIdToClipboard = (userId: string) => {
+      navigator.clipboard.writeText(userId);
+      setSnackbarMessage(t("button.copiedUserId"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+    };
+
     const copyTokenToClipboard = (text: string) => {
       navigator.clipboard.writeText(text);
       setCopiedToken(true);
@@ -180,10 +187,14 @@ const ProfilePage: React.FC = () => {
             </List.Item>
             <List.Item>
               <Text style={{ color: "black" }}>{t("profile.userId")}</Text>
-              <Text style={{ color: "gray", marginTop: "10px" }}>
+              <Text
+                style={{ color: "gray", marginTop: "10px", cursor: "pointer" }}
+                onClick={() => copyUserIdToClipboard(user.uuid)}
+              >
                 {user.uuid}
               </Text>
             </List.Item>
+
 
             <List.Item>
               <Text style={{ color: "black" }}>{t("profile.role")} </Text>
