@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Sheet, Button, Page, Text } from "zmp-ui";
 
-const AboutPage = () => {
+const AboutPage: React.FC = () => {
   const [actionSheetOpened, setActionSheetOpened] = React.useState(false);
   const navigate = useNavigate();
 
