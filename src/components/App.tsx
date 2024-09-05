@@ -90,8 +90,8 @@ export const App: FC = () => {
           appearance={miniApp.isDark ? "dark" : "light"}
           platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}
         >
-          <BrowserRouter>
            <AuthChecker> 
+            <BrowserRouter>
             <Router location={location} navigator={reactNavigator}>
               <Routes>
                 {routes.map((route) => (
@@ -100,8 +100,8 @@ export const App: FC = () => {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </Router>
+            </BrowserRouter>
            </AuthChecker> 
-           </BrowserRouter>
         </AppRoot>
       </I18nextProvider>
     </RecoilRoot>
