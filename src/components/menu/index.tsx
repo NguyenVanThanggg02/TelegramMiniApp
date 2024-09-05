@@ -3,6 +3,9 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
+import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import {
   cartState,
   categoryListState,
@@ -555,18 +558,29 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           />
         </Box>
       </Page>
-      <Box>
-        <Box>Thực đơn</Box>
-        <Box>
-          <Button
-            className="fw-500"
-            onClick={() => navigate(`/user/order/${store_uuid}`)}
-          >
-            Đơn hàng
-          </Button>
+      <Box
+        flex
+        style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+      >
+        <Box
+          flex
+          style={{ display: "flex", alignItems: "center", marginRight: "20px" }}
+        >
+          <RestaurantMenuOutlinedIcon />
+          Thực đơn
         </Box>
-
-        <Box>Cá nhân</Box>
+        <Box
+          flex
+          style={{ display: "flex", alignItems: "center", marginRight: "20px" }}
+          onClick={() => navigate(`/user/order/${store_uuid}`)}
+        >
+          <AssignmentOutlinedIcon />
+          Đơn hàng
+        </Box>
+        <Box flex style={{ display: "flex", alignItems: "center" }}>
+          <PersonOutlinedIcon />
+          Cá nhân
+        </Box>
       </Box>
     </>
   );
