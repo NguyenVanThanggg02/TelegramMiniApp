@@ -10,7 +10,9 @@ import {
   // updatePaymentMethod,
 } from "../../../api/api";
 import { useRecoilState, useRecoilValue } from "recoil";
-
+import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
@@ -40,7 +42,7 @@ import PaymentModal from "../../../components/payment-modal";
 import LoadingComponent from "../../../components/loading_component";
 import { clone, groupBy, isEmpty } from "lodash";
 import CachedIcon from "@mui/icons-material/Cached";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddProductModal from "../../admin/order-management/add-products-modal";
 
 interface ProductImage {
@@ -110,6 +112,7 @@ const OrderPage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const navigate = useNavigate();
 
   console.log(disableMenuPayment);
   
@@ -771,6 +774,69 @@ const OrderPage: React.FC = () => {
           )}
         </div>
       </Page>
+      <Box
+        flex
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center",
+          borderTop: "1px solid #e0e0e0",
+          backgroundColor: "#fff",
+          position: "sticky",
+          bottom: 5, 
+          left: 0, 
+          right: 0, 
+        }}
+      >
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#757575",
+            fontSize: "12px",
+          }}
+        >
+          <RestaurantMenuOutlinedIcon
+            style={{ color: "#f44336", fontSize: "24px" }}
+          />
+          <span>{t("navbar.menu")}</span>
+        </Box>
+
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#f44336",
+            fontSize: "12px",
+          }}
+          onClick={() => navigate(`/user/order/${store_uuid}`)}
+        >
+          <AssignmentOutlinedIcon
+            style={{ color: "#757575", fontSize: "24px" }}
+          />
+          <span>{t("navbar.order")}</span>
+        </Box>
+
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#757575",
+            fontSize: "12px",
+          }}
+          onClick={() => navigate('/user/profile')}
+        >
+          <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
+          <span>{t("navbar.user")}</span>
+        </Box>
+      </Box>
     </>
   );
 };

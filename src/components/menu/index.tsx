@@ -586,7 +586,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           <RestaurantMenuOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
           />
-          <span>Thực đơn</span>
+          <span>{t("navbar.menu")}</span>
         </Box>
 
         <Box
@@ -603,7 +603,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           <AssignmentOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
           />
-          <span>Đơn hàng</span>
+          <span>{t("navbar.order")}</span>
         </Box>
 
         <Box
@@ -617,7 +617,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
-          <span>Cá nhân</span>
+          <span>{t("navbar.user")}</span>
         </Box>
       </Box>
     </>
