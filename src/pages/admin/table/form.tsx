@@ -32,7 +32,17 @@ const TableFormPage: React.FC = () => {
     setForm({ ...form, [field]: value });
   };
 
+  const containsInvalidChars = (str: string) => {
+    return /[^\p{L}\p{M}\p{N}\s]/u.test(str);
+  };
+
   const handleSubmit = () => {
+    if(containsInvalidChars(form.name as string)){
+      setSnackbarMessage(t("snackbarMessage.UpdateTableDueToError"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
+      return;
+    }
     if (form.uuid && form.name) {
       updateTableByName(form.uuid, form.name);
     }
