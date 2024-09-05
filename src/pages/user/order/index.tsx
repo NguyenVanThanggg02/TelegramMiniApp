@@ -112,6 +112,7 @@ const OrderPage: React.FC = () => {
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   console.log(currentOrder.status);
+  console.log(disableMenuPayment);
   
   const totalBill = useMemo(() => {
     if (
