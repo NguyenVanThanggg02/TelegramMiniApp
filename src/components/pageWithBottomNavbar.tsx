@@ -1,16 +1,12 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import BottomNavBar from "./bottom-navbar";
 
-interface PageWithBottomNavBarProps {
-  children: ReactNode; 
-}
-
-const PageWithBottomNavBar: React.FC<PageWithBottomNavBarProps> = ({ children }) => {
+const PageWithBottomNavBar: React.FC = () => {
   return (
     <>
       <Outlet />
-      <BottomNavBar>{children}</BottomNavBar> 
+      <BottomNavBar />
     </>
   );
 }
