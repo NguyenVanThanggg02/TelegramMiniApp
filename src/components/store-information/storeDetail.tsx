@@ -4,9 +4,9 @@ import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import DEFAULT_IMAGE_STORE from '../../static/icons/store-background.png';
 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import { Snackbar } from "@telegram-apps/telegram-ui";
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import ErrorIcon from '@mui/icons-material/Error';
+// import { Snackbar } from "@telegram-apps/telegram-ui";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface StoreDetail {
@@ -16,7 +16,7 @@ interface StoreDetail {
   description?: string;
   address?: string;
   phoneNumber?: string;
-  bankName?: string;
+  bankName?:string
   bankAccount?: string;
   name?: string;
 }
@@ -35,31 +35,21 @@ interface StoreDetailModalProps {
 const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, onClose }) => {
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
   const { t } = useTranslation('global');
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  // const [snackbarOpen, setSnackbarOpen] = useState(false);
+  // const [snackbarMessage, setSnackbarMessage] = useState("");
+  // const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   useEffect(() => {
     if (!storeData) return;
     try {
       setStoreDetail(JSON.parse(storeData.metadata || '{}'));
     } catch {
-      // Handle JSON parsing error if needed
     }
   }, [storeData]);
-
+  
   const copyBankAccountToClipboard = (bankAccount: string) => {
-    navigator.clipboard.writeText(bankAccount)
-      .then(() => {
-        setSnackbarMessage(t("snackbarMessage.copiedUserId"));
-        setSnackbarType("success");
-        setSnackbarOpen(true);
-      })
-      .catch(() => {
-        setSnackbarMessage(t("snackbarMessage.copyFailed"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      });
+    navigator.clipboard.writeText(bankAccount);
+    alert('successfully')
   };
 
   return (
@@ -138,7 +128,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
                     justifyContent: "space-between",
                   }}
                   onClick={() => copyBankAccountToClipboard(storeDetail?.bankAccount || '')}
-                >
+                > 
                   <Box>
                     <Text>{storeDetail?.bankAccount}</Text>
                   </Box>
@@ -153,13 +143,13 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </List>
         </Box>
       </Box>
-      <div style={{ borderRadius: "10px", position: "fixed", bottom: 0, right: 0, margin: 20 }}>
+      {/* <div style={{ borderRadius: "10px" }}>
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
               className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
             >
-              <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ display: "flex" }}>
                 {snackbarType === "success" && (
                   <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
                 )}
@@ -171,7 +161,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
             </div>
           </Snackbar>
         )}
-      </div>
+      </div> */}
     </Modal>
   );
 };
