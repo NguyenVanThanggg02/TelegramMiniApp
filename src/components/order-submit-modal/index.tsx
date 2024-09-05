@@ -175,12 +175,12 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
                   />
                 </Box>
                 <Box>
-                  <Text size="large">
+                  <Text size="large" style={{color:'black'}}>
                     {item.quantity}x <span className="fw-500">{item.name}</span>
                   </Text>
                 </Box>
               </Box>
-              <Box flex justifyContent="flex-end" width={80}>
+              <Box flex justifyContent="flex-end" width={80} style={{color:'black'}}>
                 {priceFormatter(item.price)}
                 <span style={{ marginLeft: '2px' }}>₫</span>
               </Box>
@@ -191,7 +191,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
         <Box className="total-bill" flex justifyContent="flex-end">
           <Text size="xLarge" bold>
             {priceFormatter(totalBill)}
-            <span style={{ paddingLeft: '3px' }}>₫</span>
+            <span style={{ paddingLeft: '3px', color:'black' }}>₫</span>
           </Text>
         </Box>
 
