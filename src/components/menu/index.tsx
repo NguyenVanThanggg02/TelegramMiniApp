@@ -599,7 +599,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          
+          onClick={() => navigate(`/user/order/${store_uuid}`)}
         >
           <AssignmentOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
