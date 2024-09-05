@@ -395,7 +395,7 @@ const OrderPage: React.FC = () => {
   
 
   return (
-    <>
+    <div>
       <LoadingComponent />
       <div className="section-container order-history-container">
         <Box className="header" style={{color:'black'}}>{t("menu.order")}</Box>
@@ -754,7 +754,7 @@ const OrderPage: React.FC = () => {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
