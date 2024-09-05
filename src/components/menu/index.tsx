@@ -388,175 +388,187 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   return (
-    <Page className="menu-page" ref={pageRef}>
-      <Box className="top-menu-container">
-        {table_uuid && storeDetail && (
-          <Box>
-            <StoreInformation
-              storeData={storeDetail}
-              onDetail={() => setShowStoreDetail(true)}
-            />
-            <Box
-              flex
-              alignItems="center"
-              style={{ paddingLeft: "10px", paddingBottom: "10px" }}
-            >
-              <TableRestaurantIcon style={{color:'black'}} />
-              <Text size="xLarge" bold style={{ paddingLeft: "5px",color:'black' }}>
-                {table?.name}
-              </Text>
-            </Box>
+    <>
+      <Page className="menu-page" ref={pageRef}>
+        <Box className="top-menu-container">
+          {table_uuid && storeDetail && (
             <Box>
-            <Button
-            className="fw-500"
-            onClick={() =>
-              navigate(`/user/order/${store_uuid}`)
-            }
-          >
-            Don hang
-          </Button>
-            </Box>
-          </Box>
-        )}
-      </Box>
-      <Box
-        className="section-container"
-        style={{
-          marginBottom: !isEmpty(cart) ? 110 : 0,
-          paddingTop: table_uuid ? 0 : 16,
-        }}
-      >
-        <Box className="menu-tabs-container">
-          <Tabs
-            id="menu-tabs"
-            value={activeTab}
-            orientation="vertical"
-            variant="scrollable"
-            onChange={(_e, value) => handleChangeTab(value)}
-            sx={{ width: "65px" }}
-          >
-            {menu.map((item) => (
-              <Tab
-                key={item.uuid}
-                value={item.uuid}
-                label={item.name}
-                sx={{
-                  paddingLeft: "0px",
-                  alignItems: "flex-start",
-                  textAlign: "left",
-                  textTransform: "none",
-                  fontSize: "14px",
-                  minWidth: "60px",
-                }}
+              <StoreInformation
+                storeData={storeDetail}
+                onDetail={() => setShowStoreDetail(true)}
               />
-            ))}
-          </Tabs>
-        </Box>
-
-        <Box
-          style={{
-            marginLeft: "80px",
-            marginTop: table_uuid ? 100 : defaultMarginList,
-          }}
-        >
-          {Object.keys(displayProductList).map((cate) => (
-            <Box key={cate}>
               <Box
                 flex
-                justifyContent="space-between"
-                mt={4}
-                // ref={(ref:any) => {
-                //   menuRef.current[index] = ref!;
-                // }}
-                style={{ scrollMargin: "100px" }}
+                alignItems="center"
+                style={{ paddingLeft: "10px", paddingBottom: "10px" }}
               >
-                <Text size="xLarge" bold className="grey-color">
-                  {cate}
+                <TableRestaurantIcon style={{ color: "black" }} />
+                <Text
+                  size="xLarge"
+                  bold
+                  style={{ paddingLeft: "5px", color: "black" }}
+                >
+                  {table?.name}
+                </Text>
+              </Box>
+            </Box>
+          )}
+        </Box>
+        <Box
+          className="section-container"
+          style={{
+            marginBottom: !isEmpty(cart) ? 110 : 0,
+            paddingTop: table_uuid ? 0 : 16,
+          }}
+        >
+          <Box className="menu-tabs-container">
+            <Tabs
+              id="menu-tabs"
+              value={activeTab}
+              orientation="vertical"
+              variant="scrollable"
+              onChange={(_e, value) => handleChangeTab(value)}
+              sx={{ width: "65px" }}
+            >
+              {menu.map((item) => (
+                <Tab
+                  key={item.uuid}
+                  value={item.uuid}
+                  label={item.name}
+                  sx={{
+                    paddingLeft: "0px",
+                    alignItems: "flex-start",
+                    textAlign: "left",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    minWidth: "60px",
+                  }}
+                />
+              ))}
+            </Tabs>
+          </Box>
+
+          <Box
+            style={{
+              marginLeft: "80px",
+              marginTop: table_uuid ? 100 : defaultMarginList,
+            }}
+          >
+            {Object.keys(displayProductList).map((cate) => (
+              <Box key={cate}>
+                <Box
+                  flex
+                  justifyContent="space-between"
+                  mt={4}
+                  // ref={(ref:any) => {
+                  //   menuRef.current[index] = ref!;
+                  // }}
+                  style={{ scrollMargin: "100px" }}
+                >
+                  <Text size="xLarge" bold className="grey-color">
+                    {cate}
+                  </Text>
+                </Box>
+
+                <DishMenu
+                  dishMenu={displayProductList[cate]}
+                  onDetails={(dish) => {
+                    setShowDishDetailsModal(true);
+                    handleSelectedDish(dish);
+                  }}
+                  onOrder={(dish) => {
+                    setShowOrderModal(true);
+                    handleSelectedDish(dish);
+                  }}
+                />
+              </Box>
+            ))}
+          </Box>
+
+          {!isEmpty(cart) && (
+            <Box
+              className="sticky-payment-container"
+              style={true ? { bottom: "48px" } : { bottom: "0" }}
+            >
+              <Box
+                className="sticky-payment"
+                flex
+                justifyContent="space-between"
+              >
+                <Text size="large" bold style={{ color: "black" }}>
+                  {t("menu.order")}
+                </Text>
+                <Text size="large" style={{ color: "black" }}>
+                  {cart.length} {t("menu.dish")}・{priceFormatter(totalBill)}
                 </Text>
               </Box>
 
-              <DishMenu
-                dishMenu={displayProductList[cate]}
-                onDetails={(dish) => {
-                  setShowDishDetailsModal(true);
-                  handleSelectedDish(dish);
-                }}
-                onOrder={(dish) => {
-                  setShowOrderModal(true);
-                  handleSelectedDish(dish);
-                }}
-              />
+              <Box className="sticky-payment-btn">
+                <Button
+                  onClick={() => {
+                    setShowOrderSubmitModal(true);
+                  }}
+                >
+                  {t("menu.finishOrder")}
+                </Button>
+              </Box>
             </Box>
-          ))}
+          )}
+
+          <DishOrderSheet
+            isShow={showOrderModal}
+            product={transformDishToProduct(selectedDish || defaultProduct)}
+            onClose={() => {
+              setShowOrderModal(false);
+              setSelectedDish(null);
+            }}
+            onSubmit={handleOrderInCart}
+            onPayment={(dishOrder) => {
+              handleOrderInCart(dishOrder);
+              setShowOrderSubmitModal(true);
+            }}
+          />
+
+          <DishDetailModal
+            isShow={showDishDetailsModal}
+            dish={selectedDish!}
+            onClose={() => {
+              setShowDishDetailsModal(false);
+              setSelectedDish(null);
+            }}
+            onSubmit={handleOrderInCart}
+          />
+
+          <OrderSubmitModal
+            isShow={showOrderSubmitModal}
+            onClose={() => {
+              setShowOrderSubmitModal(false);
+            }}
+          />
+
+          <StoreDetailModal
+            storeData={storeDetail || {}}
+            isShow={showStoreDetail}
+            onClose={() => {
+              setShowStoreDetail(false);
+            }}
+          />
+        </Box>
+      </Page>
+      <Box>
+        <Box>Thực đơn</Box>
+        <Box>
+          <Button
+            className="fw-500"
+            onClick={() => navigate(`/user/order/${store_uuid}`)}
+          >
+            Đơn hàng
+          </Button>
         </Box>
 
-        {!isEmpty(cart) && (
-          <Box
-            className="sticky-payment-container"
-            style={true ? { bottom: "48px" } : { bottom: "0" }}
-          >
-            <Box className="sticky-payment" flex justifyContent="space-between">
-              <Text size="large" bold style={{color:'black'}}>
-                {t("menu.order")}
-              </Text>
-              <Text size="large" style={{color:'black'}}>
-                {cart.length} {t("menu.dish")}・{priceFormatter(totalBill)}
-              </Text>
-            </Box>
-
-            <Box className="sticky-payment-btn">
-              <Button
-                onClick={() => {
-                  setShowOrderSubmitModal(true);
-                }}
-              >
-                {t("menu.finishOrder")}
-              </Button>
-            </Box>
-          </Box>
-        )}
-
-<DishOrderSheet
-  isShow={showOrderModal}
-  product={transformDishToProduct(selectedDish || defaultProduct)}
-  onClose={() => {
-    setShowOrderModal(false);
-    setSelectedDish(null);
-  }}
-  onSubmit={handleOrderInCart}
-  onPayment={(dishOrder) => {
-    handleOrderInCart(dishOrder);
-    setShowOrderSubmitModal(true);
-  }}
-/>
-
-
-        <DishDetailModal
-          isShow={showDishDetailsModal}
-          dish={selectedDish!}
-          onClose={() => {
-            setShowDishDetailsModal(false);
-            setSelectedDish(null);
-          }}
-          onSubmit={handleOrderInCart}
-        />
-
-        <OrderSubmitModal
-          isShow={showOrderSubmitModal}
-          onClose={() => {
-            setShowOrderSubmitModal(false);
-          }}
-        />
-
-        <StoreDetailModal
-          storeData={storeDetail || {}}
-          isShow={showStoreDetail}
-          onClose={() => {
-            setShowStoreDetail(false);
-          }}
-        />
+        <Box>Cá nhân</Box>
       </Box>
-    </Page>
+    </>
   );
 };
 
