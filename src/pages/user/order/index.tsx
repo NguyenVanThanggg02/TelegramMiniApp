@@ -528,12 +528,12 @@ const OrderPage: React.FC = () => {
                   <Button
                     onClick={() => {
                       if (
-                        JSON.stringify(currentOrder.status) ===
+                        String(currentOrder.status) ===
                         ORDER_STATUS.PENDING
                       ) {
                         setShowPaymentModal(true);
                       } else if (
-                        JSON.stringify(currentOrder.status) ===
+                        String(currentOrder.status) ===
                         ORDER_STATUS.WAIT_FOR_PAY
                       ) {
                         setDisableMenuPayment(true);
