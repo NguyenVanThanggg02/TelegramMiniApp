@@ -74,15 +74,9 @@ const ProfilePage: React.FC = () => {
       setTimer(60);
     };
 
-    // const copyToClipboard = (text: string) => {
-    //   navigator.clipboard.writeText(text);
-    //   setCopied(true);
-    //   setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
-    // };
-
     const copyUserIdToClipboard = (userId: string) => {
       navigator.clipboard.writeText(userId);
-      setSnackbarMessage(t("button.copiedUserId"));
+      setSnackbarMessage(t("snackbarMessage.copiedUserId"));
       setSnackbarType("success");
       setSnackbarOpen(true);
     };
@@ -207,7 +201,7 @@ const ProfilePage: React.FC = () => {
                     {user.uuid}
                   </Text>
                 </Box>
-                <Box>
+                <Box style={{paddingTop:'5px'}}>
                   <ContentCopyIcon
                     style={{ color: "gray", fontSize: "20px" }}
                   />

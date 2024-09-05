@@ -246,6 +246,7 @@
     "copied": "Copied"
   },
   "snackbarMessage": {
+    "copiedUserId":"UserId copied successfully.",
     "loginFail": "Failed to login",
     "getStoreFail": "Failed get store",
     "getCategoryFail": "Failed get Category list",
