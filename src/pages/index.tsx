@@ -4,7 +4,6 @@ import {
   Button,
   Page,
   Text,
-  useSnackbar,
 } from "zmp-ui";
 import { storeListState, userState } from "../state";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -19,7 +18,9 @@ import { initCloudStorage } from "@telegram-apps/sdk-react";
 import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 interface Table {
   uuid: string;
   name: string;
@@ -32,7 +33,11 @@ const Index: React.FC = () => {
   const { t } = useTranslation("global");
   const [, setScanResult] = useState("");
   const [showScanner, setShowScanner] = useState(false);
-  const snackbar = useSnackbar();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  
   const hostname = window.location.hostname;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const cloudStorage = initCloudStorage();
@@ -175,10 +180,9 @@ const Index: React.FC = () => {
 };
 
   const notifyErrorStoreNotFound = () => {
-    snackbar.openSnackbar({
-      text: t("main.not_found"),
-      type: "error",
-    });
+    setSnackbarMessage(t("main.not_found"));
+    setSnackbarType("error");
+    setSnackbarOpen(true);
   };
 
   const redirectToMenu = (storeId: string, tableId: string, tenantId: string) => {
@@ -189,10 +193,9 @@ const Index: React.FC = () => {
   };
 
   const handleError = (error: string) => {
-    snackbar.openSnackbar({
-      text: error,
-      type: "error",
-    });
+    setSnackbarMessage(error);
+    setSnackbarType("error");
+    setSnackbarOpen(true);
   };
 
   const toggleScanner = () => {
@@ -426,6 +429,19 @@ const Index: React.FC = () => {
           </Box>
         )}
       </Box>
+      <div style={{borderRadius:'10px'}}>
+          {snackbarOpen && (
+            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+                  {snackbarMessage}
+                </div>
+              </div>
+            </Snackbar>
+          )}
+        </div>
     </Page>
   );
 };
