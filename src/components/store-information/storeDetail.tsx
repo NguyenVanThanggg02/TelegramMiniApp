@@ -16,7 +16,7 @@ interface StoreDetail {
   description?: string;
   address?: string;
   phoneNumber?: string;
-  bankName?:string
+  bankName?: string;
   bankAccount?: string;
   name?: string;
 }
@@ -44,14 +44,22 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
     try {
       setStoreDetail(JSON.parse(storeData.metadata || '{}'));
     } catch {
+      // Handle JSON parsing error if needed
     }
   }, [storeData]);
-  
+
   const copyBankAccountToClipboard = (bankAccount: string) => {
-    navigator.clipboard.writeText(bankAccount);
-    setSnackbarMessage(t("snackbarMessage.copiedUserId"));
-    setSnackbarType("success");
-    setSnackbarOpen(true);
+    navigator.clipboard.writeText(bankAccount)
+      .then(() => {
+        setSnackbarMessage(t("snackbarMessage.copiedUserId"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
+      })
+      .catch(() => {
+        setSnackbarMessage(t("snackbarMessage.copyFailed"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
+      });
   };
 
   return (
@@ -130,7 +138,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
                     justifyContent: "space-between",
                   }}
                   onClick={() => copyBankAccountToClipboard(storeDetail?.bankAccount || '')}
-                > 
+                >
                   <Box>
                     <Text>{storeDetail?.bankAccount}</Text>
                   </Box>
@@ -145,13 +153,13 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
           </List>
         </Box>
       </Box>
-      <div style={{ borderRadius: "10px" }}>
+      <div style={{ borderRadius: "10px", position: "fixed", bottom: 0, right: 0, margin: 20 }}>
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
               className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
             >
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {snackbarType === "success" && (
                   <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
                 )}
