@@ -243,14 +243,13 @@ const OrderManagement: React.FC = () => {
           ),
         }));
         
-        // Optionally, show a success message
-        setSnackbarMessage(t("orderManagement.statusUpdated")); // Ensure you have this translation
+        setSnackbarMessage(t("websocket.update_order")); 
         setSnackbarType("success");
         setSnackbarOpen(true);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      setSnackbarMessage(t("orderManagement.unexpectedError")); // Ensure you have this translation
+      setSnackbarMessage(String(error)); 
       setSnackbarType("error");
       setSnackbarOpen(true);
     }
