@@ -86,17 +86,13 @@ const StoreEditPage: React.FC = () => {
       const file = files[0]; 
   
       try {
-        // Upload ảnh lên server
         const response = await uploadImages(store.uuid, user.uuid, [file]);
         console.log("Upload successful:", response);
   
-        // Lấy URL từ phản hồi server
         const data = response.data.data;
-        const url = data?.urls?.[0] || ""; // Lấy URL đầu tiên
+        const url = data?.urls?.[0] || ""; 
   
         console.log("url", url);
-  
-        // Cập nhật state với URL ảnh
         setImage(url);
   
       } catch (error) {
