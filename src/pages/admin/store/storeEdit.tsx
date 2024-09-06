@@ -3,8 +3,6 @@ import { Button, Input, Box, Page, Select } from "zmp-ui";
 import { getStoreByUUID, updateStore, uploadImages } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-// import { getBaseUrl } from "../../../api/apiBase";
-// import { openMediaPicker } from "zmp-sdk/apis";
 import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { storeState, userState } from "../../../state";
@@ -39,7 +37,7 @@ const StoreEditPage: React.FC = () => {
   const [storeData, setStoreData] = useState<StoreData | undefined>(undefined);
   const [storeName, setStoreName] = useState<string | undefined>(undefined);
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
-  const [image, setImage] = useState<string[]>([]); 
+  const [image, setImage] = useState<string>("");
   const [imageUUID, setImageUUID] = useState<string>("");
   const store = useRecoilValue(storeState);
 
@@ -85,24 +83,21 @@ const StoreEditPage: React.FC = () => {
     const files = target.files;
   
     if (files && files.length > 0) {
-      const fileArray = Array.from(files);
+      const file = files[0]; 
   
       try {
-        const response = await uploadImages(store.uuid, user.uuid, fileArray);
+        // Upload ảnh lên server
+        const response = await uploadImages(store.uuid, user.uuid, [file]);
         console.log("Upload successful:", response);
   
+        // Lấy URL từ phản hồi server
         const data = response.data.data;
-        const urls = data?.urls || [];
+        const url = data?.urls?.[0] || ""; // Lấy URL đầu tiên
   
-        console.log("urls", urls);
+        console.log("url", url);
   
-        const newData = urls.map((url: string, index: number) => ({
-          src: url,
-          alt: `img ${image.length + index + 1}`,
-          key: `${image.length + index + 1}`,
-        }));
-  
-        setImage((prevImages) => [...prevImages, ...newData]);
+        // Cập nhật state với URL ảnh
+        setImage(url);
   
       } catch (error) {
         console.error("Upload failed:", error);
@@ -111,6 +106,7 @@ const StoreEditPage: React.FC = () => {
       console.log("No files selected.");
     }
   };
+  
   
 
   const handleSubmit = async () => {
@@ -162,22 +158,18 @@ const StoreEditPage: React.FC = () => {
             <Box style={{ position: "relative" }}>
               <img
                 className="img-store"
-                style={
-                  !image || image.length === 0
-                    ? { filter: "grayscale(1) opacity(0.5)" }
-                    : {}
-                }
-                src={image && image.length > 0 ? image[0] : DEFAULT_IMAGE_STORE} 
-              />
+                style={!image ? { filter: "grayscale(1) opacity(0.5)" } : {}}
+                src={image || DEFAULT_IMAGE_STORE}
+              ></img>
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
               </Box>
               <input
-                type="file"
-                hidden
-                id="chooseFile"
-                onChange={handleFileChange}
-              />
+              type="file"
+              hidden
+              id="chooseFile"
+              onChange={handleFileChange}
+            />
             </Box>
           </Box>
           <Box mb={2}>
@@ -235,7 +227,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-            <Select
+          <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
@@ -515,21 +507,13 @@ const StoreEditPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <div style={{ borderRadius: "10px" }}>
+        <div style={{borderRadius:'10px'}}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div
-                className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
-              >
-                <div style={{ display: "flex" }}>
-                  {snackbarType === "success" && (
-                    <CheckCircleIcon
-                      style={{ marginRight: 8, color: "green" }}
-                    />
-                  )}
-                  {snackbarType === "error" && (
-                    <ErrorIcon style={{ marginRight: 8, color: "red" }} />
-                  )}
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+                <div style={{display:'flex'}}>
+                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
+                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
                   {snackbarMessage}
                 </div>
               </div>
