@@ -26,8 +26,7 @@ const RecentScans: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
-
-  console.log(scanList);
+  // console.log(scanList);
 
   const toggleSelect = (index: number) => {
     setSelectedIndexes((prevSelectedIndexes) =>
