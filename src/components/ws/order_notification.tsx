@@ -224,7 +224,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             // });
 
             alert(
-              `${t("websocket.table_name", { tableName: message.table.name })}\n${notify}`
+              'update'
             );
 
           },
