@@ -78,12 +78,12 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
 
         <Box className="dish-info" mt={3}>
           <Box mb={3}>
-            <Text style={{ fontSize: "23px" }} bold>
+            <Text style={{ fontSize: "23px", color:'black' }} bold>
               {dish.name}
             </Text>
           </Box>
 
-          <Text style={{ fontSize: "15px", padding: "10px 0" }}>
+          <Text style={{ fontSize: "15px", padding: "10px 0",color:'black' }}>
             {dish.describe}
           </Text>
 
@@ -109,10 +109,10 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
                 }}
               />
             </Box>
-            <Box className="fs-24" style={{ marginTop: "2px" }}>
+            <Box className="fs-24" style={{ marginTop: "2px", color:'black' }}>
               {quantity}
             </Box>
-            <Box className="fs-24" px={3} onClick={() => {
+            <Box className="fs-24" px={3} style={{color:'black'}} onClick={() => {
                   setQuantity(quantity + 1);
                 }}>
               <Icon
