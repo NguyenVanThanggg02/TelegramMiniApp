@@ -337,6 +337,9 @@ const OrderManagementDetails: React.FC = () => {
         ...prevOrder,
         status: newStatus,
       })); 
+      setSnackbarMessage(t("websocket.update_order")); 
+      setSnackbarType("success");
+      setSnackbarOpen(true);
     } else {
       console.error("Error:", data.error);
       setSnackbarMessage(String(data.error));
