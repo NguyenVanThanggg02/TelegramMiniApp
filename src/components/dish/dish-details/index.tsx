@@ -56,11 +56,11 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
     <Modal visible={isShow} onClose={onClose} className="dish-details-modal">
       <Box className="container">
         <Box className="header" flex justifyContent="center">
-          <Box width={100} height={100} style={{ overflow: "hidden" }}>
+          <Box style={{ overflow: "hidden", height:'100%', width:'100%' }}>
             {dish.images && (
               <Swiper style={{ height: "100%" }}>
                 {dish.images.map((img) => (
-                  <Swiper.Slide key={img.uuid} style={{ height: "600px", width:'400px' }}>
+                  <Swiper.Slide key={img.uuid} style={{height:'100%', width:'100%' }}>
                     <img
                       style={{ verticalAlign: "center" }}
                       src={img.url}
