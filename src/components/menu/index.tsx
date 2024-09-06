@@ -616,7 +616,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/profile`)}
+          onClick={() => navigate(`/user/profilee`)}
 
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
