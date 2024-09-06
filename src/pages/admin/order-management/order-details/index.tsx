@@ -156,7 +156,7 @@ const OrderManagementDetails: React.FC = () => {
 
   const isEditableOrder = useMemo(
     () => order.status === ORDER_STATUS.PENDING,
-    [order],
+    [order.status],
   );
 
   const onOpenUpdateProduct = (product: Product) => {
