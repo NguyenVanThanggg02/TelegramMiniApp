@@ -12,7 +12,7 @@ import { priceFormatter } from "../../utils/numberFormatter";
 // import { useNavigate } from "react-router-dom";
 import { getSubdomain } from "@/api/cloudStorageManager";
 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 
@@ -98,7 +98,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const [snackbarType, setSnackbarType] = useState<"warning" | "error">("warning");
 
   const getOrderByUUID = async (order_uuid: string): Promise<Order | undefined> => {
     const data: ApiResponse<Order> = await fetchOrderByUUID(store.uuid, order_uuid);
@@ -239,11 +239,8 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
                 </Box>
               )
             );
-            setSnackbarType("success");
+            setSnackbarType("warning");
             setSnackbarOpen(true);
-
-
-
           },
         },
       );
@@ -260,11 +257,11 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
-              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+              className={`snackbar ${snackbarType === "warning" ? "snackbar-success" : "snackbar-error"}`}
             >
               <div style={{ display: "flex" }}>
-                {snackbarType === "success" && (
-                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                {snackbarType === "warning" && (
+                  <NotificationsNoneIcon style={{ marginRight: 8, color: "yellow" }} />
                 )}
                 {snackbarType === "error" && (
                   <ErrorIcon style={{ marginRight: 8, color: "red" }} />
