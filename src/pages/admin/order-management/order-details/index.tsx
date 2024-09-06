@@ -156,11 +156,10 @@ const OrderManagementDetails: React.FC = () => {
   const [isEditableOrder, setIsEditableOrder] = useState(true);
 
   useEffect(() => {
-    // Mỗi khi trạng thái của đơn hàng thay đổi, kiểm tra trạng thái hiện tại
     if (order.status !== ORDER_STATUS.PENDING) {
-      setIsEditableOrder(false); // Ẩn phần thêm món nếu trạng thái khác PENDING
+      setIsEditableOrder(false); // Ẩn  thêm món nếu trạng thái != pd
     } else {
-      setIsEditableOrder(true);  // Hiện phần thêm món nếu trạng thái là PENDING
+      setIsEditableOrder(true);  // Hiện nếu trạng thái là pd
     }
   }, [order.status]);
 
