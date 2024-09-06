@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import { Box } from "zmp-ui";
+// import { Box, Icon, useSnackbar } from "zmp-ui";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderListState, orderState, storeState } from "../../state";
 import { fetchOrderByUUID } from "../../api/api";
@@ -11,10 +11,6 @@ import { useTranslation } from "react-i18next";
 import { priceFormatter } from "../../utils/numberFormatter";
 // import { useNavigate } from "react-router-dom";
 import { getSubdomain } from "@/api/cloudStorageManager";
-
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import ErrorIcon from '@mui/icons-material/Error';
-import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface OrderNotificationProps {
   authToken: string;
@@ -95,10 +91,6 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   const [, setOrder] = useRecoilState(orderState);
   const [subdomain, setSubdomain] = useState<string | undefined>();
   // const navigate = useNavigate();
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState<"warning" | "error">("warning");
 
   const getOrderByUUID = async (order_uuid: string): Promise<Order | undefined> => {
     const data: ApiResponse<Order> = await fetchOrderByUUID(store.uuid, order_uuid);
@@ -182,9 +174,6 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
 
             let notify = "";
             const { type, message } = data;
-            const table = message.table?.name
-            console.log("Table name:", message.table?.name);
-            console.log("Notification type:", message.notification_type);
 
             if (type === TYPE_SOCKET.ORDER) {
               switch (message.notification_type) {
@@ -214,16 +203,16 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
 
             // Snackbar
             // snackbar.openSnackbar({
-              // duration: 30000,
-              // text: String(
-              //   <Box>
-              //     <Box>[{message.table.name}]</Box>
-              //     {notify}
-              //   </Box>
-              // ),
-              // prefixIcon: (
-              //   <Icon icon="zi-notif-ring" style={{ color: "yellow" }} />
-              // ),
+            //   duration: 30000,
+            //   text: String(
+            //     <Box>
+            //       <Box>[{message.table.name}]</Box>
+            //       {notify}
+            //     </Box>
+            //   ),
+            //   prefixIcon: (
+            //     <Icon icon="zi-notif-ring" style={{ color: "yellow" }} />
+            //   ),
             //   type: "countdown",
             //   action: {
             //     text: t("websocket.view_detail"),
@@ -234,9 +223,10 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             //   zIndex: 7000,
             // });
 
-            setSnackbarMessage(String(table && notify))
-            setSnackbarType("warning");
-            setSnackbarOpen(true);
+            alert(
+              `${t("websocket.table_name", { tableName: message.table.name })}\n${notify}`
+            );
+
           },
         },
       );
@@ -247,29 +237,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
     }
   }, [authToken, store_uuid, subdomain, orderList]);
 
-  return (
-    <div>
-      <div style={{ borderRadius: "10px" }}>
-        {snackbarOpen && (
-          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-            <div
-              className={`snackbar ${snackbarType === "warning" ? "snackbar-success" : "snackbar-error"}`}
-            >
-              <div style={{ display: "flex" }}>
-                {snackbarType === "warning" && (
-                  <NotificationsNoneIcon style={{ marginRight: 8, color: "yellow" }} />
-                )}
-                {snackbarType === "error" && (
-                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
-                )}
-                {snackbarMessage}
-              </div>
-            </div>
-          </Snackbar>
-        )}
-      </div>
-    </div>
-  );
+  return <div>{/* Your component UI here */}</div>;
 };
 
 export default OrderNotification;
