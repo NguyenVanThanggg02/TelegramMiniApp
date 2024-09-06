@@ -234,14 +234,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             //   zIndex: 7000,
             // });
 
-            setSnackbarMessage(
-              String(
-                <Box>
-                  <Box>{table}</Box>
-                  {notify || "No notification message"}
-                </Box>
-              )
-            );
+            setSnackbarMessage(String(table && notify))
             setSnackbarType("warning");
             setSnackbarOpen(true);
           },
