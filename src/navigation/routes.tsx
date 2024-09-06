@@ -59,7 +59,7 @@ export const routes: Route[] = [
   { path: '/user/order/:store_uuid', Component: OrderPage},
   { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
   { path: '/user/profile', Component: ProfilePage},
-  { path: '/user/profilee', Component: ProfilePageBottomNavBar},
+  { path: '/user/profile/bottomnavbar', Component: ProfilePageBottomNavBar},
 
   // { path: '/user/order/:store_uuid', Component: () => <PageWithBottomNavBar><OrderPage /></PageWithBottomNavBar> },
   // { path: "/menu/:store_uuid/:table_uuid", Component: () => <PageWithBottomNavBar><MenuCommonPage /></PageWithBottomNavBar> },
