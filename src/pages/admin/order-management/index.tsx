@@ -207,13 +207,13 @@ const OrderManagement: React.FC = () => {
   // const onChangeStatus = async (order: Order, newStatus: string) => {
   //   const payload = {
   //     status: newStatus,
-  //   };
+  //   };  
   //   const data = await updateStatusOrderRequest(order.uuid, payload);
   //   if (data?.error) {
   //     console.error("Error:", data.error);
 
   //     setSnackbarMessage(String(data.error));
-  //     setSnackbarType("error");
+  //     setSnackbarType("error"); 
   //     setSnackbarOpen(true);
   //   }
   // };
