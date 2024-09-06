@@ -390,13 +390,13 @@ const ProfilePageBottomNavBar: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            color: "#f44336",
+            color: "#757575",
             fontSize: "12px",
           }}
           onClick={() => navigate(`/user/order/${store_uuid}`)}
         >
           <AssignmentOutlinedIcon
-            style={{ color: "#f44336", fontSize: "24px" }}
+            style={{ color: "#757575", fontSize: "24px" }}
           />
           <span>{t("navbar.order")}</span>
         </Box>
@@ -407,12 +407,12 @@ const ProfilePageBottomNavBar: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            color: "#757575",
+            color: "#f44336",
             fontSize: "12px",
           }}
           onClick={() => navigate('/user/profile/bottomnavbar')}
         >
-          <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
+          <PersonOutlinedIcon style={{ color: "#f44336", fontSize: "24px" }} />
           <span>{t("navbar.user")}</span>
         </Box>
       </Box>
