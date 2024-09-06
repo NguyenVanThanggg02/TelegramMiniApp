@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import { Box } from "zmp-ui";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderListState, orderState, storeState } from "../../state";
 import { fetchOrderByUUID } from "../../api/api";
 import createCable from "./cable";
 import { TYPE_SOCKET, ORDER_STATUS } from "../../constants";
 import { clone } from "lodash";
-// import { vibrate } from "zmp-sdk/apis";
 import { useTranslation } from "react-i18next";
 import { priceFormatter } from "../../utils/numberFormatter";
 // import { useNavigate } from "react-router-dom";
@@ -88,7 +86,6 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   authToken,
   store_uuid,
 }) => {
-  // const snackbar = useSnackbar();
   const store = useRecoilValue(storeState);
   const { t } = useTranslation("global");
   const [orderList, setOrderList] = useRecoilState(orderListState);
@@ -110,18 +107,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
     }
   };
   
-
-  const handleVibrate = async () => {
-    // await vibrate({
-    //   milliseconds: 5000,
-    //   type: "oneShot", 
-    //   success: () => {},  
-    //   fail: (error) => {
-    //     console.log(error);
-    //   },
-    // });
-  };
-  
+ 
   
   // const handleSnackbarActionClick = (order_uuid: string, store_uuid: string) => {
   //   navigate({
@@ -191,7 +177,6 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
                 case "create":
                   notify = `${t("websocket.new_order")}`;
                   handleUpdateOrderList(message, "create");
-                  handleVibrate();
                   break;
 
                 case "update":
@@ -199,7 +184,6 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
                     notify = `${t("websocket.wait_for_pay")} | ${t(
                       "websocket.value",
                     )}: ${priceFormatter(message.value)}₫`;
-                    handleVibrate();
                   } else {
                     notify = `${t("websocket.update_order")}`;
                   }
