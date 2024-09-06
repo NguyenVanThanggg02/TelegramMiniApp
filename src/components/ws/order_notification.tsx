@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Icon, useSnackbar } from "zmp-ui";
+import { Box } from "zmp-ui";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderListState, orderState, storeState } from "../../state";
 import { fetchOrderByUUID } from "../../api/api";
@@ -9,8 +9,12 @@ import { clone } from "lodash";
 // import { vibrate } from "zmp-sdk/apis";
 import { useTranslation } from "react-i18next";
 import { priceFormatter } from "../../utils/numberFormatter";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { getSubdomain } from "@/api/cloudStorageManager";
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Snackbar } from "@telegram-apps/telegram-ui";
 
 interface OrderNotificationProps {
   authToken: string;
@@ -84,13 +88,17 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   authToken,
   store_uuid,
 }) => {
-  const snackbar = useSnackbar();
+  // const snackbar = useSnackbar();
   const store = useRecoilValue(storeState);
   const { t } = useTranslation("global");
   const [orderList, setOrderList] = useRecoilState(orderListState);
   const [, setOrder] = useRecoilState(orderState);
   const [subdomain, setSubdomain] = useState<string | undefined>();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
 
   const getOrderByUUID = async (order_uuid: string): Promise<Order | undefined> => {
     const data: ApiResponse<Order> = await fetchOrderByUUID(store.uuid, order_uuid);
@@ -112,15 +120,14 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
     //     console.log(error);
     //   },
     // });
-    console.log("Vibrate function is called");
   };
   
   
-  const handleSnackbarActionClick = (order_uuid: string, store_uuid: string) => {
-    navigate({
-      pathname: `/admin/order-management/details/index/${order_uuid}/${store_uuid}`,
-    });
-  };
+  // const handleSnackbarActionClick = (order_uuid: string, store_uuid: string) => {
+  //   navigate({
+  //     pathname: `/admin/order-management/details/index/${order_uuid}/${store_uuid}`,
+  //   });
+  // };
 
   const handleUpdateOrderList = async (data: WebSocketData["message"], type: "create" | "update") => {
     const newOrder = await getOrderByUUID(data.uuid);
@@ -203,26 +210,40 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             }
 
             // Snackbar
-            snackbar.openSnackbar({
-              duration: 30000,
-              text: String(
+            // snackbar.openSnackbar({
+              // duration: 30000,
+              // text: String(
+              //   <Box>
+              //     <Box>[{message.table.name}]</Box>
+              //     {notify}
+              //   </Box>
+              // ),
+              // prefixIcon: (
+              //   <Icon icon="zi-notif-ring" style={{ color: "yellow" }} />
+              // ),
+            //   type: "countdown",
+            //   action: {
+            //     text: t("websocket.view_detail"),
+            //     close: true,
+            //     onClick: () =>
+            //       handleSnackbarActionClick(message.uuid, message.store_uuid),
+            //   },
+            //   zIndex: 7000,
+            // });
+
+            setSnackbarMessage(
+              String(
                 <Box>
                   <Box>[{message.table.name}]</Box>
                   {notify}
                 </Box>
-              ),
-              prefixIcon: (
-                <Icon icon="zi-notif-ring" style={{ color: "yellow" }} />
-              ),
-              type: "countdown",
-              action: {
-                text: t("websocket.view_detail"),
-                close: true,
-                onClick: () =>
-                  handleSnackbarActionClick(message.uuid, message.store_uuid),
-              },
-              zIndex: 7000,
-            });
+              )
+            );
+            setSnackbarType("success");
+            setSnackbarOpen(true);
+
+
+
           },
         },
       );
@@ -233,7 +254,29 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
     }
   }, [authToken, store_uuid, subdomain, orderList]);
 
-  return <div>{/* Your component UI here */}</div>;
+  return (
+    <div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
+              </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default OrderNotification;
