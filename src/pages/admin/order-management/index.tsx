@@ -204,21 +204,59 @@ const OrderManagement: React.FC = () => {
   );
   
 
+  // const onChangeStatus = async (order: Order, newStatus: string) => {
+  //   const payload = {
+  //     status: newStatus,
+  //   };
+  //   const data = await updateStatusOrderRequest(order.uuid, payload);
+  //   if (data?.error) {
+  //     console.error("Error:", data.error);
+
+  //     setSnackbarMessage(String(data.error));
+  //     setSnackbarType("error");
+  //     setSnackbarOpen(true);
+  //   }
+  // };
+
+
   const onChangeStatus = async (order: Order, newStatus: string) => {
     const payload = {
       status: newStatus,
     };
-    const respone = await updateStatusOrderRequest(order.uuid, payload);
-    const data = respone.data
-    if (data?.error) {
-      console.error("Error:", data.error);
-
-      setSnackbarMessage(String(data.error));
+    
+    try {
+      const data = await updateStatusOrderRequest(order.uuid, payload);
+      
+      if (data?.error) {
+        console.error("Error:", data.error);
+        setSnackbarMessage(String(data.error));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
+      } else {
+        
+        setOrderList((prev) => ({
+          ...prev,
+          orders: prev.orders.map((o) =>
+            o.uuid === order.uuid ? { ...o, status: newStatus } : o
+          ).sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+          ),
+        }));
+        
+        // Optionally, show a success message
+        setSnackbarMessage(t("orderManagement.statusUpdated")); // Ensure you have this translation
+        setSnackbarType("success");
+        setSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      setSnackbarMessage(t("orderManagement.unexpectedError")); // Ensure you have this translation
       setSnackbarType("error");
       setSnackbarOpen(true);
     }
   };
   
+
 
   const goToOrderDetails = (order: Order) => {
     navigate(
