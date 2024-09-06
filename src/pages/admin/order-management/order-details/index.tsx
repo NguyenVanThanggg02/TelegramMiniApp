@@ -156,7 +156,7 @@ const OrderManagementDetails: React.FC = () => {
 
   const isEditableOrder = useMemo(
     () => order.status === ORDER_STATUS.PENDING,
-    [order],
+    [order.status],
   );
 
   const onOpenUpdateProduct = (product: Product) => {
@@ -244,9 +244,6 @@ const OrderManagementDetails: React.FC = () => {
     onSubmitUpdateProductOrder(payload);
   };
   
-  
-
-
   const onUpdateNotes = () => {
     const payload: Payload = {
       store_uuid: order.store_uuid,   
@@ -262,7 +259,6 @@ const OrderManagementDetails: React.FC = () => {
     onSubmitUpdateProductOrder(payload);
   };
   
-
   const onAddProductToOrder = (newProducts: Product[]) => {
     const payload: Payload = {
         store_uuid: order.store_uuid,
