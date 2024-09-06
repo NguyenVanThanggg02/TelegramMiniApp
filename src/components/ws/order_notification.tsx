@@ -186,6 +186,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             const table = message.table?.name
             console.log("Table name:", message.table?.name);
             console.log("Notification type:", message.notification_type);
+            console.log("actual_payment_amount:", message.actual_payment_amount);
 
             if (type === TYPE_SOCKET.ORDER) {
               switch (message.notification_type) {
@@ -198,7 +199,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
                 case "update":
                   if (message.status === ORDER_STATUS.WAIT_FOR_PAY) {
                     notify = `${t("websocket.wait_for_pay")} | ${t(
-                      "websocket.actual_payment_amount",
+                      "websocket.value",
                     )}: ${priceFormatter(message.actual_payment_amount)}₫`;
                     handleVibrate();
                   } else {
