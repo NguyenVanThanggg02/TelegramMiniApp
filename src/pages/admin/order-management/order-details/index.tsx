@@ -717,6 +717,7 @@ const OrderManagementDetails: React.FC = () => {
             </Box>
 
             {/* {invoiceData?.voucher && ( */}
+            {order.value != order?.actual_payment_amount &&
               <>
                 <Box flex justifyContent="space-between" className="red-color">
                   {/* <Text style={{color:'black'}}>{voucherInformation}</Text> */}
@@ -742,6 +743,7 @@ const OrderManagementDetails: React.FC = () => {
                   </Text>
                 </Box>
               </>
+              }
             {/* )} */}
           </Box>
 
