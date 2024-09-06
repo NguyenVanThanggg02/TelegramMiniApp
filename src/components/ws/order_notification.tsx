@@ -198,7 +198,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
                 case "update":
                   if (message.status === ORDER_STATUS.WAIT_FOR_PAY) {
                     notify = `${t("websocket.wait_for_pay")} | ${t(
-                      "websocket.value",
+                      "websocket.actual_payment_amount",
                     )}: ${priceFormatter(message.actual_payment_amount)}₫`;
                     handleVibrate();
                   } else {
