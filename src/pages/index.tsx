@@ -83,7 +83,6 @@ const Index: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log(hostname);
     const isLocalhost = hostname === "localhost";
     console.log(isLocalhost ? "Running on localhost" : "Not localhost");
     if (!isLocalhost) {
@@ -187,7 +186,7 @@ const Index: React.FC = () => {
 
   const redirectToMenu = (storeId: string, tableId: string, tenantId: string) => {
     navigate({
-      pathname: `/menu/${storeId}/${tableId}`,
+      pathname: `/menuu/${storeId}/${tableId}`,
       search: `?tenant_id=${tenantId}`,
     });
   };
