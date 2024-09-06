@@ -750,7 +750,7 @@ const OrderManagementDetails: React.FC = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setNotes(e.target.value)
               }
-              disabled={!enabledNotes}
+              // disabled={!enabledNotes}
               style={{color:'black'}}
             />
 
