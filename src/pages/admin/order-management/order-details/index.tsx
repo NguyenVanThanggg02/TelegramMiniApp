@@ -153,11 +153,21 @@ const OrderManagementDetails: React.FC = () => {
   const [selectedProduct, setSelectedProduct ] = useState<Product>({} as Product);
   const [enabledNotes, setEnabledNotes] = useState(false);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
+  const [isEditableOrder, setIsEditableOrder] = useState(true);
 
-  const isEditableOrder = useMemo(
-    () => order.status === ORDER_STATUS.PENDING,
-    [order.status]
-  );
+  useEffect(() => {
+    // Mỗi khi trạng thái của đơn hàng thay đổi, kiểm tra trạng thái hiện tại
+    if (order.status !== ORDER_STATUS.PENDING) {
+      setIsEditableOrder(false); // Ẩn phần thêm món nếu trạng thái khác PENDING
+    } else {
+      setIsEditableOrder(true);  // Hiện phần thêm món nếu trạng thái là PENDING
+    }
+  }, [order.status]);
+
+  // const isEditableOrder = useMemo(
+  //   () => order.status === ORDER_STATUS.PENDING,
+  //   [order.status]
+  // );
 
   const onOpenUpdateProduct = (product: Product) => {
     setIsShowOrderUpdate(true);
@@ -323,7 +333,12 @@ const OrderManagementDetails: React.FC = () => {
         );
       }
     const data = await updateStatusOrderRequest(order.uuid, payload);
-    if (data?.error) {
+      if (!data?.error) {
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        status: newStatus,
+      })); 
+    } else {
       console.error("Error:", data.error);
       setSnackbarMessage(String(data.error));
       setSnackbarType("error");
