@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
+import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import {
   cartState,
   categoryListState,
@@ -117,7 +120,7 @@ const defaultProduct: Product = {
 };
 
 
-const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
+const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
   const [searchParams, ] = useSearchParams();
@@ -143,6 +146,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -552,8 +558,73 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           />
         </Box>
       </Page>
+      <Box
+        flex
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+          alignItems: "center",
+          borderTop: "1px solid #e0e0e0",
+          backgroundColor: "#fff",
+          position: "sticky",
+          bottom: 0, 
+          left: 0, 
+          right: 0, 
+        }}
+      >
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#f44336",
+            fontSize: "12px",
+          }}
+          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
+        >
+          <RestaurantMenuOutlinedIcon
+            style={{ color: "#f44336", fontSize: "24px" }}
+          />
+          <span>{t("navbar.menu")}</span>
+        </Box>
+
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#757575",
+            fontSize: "12px",
+          }}
+          onClick={() => navigate(`/user/order/${store_uuid}`)}
+        >
+          <AssignmentOutlinedIcon
+            style={{ color: "#757575", fontSize: "24px" }}
+          />
+          <span>{t("navbar.order")}</span>
+        </Box>
+
+        <Box
+          flex
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            color: "#757575",
+            fontSize: "12px",
+          }}
+          onClick={() => navigate(`/user/profile/bottomnavbar`)}
+
+        >
+          <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
+          <span>{t("navbar.user")}</span>
+        </Box>
+      </Box>
     </>
   );
 };
 
-export default MenuCommonPage;
+export default MenuBottomCommonPage;

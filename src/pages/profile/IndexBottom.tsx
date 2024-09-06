@@ -376,7 +376,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
+          onClick={() => navigate(`/menuu/${store_uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
