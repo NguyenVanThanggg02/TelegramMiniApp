@@ -6,11 +6,11 @@ import { fetchOrderByUUID } from "../../api/api";
 import createCable from "./cable";
 import { TYPE_SOCKET, ORDER_STATUS } from "../../constants";
 import { clone } from "lodash";
-// import { vibrate } from "zmp-sdk/apis";
 import { useTranslation } from "react-i18next";
 import { priceFormatter } from "../../utils/numberFormatter";
 import { useNavigate } from "react-router-dom";
 import { getSubdomain } from "@/api/cloudStorageManager";
+import { vibrate } from "zmp-sdk";
 
 interface OrderNotificationProps {
   authToken: string;
@@ -104,14 +104,14 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   
 
   const handleVibrate = async () => {
-    // await vibrate({
-    //   milliseconds: 5000,
-    //   type: "oneShot", 
-    //   success: () => {},  
-    //   fail: (error) => {
-    //     console.log(error);
-    //   },
-    // });
+    await vibrate({
+      milliseconds: 5000,
+      type: "oneShot", 
+      success: () => {},  
+      fail: (error) => {
+        console.log(error);
+      },
+    });
   };
   
   
