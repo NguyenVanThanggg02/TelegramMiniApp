@@ -183,6 +183,11 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             let notify = "";
             const { type, message } = data;
 
+            console.log("Message content:", message);
+            console.log("Table name:", message.table?.name);
+            console.log("Notification type:", message.notification_type);
+            console.log("Value:", message.value);
+
             if (type === TYPE_SOCKET.ORDER) {
               switch (message.notification_type) {
                 case "create":
@@ -234,8 +239,8 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             setSnackbarMessage(
               String(
                 <Box>
-                  <Box>[{message.table.name}]</Box>
-                  {notify}
+                  <Box>[{message.table?.name || "Unknown Table"}]</Box>
+                  {notify || "No notification message"}
                 </Box>
               )
             );
