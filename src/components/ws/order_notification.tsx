@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "zmp-ui";
+// import { Box } from "zmp-ui";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderListState, orderState, storeState } from "../../state";
 import { fetchOrderByUUID } from "../../api/api";
