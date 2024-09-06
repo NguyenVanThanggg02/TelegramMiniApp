@@ -163,9 +163,11 @@ const StoreEditPage: React.FC = () => {
               <img
                 className="img-store"
                 style={
-                  !image?.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
+                  !image || image.length === 0
+                    ? { filter: "grayscale(1) opacity(0.5)" }
+                    : {}
                 }
-                src={image.length > 0 ? image[0] : DEFAULT_IMAGE_STORE} 
+                src={image && image.length > 0 ? image[0] : DEFAULT_IMAGE_STORE} 
               />
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
