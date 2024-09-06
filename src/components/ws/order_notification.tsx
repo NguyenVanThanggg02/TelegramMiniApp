@@ -224,7 +224,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
             // });
 
             alert(
-              'update'
+              `update${notify}`
             );
 
           },
