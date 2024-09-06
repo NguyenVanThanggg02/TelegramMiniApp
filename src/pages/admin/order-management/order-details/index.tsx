@@ -20,12 +20,12 @@ import {
   userState,
 } from "../../../../state";
 import { priceFormatter } from "../../../../utils/numberFormatter";
-import { shortPriceFormatter } from "../../../../utils/shortPriceFormatter";
+// import { shortPriceFormatter } from "../../../../utils/shortPriceFormatter";
 import {
   DEFAULT_IMAGE_PRODUCT,
   ORDER_STATUS,
   PRODUCT_ORDER_STATUS,
-  VOUCHER_TYPE,
+  // VOUCHER_TYPE,
 } from "../../../../constants";
 import "./styles.scss";
 import { timePeriodFormatter } from "../../../../utils/timePeriodFormatter";
@@ -146,7 +146,8 @@ const OrderManagementDetails: React.FC = () => {
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [order, setOrder] = useState({} as Order);
   const [statusOrderSlider, setStatusOrderSlider] = useState(0);
-  const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
+  // const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
+  const [, setInvoiceData] = useState<InvoiceData | null>(null);
   const [notes, setNotes] = useState("");
   const [isShowOrderUpdate, setIsShowOrderUpdate] = useState(false);
   const [selectedProduct, setSelectedProduct ] = useState<Product>({} as Product);
@@ -357,27 +358,27 @@ const OrderManagementDetails: React.FC = () => {
     sum(order.products.map((item) => (item.unit_price ?? 0) * (item.quantity ?? 0))),
     [order],
   );
-  const voucherInformation = useMemo(() => {
-    if (!invoiceData?.voucher) return;
+  // const voucherInformation = useMemo(() => {
+  //   if (!invoiceData?.voucher) return;
 
-    const { voucher_type, voucher_value, voucher_min_order_value } =
-      invoiceData.voucher;
+  //   const { voucher_type, voucher_value, voucher_min_order_value } =
+  //     invoiceData.voucher;
 
-    switch (voucher_type) {
-      case VOUCHER_TYPE.BY_PERCENT:
-        return t("userOrder.voucherInformation", {
-          voucherValue: `${voucher_value}%`,
-          bill: `${shortPriceFormatter(voucher_min_order_value)}`,
-        });
-      case VOUCHER_TYPE.BY_VALUE:
-        return t("userOrder.voucherInformation", {
-          voucherValue: `${shortPriceFormatter(voucher_value)}`,
-          bill: `${shortPriceFormatter(voucher_min_order_value)}`,
-        });
-      default:
-        return "";
-    }
-  }, [invoiceData]);
+  //   switch (voucher_type) {
+  //     case VOUCHER_TYPE.BY_PERCENT:
+  //       return t("userOrder.voucherInformation", {
+  //         voucherValue: `${voucher_value}%`,
+  //         bill: `${shortPriceFormatter(voucher_min_order_value)}`,
+  //       });
+  //     case VOUCHER_TYPE.BY_VALUE:
+  //       return t("userOrder.voucherInformation", {
+  //         voucherValue: `${shortPriceFormatter(voucher_value)}`,
+  //         bill: `${shortPriceFormatter(voucher_min_order_value)}`,
+  //       });
+  //     default:
+  //       return "";
+  //   }
+  // }, [invoiceData]);
   const table = useMemo(
     () =>
       !isEmpty(order) &&
@@ -715,11 +716,12 @@ const OrderManagementDetails: React.FC = () => {
               <Text size="large" style={{color:'black'}}>{priceFormatter(totalBill)}₫</Text>
             </Box>
 
-            {invoiceData?.voucher && (
+            {/* {invoiceData?.voucher && ( */}
               <>
                 <Box flex justifyContent="space-between" className="red-color">
-                  <Text style={{color:'black'}}>{voucherInformation}</Text>
-                  <Text style={{color:'black'}}>
+                  {/* <Text style={{color:'black'}}>{voucherInformation}</Text> */}
+                  <Text>{t("orderManagement.orderDetail.reduce")}:</Text>
+                  <Text>
                     -
                     {priceFormatter(order.value - order?.actual_payment_amount)}
                     ₫
@@ -740,7 +742,7 @@ const OrderManagementDetails: React.FC = () => {
                   </Text>
                 </Box>
               </>
-            )}
+            {/* )} */}
           </Box>
 
           <Box flex alignContent="center" style={{ paddingTop: 0, gap: "8px" }}>
