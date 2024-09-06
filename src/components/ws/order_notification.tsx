@@ -112,6 +112,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
     //     console.log(error);
     //   },
     // });
+    console.log("Vibrate function is called");
   };
   
   
