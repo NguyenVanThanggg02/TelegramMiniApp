@@ -201,31 +201,8 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
               }
             }
 
-            // Snackbar
-            // snackbar.openSnackbar({
-            //   duration: 30000,
-            //   text: String(
-            //     <Box>
-            //       <Box>[{message.table.name}]</Box>
-            //       {notify}
-            //     </Box>
-            //   ),
-            //   prefixIcon: (
-            //     <Icon icon="zi-notif-ring" style={{ color: "yellow" }} />
-            //   ),
-            //   type: "countdown",
-            //   action: {
-            //     text: t("websocket.view_detail"),
-            //     close: true,
-            //     onClick: () =>
-            //       handleSnackbarActionClick(message.uuid, message.store_uuid),
-            //   },
-            //   zIndex: 7000,
-            // });
-
-            alert(
-              `update${notify}`
-            );
+            // Sử dụng alert thay cho snackbar
+            alert(`[${message.table.name}] ${notify}`);
 
           },
         },
@@ -236,6 +213,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
       };
     }
   }, [authToken, store_uuid, subdomain, orderList]);
+
 
   return <div>{/* Your component UI here */}</div>;
 };
