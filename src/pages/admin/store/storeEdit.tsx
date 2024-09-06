@@ -160,16 +160,19 @@ const StoreEditPage: React.FC = () => {
                 className="img-store"
                 style={!image ? { filter: "grayscale(1) opacity(0.5)" } : {}}
                 src={image || DEFAULT_IMAGE_STORE}
-              ></img>
-              <Box className="upload-photo-icon">
+              />
+              <Box
+                className="upload-photo-icon"
+                onClick={() => document.getElementById("chooseFile")?.click()}
+              >
                 <CameraAltIcon />
               </Box>
               <input
-              type="file"
-              hidden
-              id="chooseFile"
-              onChange={handleFileChange}
-            />
+                type="file"
+                id="chooseFile"
+                hidden
+                onChange={handleFileChange}
+              />
             </Box>
           </Box>
           <Box mb={2}>
@@ -227,7 +230,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-          <Select
+            <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
@@ -507,13 +510,21 @@ const StoreEditPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <div style={{borderRadius:'10px'}}>
+        <div style={{ borderRadius: "10px" }}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+              <div
+                className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+              >
+                <div style={{ display: "flex" }}>
+                  {snackbarType === "success" && (
+                    <CheckCircleIcon
+                      style={{ marginRight: 8, color: "green" }}
+                    />
+                  )}
+                  {snackbarType === "error" && (
+                    <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                  )}
                   {snackbarMessage}
                 </div>
               </div>
