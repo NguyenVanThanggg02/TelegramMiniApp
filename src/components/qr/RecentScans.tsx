@@ -78,7 +78,7 @@ const RecentScans: React.FC = () => {
 
   const redirectToMenu = (storeId: string, tableId: string, tenantId: string) => {
     navigate({
-      pathname: `/menu/${storeId}/${tableId}`,
+      pathname: `/menuu/${storeId}/${tableId}`,
       search: `?tenant_id=${tenantId}`,
     });
   };
