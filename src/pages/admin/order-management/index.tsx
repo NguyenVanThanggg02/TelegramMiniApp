@@ -208,7 +208,8 @@ const OrderManagement: React.FC = () => {
     const payload = {
       status: newStatus,
     };
-    const data = await updateStatusOrderRequest(order.uuid, payload);
+    const respone = await updateStatusOrderRequest(order.uuid, payload);
+    const data = respone.data
     if (data?.error) {
       console.error("Error:", data.error);
 
@@ -217,6 +218,7 @@ const OrderManagement: React.FC = () => {
       setSnackbarOpen(true);
     }
   };
+  
 
   const goToOrderDetails = (order: Order) => {
     navigate(
