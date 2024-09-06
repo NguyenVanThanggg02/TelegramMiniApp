@@ -29,7 +29,6 @@ interface WebSocketData {
     notification_type: string;
     status: string;
     value: number;
-    actual_payment_amount:number,
     table: {
       name: string;
     };
@@ -199,7 +198,7 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
                   if (message.status === ORDER_STATUS.WAIT_FOR_PAY) {
                     notify = `${t("websocket.wait_for_pay")} | ${t(
                       "websocket.value",
-                    )}: ${priceFormatter(message.actual_payment_amount)}₫`;
+                    )}: ${priceFormatter(message.value)}₫`;
                     handleVibrate();
                   } else {
                     notify = `${t("websocket.update_order")}`;
