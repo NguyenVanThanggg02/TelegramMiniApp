@@ -1,14 +1,14 @@
-import React, {useEffect, useState } from "react";
+import React, {ChangeEvent, useEffect, useState } from "react";
 import { Button, Input, Box, Page, Select } from "zmp-ui";
-import { getStoreByUUID, updateStore } from "../../../api/api";
+import { getStoreByUUID, updateStore, uploadImages } from "../../../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getBaseUrl } from "../../../api/apiBase";
-import { openMediaPicker } from "zmp-sdk/apis";
+// import { getBaseUrl } from "../../../api/apiBase";
+// import { openMediaPicker } from "zmp-sdk/apis";
 import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { userState } from "../../../state";
-import { useRecoilState } from "recoil";
+import { storeState, userState } from "../../../state";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { SelectValueType } from "zmp-ui/select";
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -39,8 +39,9 @@ const StoreEditPage: React.FC = () => {
   const [storeData, setStoreData] = useState<StoreData | undefined>(undefined);
   const [storeName, setStoreName] = useState<string | undefined>(undefined);
   const [storeDetail, setStoreDetail] = useState<StoreDetail>({});
-  const [image, setImage] = useState<string>("");
+  const [image, setImage] = useState<string[]>([]); 
   const [imageUUID, setImageUUID] = useState<string>("");
+  const store = useRecoilValue(storeState);
 
   const navigate = useNavigate();
 
@@ -79,32 +80,38 @@ const StoreEditPage: React.FC = () => {
     getStoreDetail();
   }, []);
 
-  const handleSubmitPicture = async () => {
-    const baseUrl = await getBaseUrl();
-    openMediaPicker({
-      type: "photo",
-      serverUploadUrl: `${baseUrl}/v1/attachment/${store_uuid}/${user.uuid}`,
-      success: (res) => {
-        const obj = JSON.parse(res.data);
-        const data = obj.data;
-        console.log(`-----------------`);
-        console.log(`data: ${data}`);
-
-        setImage(data.urls[0]);
-        setImageUUID(data.uuids[0]);
-
-        setSnackbarMessage(t("snackbarMessage.uploadImageSuccess"));
-        setSnackbarType("success");
-        setSnackbarOpen(true);
-      },
-      fail: (error) => {
-        console.log(error);
-        setSnackbarMessage(t("snackbarMessage.uploadImageFail"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      },
-    });
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const files = target.files;
+  
+    if (files && files.length > 0) {
+      const fileArray = Array.from(files);
+  
+      try {
+        const response = await uploadImages(store.uuid, user.uuid, fileArray);
+        console.log("Upload successful:", response);
+  
+        const data = response.data.data;
+        const urls = data?.urls || [];
+  
+        console.log("urls", urls);
+  
+        const newData = urls.map((url: string, index: number) => ({
+          src: url,
+          alt: `img ${image.length + index + 1}`,
+          key: `${image.length + index + 1}`,
+        }));
+  
+        setImage((prevImages) => [...prevImages, ...newData]);
+  
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
+    } else {
+      console.log("No files selected.");
+    }
   };
+  
 
   const handleSubmit = async () => {
     const metadataStore = {
@@ -152,15 +159,23 @@ const StoreEditPage: React.FC = () => {
       <div className="section-container">
         <Box>
           <Box flex justifyContent="center" alignItems="center" mb={5}>
-            <Box style={{ position: "relative" }} onClick={handleSubmitPicture}>
+            <Box style={{ position: "relative" }}>
               <img
                 className="img-store"
-                style={!image ? { filter: "grayscale(1) opacity(0.5)" } : {}}
-                src={image || DEFAULT_IMAGE_STORE}
-              ></img>
+                style={
+                  !image?.length ? { filter: "grayscale(1) opacity(0.5)" } : {}
+                }
+                src={image.length > 0 ? image[0] : DEFAULT_IMAGE_STORE} 
+              />
               <Box className="upload-photo-icon">
                 <CameraAltIcon />
               </Box>
+              <input
+                type="file"
+                hidden
+                id="chooseFile"
+                onChange={handleFileChange}
+              />
             </Box>
           </Box>
           <Box mb={2}>
@@ -218,7 +233,7 @@ const StoreEditPage: React.FC = () => {
           </Box>
 
           <Box mb={2}>
-          <Select
+            <Select
               label={t("editStore.bankName")}
               placeholder={t("editStore.selectBank")}
               value={storeDetail?.bankName}
@@ -498,13 +513,21 @@ const StoreEditPage: React.FC = () => {
             </Button>
           </Box>
         </Box>
-        <div style={{borderRadius:'10px'}}>
+        <div style={{ borderRadius: "10px" }}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
+              <div
+                className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+              >
+                <div style={{ display: "flex" }}>
+                  {snackbarType === "success" && (
+                    <CheckCircleIcon
+                      style={{ marginRight: 8, color: "green" }}
+                    />
+                  )}
+                  {snackbarType === "error" && (
+                    <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                  )}
                   {snackbarMessage}
                 </div>
               </div>
