@@ -147,7 +147,7 @@ const StoreFormPage: React.FC = () => {
           navigate(-1); 
         }, 2000);
     } else {
-      setSnackbarMessage(String(response.error));
+      setSnackbarMessage(String(data.error));
       setSnackbarType("error");
       setSnackbarOpen(true);
     }
