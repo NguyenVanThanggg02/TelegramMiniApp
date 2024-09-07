@@ -11,7 +11,8 @@ const getSubdomain = async (): Promise<string | undefined> => {
   if (subdomainCache === undefined) {
     const subdomain = await cloudStorage.get('subdomain');
     subdomainCache = subdomain;
-  }
+  }console.log(subdomainCache);
+  
   return subdomainCache;
 };
 
