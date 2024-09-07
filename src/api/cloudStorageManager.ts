@@ -7,13 +7,23 @@ let subdomainCache: string | undefined;
 let authTokenCache: string | undefined;
 let languageCache: string | undefined;
 
+// const getSubdomain = async (): Promise<string | undefined> => {
+//   if (subdomainCache === undefined) {
+//     const subdomain = await cloudStorage.get('subdomain');
+//     subdomainCache = subdomain;
+//   }
+//   return subdomainCache;
+// };
+
 const getSubdomain = async (): Promise<string | undefined> => {
-  if (subdomainCache === undefined) {
-    const subdomain = await cloudStorage.get('subdomain');
+  const subdomain = await cloudStorage.get('subdomain');
+  // Nếu giá trị mới khác với giá trị đã lưu trong cache, cập nhật cache
+  if (subdomain !== subdomainCache) {
     subdomainCache = subdomain;
   }
   return subdomainCache;
 };
+
 
 const getAuthToken = async (): Promise<string | undefined> => {
   if (authTokenCache === undefined) {
