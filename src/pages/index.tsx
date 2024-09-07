@@ -51,13 +51,13 @@ const Index: React.FC = () => {
     const data = response.data
     console.log(data);
     
-    if (data && !response.error) {
+    if (data && !data.error) {
       setStoreListState({
         is_update: true,
-        stores: [],
+        stores: data,
       });
     } else {
-      console.log('err', response.error);
+      console.log('err', data.error);
     }
   } catch (error) {
     console.log('err in getstoredata', error);
