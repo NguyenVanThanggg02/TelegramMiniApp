@@ -201,7 +201,7 @@ const StoreFormPage: React.FC = () => {
                 flexDirection="column"
                 style={{ padding: "14px", flex: 1 }}
               >
-                <Text size="xLarge" bold style={{ marginBottom: "8px" }}>
+                <Text size="xLarge" bold style={{ marginBottom: "8px", color:'black' }}>
                   {codeValid.code}
                 </Text>
                 <Text size="small" className="text-code-content" style={{color:'black'}}>
