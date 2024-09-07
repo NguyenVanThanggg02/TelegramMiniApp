@@ -204,10 +204,10 @@ const StoreFormPage: React.FC = () => {
                 <Text size="xLarge" bold style={{ marginBottom: "8px" }}>
                   {codeValid.code}
                 </Text>
-                <Text size="small" className="text-code-content">
+                <Text size="small" className="text-code-content" style={{color:'black'}}>
                   {codeValid.content}
                 </Text>
-                <Text size="xxSmall" className="text-experied">
+                <Text size="xxSmall" className="text-experied" style={{color:'black'}}>
                   {t("voucherManagement.experiedAt")}{" "}
                   {new Date(codeValid.expired_at).toLocaleDateString("en-GB")}
                 </Text>
