@@ -137,7 +137,7 @@ const StoreFormPage: React.FC = () => {
       });
       setUserState({
         ...user,
-        store_uuid: response.uuid || '',
+        store_uuid: response.data.uuid || '',
         login: true,
       });
       setStoreListState({
