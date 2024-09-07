@@ -110,14 +110,6 @@ const StoreFormPage: React.FC = () => {
   }, [activationCode]);
 
   const handleSubmit = async () => {
-    // if (!user.has_phone && showButton) {
-    //   snackbar.openSnackbar({
-    //     duration: 3000,
-    //     text: t("snackbarMessage.pleaseLinkPhoneNumber"),
-    //     type: "countdown",
-    //   });
-    //   return;
-    // }
     const response = await createStore({
       store: {
         name: storeName,
@@ -125,8 +117,9 @@ const StoreFormPage: React.FC = () => {
       },
       code: activationCode,
     });
-    if (!response.error) {
-      const data = response.data
+    const data = response.data
+    if (!data.error) {
+      console.log(`store_uuid: ${data.uuid}`);
       setStore({
         name: data.name,
         uuid: data.uuid,
