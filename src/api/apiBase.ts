@@ -56,9 +56,7 @@ export const sendGetRequest = async (
       },
     });
     const data = await response.json();
-    console.log(data);
-    return data ;
-    
+    return { data };
   } catch (err) {
     return { error: err };
   }
