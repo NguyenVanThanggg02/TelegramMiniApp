@@ -16,10 +16,15 @@ let languageCache: string | undefined;
 // };
 
 const getSubdomain = async (): Promise<string | undefined> => {
-  const subdomain = await cloudStorage.get('subdomain');
-  // Nếu giá trị mới khác với giá trị đã lưu trong cache, cập nhật cache
-  if (subdomain !== subdomainCache) {
-    subdomainCache = subdomain;
+  if (!subdomainCache) {
+    const savedSubdomain = localStorage.getItem('subdomain');
+    if (savedSubdomain) {
+      subdomainCache = savedSubdomain;
+    } else {
+      const subdomain = await cloudStorage.get('subdomain');
+      localStorage.setItem('subdomain', subdomain ?? "");
+      subdomainCache = subdomain;
+    }
   }
   return subdomainCache;
 };
