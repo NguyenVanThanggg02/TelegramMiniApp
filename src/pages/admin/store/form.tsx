@@ -10,7 +10,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { storeListState, storeState, userState } from "../../../state";
 import {
   validateCode,
-  updateUserPhoneRequest,
   createStore,
 } from "../../../api/api";
 import { useTranslation } from "react-i18next";
@@ -47,7 +46,6 @@ const StoreFormPage: React.FC = () => {
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
   const navigate = useNavigate();
-  const [showButton, setShowButton] = useState(true);
 
   useEffect(() => {
     if (!activationCode) {
@@ -128,46 +126,37 @@ const StoreFormPage: React.FC = () => {
       code: activationCode,
     });
     if (!response.error) {
+      const data = response.data
       setStore({
-        name: response.data.name,
-        uuid: response.data.uuid,
-        subdomain: response.data.subdomain,
-        created_at: response.data.created_at,
-        store_settings: response.data.store_settings,
+        name: data.name,
+        uuid: data.uuid,
+        subdomain: data.subdomain,
+        created_at: data.created_at,
+        store_settings: data.store_settings,
       });
       setUserState({
         ...user,
-        store_uuid: response.uuid || '',
+        store_uuid: data.uuid || '',
         login: true,
       });
       setStoreListState({
         is_update: false,
         stores: [],
       });
-      await cloudStorage.set('defaultStore', response.data);
-      await cloudStorage.set('subdomain', response.data.subdomain);
+      await cloudStorage.set('defaultStore', data);
+      await cloudStorage.set('subdomain', data.subdomain);
       // Hiển thị snackbar khi lưu thành công
       
       setSnackbarMessage(t("snackbarMessage.createStoreSuccess"));
         setSnackbarType("success");
         setSnackbarOpen(true);
-      navigate(-1);
+        setTimeout(() => {
+          navigate(-1); 
+        }, 2000);
     } else {
       setSnackbarMessage(String(response.error));
       setSnackbarType("error");
       setSnackbarOpen(true);
-    }
-  };
-
-  const handlePhoneSupport = async () => {
-    try {
-      const data = await cloudStorage.get('auth_token');
-      const token  = data;
-      await updateUserPhoneRequest({code: token });
-
-      setShowButton(false);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -187,17 +176,6 @@ const StoreFormPage: React.FC = () => {
               maxLength={20}
             />
           </Box>
-          {/* <Box mb={2}>
-            <Input.TextArea
-              type="textarea"
-              label={t("storeManagement.storeDescription")}
-              value={metadata}
-              onChange={(e) => setMetadata(e.target.value)}
-              placeholder={t("storeManagement.enterMetadata")}
-              style={{ marginBottom: "10px" }}
-              showCount
-            />
-          </Box> */}
           <Box mb={2}>
             <Input
               type="text"
@@ -241,16 +219,6 @@ const StoreFormPage: React.FC = () => {
                   {new Date(codeValid.expired_at).toLocaleDateString("en-GB")}
                 </Text>
               </Box>
-            </Box>
-          )}
-
-          {!user.has_phone && showButton && (
-            <Box mt={2}>
-              <Button fullWidth variant="primary" onClick={handlePhoneSupport}>
-                <Text size="xxSmall">
-                  {t("storeManagement.getPhoneSupport")}
-                </Text>
-              </Button>
             </Box>
           )}
 
