@@ -48,16 +48,13 @@ const Index: React.FC = () => {
  const getStoreData = async () => {
   try {
     const response = await getStoreList();
-    const data = response.data
-    console.log(data);
-    
-    if (data && !data.error) {
+    if (response.data && !response.error) {
       setStoreListState({
         is_update: true,
-        stores: data,
+        stores: [],
       });
     } else {
-      console.log('err', data.error);
+      console.log('err', response.error);
     }
   } catch (error) {
     console.log('err in getstoredata', error);
