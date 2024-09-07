@@ -46,10 +46,9 @@ const Index: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false); // Biến cờ để kiểm tra việc xử lý
 
  const getStoreData = async () => {
-  try {
     const response = await getStoreList();
     const data = response.data
-    if (data && !data.error) {
+    if (!data.error) {
       setStoreListState({
         is_update: true,
         stores: data,
@@ -57,9 +56,7 @@ const Index: React.FC = () => {
     } else {
       console.log('err', data.error);
     }
-  } catch (error) {
-    console.log('err in getstoredata', error);
-  }
+
  }
 
   useEffect(() => {
