@@ -89,31 +89,36 @@ const Index: React.FC = () => {
   }, [hostname]);
 
   useEffect(() => {
-    let qrScanner: QrScanner | undefined;;
+    let qrScanner: QrScanner | undefined;
+  
     if (showScanner && videoRef.current) {
       qrScanner = new QrScanner(
         videoRef.current,
         async (result) => {
-          if (isProcessing) return; 
-
-          setIsProcessing(true); 
-          setTimeout(async () => {
-            console.log(result);
-            setScanResult(result.data);
-            setShowScanner(false);
+          if (isProcessing) return;
+  
+          setIsProcessing(true);
+          console.log(result);
+          setScanResult(result.data);
+          setShowScanner(false);
+          
+          try {
             const urlRedirect = new URL(result.data);
             const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
             const tenantId = urlRedirect.searchParams.get("tenant_id");
-
+  
             if (storeId && tableId && tenantId) {
               await handleScanQr(result.data, storeId, tableId, tenantId);
             } else {
               notifyErrorStoreNotFound();
             }
-
-            setIsProcessing(false); 
-          }, 1000);
+          } catch (error) {
+            console.error('Error processing QR code:', error);
+            notifyErrorStoreNotFound();
+          } finally {
+            setIsProcessing(false);
+          }
         },
         {
           returnDetailedScanResult: true,
@@ -121,14 +126,16 @@ const Index: React.FC = () => {
           highlightCodeOutline: true,
         },
       );
+  
       qrScanner.start();
-
+  
       return () => {
         qrScanner?.stop();
         qrScanner?.destroy();
       };
     }
   }, [showScanner, isProcessing]);
+  
 
   const getNamesByStoreAndTable = async (storeId: string, tableId: string) => {
     try {
