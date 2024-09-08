@@ -296,7 +296,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
         className="confirm-modal"
       >
         <Text
-          style={{ fontSize: "26px", fontWeight: 500, textAlign: "center" }}
+          style={{ fontSize: "26px", fontWeight: 500, textAlign: "center",color:'black' }}
         >
           {t("profile.loginToken")}
         </Text>
@@ -305,6 +305,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             fontSize: "15px",
             textAlign: "center",
             marginTop: "7px",
+            color:'black',
             fontStyle: "italic",
           }}
         >
@@ -315,6 +316,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             fontSize: "26px",
             textAlign: "center",
             marginTop: "30px",
+            color:'black',
             textDecoration: timer === 0 ? "line-through" : "unset",
           }}
         >
