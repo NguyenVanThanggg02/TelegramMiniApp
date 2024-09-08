@@ -89,53 +89,46 @@ const Index: React.FC = () => {
   }, [hostname]);
 
   useEffect(() => {
-  let qrScanner: QrScanner | undefined;
+    let qrScanner: QrScanner | undefined;;
+    if (showScanner && videoRef.current) {
+      qrScanner = new QrScanner(
+        videoRef.current,
+        async (result) => {
+          if (isProcessing) return; 
 
-  if (showScanner && videoRef.current) {
-    qrScanner = new QrScanner(
-      videoRef.current,
-      async (result) => {
-        if (isProcessing) return;
+          setIsProcessing(true); 
+          setTimeout(async () => {
+            console.log(result);
+            setScanResult(result.data);
+            setShowScanner(false);
+            const urlRedirect = new URL(result.data);
+            const storeId = urlRedirect.searchParams.get("storeId");
+            const tableId = urlRedirect.searchParams.get("tableId");
+            const tenantId = urlRedirect.searchParams.get("tenant_id");
 
-        setIsProcessing(true);
-        console.log(result);
-        setScanResult(result.data);
-        setShowScanner(false);
-        
-        try {
-          const urlRedirect = new URL(result.data);
-          const storeId = urlRedirect.searchParams.get("storeId");
-          const tableId = urlRedirect.searchParams.get("tableId");
-          const tenantId = urlRedirect.searchParams.get("tenant_id");
+            if (storeId && tableId && tenantId) {
+              await handleScanQr(result.data, storeId, tableId, tenantId);
+            } else {
+              notifyErrorStoreNotFound();
+            }
 
-          if (storeId && tableId && tenantId) {
-            await handleScanQr(result.data, storeId, tableId, tenantId);
-          } else {
-            notifyErrorStoreNotFound();
-          }
-        } catch (error) {
-          console.error('Error processing QR code:', error);
-          notifyErrorStoreNotFound();
-        } finally {
-          setIsProcessing(false);
-        }
-      },
-      {
-        returnDetailedScanResult: true,
-        highlightScanRegion: true,
-        highlightCodeOutline: true,
-      },
-    );
+            setIsProcessing(false); 
+          }, 800);
+        },
+        {
+          returnDetailedScanResult: true,
+          highlightScanRegion: true,
+          highlightCodeOutline: true,
+        },
+      );
+      qrScanner.start();
 
-    qrScanner.start();
-
-    return () => {
-      qrScanner?.stop();
-      qrScanner?.destroy();
-    };
-  }
-}, [showScanner, isProcessing]);
-
+      return () => {
+        qrScanner?.stop();
+        qrScanner?.destroy();
+      };
+    }
+  }, [showScanner, isProcessing]);
 
   const getNamesByStoreAndTable = async (storeId: string, tableId: string) => {
     try {
