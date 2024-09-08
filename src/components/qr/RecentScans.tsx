@@ -112,6 +112,7 @@ const RecentScans: React.FC = () => {
                 <div className="link-details">
                   <a
                     className="link-text-recent"
+                    // href="#"
                     onClick={() => handleRedirect(s.qrData)}
                   >
                     {s.storeName} - {s.tableName}
