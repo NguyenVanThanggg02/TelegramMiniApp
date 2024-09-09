@@ -143,6 +143,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
+console.log(menuRef);
 
   useEffect(() => {
     if (!pageRef.current) return;
