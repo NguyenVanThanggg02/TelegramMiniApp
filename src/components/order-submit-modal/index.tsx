@@ -31,42 +31,7 @@ interface OrderSubmitModalProps {
   isShow: boolean;
   onClose: () => void;
 }
-interface User {
-  avatar: string;
-}
-interface ProductImage {
-  uuid: string;
-  url: string;
-}
-interface Product {
-  uuid: string;
-  name: string;
-  price:number
-  unit_price?: number;
-  quantity?: number;
-  images?: ProductImage[];
-  product_name: string;
-  product_images?: ProductImage[];
-  order_item_uuid: string
-  delivered_quantity: number
-  product_uuid? : string
-  delivery_status: string
-}
 
-interface Order {
-  invoice_uuid?: string;
-  uuid: string;
-  user?: User;
-  created_at: string;
-  store_name: string;
-  table_uuid: string;
-  store_uuid: string;
-  status: string;
-  products: Product[]; 
-  notes?: string;
-  actual_payment_amount: number;
-  value: number;
-}
 
 const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) => {
   const { t } = useTranslation('global');
@@ -106,8 +71,9 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
     };
   
     const response = await sendCreateOrderRequest(payload);
-    if (!response.error && response.data) {
-      const newOrder: Order = response.data;
+    const data = response.data
+    if (!data.error ) {
+      // const newOrder: Order = response.data;
   
       onClose();
       setCart([]);
@@ -115,7 +81,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
       if (orderListByUser.is_update) {
         setOrderListByUser({
           is_update: true,
-          orders: [...orderListByUser.orders, newOrder],
+          orders: [...orderListByUser.orders, data],
         });
       }
       
@@ -126,7 +92,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           navigate(-1); 
         }, 2000);
     } else {
-      setSnackbarMessage(String(response.error));
+      setSnackbarMessage(String(data.error));
       setSnackbarType("error");
       setSnackbarOpen(true);
     }
