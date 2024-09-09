@@ -104,12 +104,13 @@ const TablePage: React.FC = () => {
   // };
 
   const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "@MiLiKun_bot"; // Thay đổi theo bot của bạn
-    const shortName = "your_short_name"; // Thay đổi theo mini app của bạn
+    const botUsername = "MiLiKun_bot"; 
+    const shortName = "your_short_name"; 
     const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-    
+  
     return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
   };
+  
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
