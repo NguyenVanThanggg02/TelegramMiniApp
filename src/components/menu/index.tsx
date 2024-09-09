@@ -30,7 +30,6 @@ import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
 
-
 interface DishImage {
   uuid: string;
   url: string;
@@ -40,7 +39,7 @@ interface Dish {
   uuid: string;
   name: string;
   price: number;
-  unit_price?: number,
+  unit_price?: number;
   describe?: string;
   quantity?: number;
   images?: DishImage[];
@@ -53,6 +52,7 @@ interface Category {
   store_uuid: string;
   uuid: string;
 }
+
 interface ApiResponse<T> {
   name?: string;
   uuid?: string;
@@ -63,23 +63,23 @@ interface ApiResponse<T> {
   status?: string;
   expired_at?: string;
 }
-interface MenuCommonPageProps {
-}
+
+interface MenuCommonPageProps {}
 
 interface StoreSetting {
   key: string;
   value: any; 
 }
+
 interface Store {
   uuid: string;
   name: string;
   subdomain: string;
   created_at: string;
   store_settings: StoreSetting[];
-  ai_requests_count:number
+  ai_requests_count: number;
   metadata: string; 
 }
-
 
 interface ProductImage {
   uuid: string;
@@ -89,16 +89,16 @@ interface ProductImage {
 interface Product {
   uuid: string;
   name: string;
-  price:number
+  price: number;
   unit_price?: number;
   quantity?: number;
   images?: ProductImage[];
   product_name: string;
   product_images?: ProductImage[];
-  order_item_uuid: string
-  delivered_quantity: number
-  product_uuid? : string
-  delivery_status: string
+  order_item_uuid: string;
+  delivered_quantity: number;
+  product_uuid?: string;
+  delivery_status: string;
 }
 
 const defaultProduct: Product = {
@@ -110,17 +110,16 @@ const defaultProduct: Product = {
   images: [],
   product_name: 'Product',
   product_images: [],
-  order_item_uuid:'',
+  order_item_uuid: '',
   delivered_quantity: 0,
   delivery_status: '',
-  product_uuid:'',
+  product_uuid: '',
 };
-
 
 const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
-  const [searchParams, ] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
 
   const [, setStore] = useRecoilState(storeState);
@@ -143,18 +142,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
-console.log(menuRef);
 
   useEffect(() => {
     if (!pageRef.current) return;
-
-    const handleTouchMove = () => {
-      const container = pageRef.current;
-      if (container) {
-        const scrollEvent = new Event("scroll");
-        container.dispatchEvent(scrollEvent);
-      }
-    };
 
     const handleScroll = () => {
       const container = pageRef.current;
@@ -170,11 +160,9 @@ console.log(menuRef);
     };
 
     const container = pageRef.current;
-    container.addEventListener("touchmove", handleTouchMove);
     container.addEventListener("scroll", handleScroll);
     return () => {
       if (container) {
-        container.removeEventListener("touchmove", handleTouchMove);
         container.removeEventListener("scroll", handleScroll);
       }
     };
@@ -201,8 +189,6 @@ console.log(menuRef);
       console.error("Error fetching store details:", response.error);
     }
   };
-  
-  
 
   const totalBill = useMemo(
     () => sum(cart.map(({ price, quantity }) => (price || 0) * (quantity || 0))),
@@ -216,7 +202,7 @@ console.log(menuRef);
   
     if (hasInCart) {
       const replaceProduct = dishOrder.quantity ? dishOrder : null;
-      setCart(cart => [
+      setCart((cart) => [
         ...cart.filter((item) => item.uuid !== dishOrder.uuid),
         ...(replaceProduct ? [replaceProduct] : []),
       ]);
@@ -225,15 +211,12 @@ console.log(menuRef);
   
     setCart([...cart, dishOrder]);
   };
-  
 
   useEffect(() => {
-    setMenu(
-      categoryList.categories.map((category, index) => ({
-        ...category,
-        index,
-      }))
-    );
+    setMenu(categoryList.categories.map((category, index) => ({
+      ...category,
+      index,
+    })));
     setActiveTab(categoryList.categories[0]?.uuid || null);
   }, [categoryList]);
 
@@ -258,9 +241,8 @@ console.log(menuRef);
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
-    if (!table_uuid) {
-      setDefaultMarginList(40);
-    }
+
+    setActiveTab(value); // Cập nhật active tab
     menuRef.current[positionMenu]?.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -280,9 +262,6 @@ console.log(menuRef);
       console.error("Error:", response.error);
     }
   };
-  
-  
-  
 
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
@@ -300,7 +279,6 @@ console.log(menuRef);
       console.error("Unexpected error:", error);
     }
   };
-  
 
   const fetchTablesByStore = async (store_uuid: string) => {
     const response = await fetchTablesForStore(store_uuid);
@@ -322,7 +300,6 @@ console.log(menuRef);
       console.error("Error fetching tables:", response.error);
     }
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -338,18 +315,16 @@ console.log(menuRef);
         await fetchTablesByStore(store_uuid);
       }
   
-    const subdomain: string = tenant_id || '';
-    
-    const name = ''; 
-    const created_at = ''; 
-    setStore({
-      uuid: store_uuid,
-      subdomain,
-      name,
-      created_at,
-      store_settings: [],
-      ai_requests_count: 0
-    });
+      const subdomain: string = tenant_id || '';
+      
+      setStore({
+        uuid: store_uuid,
+        subdomain,
+        name: '',
+        created_at: '',
+        store_settings: [],
+        ai_requests_count: 0,
+      });
   
       if (!categoryList.categories.length) {
         await fetchCategoriesByStore(store_uuid);
@@ -383,7 +358,6 @@ console.log(menuRef);
       delivery_status: '' 
     };
   };
-  
 
   return (
     <>
@@ -431,6 +405,7 @@ console.log(menuRef);
               {!isEmpty(menu) &&
                 menu.map((item) => (
                   <Tab
+                    key={item.uuid}
                     value={item.uuid}
                     label={item.name}
                     sx={{
@@ -441,7 +416,7 @@ console.log(menuRef);
                       fontSize: "14px",
                       minWidth: "60px",
                     }}
-                  ></Tab>
+                  />
                 ))}
             </Tabs>
           </Box>
@@ -452,17 +427,18 @@ console.log(menuRef);
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate,index) => (
+            {Object.keys(displayProductList).map((cate, index) => (
               <Box key={cate}>
                 <Box
                   flex
                   justifyContent="space-between"
                   mt={4}
-                    // @ts-ignore
-                  ref={(ref:any) => {
-                    menuRef.current[index] = ref!;
+                  //@ts-ignore
+                  ref={(ref) => {
+                    if (ref) {
+                      menuRef.current[index] = ref; // Gán ref vào menuRef
+                    }
                   }}
-                    // @ts-ignore
                   style={{ scrollMargin: "100px" }}
                 >
                   <Text size="xLarge" bold className="grey-color">
