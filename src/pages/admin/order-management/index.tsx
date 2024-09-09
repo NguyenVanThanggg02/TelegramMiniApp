@@ -311,11 +311,12 @@ const OrderManagement: React.FC = () => {
   };
 
   const fetProductDataByStore = async (store_uuid: string) => {
-    const data = await getProductListByStore(store_uuid, true);
+    const response = await getProductListByStore(store_uuid, true);
+    const data = response.data
     if (!data?.error) {
       setProductList({
         is_update: true,
-        products: [],
+        products: data,
       });
     } else {
       console.error("Error:", data.error);
