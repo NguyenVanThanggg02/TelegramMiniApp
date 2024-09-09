@@ -139,7 +139,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [showStoreDetail, setShowStoreDetail] = useState<boolean>(false);
   const [displayProductList, setDisplayProductList] = useState<Record<string, Dish[]>>({});
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [defaultMarginList, ] = useState<number>(0);
+  const [defaultMarginList, setDefaultMarginList] = useState<number>(0);
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
@@ -155,16 +155,18 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       }
     };
 
-   const handleScroll = () => {
-    const container = pageRef.current;
-    if (container) {
-      menuRef.current.forEach((ref, index) => {
-        if (ref && ref.getBoundingClientRect().top <= 500) {
-          setActiveTab(menu[index].uuid);
-        }
-      });
-    }
-  };
+    const handleScroll = () => {
+      const container = pageRef.current;
+      if (container) {
+        const { scrollTop } = container;
+        if (scrollTop === 0) return;
+        menuRef.current.forEach((ref, index) => {
+          if (ref && ref.getBoundingClientRect().top <= 500) {
+            setActiveTab(menu[index].uuid);
+          }
+        });
+      }
+    };
 
     const container = pageRef.current;
     container.addEventListener("touchmove", handleTouchMove);
@@ -253,22 +255,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   }, [productList, categoryList]);
 
   const handleChangeTab = (value: string) => {
-  const positionMenu = menu.findIndex((m) => m.uuid === value);
-  if (positionMenu === -1) return;
-  
-  // Đảm bảo danh mục đang tồn tại trong menuRef trước khi cuộn
-  const selectedMenu = menuRef.current[positionMenu];
-  if (selectedMenu) {
-    selectedMenu.scrollIntoView({
+    const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+    if (positionMenu === -1) return;
+    if (!table_uuid) {
+      setDefaultMarginList(40);
+    }
+    menuRef.current[positionMenu]?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-
-    // Cập nhật tab hiện tại
-    setActiveTab(value);
-  }
-};
-
+  };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
