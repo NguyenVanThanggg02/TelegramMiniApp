@@ -427,21 +427,21 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               onChange={(_e, value) => handleChangeTab(value)}
               sx={{ width: "65px" }}
             >
-              {menu.map((item) => (
-                <Tab
-                  key={item.uuid}
-                  value={item.uuid}
-                  label={item.name}
-                  sx={{
-                    paddingLeft: "0px",
-                    alignItems: "flex-start",
-                    textAlign: "left",
-                    textTransform: "none",
-                    fontSize: "14px",
-                    minWidth: "60px",
-                  }}
-                />
-              ))}
+              {!isEmpty(menu) &&
+                menu.map((item) => (
+                  <Tab
+                    value={item.uuid}
+                    label={item.name}
+                    sx={{
+                      paddingLeft: "0px",
+                      alignItems: "flex-start",
+                      textAlign: "left",
+                      textTransform: "none",
+                      fontSize: "14px",
+                      minWidth: "60px",
+                    }}
+                  ></Tab>
+                ))}
             </Tabs>
           </Box>
 
