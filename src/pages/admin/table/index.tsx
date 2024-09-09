@@ -7,7 +7,7 @@ import {
   Text,
 } from "zmp-ui";
 import { useRecoilState } from "recoil";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
@@ -38,8 +38,8 @@ interface Table {
 const TablePage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
-  const [searchParams] = useSearchParams();
-  const tenant_id = searchParams.get("tenant_id");
+  // const [searchParams] = useSearchParams();
+  // const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
