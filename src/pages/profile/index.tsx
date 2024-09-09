@@ -240,7 +240,7 @@ const ProfilePage: React.FC = () => {
               title={t("profile.language")}
               style={{ marginBottom: "36px" }}
             >
-              <Box flex alignItems="center" className="profile-container" style={{backgroundColor:'yellow'}}>
+              <Box flex alignItems="center" className="profile-container" style={{color:'black'}}>
                 <img
                   src={i18n.language === "en" ? usa : vietnam}
                   style={{ width: "48px", marginRight: "8px" }}
