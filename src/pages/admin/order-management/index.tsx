@@ -243,15 +243,15 @@ const OrderManagement: React.FC = () => {
           ),
         }));
         
-        setSnackbarMessage(t("websocket.update_order")); 
-        setSnackbarType("success");
-        setSnackbarOpen(true);
+        // setSnackbarMessage(t("websocket.update_order")); 
+        // setSnackbarType("success");
+        // setSnackbarOpen(true);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      setSnackbarMessage(String(error)); 
-      setSnackbarType("error");
-      setSnackbarOpen(true);
+      // setSnackbarMessage(String(error)); 
+      // setSnackbarType("error");
+      // setSnackbarOpen(true);
     }
   };
   
