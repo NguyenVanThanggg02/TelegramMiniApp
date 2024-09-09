@@ -238,6 +238,7 @@ const StorePage: React.FC = () => {
                 handleChangeStore(value, true);
               }
             }}
+            style={{color:'black'}}
             closeOnSelect={true}
           >
             {storeList.stores.map((sto) => (
