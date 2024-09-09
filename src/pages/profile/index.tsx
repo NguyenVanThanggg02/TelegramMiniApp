@@ -28,6 +28,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import "./styles.scss";
+
 const ProfilePage: React.FC = () => {
   // const { version, apiVersion, zaloVersion, platform } = getSystemInfo();
   const user = useRecoilValue(userState);
