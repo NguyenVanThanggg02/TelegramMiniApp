@@ -244,7 +244,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
               title={t("profile.language")}
               style={{ marginBottom: "36px" }}
             >
-              <Box flex alignItems="center">
+              <Box flex alignItems="center" style={{color:'black'}}>
                 <img
                   src={i18n.language === "en" ? usa : vietnam}
                   style={{ width: "48px", marginRight: "8px" }}
