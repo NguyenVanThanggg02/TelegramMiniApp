@@ -60,7 +60,7 @@ const DishDetailModal: React.FC<DishDetailModalProps> = ({
             {dish.images && (
               <Swiper style={{ height: "100%" }}>
                 {dish.images.map((img) => (
-                  <Swiper.Slide key={img.uuid} style={{height:'100%', width:'100%' }}>
+                  <Swiper.Slide key={img.uuid} style={{height:'300px', width:'100%' }}>
                     <img
                       style={{ verticalAlign: "center" }}
                       src={img.url}
