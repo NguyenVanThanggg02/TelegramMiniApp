@@ -79,7 +79,7 @@ const TablePage: React.FC = () => {
       if (!response.error && Array.isArray(response.data)) {
         const listTables = response.data.map((tab) => ({
           ...tab,
-          link: linkBuilder(tab.uuid),
+          link: openTelegramAndRedirect(tab.uuid),
         }));
         setTables(listTables);
       } else {
@@ -92,18 +92,32 @@ const TablePage: React.FC = () => {
     }
   };
 
-  // const linkBuilder = (table_uuid: string): string => {
-  //   return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  // };
-
   const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
+
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
+  
+
+  const openTelegramAndRedirect = (table_uuid: string) => {
+  const telegramLink = `tg://resolve?domain=MiLiKun_bot&appname=orderfood&startapp=tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  const zaloLink = linkBuilder(table_uuid);
+
+  // Mở ứng dụng Telegram
+  window.location.href = telegramLink;
+
+  // Đợi một khoảng thời gian rồi chuyển hướng đến Zalo
+  setTimeout(() => {
+    window.location.href = zaloLink;
+  }, 2000); // Thay đổi thời gian này nếu cần
+};
+
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({
