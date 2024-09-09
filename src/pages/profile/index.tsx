@@ -240,7 +240,7 @@ const ProfilePage: React.FC = () => {
               title={t("profile.language")}
               style={{ marginBottom: "36px" }}
             >
-              <Box flex alignItems="center" className="profile-container">
+              <Box flex alignItems="center" className="profile-container" style={{backgroundColor:'yellow'}}>
                 <img
                   src={i18n.language === "en" ? usa : vietnam}
                   style={{ width: "48px", marginRight: "8px" }}
@@ -248,7 +248,6 @@ const ProfilePage: React.FC = () => {
                 <Select
                   id="langSelect"
                   closeOnSelect={true}
-                  style={{color:'black', height:'600px'}}
                   value={i18n.language}
                   onChange={(value) => {
                     if (typeof value === "string") {
