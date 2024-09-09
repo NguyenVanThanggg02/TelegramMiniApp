@@ -71,17 +71,6 @@ interface Order {
   value: number;
 }
 
-interface ApiResponse<T> {
-  name?: string;
-  uuid?: string;
-  subdomain?: string;
-  data?: T;       
-  error?: string | unknown;    
-  orders?: [];
-  status?: string;
-  expired_at?: string;
-}
-
 const OrderNotification: React.FC<OrderNotificationProps> = ({
   authToken,
   store_uuid,
@@ -98,9 +87,10 @@ const OrderNotification: React.FC<OrderNotificationProps> = ({
   const [snackbarType, setSnackbarType] = useState<"warning" | "error">("warning");
 
   const getOrderByUUID = async (order_uuid: string): Promise<Order | undefined> => {
-    const data: ApiResponse<Order> = await fetchOrderByUUID(store.uuid, order_uuid);
-    if (!data?.error && data?.data) {
-      return data.data;
+    const response = await fetchOrderByUUID(store.uuid, order_uuid);
+    const data = response.data
+    if (!data?.error) {
+      return data;
     } else {
       console.log("Error:", data?.error);
       return undefined;

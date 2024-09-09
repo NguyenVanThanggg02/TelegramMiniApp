@@ -204,56 +204,57 @@ const OrderManagement: React.FC = () => {
   );
   
 
-  // const onChangeStatus = async (order: Order, newStatus: string) => {
-  //   const payload = {
-  //     status: newStatus,
-  //   };  
-  //   const data = await updateStatusOrderRequest(order.uuid, payload);
-  //   if (data?.error) {
-  //     console.error("Error:", data.error);
-
-  //     setSnackbarMessage(String(data.error));
-  //     setSnackbarType("error"); 
-  //     setSnackbarOpen(true);
-  //   }
-  // };
-
-
   const onChangeStatus = async (order: Order, newStatus: string) => {
     const payload = {
       status: newStatus,
-    };
-    
-    try {
-      const data = await updateStatusOrderRequest(order.uuid, payload);
-      
-      if (data?.error) {
-        console.error("Error:", data.error);
-        setSnackbarMessage(String(data.error));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      } else {
-        
-        setOrderList((prev) => ({
-          ...prev,
-          orders: prev.orders.map((o) =>
-            o.uuid === order.uuid ? { ...o, status: newStatus } : o
-          ).sort(
-            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
-          ),
-        }));
-        
-        setSnackbarMessage(t("websocket.update_order")); 
-        setSnackbarType("success");
-        setSnackbarOpen(true);
-      }
-    } catch (error) {
-      console.error("Unexpected error:", error);
-      setSnackbarMessage(String(error)); 
-      setSnackbarType("error");
+    };  
+    const response = await updateStatusOrderRequest(order.uuid, payload);
+    const data = response.data
+    if (data?.error) {
+      console.error("Error:", data.error);
+
+      setSnackbarMessage(String(data.error));
+      setSnackbarType("error"); 
       setSnackbarOpen(true);
     }
   };
+
+
+  // const onChangeStatus = async (order: Order, newStatus: string) => {
+  //   const payload = {
+  //     status: newStatus,
+  //   };
+    
+  //   try {
+  //     const data = await updateStatusOrderRequest(order.uuid, payload);
+      
+  //     if (data?.error) {
+  //       console.error("Error:", data.error);
+  //       setSnackbarMessage(String(data.error));
+  //       setSnackbarType("error");
+  //       setSnackbarOpen(true);
+  //     } else {
+        
+  //       setOrderList((prev) => ({
+  //         ...prev,
+  //         orders: prev.orders.map((o) =>
+  //           o.uuid === order.uuid ? { ...o, status: newStatus } : o
+  //         ).sort(
+  //           (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  //         ),
+  //       }));
+        
+  //       setSnackbarMessage(t("websocket.update_order")); 
+  //       setSnackbarType("success");
+  //       setSnackbarOpen(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Unexpected error:", error);
+  //     setSnackbarMessage(String(error)); 
+  //     setSnackbarType("error");
+  //     setSnackbarOpen(true);
+  //   }
+  // };
   
 
 
