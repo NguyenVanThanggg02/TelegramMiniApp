@@ -248,7 +248,7 @@ const ProfilePage: React.FC = () => {
                 <Select
                   id="langSelect"
                   closeOnSelect={true}
-                  style={{color:'black'}}
+                  style={{color:'black', height:'600px'}}
                   value={i18n.language}
                   onChange={(value) => {
                     if (typeof value === "string") {
