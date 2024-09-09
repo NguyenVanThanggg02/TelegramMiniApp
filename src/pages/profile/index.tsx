@@ -28,7 +28,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import "./styles.scss";
 
 const ProfilePage: React.FC = () => {
   // const { version, apiVersion, zaloVersion, platform } = getSystemInfo();
@@ -249,6 +248,7 @@ const ProfilePage: React.FC = () => {
                 <Select
                   id="langSelect"
                   closeOnSelect={true}
+                  style={{color:'black'}}
                   value={i18n.language}
                   onChange={(value) => {
                     if (typeof value === "string") {
