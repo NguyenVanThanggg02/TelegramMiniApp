@@ -97,9 +97,20 @@ const TablePage: React.FC = () => {
   //   let qr_url = `${url}/redirect?tableId=${table_uuid}&storeId=${store_uuid}&version=${APP_VERSION}&tenantId=${tenant_id}`;
   //   return qr_url;
   // };
+
+
+  // const linkBuilder = (table_uuid: string): string => {
+  //   return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  // };
+
   const linkBuilder = (table_uuid: string): string => {
-    return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    const botUsername = "@MiLiKun_bot"; // Thay đổi theo bot của bạn
+    const shortName = "your_short_name"; // Thay đổi theo mini app của bạn
+    const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    
+    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
   };
+  
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({
