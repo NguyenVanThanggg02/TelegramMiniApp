@@ -47,8 +47,7 @@ import { useCloudStorage } from "@telegram-apps/sdk-react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
-
+import images from "../../../../assets/images.jpg"
 interface User {
   avatar: string;
 }
@@ -679,14 +678,13 @@ const OrderManagement: React.FC = () => {
                 justifyContent: "center",
                 flexDirection: "column",
               }}>
-                <ShoppingBasketIcon
-                  style={{
+                <img src = {images} style={{
                     fontSize: "80px",
                     color: "black",
                     opacity: 0.4,
                     marginTop: "100px",
-                  }}
-                />
+                  }} ></img>
+                  
                 <Text
                   style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
                 >
