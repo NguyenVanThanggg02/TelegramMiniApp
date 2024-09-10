@@ -157,21 +157,26 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
     const handleScroll = () => {
       const container = pageRef.current;
-      if (container) {
-        const { scrollTop, scrollHeight, clientHeight } = container;
-        const scrollPosition = scrollTop + clientHeight;
-        const bottomOffset = 210; 
-    
-        // Nếu người dùng cuộn gần đến cuối trang, kích hoạt tab cuối cùng
-        if (scrollPosition + bottomOffset >= scrollHeight) {
-          setActiveTab(menu[menu.length - 1]?.uuid || null);
-        } else {
-          menuRef.current.forEach((ref, index) => {
-            if (ref && ref.getBoundingClientRect().top <= 210) {
-              setActiveTab(menu[index].uuid);
-            }
-          });
+      if (!container) return;
+  
+      // Tìm tab gần nhất với phần viewport hiện tại
+      let closestTab = null;
+      let closestDistance = Infinity;
+  
+      menuRef.current.forEach((ref, index) => {
+        if (ref) {
+          const rect = ref.getBoundingClientRect();
+          const distance = Math.abs(rect.top - window.innerHeight / 2);
+          
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestTab = menu[index].uuid;
+          }
         }
+      });
+  
+      if (closestTab && closestTab !== activeTab) {
+        setActiveTab(closestTab);
       }
     };
     
