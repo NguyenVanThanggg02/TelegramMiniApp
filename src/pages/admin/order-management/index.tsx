@@ -679,8 +679,8 @@ const OrderManagement: React.FC = () => {
                 flexDirection: "column",
               }}>
                 <img src = {images} style={{
-                    fontSize: "20px",
-                    color: "black",
+                    width:'160',
+                    height:'100%',
                     opacity: 0.4,
                     marginTop: "10px",
                   }} ></img>
