@@ -163,7 +163,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       if (container) {
         const { scrollTop, scrollHeight, clientHeight } = container;
   
-        const activationThreshold = scrollHeight - clientHeight - 100; // Điều chỉnh giá trị này tùy theo yêu cầu
+        const activationThreshold = scrollHeight - clientHeight - 210; 
         if (scrollTop >= activationThreshold) {
           setActiveTab(menu[menu.length - 1]?.uuid || null);
         } else {
