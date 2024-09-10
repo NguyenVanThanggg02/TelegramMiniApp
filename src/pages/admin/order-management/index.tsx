@@ -47,7 +47,6 @@ import { useCloudStorage } from "@telegram-apps/sdk-react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import images from "../../../../assets/images.png"
 interface User {
   avatar: string;
 }
@@ -681,24 +680,6 @@ const OrderManagement: React.FC = () => {
                   flexDirection: "column",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex", // Thêm thuộc tính display: flex
-                    justifyContent: "center", // Căn giữa theo chiều ngang
-                    alignItems: "center", // Căn giữa theo chiều dọc
-                    height: "100%", // Đảm bảo div có chiều cao
-                  }}
-                >
-                  <img
-                    src={images}
-                    style={{
-                      width: "160px",
-                      height: "auto", // Thay đổi thành auto để giữ tỷ lệ khung hình
-                      opacity: 0.4,
-                      marginTop: "10px",
-                    }}
-                  />
-                </div>
                 <Text
                   style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
                 >
