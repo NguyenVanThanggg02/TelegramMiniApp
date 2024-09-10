@@ -31,7 +31,8 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ store_uuid, onCategor
       };
 
       try {
-        const data = await addCategoryToStore(payload);
+        const response = await addCategoryToStore(payload);
+        const data = response.data
         console.log("Data", data);
         if (!data?.error) {
           onCategoryAdded();
