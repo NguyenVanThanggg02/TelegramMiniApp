@@ -29,7 +29,6 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
-import LoadingComponent from "../loading_component";
 
 
 interface DishImage {
@@ -389,7 +388,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   return (
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
-       <LoadingComponent />
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
