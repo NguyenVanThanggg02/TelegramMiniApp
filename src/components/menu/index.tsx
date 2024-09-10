@@ -178,7 +178,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         }
       });
   
-      if (scrollTop === 0 && menu[0] && activeTab !== menu[0].uuid) {
+      if (scrollTop <= 0 && menu[0] && activeTab !== menu[0].uuid) {
         setActiveTab(menu[0].uuid);
       } else if (scrollTop + clientHeight >= scrollHeight && menu[menu.length - 1] && activeTab !== menu[menu.length - 1].uuid) {
         setActiveTab(menu[menu.length - 1].uuid);
