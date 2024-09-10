@@ -141,7 +141,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [showStoreDetail, setShowStoreDetail] = useState<boolean>(false);
   const [displayProductList, setDisplayProductList] = useState<Record<string, Dish[]>>({});
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [defaultMarginList,setDefaultMarginList ] = useState<number>(0);
+  const [defaultMarginList, setDefaultMarginList] = useState<number>(0);
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
@@ -273,16 +273,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
-    console.log(value);
-    
   };
-
-  useEffect(() => {
-    const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
-    if (footer) {
-      footer.style.display = 'none'; 
-    }
-  }, []);
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
