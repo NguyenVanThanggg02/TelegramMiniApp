@@ -16,6 +16,7 @@ import {
   loadingState,
   orderListState,
   productListState,
+  spinnerState,
   storeListState,
   storeState,
   tableListState,
@@ -166,6 +167,7 @@ const OrderManagement: React.FC = () => {
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [, setSpinner] = useRecoilState(spinnerState);
 
 
   const onFilterChange = (type: keyof Filter, value: any) => {
@@ -223,6 +225,7 @@ const OrderManagement: React.FC = () => {
     };
     
     try {
+      setSpinner(true);
       const data = await updateStatusOrderRequest(order.uuid, payload);
       
       if (data?.error) {
