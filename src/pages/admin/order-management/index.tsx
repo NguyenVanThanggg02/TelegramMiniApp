@@ -47,7 +47,7 @@ import { useCloudStorage } from "@telegram-apps/sdk-react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 interface User {
   avatar: string;
@@ -473,7 +473,9 @@ const OrderManagement: React.FC = () => {
       >
         <Box flex alignItems="center" className="toolbar_filter">
           <Box className="toolbar_filter_search">
-            <Text style={{color:'black'}}>{t("orderManagement.status")}</Text>
+            <Text style={{ color: "black" }}>
+              {t("orderManagement.status")}
+            </Text>
             <Select
               closeOnSelect
               mask
@@ -495,7 +497,7 @@ const OrderManagement: React.FC = () => {
           </Box>
 
           <Box className="toolbar_filter_search">
-            <Text style={{color:'black'}}>{t("orderManagement.date")}</Text>
+            <Text style={{ color: "black" }}>{t("orderManagement.date")}</Text>
             {hideDatePicker ? (
               <DatePicker
                 key="datePicker-hideDatePicker"
@@ -540,7 +542,9 @@ const OrderManagement: React.FC = () => {
           </Box>
 
           <Box className="toolbar_filter_search">
-            <Text style={{color:'black'}}>{t("orderManagement.search")}</Text>
+            <Text style={{ color: "black" }}>
+              {t("orderManagement.search")}
+            </Text>
             <Input.Search
               className="search-input"
               onChange={(e) => onFilterChange("search", e.target.value)}
@@ -564,102 +568,132 @@ const OrderManagement: React.FC = () => {
         {isMobile ? (
           <Box>
             {displayOrders.length > 0 ? (
-            displayOrders.map((order, id) => {
-              let valStatusSlider = 0;
-              if (order.status === ORDER_STATUS.WAIT_FOR_PAY) {
-                valStatusSlider = 50;
-              } else if (order.status === ORDER_STATUS.DONE) {
-                valStatusSlider = 100;
-              }
+              displayOrders.map((order, id) => {
+                let valStatusSlider = 0;
+                if (order.status === ORDER_STATUS.WAIT_FOR_PAY) {
+                  valStatusSlider = 50;
+                } else if (order.status === ORDER_STATUS.DONE) {
+                  valStatusSlider = 100;
+                }
 
-              return (
-                <Box
-                  className="order-table order-table-mobile"
-                  key={id}
-                  onClick={() => goToOrderDetails(order)}
-                  style={{
-                    opacity: order.status === ORDER_STATUS.CANCELLED ? 0.5 : 1,
-                  }}
-                >
+                return (
                   <Box
-                    flex
-                    justifyContent="space-between"
-                    alignItems="center"
-                    className="order-table-mobile_box"
+                    className="order-table order-table-mobile"
+                    key={id}
+                    onClick={() => goToOrderDetails(order)}
+                    style={{
+                      opacity:
+                        order.status === ORDER_STATUS.CANCELLED ? 0.5 : 1,
+                    }}
                   >
-                    <Box flex alignItems="center" justifyContent="center">
-                      <Avatar
-                        src={order.user?.avatar}
-                        style={{ marginRight: "10px" }}
-                      />
-                      <Text size="xLarge" bold style={{color:'black'}}>
-                        {
-                          tableList.tables.find(
-                            (table) => table.uuid === order.table_uuid
-                          )?.name
-                        }
+                    <Box
+                      flex
+                      justifyContent="space-between"
+                      alignItems="center"
+                      className="order-table-mobile_box"
+                    >
+                      <Box flex alignItems="center" justifyContent="center">
+                        <Avatar
+                          src={order.user?.avatar}
+                          style={{ marginRight: "10px" }}
+                        />
+                        <Text size="xLarge" bold style={{ color: "black" }}>
+                          {
+                            tableList.tables.find(
+                              (table) => table.uuid === order.table_uuid
+                            )?.name
+                          }
+                        </Text>
+                      </Box>
+                    </Box>
+                    <Box
+                      flex
+                      justifyContent="space-between"
+                      alignItems="center"
+                      className="order-table-mobile_box"
+                    >
+                      <Text bold style={{ color: "black" }}>
+                        {t("orderManagement.orderTime")}
+                      </Text>
+                      <Text style={{ color: "black" }}>
+                        {timePeriodFormatter(order.created_at, t)}
                       </Text>
                     </Box>
-                  </Box>
-                  <Box
-                    flex
-                    justifyContent="space-between"
-                    alignItems="center"
-                    className="order-table-mobile_box"
-                  >
-                    <Text bold style={{color:'black'}}>{t("orderManagement.orderTime")}</Text>
-                    <Text style={{color:'black'}}>{timePeriodFormatter(order.created_at, t)}</Text>
-                  </Box>
-                  <Box
-                    flex
-                    justifyContent="space-between"
-                    alignItems="center"
-                    className="order-table-mobile_box"
-                  >
-                    <Text bold style={{color:'black'}}>{t("orderManagement.notes")}</Text>
-                    <Text style={{color:'black'}}>{order.notes}</Text>
-                  </Box>
-                  {order.status === ORDER_STATUS.CANCELLED ? (
-                    <Box className="order-cancelled red-color">
-                      <Text style={{color:'black'}}>{t("orderManagement.orderCancelled")}</Text>
-                    </Box>
-                  ) : (
                     <Box
-                      className="slider-status-order"
-                      onClick={(e) => e.stopPropagation()}
+                      flex
+                      justifyContent="space-between"
+                      alignItems="center"
+                      className="order-table-mobile_box"
                     >
-                      <Slider
-                        min={0}
-                        value={valStatusSlider}
-                        marks={orderStatusesSlider}
-                        step={50}
-                        onChange={(val) => {
-                          switch (val) {
-                            case 0:
-                              onChangeStatus(order, ORDER_STATUS.PENDING);
-                              break;
-                            case 50:
-                              onChangeStatus(order, ORDER_STATUS.WAIT_FOR_PAY);
-                              break;
-                            case 100:
-                              onChangeStatus(order, ORDER_STATUS.DONE);
-                              break;
-                          }
-                        }}
-                        className={
-                          order.status === ORDER_STATUS.DONE
-                            ? "slider-green-theme"
-                            : "slider-yellow-theme"
-                        }
-                      />
+                      <Text bold style={{ color: "black" }}>
+                        {t("orderManagement.notes")}
+                      </Text>
+                      <Text style={{ color: "black" }}>{order.notes}</Text>
                     </Box>
-                  )}
-                </Box>
-              );
-            })):(
-              <Box className="order-table_empty">
-                <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign:'center' }}>
-                 không có đơn hàng!!!!
+                    {order.status === ORDER_STATUS.CANCELLED ? (
+                      <Box className="order-cancelled red-color">
+                        <Text style={{ color: "black" }}>
+                          {t("orderManagement.orderCancelled")}
+                        </Text>
+                      </Box>
+                    ) : (
+                      <Box
+                        className="slider-status-order"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Slider
+                          min={0}
+                          value={valStatusSlider}
+                          marks={orderStatusesSlider}
+                          step={50}
+                          onChange={(val) => {
+                            switch (val) {
+                              case 0:
+                                onChangeStatus(order, ORDER_STATUS.PENDING);
+                                break;
+                              case 50:
+                                onChangeStatus(
+                                  order,
+                                  ORDER_STATUS.WAIT_FOR_PAY
+                                );
+                                break;
+                              case 100:
+                                onChangeStatus(order, ORDER_STATUS.DONE);
+                                break;
+                            }
+                          }}
+                          className={
+                            order.status === ORDER_STATUS.DONE
+                              ? "slider-green-theme"
+                              : "slider-yellow-theme"
+                          }
+                        />
+                      </Box>
+                    )}
+                  </Box>
+                );
+              })
+            ) : (
+              <Box className="order-table_empty" style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "100vh",
+                paddingTop: "90px",
+              }}>
+                <ShoppingBasketIcon
+                  style={{
+                    fontSize: "80px",
+                    color: "black",
+                    opacity: 0.4,
+                    marginTop: "100px",
+                  }}
+                />
+                <Text
+                  style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
+                >
+                  không có đơn hàng!!!!
                 </Text>
               </Box>
             )}
@@ -695,8 +729,12 @@ const OrderManagement: React.FC = () => {
 
             <Box
               className="order-table_body"
-              ref={isMobile ? scrollRef as React.MutableRefObject<HTMLDivElement> : undefined}
-              >
+              ref={
+                isMobile
+                  ? (scrollRef as React.MutableRefObject<HTMLDivElement>)
+                  : undefined
+              }
+            >
               <table>
                 <tbody>
                   {displayOrders.map((order, i) => (
@@ -741,7 +779,9 @@ const OrderManagement: React.FC = () => {
 
         {isLoadingMore && (
           <Box>
-            <Text size="large" style={{color:'black'}}>Loading...</Text>
+            <Text size="large" style={{ color: "black" }}>
+              Loading...
+            </Text>
           </Box>
         )}
       </Box>
@@ -757,19 +797,25 @@ const OrderManagement: React.FC = () => {
         setIsShowModal={setShowModalConfirm}
         content={t("main.confirmCancel")}
       />
-      <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Page>
   );
 }
