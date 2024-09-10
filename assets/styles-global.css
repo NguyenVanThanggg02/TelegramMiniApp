@@ -270,6 +270,9 @@
 .zaui-btn-tertiary.zaui-btn-highlight.focus-visible {
   background-color: #ebf4ff;
 }
+.web-app-footer button{
+display: none;
+}
 .zaui-btn-tertiary:active,
 .zaui-btn-tertiary.zaui-btn-highlight:active,
 .zaui-btn-tertiary:focus-visible,
