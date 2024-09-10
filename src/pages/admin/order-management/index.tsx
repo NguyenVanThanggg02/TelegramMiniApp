@@ -658,8 +658,8 @@ const OrderManagement: React.FC = () => {
               );
             })):(
               <Box className="order-table_empty">
-                <Text style={{ color: "rgba(0, 0, 0, 0.5)" }}>
-                 không có đơn hàng
+                <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign:'center' }}>
+                 không có đơn hàng!!!!
                 </Text>
               </Box>
             )}
