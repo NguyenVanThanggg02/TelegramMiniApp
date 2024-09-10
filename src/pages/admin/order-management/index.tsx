@@ -683,7 +683,7 @@ const OrderManagement: React.FC = () => {
                 <Text
                   style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
                 >
-                  không có đơn hàng!!!!
+                  {t("main.order")}
                 </Text>
               </Box>
             )}
