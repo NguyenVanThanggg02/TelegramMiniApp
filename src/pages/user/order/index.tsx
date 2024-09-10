@@ -402,127 +402,115 @@ const OrderPage: React.FC = () => {
               </Box>
             </Box>
 
-            {!isEmpty(currentOrder) ? (
-              <Box className="current-order__main" mt={3}>
-                <Box
-                  className={`current-order__status status-${currentOrder.status}`}
-                >
-                  {t("orderManagement.statusSelect." + currentOrder.status)}
-                </Box>
-                <Box className="products-and-note">
-                  <Box className="products">
-                    {Array.isArray(currentOrder.products) &&
-                      currentOrder.products.map((item, index) => (
-                        <Box
-                          flex
-                          justifyContent="space-between"
-                          alignItems="center"
-                          key={index}
-                          className="product-item"
-                        >
-                          <Box
-                            flex
-                            alignItems="center"
-                            className="product-info"
-                          >
-                            <Box mr={3} flex alignItems="center">
-                              <img
-                                src={
-                                  item.product_images?.[0]?.url ||
-                                  DEFAULT_IMAGE_PRODUCT
-                                }
-                                alt="dish img"
-                                className="product-image"
-                                style={{
-                                  width: "50px",
-                                  height: "50px",
-                                  borderRadius: "8px",
-                                }}
-                              />
-                            </Box>
-                            <Box>
-                              <Text size="large" style={{ color: "black" }}>
-                                <span className="fw-500">
-                                  {item.product_name}
-                                </span>
-                              </Text>
-                              <Box flex style={{ gap: "8px", color: "black" }}>
-                                <Text size="normal">
-                                  {priceFormatter(item.unit_price)}
-                                  <span style={{ marginLeft: "2px" }}>₫</span>
-                                </Text>
-                              </Box>
-                            </Box>
-                          </Box>
-                          <Box style={{ color: "black" }}>
-                            <Text size="xLarge">x{item.quantity}</Text>
-                          </Box>
-                        </Box>
-                      ))}
-                  </Box>
-                  <Box flex justifyContent="space-between">
-                    {typeof currentOrder.notes === "string" &&
-                    currentOrder.notes ? (
-                      <Box className="note" style={{ color: "black" }}>
-                        <Text size="large">
-                          <b>{t("orderManagement.notes")}</b>:{" "}
-                          <i>"{currentOrder.notes}"</i>
-                        </Text>
-                      </Box>
-                    ) : (
-                      <Box />
-                    )}
-                    {totalBill ? (
-                      <Box
-                        className="total-bill"
-                        flex
-                        alignItems="center"
-                        style={{ gap: "4px" }}
-                      >
-                        <Text size="large" bold>
-                          {t("orderManagement.orderDetail.total")}:
-                        </Text>
-                        <Text size="large" style={{ color: "black" }}>
-                          {priceFormatter(totalBill)}₫
-                        </Text>
-                      </Box>
-                    ) : (
-                      <Box />
-                    )}
-                  </Box>
-                </Box>
-                <Box className="actions">
-                  {String(currentOrder.status) === ORDER_STATUS.PENDING && (
-                    <Button
-                      variant="secondary"
-                      onClick={() => setShowOrderMore(true)}
-                    >
-                      {t("userOrder.orderMore")}
-                    </Button>
-                  )}
-                  <Button
-                    onClick={() => {
-                      if (String(currentOrder.status) === ORDER_STATUS.PENDING) {
-                        setShowPaymentModal(true);
-                      } else if (
-                        String(currentOrder.status) === ORDER_STATUS.WAIT_FOR_PAY
-                      ) {
-                        setDisableMenuPayment(true);
-                        setShowPaymentModal(false);
-                        // handleCreateOrder();
-                      }
+            {currentOrder && !isEmpty(currentOrder) ? (
+  <Box className="current-order__main" mt={3}>
+    <Box className={`current-order__status status-${currentOrder.status}`}>
+      {t("orderManagement.statusSelect." + currentOrder.status)}
+    </Box>
+    <Box className="products-and-note">
+      <Box className="products">
+        {Array.isArray(currentOrder.products) &&
+          currentOrder.products.map((item, index) => (
+            <Box
+              flex
+              justifyContent="space-between"
+              alignItems="center"
+              key={index}
+              className="product-item"
+            >
+              <Box flex alignItems="center" className="product-info">
+                <Box mr={3} flex alignItems="center">
+                  <img
+                    src={
+                      item.product_images?.[0]?.url || DEFAULT_IMAGE_PRODUCT
+                    }
+                    alt="dish img"
+                    className="product-image"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "8px",
                     }}
-                    disabled={disableMenuPayment}
-                  >
-                    {t("menu.payment")}
-                  </Button>
+                  />
+                </Box>
+                <Box>
+                  <Text size="large" style={{ color: "black" }}>
+                    <span className="fw-500">{item.product_name}</span>
+                  </Text>
+                  <Box flex style={{ gap: "8px", color: "black" }}>
+                    <Text size="normal">
+                      {priceFormatter(item.unit_price)}
+                      <span style={{ marginLeft: "2px" }}>₫</span>
+                    </Text>
+                  </Box>
                 </Box>
               </Box>
-            ) : (
               <Box style={{ color: "black" }}>
-                {t("userOrder.noHaveOrdersYet")}
+                <Text size="xLarge">x{item.quantity}</Text>
               </Box>
-            )}
+            </Box>
+          ))}
+      </Box>
+      <Box flex justifyContent="space-between">
+        {typeof currentOrder.notes === "string" && currentOrder.notes ? (
+          <Box className="note" style={{ color: "black" }}>
+            <Text size="large">
+              <b>{t("orderManagement.notes")}</b>:{" "}
+              <i>"{currentOrder.notes}"</i>
+            </Text>
+          </Box>
+        ) : (
+          <Box />
+        )}
+        {totalBill ? (
+          <Box
+            className="total-bill"
+            flex
+            alignItems="center"
+            style={{ gap: "4px" }}
+          >
+            <Text size="large" bold>
+              {t("orderManagement.orderDetail.total")}:
+            </Text>
+            <Text size="large" style={{ color: "black" }}>
+              {priceFormatter(totalBill)}₫
+            </Text>
+          </Box>
+        ) : (
+          <Box />
+        )}
+      </Box>
+    </Box>
+    <Box className="actions">
+      {String(currentOrder.status) === ORDER_STATUS.PENDING && (
+        <Button variant="secondary" onClick={() => setShowOrderMore(true)}>
+          {t("userOrder.orderMore")}
+        </Button>
+      )}
+      <Button
+        onClick={() => {
+          if (String(currentOrder.status) === ORDER_STATUS.PENDING) {
+            setShowPaymentModal(true);
+          } else if (
+            String(currentOrder.status) === ORDER_STATUS.WAIT_FOR_PAY
+          ) {
+            setDisableMenuPayment(true);
+            setShowPaymentModal(false);
+            // handleCreateOrder();
+          }
+        }}
+        disabled={disableMenuPayment}
+      >
+        {t("menu.payment")}
+      </Button>
+    </Box>
+  </Box>
+) : (
+  <Box style={{ color: "black" }}>
+    {t("userOrder.noHaveOrdersYet")}
+  </Box>
+)}
+
           </Box>
         </Box>
 
