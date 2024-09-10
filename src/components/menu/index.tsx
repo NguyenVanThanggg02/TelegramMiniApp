@@ -31,7 +31,7 @@ import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
 import LoadingComponent from "../loading_component";
-
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 
 interface DishImage {
   uuid: string;
@@ -458,9 +458,29 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             }}
           >
             {isEmpty(displayProductList) ? (
-              <Text size="xLarge" bold className="grey-color">
-                Không có sản phẩm nào
-              </Text>
+              <div
+              className="no-links"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "100vh",
+                paddingTop: "90px",
+              }}
+            >
+              <RestaurantMenuIcon 
+                style={{
+                  fontSize: "80px",
+                  color: "black",
+                  opacity: 0.4,
+                  marginTop: "100px",
+                }}
+              />
+              <Text.Title className="title-text" style={{ color: "gray" }}>
+                Không có
+              </Text.Title>
+            </div>
             ) : (
               Object.keys(displayProductList).map((cate, index) => (
                 <Box key={cate}>
