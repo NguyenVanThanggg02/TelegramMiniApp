@@ -467,6 +467,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                 flexDirection: "column",
                 height: "100vh",
                 paddingTop: "90px",
+                marginRight:'70px'
               }}
             >
               <RestaurantMenuIcon 
