@@ -1792,6 +1792,7 @@ body[zaui-theme="dark"] .zaui-modal-content-actions:before {
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
+  display: none;
 }
 body[zaui-theme="dark"] .zaui-sheet-content {
   background: #252627;
