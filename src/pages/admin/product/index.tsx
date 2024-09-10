@@ -154,7 +154,7 @@ const ProductPage: React.FC = () => {
             }}
           >
             <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}>
-              {t("main.order")}
+              {t("main.product")}
             </Text>
           </Box>
         )}

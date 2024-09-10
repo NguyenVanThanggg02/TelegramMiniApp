@@ -12,6 +12,7 @@
     "choosePicture": "Select picture",
     "textWhenNothing": "The QR code you scan will be here",
     "order":"No orders yet",
+    "product":"No products yet",
     "adminDashboard": "Admin dashboard",
     "scanQrDes": "Scan QR code to view menu",
     "stopScan": "Stop Scan",
