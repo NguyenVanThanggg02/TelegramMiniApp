@@ -673,28 +673,21 @@ const OrderManagement: React.FC = () => {
                 );
               })
             ) : (
-              <Box
-                className="order-table_empty"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <div
-                  style={{
-                    width: "160",
-                    height: "100%",
-                  }}
-                >
-                  <img
-                    src={images}
-                    style={{
-                      opacity: 0.4,
-                      marginTop: "10px",
-                    }}
-                  ></img>
-                </div>
+              <Box className="order-table_empty" style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}>
+                <div style={{
+                  
+                }}>
+                <img src = {images} style={{
+                    width:'160px',
+                    height:'100%',
+                    opacity: 0.4,
+                    marginTop: "10px",
+                  }} ></img>
+                  </div>
                 <Text
                   style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
                 >
