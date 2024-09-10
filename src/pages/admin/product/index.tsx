@@ -8,6 +8,7 @@ import {
   Page,
   Button,
   Box,
+  Text,
 } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import ProductCard from "../../../components/product/product-card";
@@ -133,29 +134,50 @@ const ProductPage: React.FC = () => {
         </Button>
       </Box>
       <List style={{ marginTop: "10px" }}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.uuid}
-            product={product}
-            onDetails={() => goToProductDetails(product.uuid)}
-            setIsShowConfirm={setIsShowConfirm}
-            setSelectedProduct={setSelectedProduct}
-          ></ProductCard>
-        ))}
+        {products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard
+              key={product.uuid}
+              product={product}
+              onDetails={() => goToProductDetails(product.uuid)}
+              setIsShowConfirm={setIsShowConfirm}
+              setSelectedProduct={setSelectedProduct}
+            />
+          ))
+        ) : (
+          <Box
+            className="order-table_empty"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}>
+              {t("main.order")}
+            </Text>
+          </Box>
+        )}
       </List>
-      <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Page>
   );
 };
