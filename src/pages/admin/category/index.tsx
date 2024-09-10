@@ -178,7 +178,8 @@ const CategoryPage: React.FC = () => {
         <Droppable droppableId="droppable">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {categories.map((cat, index) => (
+              {categories.length > 0 ? (
+              categories.map((cat, index) => (
                 <Draggable draggableId={cat.uuid} index={index} key={cat.uuid}>
                   {(provided) => (
                     <div
@@ -213,7 +214,22 @@ const CategoryPage: React.FC = () => {
                     </div>
                   )}
                 </Draggable>
-              ))}
+              ))):(
+                <Box
+              className="order-table_empty"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Text
+                style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
+              >
+                {t("main.categories")}
+              </Text>
+            </Box>
+              )}
               {provided.placeholder}
             </div>
           )}
