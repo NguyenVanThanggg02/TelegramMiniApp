@@ -138,7 +138,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [storeDetail, setStoreDetail] = useState<Store | null>(null);
   const [showStoreDetail, setShowStoreDetail] = useState<boolean>(false);
   const [displayProductList, setDisplayProductList] = useState<Record<string, Dish[]>>({});
-  const [activeTab, setActiveTab] = useState<string | null>(menu[0]?.uuid || null);
+  const [activeTab, setActiveTab] = useState<string | null>(null);
   const [defaultMarginList, setDefaultMarginList] = useState<number>(0);
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -235,7 +235,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     );
     setActiveTab(categoryList.categories[0]?.uuid || null);
   }, [categoryList]);
-  
 
   const groupProductByCategory = (cateList: Category[], prodList: Dish[]) => {
     const resultPro: Record<string, Dish[]> = {};
@@ -265,7 +264,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
-    setActiveTab(value);
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
