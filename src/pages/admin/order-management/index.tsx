@@ -563,7 +563,8 @@ const OrderManagement: React.FC = () => {
       <Box style={{ marginBottom: "50px" }}>
         {isMobile ? (
           <Box>
-            {displayOrders.map((order, id) => {
+            {displayOrders.length > 0 ? (
+            displayOrders.map((order, id) => {
               let valStatusSlider = 0;
               if (order.status === ORDER_STATUS.WAIT_FOR_PAY) {
                 valStatusSlider = 50;
@@ -655,7 +656,13 @@ const OrderManagement: React.FC = () => {
                   )}
                 </Box>
               );
-            })}
+            })):(
+              <Box className="order-table_empty">
+                <Text style={{ color: "rgba(0, 0, 0, 0.5)" }}>
+                 không có đơn hàng
+                </Text>
+              </Box>
+            )}
           </Box>
         ) : (
           <Box className="order-table">
