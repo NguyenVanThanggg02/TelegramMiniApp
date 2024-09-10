@@ -161,7 +161,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         const { scrollTop } = container;
         if (scrollTop === 0) return;
         menuRef.current.forEach((ref, index) => {
-          if (ref && ref.getBoundingClientRect().top <= 500) {
+          if (ref && ref.getBoundingClientRect().top <= 250) {
             setActiveTab(menu[index].uuid);
           }
         });
@@ -257,23 +257,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
-  
-    // Cập nhật activeTab ngay lập tức
     setActiveTab(value);
-  
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
-  
-    // Dùng requestAnimationFrame để đảm bảo cuộn xảy ra sau khi cập nhật trạng thái
-    requestAnimationFrame(() => {
-      menuRef.current[positionMenu]?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    menuRef.current[positionMenu]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
     });
   };
-  
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
