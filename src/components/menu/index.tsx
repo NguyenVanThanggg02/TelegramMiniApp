@@ -10,6 +10,7 @@ import {
   tableState,
   tableListState,
   storeState,
+  loadingState,
 } from "../../state";
 import "./styles.scss";
 import DishOrderSheet from "../../components/dish/dish-order";
@@ -29,6 +30,7 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
+import LoadingComponent from "../loading_component";
 
 
 interface DishImage {
@@ -143,6 +145,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -279,6 +282,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } else {
       console.error("Error:", response.error);
     }
+    setLoading({ ...loading, isLoading: false });
   };
   
   
@@ -299,6 +303,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
+    setLoading({ ...loading, isLoading: false });
   };
   
 
@@ -388,6 +393,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   return (
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
+       <LoadingComponent />
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
