@@ -157,28 +157,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
     const handleScroll = () => {
       const container = pageRef.current;
-      if (!container) return;
-  
-      let closestTab = null;
-      let closestDistance = Infinity;
-  
-      menuRef.current.forEach((ref, index) => {
-        if (ref) {
-          const rect = ref.getBoundingClientRect();
-          const distance = Math.abs(rect.top - window.innerHeight / 2);
-          
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestTab = menu[index].uuid;
+      if (container) {
+        const { scrollTop } = container;
+        if (scrollTop === 0) return;
+        menuRef.current.forEach((ref, index) => {
+          if (ref && ref.getBoundingClientRect().top <= 210) {
+            setActiveTab(menu[index].uuid);
           }
-        }
-      });
-  
-      if (closestTab && closestTab !== activeTab) {
-        setActiveTab(closestTab);
+        });
       }
     };
-    
 
     const container = pageRef.current;
     container.addEventListener("touchmove", handleTouchMove);
@@ -269,28 +257,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
-  
     setActiveTab(value);
-    
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
-  
     menuRef.current[positionMenu]?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-    if (positionMenu === menu.length - 1) {
-      const container = pageRef.current;
-      if (container) {
-        container.scrollTo({
-          top: container.scrollHeight,
-          behavior: 'smooth',
-        });
-      }
-    }
   };
-  
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
