@@ -149,19 +149,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   useEffect(() => {
     if (!pageRef.current) return;
-
-    const handleTouchMove = () => {
-      const container = pageRef.current;
-      if (container) {
-        const scrollEvent = new Event("scroll");
-        container.dispatchEvent(scrollEvent);
-      }
-    };
-
+  
     const handleScroll = () => {
       const container = pageRef.current;
       if (container) {
-        // const { scrollTop } = container;
         menuRef.current.forEach((ref, index) => {
           if (ref && ref.getBoundingClientRect().top <= 210) {
             setActiveTab(menu[index].uuid);
@@ -169,17 +160,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         });
       }
     };
-
+  
     const container = pageRef.current;
-    container.addEventListener("touchmove", handleTouchMove);
     container.addEventListener("scroll", handleScroll);
     return () => {
       if (container) {
-        container.removeEventListener("touchmove", handleTouchMove);
         container.removeEventListener("scroll", handleScroll);
       }
     };
   }, [menu]);
+  
 
   const handleSelectedDish = (dish: Dish) => {
     const dishInCart = cart.find((item) => item.uuid === dish.uuid);
