@@ -284,9 +284,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     }
     setLoading({ ...loading, isLoading: false });
   };
-  
-  
-  
 
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
@@ -330,6 +327,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   useEffect(() => {
+    setLoading({ ...loading, isLoading: true }); 
+
     const fetchData = async () => {
       if (!store_uuid) return;
       
