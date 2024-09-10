@@ -161,23 +161,13 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const handleScroll = () => {
       const container = pageRef.current;
       if (container) {
-        const { scrollTop, scrollHeight, clientHeight } = container;
-  
-        const activationThreshold = scrollHeight - clientHeight - 210; 
-        if (scrollTop >= activationThreshold) {
-          setActiveTab(menu[menu.length - 1]?.uuid || null);
-        } else {
-          menuRef.current.forEach((ref, index) => {
-            if (ref) {
-              const { top, bottom } = ref.getBoundingClientRect();
-              const containerRect = container.getBoundingClientRect();
-  
-              if (top <= containerRect.top + clientHeight && bottom >= containerRect.top) {
-                setActiveTab(menu[index].uuid);
-              }
-            }
-          });
-        }
+        const { scrollTop } = container;
+        if (scrollTop === 0) return;
+        menuRef.current.forEach((ref, index) => {
+          if (ref && ref.getBoundingClientRect().top <= 300) {
+            setActiveTab(menu[index].uuid);
+          }
+        });
       }
     };
 
