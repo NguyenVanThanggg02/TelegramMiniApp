@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
-import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
-import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import {
   cartState,
   categoryListState,
@@ -13,6 +10,7 @@ import {
   tableState,
   tableListState,
   storeState,
+  loadingState,
 } from "../../state";
 import "./styles.scss";
 import DishOrderSheet from "../../components/dish/dish-order";
@@ -32,7 +30,8 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
-
+import LoadingComponent from "../loading_component";
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 
 interface DishImage {
   uuid: string;
@@ -120,7 +119,7 @@ const defaultProduct: Product = {
 };
 
 
-const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
+const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const { t } = useTranslation("global");
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
   const [searchParams, ] = useSearchParams();
@@ -146,9 +145,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
-
-  const navigate = useNavigate();
-
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -164,15 +161,20 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     const handleScroll = () => {
       const container = pageRef.current;
       if (container) {
-        const { scrollTop } = container;
-        if (scrollTop === 0) return;
+        const { scrollTop, scrollHeight, clientHeight } = container;
+    
+        const isBottom = scrollTop + clientHeight >= scrollHeight;
+        
         menuRef.current.forEach((ref, index) => {
-          if (ref && ref.getBoundingClientRect().top <= 210) {
+          if (isBottom && index === menuRef.current.length - 1) {
+            setActiveTab(menu[index].uuid); 
+          } else if (ref && ref.getBoundingClientRect().top <= 210) {
             setActiveTab(menu[index].uuid);
           }
         });
       }
     };
+    
 
     const container = pageRef.current;
     container.addEventListener("touchmove", handleTouchMove);
@@ -285,10 +287,8 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     } else {
       console.error("Error:", response.error);
     }
+    setLoading({ ...loading, isLoading: false });
   };
-  
-  
-  
 
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
@@ -305,6 +305,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
+    setLoading({ ...loading, isLoading: false });
   };
   
 
@@ -331,6 +332,8 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   useEffect(() => {
+    setLoading({ ...loading, isLoading: true }); 
+
     const fetchData = async () => {
       if (!store_uuid) return;
       
@@ -394,6 +397,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   return (
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
+        <LoadingComponent />
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -458,36 +462,63 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate,index) => (
-              <Box key={cate}>
-                <Box
-                  flex
-                  justifyContent="space-between"
-                  mt={4}
-                  //@ts-ignore
-                  ref={(ref:any) => {
-                    menuRef.current[index] = ref!;
-                  }}
-                  style={{ scrollMargin: "100px" }}
-                >
-                  <Text size="xLarge" bold className="grey-color">
-                    {cate}
-                  </Text>
-                </Box>
+            {isEmpty(displayProductList) ? (
+              <div
+              className="no-links"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "100vh",
+                paddingTop: "90px",
+                marginRight:'70px'
+              }}
+            >
+              <RestaurantMenuIcon 
+                style={{
+                  fontSize: "80px",
+                  color: "black",
+                  opacity: 0.4,
+                  marginTop: "100px",
+                }}
+              />
+              <Text.Title className="title-text" style={{ color: "gray" }}>
+              {t("main.product")}
+              </Text.Title>
+            </div>
+            ) : (
+              Object.keys(displayProductList).map((cate, index) => (
+                <Box key={cate}>
+                  <Box
+                    flex
+                    justifyContent="space-between"
+                    mt={4}
+                    // @ts-ignore
+                    ref={(ref: any) => {
+                      menuRef.current[index] = ref!;
+                    }}
+                    style={{ scrollMargin: "100px" }}
+                  >
+                    <Text size="xLarge" bold className="grey-color">
+                      {cate}
+                    </Text>
+                  </Box>
 
-                <DishMenu
-                  dishMenu={displayProductList[cate]}
-                  onDetails={(dish) => {
-                    setShowDishDetailsModal(true);
-                    handleSelectedDish(dish);
-                  }}
-                  onOrder={(dish) => {
-                    setShowOrderModal(true);
-                    handleSelectedDish(dish);
-                  }}
-                />
-              </Box>
-            ))}
+                  <DishMenu
+                    dishMenu={displayProductList[cate]}
+                    onDetails={(dish) => {
+                      setShowDishDetailsModal(true);
+                      handleSelectedDish(dish);
+                    }}
+                    onOrder={(dish) => {
+                      setShowOrderModal(true);
+                      handleSelectedDish(dish);
+                    }}
+                  />
+                </Box>
+              ))
+            )}
           </Box>
 
           {!isEmpty(cart) && (
@@ -560,73 +591,8 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           />
         </Box>
       </Page>
-      <Box
-        flex
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "center",
-          borderTop: "1px solid #e0e0e0",
-          backgroundColor: "#fff",
-          position: "sticky",
-          bottom: 0, 
-          left: 0, 
-          right: 0, 
-        }}
-      >
-        <Box
-          flex
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#f44336",
-            fontSize: "12px",
-          }}
-          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
-        >
-          <RestaurantMenuOutlinedIcon
-            style={{ color: "#f44336", fontSize: "24px" }}
-          />
-          <span>{t("navbar.menu")}</span>
-        </Box>
-
-        <Box
-          flex
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#757575",
-            fontSize: "12px",
-          }}
-          onClick={() => navigate(`/user/order/${store_uuid}`)}
-        >
-          <AssignmentOutlinedIcon
-            style={{ color: "#757575", fontSize: "24px" }}
-          />
-          <span>{t("navbar.order")}</span>
-        </Box>
-
-        <Box
-          flex
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            color: "#757575",
-            fontSize: "12px",
-          }}
-          onClick={() => navigate(`/user/profile/bottomnavbar`)}
-
-        >
-          <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
-          <span>{t("navbar.user")}</span>
-        </Box>
-      </Box>
     </>
   );
 };
 
-export default MenuBottomCommonPage;
+export default MenuCommonPage;
