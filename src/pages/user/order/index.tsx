@@ -402,7 +402,7 @@ const OrderPage: React.FC = () => {
               </Box>
             </Box>
 
-            {!isEmpty(currentOrder) ? (
+            {currentOrder && !isEmpty(currentOrder) ? (
               <Box className="current-order__main" mt={3}>
                 <Box
                   className={`current-order__status status-${currentOrder.status}`}
