@@ -273,10 +273,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
-      const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
-      if (footer) {
-        footer.style.display = 'none'; 
-      }
   };
 
   
