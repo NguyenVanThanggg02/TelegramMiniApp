@@ -491,6 +491,7 @@ const OrderPage: React.FC = () => {
                     )}
                   </Box>
                 </Box>
+                {currentOrder ? (
                 <Box className="actions">
                   {String(currentOrder.status) === ORDER_STATUS.PENDING && (
                     <Button
@@ -517,6 +518,9 @@ const OrderPage: React.FC = () => {
                     {t("menu.payment")}
                   </Button>
                 </Box>
+                ):(
+                  <Box />
+                )}
               </Box>
             ) : (
               <Box style={{ color: "black" }}>
