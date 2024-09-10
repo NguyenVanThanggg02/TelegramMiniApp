@@ -162,22 +162,19 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       const container = pageRef.current;
       if (container) {
         const { scrollTop, scrollHeight, clientHeight } = container;
+        if (scrollTop === 0) return;
   
-        const margin = 50; 
-  
-        if (scrollTop + clientHeight >= scrollHeight - margin) {
-          setActiveTab(menu[menu.length - 1]?.uuid || null);
-        } else {
-          menuRef.current.forEach((ref, index) => {
-            if (ref) {
-              const { top, bottom } = ref.getBoundingClientRect();
-              const containerRect = container.getBoundingClientRect();
-  
-              if (top <= containerRect.top + clientHeight && bottom >= containerRect.top) {
-                setActiveTab(menu[index].uuid);
-              }
+        menuRef.current.forEach((ref, index) => {
+          if (ref) {
+            const { top, bottom } = ref.getBoundingClientRect();
+            if (top <= 210 && bottom >= 210) {
+              setActiveTab(menu[index].uuid);
             }
-          });
+          }
+        });
+  
+        if (scrollTop + clientHeight >= scrollHeight) {
+          setActiveTab(menu[menu.length - 1]?.uuid || null);
         }
       }
     };
