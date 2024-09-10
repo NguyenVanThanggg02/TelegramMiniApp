@@ -479,7 +479,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                 }}
               />
               <Text.Title className="title-text" style={{ color: "gray" }}>
-                Không có
+              {t("main.product")}
               </Text.Title>
             </div>
             ) : (
