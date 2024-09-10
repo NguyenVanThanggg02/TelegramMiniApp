@@ -47,7 +47,7 @@ import { useCloudStorage } from "@telegram-apps/sdk-react";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import images from "../../../../assets/images.jpg"
+import images from "../../../../assets/images.png"
 interface User {
   avatar: string;
 }
