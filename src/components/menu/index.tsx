@@ -263,18 +263,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   }, [productList, categoryList]);
 
   const handleChangeTab = (value: string) => {
-    console.log(value);
-    
-    // const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    // if (positionMenu === -1) return;
-    // setActiveTab(value);
-    // if (!table_uuid) {
+    const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+    if (positionMenu === -1) return;
+    setActiveTab(value);
+    if (!table_uuid) {
       setDefaultMarginList(40);
-    // }
-    // menuRef.current[positionMenu]?.scrollIntoView({
-    //   behavior: "smooth",
-    //   block: "start",
-    // });
+    }
+    menuRef.current[positionMenu]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
