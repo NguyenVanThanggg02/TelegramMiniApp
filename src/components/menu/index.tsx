@@ -458,47 +458,36 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate, index) => {
-  const products = displayProductList[cate];
-  
-  return (
-    <Box key={cate}>
-      <Box
-        flex
-        justifyContent="space-between"
-        mt={4}
-        // @ts-ignore
-        ref={(ref: any) => {
-          menuRef.current[index] = ref!;
-        }}
-        style={{ scrollMargin: "100px" }}
-      >
-        <Text size="xLarge" bold className="grey-color">
-          {cate}
-        </Text>
-      </Box>
+            {Object.keys(displayProductList).map((cate,index) => (
+              <Box key={cate}>
+                <Box
+                  flex
+                  justifyContent="space-between"
+                  mt={4}
+                    // @ts-ignore
+                  ref={(ref:any) => {
+                    menuRef.current[index] = ref!;
+                  }}
+                  style={{ scrollMargin: "100px" }}
+                >
+                  <Text size="xLarge" bold className="grey-color">
+                    {cate}
+                  </Text>
+                </Box>
 
-      {products && products.length > 0 ? (
-        <DishMenu
-          dishMenu={products}
-          onDetails={(dish) => {
-            setShowDishDetailsModal(true);
-            handleSelectedDish(dish);
-          }}
-          onOrder={(dish) => {
-            setShowOrderModal(true);
-            handleSelectedDish(dish);
-          }}
-        />
-      ) : (
-        <Text size="large" className="grey-color">
-          Không có sản phẩm
-        </Text>
-      )}
-    </Box>
-  );
-})}
-
+                <DishMenu
+                  dishMenu={displayProductList[cate]}
+                  onDetails={(dish) => {
+                    setShowDishDetailsModal(true);
+                    handleSelectedDish(dish);
+                  }}
+                  onOrder={(dish) => {
+                    setShowOrderModal(true);
+                    handleSelectedDish(dish);
+                  }}
+                />
+              </Box>
+            ))}
           </Box>
 
           {!isEmpty(cart) && (
