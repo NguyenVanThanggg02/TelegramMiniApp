@@ -263,6 +263,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
+    setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
