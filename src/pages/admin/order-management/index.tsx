@@ -248,6 +248,7 @@ const OrderManagement: React.FC = () => {
         setSnackbarType("success");
         setSnackbarOpen(true);
       }
+      setSpinner(false);
     } catch (error) {
       console.error("Unexpected error:", error);
       setSnackbarMessage(String(error)); 
