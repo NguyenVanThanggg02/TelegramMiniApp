@@ -141,7 +141,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [showStoreDetail, setShowStoreDetail] = useState<boolean>(false);
   const [displayProductList, setDisplayProductList] = useState<Record<string, Dish[]>>({});
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [defaultMarginList, setDefaultMarginList] = useState<number>(0);
+  // const [defaultMarginList, setDefaultMarginList] = useState<number>(0);
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
@@ -461,7 +461,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           <Box
             style={{
               marginLeft: "80px",
-              marginTop: table_uuid ? 100 : defaultMarginList,
+              // marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
             {isEmpty(displayProductList) ? (
