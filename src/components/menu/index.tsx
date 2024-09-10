@@ -425,31 +425,30 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         >
           <Box className="menu-tabs-container">
-            <Tabs
-              id="menu-tabs"
-              value={activeTab}
-              orientation="vertical"
-              variant="scrollable"
-              onChange={(_e, value) => handleChangeTab(value)}
-              sx={{ width: "65px" }}
-            >
-              
-              {!isEmpty(menu) &&
-                menu.map((item) => (
-                  <Tab
-                    value={item.uuid}
-                    label={item.name}
-                    sx={{
-                      paddingLeft: "0px",
-                      alignItems: "flex-start",
-                      textAlign: "left",
-                      textTransform: "none",
-                      fontSize: "14px",
-                      minWidth: "60px",
-                    }}
-                  ></Tab>
-                ))}
-            </Tabs>
+          <Tabs
+            id="menu-tabs"
+            value={activeTab}
+            orientation="vertical"
+            variant="scrollable"
+            onChange={(_e, value) => handleChangeTab(value)}
+            sx={{ width: "65px" }}
+          >
+            {!isEmpty(menu) &&
+              menu.map((item) => (
+                <Tab
+                  value={item.uuid}
+                  label={item.name}
+                  sx={{
+                    paddingLeft: "0px",
+                    alignItems: "flex-start",
+                    textAlign: "left",
+                    textTransform: "none",
+                    fontSize: "14px",
+                    minWidth: "60px",
+                  }}
+                ></Tab>
+              ))}
+          </Tabs>
           </Box>
 
           <Box
@@ -458,14 +457,19 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate,index) => (
+            {isEmpty(displayProductList) ? (
+            <Text size="xLarge" bold className="grey-color">
+              Không có sản phẩm nào
+            </Text>
+          ) : (
+            Object.keys(displayProductList).map((cate, index) => (
               <Box key={cate}>
                 <Box
                   flex
                   justifyContent="space-between"
                   mt={4}
-                    // @ts-ignore
-                  ref={(ref:any) => {
+                  // @ts-ignore
+                  ref={(ref: any) => {
                     menuRef.current[index] = ref!;
                   }}
                   style={{ scrollMargin: "100px" }}
@@ -475,20 +479,27 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                   </Text>
                 </Box>
 
-                <DishMenu
-                  dishMenu={displayProductList[cate]}
-                  onDetails={(dish) => {
-                    setShowDishDetailsModal(true);
-                    handleSelectedDish(dish);
-                  }}
-                  onOrder={(dish) => {
-                    setShowOrderModal(true);
-                    handleSelectedDish(dish);
-                  }}
-                />
+                {isEmpty(displayProductList[cate]) ? (
+                  <Text size="large" className="grey-color">
+                    Không có sản phẩm trong danh mục này
+                  </Text>
+                ) : (
+                  <DishMenu
+                    dishMenu={displayProductList[cate]}
+                    onDetails={(dish) => {
+                      setShowDishDetailsModal(true);
+                      handleSelectedDish(dish);
+                    }}
+                    onOrder={(dish) => {
+                      setShowOrderModal(true);
+                      handleSelectedDish(dish);
+                    }}
+                  />
+                )}
               </Box>
-            ))}
-          </Box>
+            ))
+          )}
+        </Box>
 
           {!isEmpty(cart) && (
             <Box
