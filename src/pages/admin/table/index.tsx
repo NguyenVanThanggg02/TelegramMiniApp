@@ -151,46 +151,63 @@ const TablePage: React.FC = () => {
       <div className="section-container">
         <AddTableForm store_uuid={store_uuid} onTableAdded={handleTableAdded} />
         <List style={{ marginBottom: "60px" }}>
-          {tables.map((table, index) => (
-            <Box key={index}>
-              <Box
-                className="table-card-container"
-                onClick={() => goToTableDetails(table.uuid, table.name)}
-              >
-                <img className="table-img" src={tableIcon}></img>
-                <Box>
-                  <Box flex flexDirection="column">
-                    <Text
-                      size="xLarge"
-                      bold
-                      style={{ marginLeft: "10px", color: "black" }}
-                    >
-                      {table.name}
-                    </Text>
+          {tables.length > 0 ? (
+            tables.map((table, index) => (
+              <Box key={index}>
+                <Box
+                  className="table-card-container"
+                  onClick={() => goToTableDetails(table.uuid, table.name)}
+                >
+                  <img className="table-img" src={tableIcon}></img>
+                  <Box>
+                    <Box flex flexDirection="column">
+                      <Text
+                        size="xLarge"
+                        bold
+                        style={{ marginLeft: "10px", color: "black" }}
+                      >
+                        {table.name}
+                      </Text>
+                    </Box>
                   </Box>
+                  <Button
+                    icon={<QrCodeOutlinedIcon />}
+                    className="qr-icon"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedTableUUID(
+                        selectedTableUUID === table.uuid ? "" : table.uuid
+                      );
+                    }}
+                  ></Button>
                 </Box>
-                <Button
-                  icon={<QrCodeOutlinedIcon />}
-                  className="qr-icon"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedTableUUID(
-                      selectedTableUUID === table.uuid ? "" : table.uuid
-                    );
-                  }}
-                ></Button>
+                <Box>
+                  {selectedTableUUID === table.uuid && (
+                    <QRCodeViewer
+                      value={table.link}
+                      title={table.name.toUpperCase()}
+                      handleSave={handleSaveQr}
+                    />
+                  )}
+                </Box>
               </Box>
-              <Box>
-                {selectedTableUUID === table.uuid && (
-                  <QRCodeViewer
-                    value={table.link}
-                    title={table.name.toUpperCase()}
-                    handleSave={handleSaveQr}
-                  />
-                )}
-              </Box>
+            ))
+          ) : (
+            <Box
+              className="order-table_empty"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Text
+                style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
+              >
+                {t("main.table")}
+              </Text>
             </Box>
-          ))}
+          )}
         </List>
         {tables?.length > 0 && (
           <QRCodeMultiplyViewer listItems={tables} handleSave={handleSaveQr} />

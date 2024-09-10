@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, List, Page, Box } from "zmp-ui";
+import { Button, List, Page, Box, Text } from "zmp-ui";
 import { useRecoilState } from "recoil";
 import VoucherDetailModal from "../../../components/voucher/voucher-detail/voucherDetailModal";
 import { loadingState } from "../../../state";
@@ -82,15 +82,30 @@ const VoucherPage: React.FC = () => {
         </Button>
       </Box>
       <List style={{ marginTop: "16px" }}>
-        {vouchers.map((vou) => (
-          <VoucherCard
-            voucher={vou}
-            key={vou.uuid}
-            onDetails={() =>
-              navigate(`/admin/voucher/update/${store_uuid}/${vou.uuid}`)
-            }
-          />
-        ))}
+        {vouchers.length > 0 ? (
+          vouchers.map((vou) => (
+            <VoucherCard
+              voucher={vou}
+              key={vou.uuid}
+              onDetails={() =>
+                navigate(`/admin/voucher/update/${store_uuid}/${vou.uuid}`)
+              }
+            />
+          ))
+        ) : (
+          <Box
+            className="order-table_empty"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}>
+              {t("main.voucher")}
+            </Text>
+          </Box>
+        )}
       </List>
       <VoucherDetailModal
         isShow={isShowDetail}
@@ -101,19 +116,25 @@ const VoucherPage: React.FC = () => {
         }}
         onUse={() => {}}
       />
-       <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Page>
   );
 };

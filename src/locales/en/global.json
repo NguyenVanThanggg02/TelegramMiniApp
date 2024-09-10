@@ -13,6 +13,8 @@
     "textWhenNothing": "The QR code you scan will be here",
     "order":"No orders yet",
     "product":"No products yet",
+    "table":"No tables yet",
+    "voucher":"No vouchers yet",
     "adminDashboard": "Admin dashboard",
     "scanQrDes": "Scan QR code to view menu",
     "stopScan": "Stop Scan",
