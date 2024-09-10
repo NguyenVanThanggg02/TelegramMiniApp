@@ -677,10 +677,7 @@ const OrderManagement: React.FC = () => {
               <Box className="order-table_empty" style={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
                 flexDirection: "column",
-                height: "100vh",
-                paddingTop: "90px",
               }}>
                 <ShoppingBasketIcon
                   style={{
