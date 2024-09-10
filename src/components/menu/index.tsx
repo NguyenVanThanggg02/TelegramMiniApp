@@ -392,7 +392,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   return (
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
-       <LoadingComponent />
+        <LoadingComponent />
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -425,30 +425,30 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           }}
         >
           <Box className="menu-tabs-container">
-          <Tabs
-            id="menu-tabs"
-            value={activeTab}
-            orientation="vertical"
-            variant="scrollable"
-            onChange={(_e, value) => handleChangeTab(value)}
-            sx={{ width: "65px" }}
-          >
-            {!isEmpty(menu) &&
-              menu.map((item) => (
-                <Tab
-                  value={item.uuid}
-                  label={item.name}
-                  sx={{
-                    paddingLeft: "0px",
-                    alignItems: "flex-start",
-                    textAlign: "left",
-                    textTransform: "none",
-                    fontSize: "14px",
-                    minWidth: "60px",
-                  }}
-                ></Tab>
-              ))}
-          </Tabs>
+            <Tabs
+              id="menu-tabs"
+              value={activeTab}
+              orientation="vertical"
+              variant="scrollable"
+              onChange={(_e, value) => handleChangeTab(value)}
+              sx={{ width: "65px" }}
+            >
+              {!isEmpty(menu) &&
+                menu.map((item) => (
+                  <Tab
+                    value={item.uuid}
+                    label={item.name}
+                    sx={{
+                      paddingLeft: "0px",
+                      alignItems: "flex-start",
+                      textAlign: "left",
+                      textTransform: "none",
+                      fontSize: "14px",
+                      minWidth: "60px",
+                    }}
+                  ></Tab>
+                ))}
+            </Tabs>
           </Box>
 
           <Box
@@ -458,32 +458,27 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             }}
           >
             {isEmpty(displayProductList) ? (
-            <Text size="xLarge" bold className="grey-color">
-              Không có sản phẩm nào
-            </Text>
-          ) : (
-            Object.keys(displayProductList).map((cate, index) => (
-              <Box key={cate}>
-                <Box
-                  flex
-                  justifyContent="space-between"
-                  mt={4}
-                  // @ts-ignore
-                  ref={(ref: any) => {
-                    menuRef.current[index] = ref!;
-                  }}
-                  style={{ scrollMargin: "100px" }}
-                >
-                  <Text size="xLarge" bold className="grey-color">
-                    {cate}
-                  </Text>
-                </Box>
+              <Text size="xLarge" bold className="grey-color">
+                Không có sản phẩm nào
+              </Text>
+            ) : (
+              Object.keys(displayProductList).map((cate, index) => (
+                <Box key={cate}>
+                  <Box
+                    flex
+                    justifyContent="space-between"
+                    mt={4}
+                    // @ts-ignore
+                    ref={(ref: any) => {
+                      menuRef.current[index] = ref!;
+                    }}
+                    style={{ scrollMargin: "100px" }}
+                  >
+                    <Text size="xLarge" bold className="grey-color">
+                      {cate}
+                    </Text>
+                  </Box>
 
-                {isEmpty(displayProductList[cate]) ? (
-                  <Text size="large" className="grey-color">
-                    Không có sản phẩm trong danh mục này
-                  </Text>
-                ) : (
                   <DishMenu
                     dishMenu={displayProductList[cate]}
                     onDetails={(dish) => {
@@ -495,11 +490,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                       handleSelectedDish(dish);
                     }}
                   />
-                )}
-              </Box>
-            ))
-          )}
-        </Box>
+                </Box>
+              ))
+            )}
+          </Box>
 
           {!isEmpty(cart) && (
             <Box
