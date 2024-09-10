@@ -275,8 +275,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     });
   };
 
-  
-
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
     
