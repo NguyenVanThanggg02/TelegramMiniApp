@@ -167,7 +167,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         const { scrollTop } = container;
         if (scrollTop === 0) return;
         menuRef.current.forEach((ref, index) => {
-          if (ref && ref.getBoundingClientRect().top <= 500) {
+          if (ref && ref.getBoundingClientRect().top <= 250) {
             setActiveTab(menu[index].uuid);
           }
         });
@@ -457,15 +457,16 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate) => (
+            {Object.keys(displayProductList).map((cate,index) => (
               <Box key={cate}>
                 <Box
                   flex
                   justifyContent="space-between"
                   mt={4}
-                  // ref={(ref:any) => {
-                  //   menuRef.current[index] = ref!;
-                  // }}
+                  //@ts-ignore
+                  ref={(ref:any) => {
+                    menuRef.current[index] = ref!;
+                  }}
                   style={{ scrollMargin: "100px" }}
                 >
                   <Text size="xLarge" bold className="grey-color">
