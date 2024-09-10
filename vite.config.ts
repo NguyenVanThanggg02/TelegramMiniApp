@@ -15,7 +15,7 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: true, // Bật tạo source maps
+    sourcemap: false, // Bật tạo source maps
   },
   plugins: [
     // Allows using React dev server along with building a React application with Vite.
