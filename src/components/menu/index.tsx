@@ -424,11 +424,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               value={activeTab}
               orientation="vertical"
               variant="scrollable"
-              onChange={(_event, newValue) => {
-                setActiveTab(newValue); 
-                handleChangeTab(newValue); 
-              }}
+              onChange={(_e, value) => handleChangeTab(value)}
+              sx={{ width: "65px" }}
             >
+              
               {!isEmpty(menu) &&
                 menu.map((item) => (
                   <Tab
@@ -453,14 +452,14 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate, index) => (
+            {Object.keys(displayProductList).map((cate,index) => (
               <Box key={cate}>
                 <Box
                   flex
                   justifyContent="space-between"
                   mt={4}
-                  // @ts-ignore
-                  ref={(ref: any) => {
+                    // @ts-ignore
+                  ref={(ref:any) => {
                     menuRef.current[index] = ref!;
                   }}
                   style={{ scrollMargin: "100px" }}
