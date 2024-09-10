@@ -10,7 +10,6 @@ import {
   tableState,
   tableListState,
   storeState,
-  loadingState,
 } from "../../state";
 import "./styles.scss";
 import DishOrderSheet from "../../components/dish/dish-order";
@@ -30,8 +29,7 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
-import LoadingComponent from "../loading_component";
-import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+
 
 interface DishImage {
   uuid: string;
@@ -145,7 +143,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
-  const [loading, setLoading] = useRecoilState(loadingState);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -161,10 +158,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const handleScroll = () => {
       const container = pageRef.current;
       if (container) {
-        // const { scrollTop } = container;
-        // if (scrollTop === 0) return;
+        const { scrollTop } = container;
+        if (scrollTop === 0) return;
         menuRef.current.forEach((ref, index) => {
-          if (ref && ref.getBoundingClientRect().top <= 210) {
+          if (ref && ref.getBoundingClientRect().top <= 500) {
             setActiveTab(menu[index].uuid);
           }
         });
@@ -260,7 +257,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
-    // setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
@@ -282,8 +278,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } else {
       console.error("Error:", response.error);
     }
-    setLoading({ ...loading, isLoading: false });
   };
+  
+  
+  
 
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
@@ -300,7 +298,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-    setLoading({ ...loading, isLoading: false });
   };
   
 
@@ -327,8 +324,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   useEffect(() => {
-    setLoading({ ...loading, isLoading: true }); 
-
     const fetchData = async () => {
       if (!store_uuid) return;
       
@@ -392,7 +387,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   return (
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
-        <LoadingComponent />
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -457,63 +451,36 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {isEmpty(displayProductList) ? (
-              <div
-              className="no-links"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                height: "100vh",
-                paddingTop: "90px",
-                marginRight:'70px'
-              }}
-            >
-              <RestaurantMenuIcon 
-                style={{
-                  fontSize: "80px",
-                  color: "black",
-                  opacity: 0.4,
-                  marginTop: "100px",
-                }}
-              />
-              <Text.Title className="title-text" style={{ color: "gray" }}>
-              {t("main.product")}
-              </Text.Title>
-            </div>
-            ) : (
-              Object.keys(displayProductList).map((cate, index) => (
-                <Box key={cate}>
-                  <Box
-                    flex
-                    justifyContent="space-between"
-                    mt={4}
+            {Object.keys(displayProductList).map((cate,index) => (
+              <Box key={cate}>
+                <Box
+                  flex
+                  justifyContent="space-between"
+                  mt={4}
                     // @ts-ignore
-                    ref={(ref: any) => {
-                      menuRef.current[index] = ref!;
-                    }}
-                    style={{ scrollMargin: "100px" }}
-                  >
-                    <Text size="xLarge" bold className="grey-color">
-                      {cate}
-                    </Text>
-                  </Box>
-
-                  <DishMenu
-                    dishMenu={displayProductList[cate]}
-                    onDetails={(dish) => {
-                      setShowDishDetailsModal(true);
-                      handleSelectedDish(dish);
-                    }}
-                    onOrder={(dish) => {
-                      setShowOrderModal(true);
-                      handleSelectedDish(dish);
-                    }}
-                  />
+                  ref={(ref:any) => {
+                    menuRef.current[index] = ref!;
+                  }}
+                  style={{ scrollMargin: "100px" }}
+                >
+                  <Text size="xLarge" bold className="grey-color">
+                    {cate}
+                  </Text>
                 </Box>
-              ))
-            )}
+
+                <DishMenu
+                  dishMenu={displayProductList[cate]}
+                  onDetails={(dish) => {
+                    setShowDishDetailsModal(true);
+                    handleSelectedDish(dish);
+                  }}
+                  onOrder={(dish) => {
+                    setShowOrderModal(true);
+                    handleSelectedDish(dish);
+                  }}
+                />
+              </Box>
+            ))}
           </Box>
 
           {!isEmpty(cart) && (
