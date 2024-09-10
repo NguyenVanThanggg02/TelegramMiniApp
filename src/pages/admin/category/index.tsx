@@ -171,83 +171,97 @@ const CategoryPage: React.FC = () => {
         onConfirm={() => onDeleteCategory()}
       />
       <Box flex alignItems="center" justifyContent="center" mt={2}>
-        <InfoOutlinedIcon style={{ fontSize: "20px", color:'black' }} />
-        <Text className="txtDragDrop" style={{color:'black'}}>{t("categoryManagement.dragDrop")}</Text>
+        <InfoOutlinedIcon style={{ fontSize: "20px", color: "black" }} />
+        <Text className="txtDragDrop" style={{ color: "black" }}>
+          {t("categoryManagement.dragDrop")}
+        </Text>
       </Box>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {categories.length > 0 ? (
-              categories.map((cat, index) => (
-                <Draggable draggableId={cat.uuid} index={index} key={cat.uuid}>
-                  {(provided) => (
-                    <div
-                      key={index}
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="category-card-container"
-                      onClick={() => goToCategoryDetails(cat.uuid)}
-                    >
-                      <img className="category-img" src={catIcon}></img>
-                      <Box>
-                        <Box flex flexDirection="column">
-                          <Text
-                            size="xLarge"
-                            bold
-                            style={{ marginLeft: "10px", color:'black' }}
-                          >
-                            {cat.name}
-                          </Text>
+                categories.map((cat, index) => (
+                  <Draggable
+                    draggableId={cat.uuid}
+                    index={index}
+                    key={cat.uuid}
+                  >
+                    {(provided) => (
+                      <div
+                        key={index}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="category-card-container"
+                        onClick={() => goToCategoryDetails(cat.uuid)}
+                      >
+                        <img className="category-img" src={catIcon}></img>
+                        <Box>
+                          <Box flex flexDirection="column">
+                            <Text
+                              size="xLarge"
+                              bold
+                              style={{ marginLeft: "10px", color: "black" }}
+                            >
+                              {cat.name}
+                            </Text>
+                          </Box>
                         </Box>
-                      </Box>
-                      <Button
-                        icon={<DeleteForeverOutlinedIcon />}
-                        className="delete-icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedCategory(cat);
-                          setIsShowConfirm(true);
-                        }}
-                      ></Button>
-                    </div>
-                  )}
-                </Draggable>
-              ))):(
+                        <Button
+                          icon={<DeleteForeverOutlinedIcon />}
+                          className="delete-icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedCategory(cat);
+                            setIsShowConfirm(true);
+                          }}
+                        ></Button>
+                      </div>
+                    )}
+                  </Draggable>
+                ))
+              ) : (
                 <Box
-              className="order-table_empty"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-              }}
-            >
-              <Text
-                style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
-              >
-                {t("main.categories")}
-              </Text>
-            </Box>
+                  className="order-table_empty"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    marginTop:'50px'
+                  }}
+                >
+                  <Text
+                    style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}
+                  >
+                    {t("main.categories")}
+                  </Text>
+                </Box>
               )}
               {provided.placeholder}
             </div>
           )}
         </Droppable>
       </DragDropContext>
-      <div style={{borderRadius:'10px', backgroundColor:'black'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px", backgroundColor: "black" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Page>
   );
 };

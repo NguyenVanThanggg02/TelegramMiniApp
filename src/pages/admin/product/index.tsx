@@ -151,6 +151,8 @@ const ProductPage: React.FC = () => {
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
+              marginTop:'50px'
+
             }}
           >
             <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}>

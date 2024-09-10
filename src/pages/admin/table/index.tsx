@@ -199,6 +199,8 @@ const TablePage: React.FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 flexDirection: "column",
+                marginTop:'50px'
+
               }}
             >
               <Text
