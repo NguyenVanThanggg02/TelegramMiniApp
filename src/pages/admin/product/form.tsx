@@ -602,7 +602,8 @@ const ProductFormPage: React.FC = () => {
         <div style={{borderRadius:'10px'}}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
+              {/* <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}> */}
+              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : snackbarType === "warning" ? "snackbar-warning" : "snackbar-error"}`}>
                 <div style={{display:'flex'}}>
                   {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
                   {snackbarType === "warning" && <WarningIcon style={{ marginRight: 8, color:'yellow' }} />} 
