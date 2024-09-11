@@ -92,17 +92,17 @@ const TablePage: React.FC = () => {
     }
   };
 
-  const linkBuilder = (table_uuid: string): string => {
-    return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  };
-  // quét vào thẳng store nhưng không quét để sang menu được
   // const linkBuilder = (table_uuid: string): string => {
-  //   const botUsername = "MiLiKun_bot"; 
-  //   const shortName = "orderfood"; 
-  //   const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  
-  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  //   return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   // };
+  // quét vào thẳng store nhưng không quét để sang menu được
+  const linkBuilder = (table_uuid: string): string => {
+    const botUsername = "MiLiKun_bot"; 
+    const shortName = "orderfood"; 
+    const startParam = `//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  
+    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  };
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
