@@ -265,7 +265,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
-    // setActiveTab(value);
+    setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
@@ -273,8 +273,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
-    console.log(value);
-    
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
