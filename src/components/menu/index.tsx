@@ -273,6 +273,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
+    const ft = document.querySelector('.web-app-footer') as HTMLElement | null;
+    if (ft) {
+      ft.style.backgroundColor = '#f8f9fa'; // Áp dụng style thông qua JavaScript
+    }
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
