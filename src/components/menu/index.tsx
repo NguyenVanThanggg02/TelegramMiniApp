@@ -495,7 +495,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                     justifyContent="space-between"
                     mt={4}
                     // @ts-ignore
-                    ref={(ref) => {
+                    ref={(ref: any) => {
                       menuRef.current[index] = ref!;
                     }}
                     style={{ scrollMargin: "100px" }}
