@@ -168,7 +168,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         menuRef.current.forEach((ref, index) => {
           if (isBottom && index === menuRef.current.length - 1) {
             setActiveTab(menu[index].uuid); 
-          } else if (ref && ref.getBoundingClientRect().top <= 300) {
+          } else if (ref && ref.getBoundingClientRect().top <= 210) {
             setActiveTab(menu[index].uuid);
           }
         });
