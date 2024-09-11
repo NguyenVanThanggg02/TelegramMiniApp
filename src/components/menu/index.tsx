@@ -264,15 +264,24 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1) return;
-    setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
-    menuRef.current[positionMenu]?.scrollIntoView({
+    //@ts-ignore
+    menuRef[positionMenu].scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
+
+    // if (value == allItemsId) {
+    //   handleSortSelect(selectedSort, [...productList.products]);
+    // } else {
+    //   handleSortSelect(selectedSort, [
+    //     ...productList.products.filter((product) =>
+    //       product.categories.find((product_cate) => product_cate.uuid === value)
+    //     ),
+    //   ]);
+    // }
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
@@ -395,6 +404,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   return (
+    <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <LoadingComponent />
         <Box className="top-menu-container">
@@ -423,10 +433,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         </Box>
         <Box
           className="section-container"
-          // style={{
-          //   marginBottom: !isEmpty(cart) ? 110 : 0,
-          //   paddingTop: table_uuid ? 0 : 16,
-          // }}
+          style={{
+            marginBottom: !isEmpty(cart) ? 110 : 0,
+            paddingTop: table_uuid ? 0 : 16,
+          }}
         >
           <Box className="menu-tabs-container">
             <Tabs
@@ -435,7 +445,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               orientation="vertical"
               variant="scrollable"
               onChange={(_e, value) => handleChangeTab(value)}
-              // sx={{ width: "65px" }}
+              sx={{ width: "65px" }}
             >
               {!isEmpty(menu) &&
                 menu.map((item) => (
@@ -590,6 +600,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           />
         </Box>
       </Page>
+    </>
   );
 };
 
