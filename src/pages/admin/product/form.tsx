@@ -181,7 +181,7 @@ const ProductFormPage: React.FC = () => {
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const files = target.files;
-
+  
     if (files && files.length > 0) {
       const fileArray = Array.from(files);
       const newImages = fileArray.map((file) => {
@@ -194,7 +194,7 @@ const ProductFormPage: React.FC = () => {
           reader.readAsDataURL(file);
         });
       });
-
+  
       try {
         const imageData = await Promise.all(newImages);
         const imageObjects = imageData.map(({ src, file }) => ({
@@ -203,31 +203,23 @@ const ProductFormPage: React.FC = () => {
           key: file.name,
           file,
         }));
-
+  
         setImages((prevImages) => [...prevImages, ...imageObjects]);
-
+  
         const response = await uploadImages(store.uuid, user.uuid, fileArray);
         console.log("Upload successful:", response);
-
+  
         const data = response.data.data;
         const urls = data?.urls || [];
         const uuids = data?.uuids || [];
-
-        console.log("urls", urls);
-        console.log("uuids", uuids);
-
+  
         const newData = urls.map((url: string, index: string) => ({
           src: url,
           alt: `img ${images.length + index + 1}`,
           key: `${images.length + index + 1}`,
           uuid: uuids[index],
         }));
-
-        // const uploadedImages = imageObjects.map((img, index) => ({
-        //   ...img,
-        //   uuid: uuids[index],
-        // }));
-
+  
         setImages((prevImages) => [
           ...prevImages.filter((img) => img.uuid),
           ...newData,
@@ -243,6 +235,7 @@ const ProductFormPage: React.FC = () => {
       console.log("No files selected.");
     }
   };
+  
   const loadProductDetails = async (product_uuid: string) => {
     const data = await fetchProductDetails(product_uuid);
     if (!data?.error && data.data) {
@@ -336,19 +329,30 @@ const ProductFormPage: React.FC = () => {
     return isValid;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(images);
+  
     if (!validateForm()) return;
+  
+    // Đảm bảo rằng tất cả ảnh đã được tải lên
+    if (images.some(img => !img.uuid)) {
+      setSnackbarMessage(t("snackbarMessage.waitForImageUpload"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
+      return;
+    }
+  
     if (product_uuid && product_uuid !== "null") {
-      updateProduct();
+      await updateProduct();
     } else {
-      createProduct();
+      await createProduct();
     }
   };
+  
 
   const createProduct = async () => {
     const payload = buildPayload();
-
+  
     const data = await sendCreateProductRequest(payload);
     if (!data?.error) {
       console.log("Product created:", data);
@@ -358,7 +362,6 @@ const ProductFormPage: React.FC = () => {
       setTimeout(() => {
         navigate(-1); 
       }, 2000);
-
     } else {
       console.error("Error:", data.error);
       setSnackbarMessage(t("snackbarMessage.productCreateFail"));
@@ -370,10 +373,10 @@ const ProductFormPage: React.FC = () => {
   const updateProduct = async () => {
     let payload = buildPayload();
     payload.product.uuid = product_uuid;
-
+  
     const data = await sendUpdateProductRequest(payload);
     if (!data?.error) {
-      console.log("updated:", data);
+      console.log("Updated:", data);
       setSnackbarMessage(t("snackbarMessage.productUpdateSuccess"));
       setSnackbarType("success");
       setSnackbarOpen(true);
@@ -383,8 +386,8 @@ const ProductFormPage: React.FC = () => {
     } else {
       console.error("Error:", data.error);
       setSnackbarMessage(t("snackbarMessage.productUpdateFail"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
+      setSnackbarType("error");
+      setSnackbarOpen(true);
     }
   };
 
