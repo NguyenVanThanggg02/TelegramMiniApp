@@ -159,26 +159,21 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     };
 
     const handleScroll = () => {
-  const container = pageRef.current;
-  if (container) {
-    const { scrollTop, scrollHeight, clientHeight } = container;
-    const isBottom = scrollTop + clientHeight >= scrollHeight;
-
-    menuRef.current.forEach((ref, index) => {
-      if (isBottom && index === menuRef.current.length - 1) {
-        setActiveTab(menu[index].uuid); // Last tab, scroll to bottom
-        // Explicitly hide button if it's showing
-        const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
-        if (footer) {
-          footer.style.display = 'none';  // Ensure footer is hidden
-        }
-      } else if (ref && ref.getBoundingClientRect().top <= 210) {
-        setActiveTab(menu[index].uuid);
+      const container = pageRef.current;
+      if (container) {
+        const { scrollTop, scrollHeight, clientHeight } = container;
+    
+        const isBottom = scrollTop + clientHeight >= scrollHeight;
+        
+        menuRef.current.forEach((ref, index) => {
+          if (isBottom && index === menuRef.current.length - 1) {
+            setActiveTab(menu[index].uuid); 
+          } else if (ref && ref.getBoundingClientRect().top <= 210) {
+            setActiveTab(menu[index].uuid);
+          }
+        });
       }
-    });
-  }
-};
-
+    };
     
 
     const container = pageRef.current;
@@ -278,13 +273,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
-  
-    const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
-    if (footer) {
-      footer.style.display = 'none';  // Hide footer when changing tabs
-    }
   };
-  
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
