@@ -233,7 +233,9 @@ const ProductFormPage: React.FC = () => {
           ...newData,
         ]);
         setImageUUIDs((prevUUIDs) => [...prevUUIDs, ...uuids]);
-
+        setSnackbarMessage(t("snackbarMessage.uploadImageSuccess"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
       } catch (error) {
         console.error("Upload failed:", error);
       }
