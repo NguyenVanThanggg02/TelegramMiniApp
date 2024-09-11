@@ -7,7 +7,7 @@ import {
   Text,
 } from "zmp-ui";
 import { useRecoilState } from "recoil";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
@@ -38,8 +38,8 @@ interface Table {
 const TablePage: React.FC = () => {
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
-  // const [searchParams] = useSearchParams();
-  // const tenant_id = searchParams.get("tenant_id");
+  const [searchParams] = useSearchParams();
+  const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -92,19 +92,17 @@ const TablePage: React.FC = () => {
     }
   };
 
-  // const linkBuilder = (table_uuid: string): string => {
-  //   return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  // };
-
-  // quét vào thẳng store nhưng không quét để sang menu được
-
   const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    const startParam = `/menuu/${store_uuid}/${table_uuid}`;
-  
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
+  // quét vào thẳng store nhưng không quét để sang menu được
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
