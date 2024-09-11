@@ -264,24 +264,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+    if (positionMenu === -1) return;
+    setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
-    //@ts-ignore
-    menuRef[positionMenu].scrollIntoView({
+    menuRef.current[positionMenu]?.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-
-    // if (value == allItemsId) {
-    //   handleSortSelect(selectedSort, [...productList.products]);
-    // } else {
-    //   handleSortSelect(selectedSort, [
-    //     ...productList.products.filter((product) =>
-    //       product.categories.find((product_cate) => product_cate.uuid === value)
-    //     ),
-    //   ]);
-    // }
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
