@@ -269,10 +269,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
-    // menuRef.current[positionMenu]?.scrollIntoView({
-    //   behavior: "smooth",
-    //   block: "start",
-    // });
+    menuRef.current[positionMenu]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
@@ -435,6 +435,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               value={activeTab}
               orientation="vertical"
               variant="scrollable"
+              
               onChange={(_e, value) => handleChangeTab(value)}
               sx={{ width: "65px" }}
             >
@@ -488,9 +489,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               </Text.Title>
             </div>
             ) : (
-              Object.keys(displayProductList).map((cate, index) => (
+              Object.keys(displayProductList).map((cate, index : any) => (
                 <Box key={cate}>
                   <Box
+                    id={index}
                     flex
                     justifyContent="space-between"
                     mt={4}
@@ -498,7 +500,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                     ref={(ref: any) => {
                       menuRef.current[index] = ref!;
                     }}
-                    style={{ scrollMargin: "100px" }}
+                    // style={{ scrollMargin: "100px" }}
                   >
                     <Text size="xLarge" bold className="grey-color">
                       {cate}
