@@ -263,6 +263,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   }, [productList, categoryList]);
 
   const handleChangeTab = (value: string) => {
+    const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
+    if (footer) {
+      footer.style.display = 'none'; 
+    }
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
     setActiveTab(value);
