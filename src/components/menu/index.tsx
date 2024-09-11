@@ -13,7 +13,6 @@ import {
   loadingState,
 } from "../../state";
 import "./styles.scss";
-import '../../styles/app.scss'
 import DishOrderSheet from "../../components/dish/dish-order";
 import { priceFormatter } from "../../utils/numberFormatter";
 import { isEmpty, sum } from "lodash";
