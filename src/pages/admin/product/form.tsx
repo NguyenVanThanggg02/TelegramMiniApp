@@ -18,7 +18,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { formatNumberToVND } from "../../../utils/numberFormatter";
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import WarningIcon from '@mui/icons-material/Warning';
 import {
   sendCreateProductRequest,
   fetchProductDetails,
@@ -605,7 +605,7 @@ const ProductFormPage: React.FC = () => {
               <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
                 <div style={{display:'flex'}}>
                   {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "warning" && <WarningAmberIcon style={{ marginRight: 8, color:'yellow' }} />} 
+                  {snackbarType === "warning" && <WarningIcon style={{ marginRight: 8, color:'yellow' }} />} 
                   {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
                   {snackbarMessage}
                 </div>
