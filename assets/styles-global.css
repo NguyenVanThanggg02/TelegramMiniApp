@@ -5067,9 +5067,6 @@ img {
 .order-management-container .toolbar .search-input .zaui-btn-icon-only {
   padding: 5px;
 }
-.web-app-footer {
-  display: none !important; 
-}
 .order-management-container .order-table {
   border-radius: 10px;
   overflow: hidden;
@@ -6160,4 +6157,7 @@ img {
 .select-all-button:hover,
 .delete-all-button:hover {
   background-color: #005bb5;
+}
+.body.animation-level-2 .web-app-footer{
+  display: none;
 }
