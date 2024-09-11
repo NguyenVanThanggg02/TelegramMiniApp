@@ -265,7 +265,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
-  
     setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
@@ -274,15 +273,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       behavior: "smooth",
       block: "start",
     });
-  
-    // Thêm lớp CSS để ẩn phần tử
-    if (positionMenu === menu.length - 1) {
-      document.body.classList.add("hide-footer");
-    } else {
-      document.body.classList.remove("hide-footer");
-    }
   };
-  
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
