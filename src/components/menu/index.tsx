@@ -395,7 +395,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   return (
-    <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <LoadingComponent />
         <Box className="top-menu-container">
@@ -591,7 +590,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           />
         </Box>
       </Page>
-    </>
   );
 };
 
