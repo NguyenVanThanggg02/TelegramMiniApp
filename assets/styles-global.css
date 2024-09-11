@@ -5067,6 +5067,9 @@ img {
 .order-management-container .toolbar .search-input .zaui-btn-icon-only {
   padding: 5px;
 }
+.web-app-footer {
+  display: none !important; 
+}
 .order-management-container .order-table {
   border-radius: 10px;
   overflow: hidden;
