@@ -93,7 +93,7 @@ const TablePage: React.FC = () => {
   };
 
   const linkBuilder = (table_uuid: string): string => {
-    return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    return `https://zalo.me/s//menuu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
   // quét vào thẳng store nhưng không quét để sang menu được
   // const linkBuilder = (table_uuid: string): string => {
