@@ -161,14 +161,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const handleScroll = () => {
       const container = pageRef.current;
       if (container) {
-        const { scrollTop, scrollHeight, clientHeight } = container;
-    
-        const isBottom = scrollTop + clientHeight >= scrollHeight;
-        
+        const { scrollTop } = container;
+        if (scrollTop === 0) return;
         menuRef.current.forEach((ref, index) => {
-          if (isBottom && index === menuRef.current.length - 1) {
-            setActiveTab(menu[index].uuid); 
-          } else if (ref && ref.getBoundingClientRect().top <= 210) {
+          if (ref && ref.getBoundingClientRect().top <= 210) {
             setActiveTab(menu[index].uuid);
           }
         });
@@ -265,7 +261,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     // if (positionMenu === -1) return;
-    setActiveTab(value);
+    // setActiveTab(value);
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
