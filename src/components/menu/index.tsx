@@ -435,7 +435,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               value={activeTab}
               orientation="vertical"
               variant="scrollable"
-              
               onChange={(_e, value) => handleChangeTab(value)}
               sx={{ width: "65px" }}
             >
@@ -489,10 +488,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               </Text.Title>
             </div>
             ) : (
-              Object.keys(displayProductList).map((cate, index : any) => (
+              Object.keys(displayProductList).map((cate, index) => (
                 <Box key={cate}>
                   <Box
-                    id={index}
                     flex
                     justifyContent="space-between"
                     mt={4}
@@ -500,7 +498,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                     ref={(ref: any) => {
                       menuRef.current[index] = ref!;
                     }}
-                    // style={{ scrollMargin: "100px" }}
+                    style={{ scrollMargin: "100px" }}
                   >
                     <Text size="xLarge" bold className="grey-color">
                       {cate}
