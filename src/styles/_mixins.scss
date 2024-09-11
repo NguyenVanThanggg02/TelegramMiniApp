@@ -15,10 +15,16 @@ $desktop-width: 1024px;
   @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
     @content;
   }
+  .web-app-footer {
+    display: none !important;
+  }
 }
 
 @mixin desktop {
   @media (min-width: #{$desktop-width}) {
     @content;
+  }
+  .web-app-footer {
+    display: none !important;
   }
 }
