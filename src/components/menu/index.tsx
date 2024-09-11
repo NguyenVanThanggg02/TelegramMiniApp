@@ -141,7 +141,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [showStoreDetail, setShowStoreDetail] = useState<boolean>(false);
   const [displayProductList, setDisplayProductList] = useState<Record<string, Dish[]>>({});
   const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [defaultMarginList, setDefaultMarginList] = useState<number>(0);
+  const [defaultMarginList, ] = useState<number>(0);
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
@@ -263,16 +263,22 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   }, [productList, categoryList]);
 
   const handleChangeTab = (value: string) => {
-    const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1) return;
-    setActiveTab(value);
-    if (!table_uuid) {
-      setDefaultMarginList(40);
+    // const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+    // if (positionMenu === -1) return;
+    // setActiveTab(value);
+    // if (!table_uuid) {
+    //   setDefaultMarginList(40);
+    // }
+    // menuRef.current[positionMenu]?.scrollIntoView({
+    //   behavior: "smooth",
+    //   block: "start",
+    // });
+    const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
+    if (footer) {
+      footer.style.display = 'none'; 
     }
-    menuRef.current[positionMenu]?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    console.log(value);
+    
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
