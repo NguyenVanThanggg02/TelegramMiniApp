@@ -162,23 +162,18 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       const container = pageRef.current;
       if (container) {
         const { scrollTop, scrollHeight, clientHeight } = container;
-        const isBottom = scrollTop + clientHeight >= scrollHeight;
     
+        const isBottom = scrollTop + clientHeight >= scrollHeight;
+        
         menuRef.current.forEach((ref, index) => {
           if (isBottom && index === menuRef.current.length - 1) {
-            setActiveTab(menu[index].uuid); // Last tab, scroll to bottom
-            // Explicitly hide button if it's showing
-            const footer = document.querySelector('.web-app-footer') as HTMLElement | null;
-            if (footer) {
-              footer.style.display = 'none';  // Ensure footer is hidden
-            }
+            setActiveTab(menu[index].uuid); 
           } else if (ref && ref.getBoundingClientRect().top <= 210) {
             setActiveTab(menu[index].uuid);
           }
         });
       }
     };
-    
     
 
     const container = pageRef.current;
