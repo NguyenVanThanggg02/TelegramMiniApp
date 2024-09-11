@@ -275,6 +275,7 @@
     "deliveredFail": "Failed to update delivered quantity",
     "orderSuccess": "Order successfully updated",
     "orderFail": "Failed to update order",
+    "waitForImageUpload": "Wait for image upload",
     "uploadImageSuccess": "Upload images success",
     "uploadImageFail": "Failed to upload images",
     "productCreateSuccess": "Product created successfully!",

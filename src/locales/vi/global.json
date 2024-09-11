@@ -277,6 +277,7 @@
     "orderSuccess": "Cập nhật đơn hàng thành công",
     "orderFail": "Cập nhật đơn hàng thất bại",
     "uploadImageSuccess": "Tải lên hình ảnh thành công",
+    "waitForImageUpload": "Chờ tải hình ảnh lên",
     "uploadImageFail": "Tải lên hình ảnh thất bại",
     "productCreateSuccess": "Tạo sản phẩm thành công",
     "productCreateFail": "Tạo sản phẩm thất bại",
