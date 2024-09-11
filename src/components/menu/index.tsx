@@ -423,10 +423,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         </Box>
         <Box
           className="section-container"
-          style={{
-            marginBottom: !isEmpty(cart) ? 110 : 0,
-            paddingTop: table_uuid ? 0 : 16,
-          }}
+          // style={{
+          //   marginBottom: !isEmpty(cart) ? 110 : 0,
+          //   paddingTop: table_uuid ? 0 : 16,
+          // }}
         >
           <Box className="menu-tabs-container">
             <Tabs
@@ -435,7 +435,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               orientation="vertical"
               variant="scrollable"
               onChange={(_e, value) => handleChangeTab(value)}
-              sx={{ width: "65px" }}
+              // sx={{ width: "65px" }}
             >
               {!isEmpty(menu) &&
                 menu.map((item) => (
