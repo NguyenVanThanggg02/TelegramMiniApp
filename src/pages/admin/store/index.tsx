@@ -122,10 +122,6 @@ const StorePage: React.FC = () => {
     }
   };
   
-  // const options = storeList.stores.map((sto) => ({
-  //   value: sto.uuid,
-  //   label: sto.name,
-  // }));
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
@@ -208,16 +204,16 @@ const StorePage: React.FC = () => {
 
   const sendRequestGetStore = async () => {
     setLoading({ ...loading, isLoading: true });
-    const data = await getStoreListByTenantID();
-    if (!data.error) {
+    const response = await getStoreListByTenantID();
+    const data = response.data
+    if (data) {
       setStoreListState({
         is_update: true,
-        stores: data.data || [],
+        stores: data,
       });
       // console.log(`get stores.length: ${data.length}`);
       setLoading({ ...loading, isLoading: false });
     } else {
-      console.error("Error:", data.error);
       setErrorGetStore(true);
       setLoading({ ...loading, isLoading: false });
     }
