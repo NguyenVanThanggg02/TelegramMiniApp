@@ -91,11 +91,11 @@ const StorePage: React.FC = () => {
 
   useEffect(() => {
     setDefaultStore();
-  }, [storeList.stores]);
+  }, [storeList]);
 
   const setDefaultStore = async () => {
     const defaultStore = await  cloudStorage.get("defaultStore") 
-    console.log("defaultStore", {defaultStore});
+    console.log("defaultStore", defaultStore);
     if (defaultStore) {
       try {
         const parsedStore: StoreState = JSON.parse(defaultStore);
@@ -122,10 +122,6 @@ const StorePage: React.FC = () => {
     }
   };
   
-  // const options = storeList.stores.map((sto) => ({
-  //   value: sto.uuid,
-  //   label: sto.name,
-  // }));
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
