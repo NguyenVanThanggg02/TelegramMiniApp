@@ -89,24 +89,6 @@ const Index: React.FC = () => {
   }, [hostname]);
 
   useEffect(() => {
-    const tg = (window as any).Telegram.WebApp;
-
-    // Lấy tham số start_param
-    const startParam: string | undefined = tg.initDataUnsafe.start_param;
-
-    // Nếu có tham số, lưu vào localStorage
-    if (startParam) {
-      localStorage.setItem('startParam', startParam);
-      console.log('Start parameter saved to localStorage:', startParam);
-    } else {
-      console.log('No start parameter found');
-    }
-
-    // Hiển thị tham số từ localStorage
-    const savedParam: string | null = localStorage.getItem('startParam');
-    if (savedParam) {
-      console.log('Retrieved parameter from localStorage:', savedParam);
-    }
     let qrScanner: QrScanner | undefined;;
     if (showScanner && videoRef.current) {
       qrScanner = new QrScanner(
