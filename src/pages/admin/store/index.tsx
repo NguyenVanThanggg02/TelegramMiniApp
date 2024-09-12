@@ -93,6 +93,12 @@ const StorePage: React.FC = () => {
     setDefaultStore();
   }, [storeList.stores]);
 
+  useEffect(() => {
+    if (store.uuid) {
+      sendRequestGetStore();
+    }
+  }, [store.uuid]);
+
   const setDefaultStore = async () => {
     const defaultStore = await  cloudStorage.get("defaultStore") 
     console.log("defaultStore", defaultStore);
@@ -104,8 +110,6 @@ const StorePage: React.FC = () => {
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
-      console.log("selectedStore", selectedStore);
-      
       if (!selectedStore) return;
   
       setStore(selectedStore);
@@ -117,11 +121,6 @@ const StorePage: React.FC = () => {
         sendRequestGetStore();
       }
   };
-  
-  // const options = storeList.stores.map((sto) => ({
-  //   value: sto.uuid,
-  //   label: sto.name,
-  // }));
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
