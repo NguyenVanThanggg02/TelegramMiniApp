@@ -17,7 +17,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 
-import { getStoreListByTenantID, createFollowRequest } from "../../../api/api";
+import { getStoreListByTenantID, createFollowRequest, getProductListByStore } from "../../../api/api";
 import "./styles.scss";
 import { useTranslation } from "react-i18next";
 import tableIcon from "../../../static/icons/table.png";
@@ -63,7 +63,25 @@ interface LoadingState {
   completedText: string;
   completedPercent: number;
 }
+interface ProductImage {
+  uuid: string;
+  url: string;
+}
 
+interface Product {
+  uuid: string;
+  name: string;
+  price:number
+  unit_price?: number;
+  quantity?: number;
+  images?: ProductImage[];
+  product_name: string;
+  product_images?: ProductImage[];
+  order_item_uuid: string
+  delivered_quantity: number
+  product_uuid? : string
+  delivery_status: string
+}
 const StorePage: React.FC = () => {
   const { t } = useTranslation("global");
   const [storeList, setStoreListState] = useRecoilState(storeListState);
@@ -74,6 +92,7 @@ const StorePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const [, setProducts] = useState<Product[]>([]);
   
   const [store, setStore] = useRecoilState(storeState);
   const [folowOALoading, setFolowOALoading] = useState<boolean>(false);
@@ -119,8 +138,24 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
+  
+      // Gọi API để cập nhật danh sách sản phẩm khi chuyển cửa hàng
+      setLoading({ ...loading, isLoading: true });
+      try {
+        const response = await getProductListByStore(selectedStore.uuid, false);
+        if (!response.error) {
+          setProducts(response.data);  // Cập nhật danh sách sản phẩm mới
+        } else {
+          console.error("Lỗi khi lấy danh sách sản phẩm:", response.error);
+        }
+      } catch (error) {
+        console.error("Lỗi:", error);
+      } finally {
+        setLoading({ ...loading, isLoading: false });
+      }
     }
   };
+  
   
   // const options = storeList.stores.map((sto) => ({
   //   value: sto.uuid,
