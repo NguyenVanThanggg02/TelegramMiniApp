@@ -107,9 +107,10 @@ const TablePage: React.FC = () => {
 
    const linkBuilder = (table_uuid: string): string => {
     const botUsername = "MiLiKun_bot"; 
-  const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    const shortName = "orderfood"; 
+    const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   
-  return `https://t.me/${botUsername}?start=${encodeURIComponent(startParam)}`;
+  return `https://t.me/${botUsername}&appname=${shortName}?start=${encodeURIComponent(startParam)}`;
 };
 
 
