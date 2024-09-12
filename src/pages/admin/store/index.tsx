@@ -105,9 +105,9 @@ const StorePage: React.FC = () => {
       }
     }
   };
-  // @ts-ignore
-  const handleChangeStore = async (value, getStore) => {
-   
+
+  const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
+    if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
@@ -119,9 +119,13 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
-    
+    }
   };
   
+  // const options = storeList.stores.map((sto) => ({
+  //   value: sto.uuid,
+  //   label: sto.name,
+  // }));
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
