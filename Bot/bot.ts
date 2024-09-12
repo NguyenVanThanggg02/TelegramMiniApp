@@ -26,3 +26,6 @@ bot.start((ctx) => {
 });
 
 bot.launch();
+bot.catch((err) => {
+  console.error('Error:', err);
+});
