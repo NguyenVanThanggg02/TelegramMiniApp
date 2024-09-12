@@ -113,28 +113,14 @@ const StorePage: React.FC = () => {
   
       setStore(selectedStore);
   
-      // Cập nhật subdomain của store mới
       await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
       await cloudStorage.set("subdomain", selectedStore.subdomain);
   
-      // Chuyển đến store mới và gửi yêu cầu nếu cần
       if (getStore) {
         sendRequestGetStore();
       }
     }
   };
-  
-  useEffect(() => {
-    if (store) {
-      // Cập nhật subdomain mới khi store thay đổi
-      const updateSubdomain = async () => {
-        await cloudStorage.set("subdomain", store.subdomain);
-      };
-  
-      updateSubdomain();
-    }
-  }, [store]);
-  
   
   // const options = storeList.stores.map((sto) => ({
   //   value: sto.uuid,
@@ -229,10 +215,9 @@ const StorePage: React.FC = () => {
         is_update: true,
         stores: data,
       });
-      console.log(`get stores.length: ${data.length}`);
+      // console.log(`get stores.length: ${data.length}`);
       setLoading({ ...loading, isLoading: false });
     } else {
-      console.error("Error:", data);
       setErrorGetStore(true);
       setLoading({ ...loading, isLoading: false });
     }
