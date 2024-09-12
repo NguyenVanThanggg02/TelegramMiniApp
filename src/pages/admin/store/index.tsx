@@ -97,18 +97,15 @@ const StorePage: React.FC = () => {
     const defaultStore = await  cloudStorage.get("defaultStore") 
     console.log("defaultStore", defaultStore);
     if (defaultStore) {
-      try {
         const parsedStore: StoreState = JSON.parse(defaultStore);
         handleChangeStore(parsedStore.uuid, false);
-      } catch (error) {
-        console.error("Error parsing default store:", error);
-      }
     }
   };
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
-    if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
+      console.log("selectedStore", selectedStore);
+      
       if (!selectedStore) return;
   
       setStore(selectedStore);
@@ -119,7 +116,6 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
-    }
   };
   
   // const options = storeList.stores.map((sto) => ({
