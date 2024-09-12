@@ -105,12 +105,6 @@ const StorePage: React.FC = () => {
       }
     }
   };
-  useEffect(() => {
-    if (storeList.stores.length > 0) {
-        // Gọi hàm handleChangeStore với giá trị mặc định và getStore
-        handleChangeStore(storeList.stores[0].uuid, true); // Ví dụ: chọn store đầu tiên
-    }
-}, [storeList.stores]);
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
