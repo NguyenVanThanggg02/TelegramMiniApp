@@ -107,7 +107,6 @@ const StorePage: React.FC = () => {
   };
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
-    if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
@@ -119,7 +118,6 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
-    }
   };
   
 
@@ -206,8 +204,6 @@ const StorePage: React.FC = () => {
     setLoading({ ...loading, isLoading: true });
     const response = await getStoreListByTenantID();
     const data = response.data
-    console.log(data);
-
     if (data) {
       setStoreListState({
         is_update: true,
