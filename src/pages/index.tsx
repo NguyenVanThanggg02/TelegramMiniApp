@@ -97,7 +97,7 @@ const Index: React.FC = () => {
           if (isProcessing) return; 
 
           setIsProcessing(true); 
-          setTimeout(async () => {
+          // setTimeout(async () => {
             console.log(result);
             setScanResult(result.data);
             setShowScanner(false);
@@ -113,7 +113,7 @@ const Index: React.FC = () => {
             }
 
             setIsProcessing(false); 
-          }, 800);
+          // }, 800);
         },
         {
           returnDetailedScanResult: true,
