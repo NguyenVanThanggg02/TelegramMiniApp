@@ -105,9 +105,9 @@ const StorePage: React.FC = () => {
       }
     }
   };
-
-  const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
-    if (typeof value === 'string') {
+  // @ts-ignore
+  const handleChangeStore = async (value, getStore) => {
+   
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
@@ -119,7 +119,7 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
-    }
+    
   };
   
 
