@@ -211,7 +211,7 @@ const StorePage: React.FC = () => {
         is_update: true,
         stores: data,
       });
-      // console.log(`get stores.length: ${data.length}`);
+      console.log(`get stores.length: ${data.length}`);
       setLoading({ ...loading, isLoading: false });
     } else {
       setErrorGetStore(true);
