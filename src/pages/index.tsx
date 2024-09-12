@@ -45,21 +45,19 @@ const Index: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
   const [isProcessing, setIsProcessing] = useState(false); // Biến cờ để kiểm tra việc xử lý
 
-  const getStoreData = async () => {
-    try {
-      const response = await getStoreList();
-      if (response.data && !response.error) {
-        setStoreListState({
-          is_update: true,
-          stores: [],
-        });
-      } else {
-        console.log('err', response.error);
-      }
-    } catch (error) {
-      console.log('err in getstoredata', error);
+ const getStoreData = async () => {
+    const response = await getStoreList();
+    const data = response.data
+    if (!data.error) {
+      setStoreListState({
+        is_update: true,
+        stores: data,
+      });
+    } else {
+      console.log('err', data.error);
     }
-   }
+
+ }
 
   useEffect(() => {
     if (storeList.stores.length > 0) {
