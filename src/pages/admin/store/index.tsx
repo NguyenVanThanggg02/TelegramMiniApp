@@ -122,12 +122,6 @@ const StorePage: React.FC = () => {
     }
   };
   
-  useEffect(() => {
-    if (store) {
-      sendRequestGetStore();  
-    }
-  }, [store]); 
-  
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
