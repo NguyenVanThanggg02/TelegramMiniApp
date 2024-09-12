@@ -107,18 +107,42 @@ const StorePage: React.FC = () => {
   };
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
-      const selectedStore = storeList.stores.find((s) => s.uuid === value);
-      if (!selectedStore) return;
-  
-      setStore(selectedStore);
-  
-      await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
-      await cloudStorage.set("subdomain", selectedStore.subdomain);
-  
-      if (getStore) {
-        sendRequestGetStore();
-      }
-  };
+    const selectedStore = storeList.stores.find((s) => s.uuid === value);
+    if (!selectedStore) return;
+
+    setStore(selectedStore);
+
+    // Lưu store mới vào localStorage
+    await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
+    await cloudStorage.set("subdomain", selectedStore.subdomain);
+
+    // Nếu cần lấy dữ liệu của store ngay lập tức
+    if (getStore) {
+        try {
+            // Gọi API hoặc hàm để lấy dữ liệu của store
+            const response = await getStoreListByTenantID();
+            const data = response.data;
+            if (data) {
+                // Cập nhật danh sách store
+                setStoreListState({
+                    is_update: true,
+                    stores: data,
+                });
+                // Cập nhật dữ liệu store hiện tại
+                const updatedStore = data.find((s) => s.uuid === value);
+                if (updatedStore) {
+                    setStore(updatedStore);
+                }
+            } else {
+                setErrorGetStore(true);
+            }
+        } catch (error) {
+            console.error("Error fetching store data:", error);
+            setErrorGetStore(true);
+        }
+    }
+};
+
   
 
   const goToTable = (storeUUID: string, tenantId: string) => {
