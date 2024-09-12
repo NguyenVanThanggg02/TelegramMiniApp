@@ -106,12 +106,18 @@ const StorePage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (store) {
+      console.log("Store đã đổi.");
+    }
+  }, [store]); 
+  
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
-      setStore(selectedStore);
+      setStore(selectedStore); 
   
       await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
       await cloudStorage.set("subdomain", selectedStore.subdomain);
@@ -121,6 +127,23 @@ const StorePage: React.FC = () => {
       }
     }
   };
+  
+
+  // const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
+  //   if (typeof value === 'string') {
+  //     const selectedStore = storeList.stores.find((s) => s.uuid === value);
+  //     if (!selectedStore) return;
+  
+  //     setStore(selectedStore);
+  
+  //     await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
+  //     await cloudStorage.set("subdomain", selectedStore.subdomain);
+  
+  //     if (getStore) {
+  //       sendRequestGetStore();
+  //     }
+  //   }
+  // };
   
   // const options = storeList.stores.map((sto) => ({
   //   value: sto.uuid,
