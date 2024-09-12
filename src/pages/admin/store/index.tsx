@@ -36,6 +36,28 @@ import appConfig from "../../../../app-config.json";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import { useNavigate } from "react-router-dom";
 
+interface StoreState {
+  uuid: string;
+  name: string;
+  subdomain: string;
+  created_at: string;
+  store_settings: []; 
+  ai_requests_count:number
+  turn_on_table?: boolean;  
+  tables_count?: number; 
+  turn_on_category?: boolean;
+  categories_count?: number;
+  turn_on_product?: boolean;
+  products_count?: number;
+  turn_on_voucher?: boolean; 
+  vouchers_count?: number;
+  turn_on_order?: boolean; 
+  orders_count?: number;
+  turn_on_staff?: boolean;  
+  staff_count?: number;
+  turn_on_sale_report?: boolean;
+}
+
 interface LoadingState {
   isLoading: boolean;
   completedText: string;
@@ -72,13 +94,17 @@ const StorePage: React.FC = () => {
   }, [storeList.stores]);
 
   const setDefaultStore = async () => {
-    const defaultStore = await cloudStorage.get("defaultStore");
+    const defaultStore = await  cloudStorage.get("defaultStore") 
+    console.log("defaultStore", defaultStore);
     if (defaultStore) {
-      const parsedStore = JSON.parse(defaultStore); 
-      handleChangeStore(parsedStore.uuid, false); 
+      try {
+        const parsedStore: StoreState = JSON.parse(defaultStore);
+        handleChangeStore(parsedStore.uuid, false);
+      } catch (error) {
+        console.error("Error parsing default store:", error);
+      }
     }
   };
-  
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
@@ -96,6 +122,11 @@ const StorePage: React.FC = () => {
     }
   };
   
+  // const options = storeList.stores.map((sto) => ({
+  //   value: sto.uuid,
+  //   label: sto.name,
+  // }));
+
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
       pathname: `/admin/table/index/${storeUUID}`,
