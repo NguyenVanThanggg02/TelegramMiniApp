@@ -15,7 +15,7 @@ bot.start((ctx) => {
     const tableId = urlParams.get('tableId');
     const storeId = urlParams.get('storeId');
 
-    ctx.reply(`Bot được khởi động với Tenant ID: ${tenantId}, Table ID: ${tableId}, Store ID: ${storeId}`);
+    ctx.reply(`test start : ${tenantId}, Table ID: ${tableId}, Store ID: ${storeId}`);
   } else {
     ctx.reply("Welcome", {
       reply_markup: {
