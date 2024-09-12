@@ -91,6 +91,8 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     console.log(initData);
+    const tg = window
+    console.log(tg);
     
     let qrScanner: QrScanner | undefined;;
     if (showScanner && videoRef.current) {
