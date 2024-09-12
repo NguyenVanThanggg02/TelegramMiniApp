@@ -93,22 +93,21 @@ const StorePage: React.FC = () => {
     setDefaultStore();
   }, [storeList.stores]);
 
-  useEffect(() => {
-    if (store.uuid) {
-      sendRequestGetStore();
-    }
-  }, [store.uuid]);
-
   const setDefaultStore = async () => {
     const defaultStore = await  cloudStorage.get("defaultStore") 
-    console.log("defaultStore", defaultStore);
+    console.log("defaultStore", {defaultStore});
     if (defaultStore) {
+      try {
         const parsedStore: StoreState = JSON.parse(defaultStore);
         handleChangeStore(parsedStore.uuid, false);
+      } catch (error) {
+        console.error("Error parsing default store:", error);
+      }
     }
   };
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
+    if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
@@ -120,7 +119,13 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
+    }
   };
+  
+  // const options = storeList.stores.map((sto) => ({
+  //   value: sto.uuid,
+  //   label: sto.name,
+  // }));
 
   const goToTable = (storeUUID: string, tenantId: string) => {
     navigate({
@@ -203,17 +208,16 @@ const StorePage: React.FC = () => {
 
   const sendRequestGetStore = async () => {
     setLoading({ ...loading, isLoading: true });
-    const response = await getStoreListByTenantID();
-    const data = response.data
-    console.log(data);
-    if (data) {
+    const data = await getStoreListByTenantID();
+    if (!data.error) {
       setStoreListState({
         is_update: true,
-        stores: data,
+        stores: data.data || [],
       });
       // console.log(`get stores.length: ${data.length}`);
       setLoading({ ...loading, isLoading: false });
     } else {
+      console.error("Error:", data.error);
       setErrorGetStore(true);
       setLoading({ ...loading, isLoading: false });
     }
