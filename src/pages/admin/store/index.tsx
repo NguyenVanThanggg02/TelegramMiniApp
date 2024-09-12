@@ -210,6 +210,7 @@ const StorePage: React.FC = () => {
     setLoading({ ...loading, isLoading: true });
     const response = await getStoreListByTenantID();
     const data = response.data
+    console.log(data);
     if (data) {
       setStoreListState({
         is_update: true,
