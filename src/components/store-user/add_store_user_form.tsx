@@ -31,7 +31,8 @@ const AddStoreUserForm: React.FC<AddStoreUserFormProps> = ({ store_uuid, onUserA
       };
 
       try {
-        const data = await addUserStore(payload);
+        const response = await addUserStore(payload);
+        const data = response.data
         if (!data?.error) {
           onUserAdded();
           setUserUUID('');

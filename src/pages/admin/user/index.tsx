@@ -76,7 +76,7 @@ const UserPage: React.FC = () => {
       store_uuid: store_uuid,
       user_uuid: selectedUser?.uuid,
     });
-    if (!data?.error) {
+    if (JSON.stringify(data)) {
       fetchUserListData();
       setSnackbarMessage(t("snackbarMessage.deleteSuccess"));
         setSnackbarType("success");
