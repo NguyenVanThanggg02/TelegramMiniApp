@@ -106,18 +106,12 @@ const StorePage: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (store) {
-      console.log("Store đã đổi.");
-    }
-  }, [store]); 
-  
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
-      setStore(selectedStore); 
+      setStore(selectedStore);
   
       await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
       await cloudStorage.set("subdomain", selectedStore.subdomain);
@@ -127,23 +121,6 @@ const StorePage: React.FC = () => {
       }
     }
   };
-  
-
-  // const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
-  //   if (typeof value === 'string') {
-  //     const selectedStore = storeList.stores.find((s) => s.uuid === value);
-  //     if (!selectedStore) return;
-  
-  //     setStore(selectedStore);
-  
-  //     await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
-  //     await cloudStorage.set("subdomain", selectedStore.subdomain);
-  
-  //     if (getStore) {
-  //       sendRequestGetStore();
-  //     }
-  //   }
-  // };
   
   // const options = storeList.stores.map((sto) => ({
   //   value: sto.uuid,
@@ -231,16 +208,17 @@ const StorePage: React.FC = () => {
 
   const sendRequestGetStore = async () => {
     setLoading({ ...loading, isLoading: true });
-    const data = await getStoreListByTenantID();
-    if (!data.error) {
+    const response = await getStoreListByTenantID();
+    const data = response.data
+    if (data) {
       setStoreListState({
         is_update: true,
-        stores: data.data || [],
+        stores: data || [],
       });
       // console.log(`get stores.length: ${data.length}`);
       setLoading({ ...loading, isLoading: false });
     } else {
-      console.error("Error:", data.error);
+      console.error("Error");
       setErrorGetStore(true);
       setLoading({ ...loading, isLoading: false });
     }
