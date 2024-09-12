@@ -67,7 +67,7 @@ const Index: React.FC = () => {
 
   const setDefaultStore = async () => {
     const defaultStore = await cloudStorage.get("defaultStore");
-    const subdomain = await cloudStorage.get('subdomain')
+    const subdomain = await cloudStorage.get("subdomain")
     const existStore = storeList.stores.find((s) => s.subdomain === subdomain);
 
     if (!defaultStore || !existStore) {
