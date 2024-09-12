@@ -108,8 +108,6 @@ const StorePage: React.FC = () => {
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
-      window.location.reload();
-
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
