@@ -7,7 +7,7 @@ const web_link = "https://telegram-mini-app-psi.vercel.app/";
 
 bot.start((ctx) => {
   const message = ctx.message.text;
-  const params = message.replace('/start ', ''); // Lấy tham số từ lệnh
+  const params = message.replace('/start ', ''); 
 
   if (params) {
     const urlParams = new URLSearchParams(params);
@@ -26,6 +26,3 @@ bot.start((ctx) => {
 });
 
 bot.launch();
-bot.catch((err) => {
-  console.error('Error:', err);
-});
