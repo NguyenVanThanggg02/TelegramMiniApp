@@ -94,14 +94,10 @@ export const getStoreByUUID = (uuid: string): Promise<ApiResponse<Store>> => {
   return sendGetRequest(`store/${uuid}`, {}, true, true);
 };
 
-
 export const getStoreListByTenantID = async (): Promise<ApiResponse<Store[]>> => {
-  try {
     const response = await sendGetRequest("store", {}, false, true);
-    return { data: response.data as Store[], error: response.error };
-  } catch (error) {
-    return { error: error instanceof Error ? error.message : String(error) };
-  }
+    const data = response.data
+    return {data};
 };
 export const createStore = (dataToSend: any): Promise<ApiResponse<any>> => {
   return sendPostRequest("store", {}, dataToSend, true);
