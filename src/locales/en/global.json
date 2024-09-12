@@ -131,6 +131,7 @@
       "description": "Description",
       "enterDescription": "Enter description",
       "voucherType": "Voucher type",
+      "selectvoucherType": "Select voucher type",
       "typeSelect": {
         "decrease_by_value": "Decrease by value",
         "decrease_by_percent": "Decrease by percent"

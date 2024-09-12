@@ -242,7 +242,7 @@ const VoucherFormPage: React.FC = () => {
               <Select
                 id="type"
                 label={t("voucherManagement.createVoucher.voucherType")}
-                placeholder={t("voucherManagement.createVoucher.voucherType")}
+                placeholder={t("voucherManagement.createVoucher.selectvoucherType")}
                 value={form?.voucher_type}
                 onChange={(value) => handleChangeInput("voucher_type", value)}
               >

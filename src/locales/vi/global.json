@@ -131,6 +131,7 @@
       "description": "Mô tả",
       "enterDescription": "Nhập mô tả",
       "voucherType": "Loại mã",
+      "selectvoucherType": "Chọn loại mã",
       "typeSelect": {
         "decrease_by_value": "Giảm theo giá trị",
         "decrease_by_percent": "Giảm theo phần trăm"
