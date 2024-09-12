@@ -110,7 +110,7 @@ const TablePage: React.FC = () => {
     const shortName = "orderfood"; 
     const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   
-  return `https://t.me/${botUsername}&appname=${shortName}?start=${encodeURIComponent(startParam)}`;
+  return `https://t.me/${botUsername}&appname=${shortName}&start=${encodeURIComponent(startParam)}`;
 };
 
 
