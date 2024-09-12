@@ -87,7 +87,7 @@ const StorePage: React.FC = () => {
 
     setLoading({ ...loading, isLoading: true });
     sendRequestGetStore();
-  }, [store]);
+  }, []);
 
   useEffect(() => {
     setDefaultStore();
