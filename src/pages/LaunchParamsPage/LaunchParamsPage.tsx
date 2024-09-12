@@ -6,7 +6,6 @@ import { DisplayData } from '@/components/DisplayData/DisplayData.tsx';
 
 export const LaunchParamsPage: FC = () => {
   const lp = useLaunchParams();
-console.log(lp);
 
   return (
     <List>

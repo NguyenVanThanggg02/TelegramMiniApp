@@ -14,7 +14,7 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import HistoryIcon from "@mui/icons-material/History";
-import { initCloudStorage } from "@telegram-apps/sdk-react";
+import { initCloudStorage, useInitData } from "@telegram-apps/sdk-react";
 import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
@@ -87,8 +87,11 @@ const Index: React.FC = () => {
       getStoreData();
     }
   }, [hostname]);
+  const initData = useInitData();
 
   useEffect(() => {
+    console.log(initData);
+    
     let qrScanner: QrScanner | undefined;;
     if (showScanner && videoRef.current) {
       qrScanner = new QrScanner(
