@@ -208,17 +208,16 @@ const StorePage: React.FC = () => {
 
   const sendRequestGetStore = async () => {
     setLoading({ ...loading, isLoading: true });
-    const response = await getStoreListByTenantID();
-    const data = response.data
-    if (data) {
+    const data = await getStoreListByTenantID();
+    if (!data.error) {
       setStoreListState({
         is_update: true,
-        stores: data || [],
+        stores: data.data || [],
       });
       // console.log(`get stores.length: ${data.length}`);
       setLoading({ ...loading, isLoading: false });
     } else {
-      console.error("Error");
+      console.error("Error:", data.error);
       setErrorGetStore(true);
       setLoading({ ...loading, isLoading: false });
     }
