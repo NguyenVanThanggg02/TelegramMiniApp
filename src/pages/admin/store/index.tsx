@@ -119,8 +119,7 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
-      window.location.reload();
-
+      
     }
   };
   
