@@ -261,7 +261,7 @@ const Index: React.FC = () => {
       </Box>
       <Box flex flexDirection="column" className="section-container">
         <Box style={{ textAlign: "center" , color:'black'}}>
-          <Text size="xLarge" bold>
+          <Text size="xLarge" bold onClick={() =>redirectToMenu}>
             {t("main.scanQrDes")}
           </Text>
           {showScanner ? (
