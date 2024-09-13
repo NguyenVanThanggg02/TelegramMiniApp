@@ -107,7 +107,7 @@ const TablePage: React.FC = () => {
 
 
   const linkBuilder = (table_uuid: string): string => {
-    const baseUrl =`/menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`; 
+    const baseUrl =`https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`; 
     const queryParams = new URLSearchParams({
         tenant_id: tenant_id || "",
         tableId: table_uuid,
