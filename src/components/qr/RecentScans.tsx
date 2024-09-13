@@ -45,12 +45,22 @@ const RecentScans: React.FC = () => {
 
   const deleteSelectedLinks = () => {
     const remainingLinks = scanList.filter(
-      (_, index) => !selectedIndexes.includes(index),
+        (_, index) => !selectedIndexes.includes(index)
     );
+
+    // Cập nhật scanCount
+    let scanCount = parseInt(localStorage.getItem("scanCount") || "0", 10);
+    const itemsToDelete = selectedIndexes.length;
+    scanCount -= itemsToDelete; // Giảm scanCount cho số mục bị xóa
+    if (scanCount < 0) {
+        scanCount = 0; // Đảm bảo scanCount không âm
+    }
+
+    localStorage.setItem("scanCount", scanCount.toString());
     localStorage.setItem("scanList", JSON.stringify(remainingLinks));
     setSelectedIndexes([]);
-    // window.location.reload();
-  };
+};
+
 
   const handleRedirect = (qrData: string) => {
     try {

@@ -163,7 +163,8 @@ const Index: React.FC = () => {
         JSON.parse(localStorage.getItem("scanList") || "[]");
 
     if (scanCount >= MAX_SCAN_COUNT) {
-        scanList.shift();  
+        scanList.shift();
+        scanCount--;   
     } else {
         scanCount++;
     }
