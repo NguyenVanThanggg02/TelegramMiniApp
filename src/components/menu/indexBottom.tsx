@@ -394,10 +394,11 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   };
   
   useEffect(() => {
-    if (table?.name) {
-        console.log(`bàn: ${table.name}`);
+    if (table_uuid) {
+      fetchTablesByStore(String(store_uuid));
     }
-}, [table]);
+  }, [table_uuid, store_uuid]);
+  
 
 
   return (
