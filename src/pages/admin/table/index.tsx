@@ -92,10 +92,9 @@ const TablePage: React.FC = () => {
     }
   };
 
-  // const linkBuilder = (table_uuid: string): string => {
-  //   // return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  //   return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  // };
+  const linkBuilder = (table_uuid: string): string => {
+    return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  };
 
   // const linkBuilder = (table_uuid: string): string => {
   //   const botUsername = "MiLiKun_bot"; 
@@ -104,20 +103,6 @@ const TablePage: React.FC = () => {
   //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
   // };
   
-
-
-  const linkBuilder = (table_uuid: string): string => {
-    const baseUrl =`https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`; 
-    const queryParams = new URLSearchParams({
-        tenant_id: tenant_id || "",
-        tableId: table_uuid,
-        storeId: store_uuid,
-    });
-
-    return `${baseUrl}/${store_uuid}/${table_uuid}?${queryParams.toString()}`;
-};
-
-
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({
