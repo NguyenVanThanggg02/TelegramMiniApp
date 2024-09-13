@@ -106,6 +106,21 @@ const StorePage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (store) {
+      const updateSubdomain = async () => {
+        const storedSubdomain = await cloudStorage.get("subdomain");
+        if (storedSubdomain) {
+          console.log(storedSubdomain);
+          
+        }
+      };
+  
+      updateSubdomain();
+    }
+  }, [store]);
+  
+
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
