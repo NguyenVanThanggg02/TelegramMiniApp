@@ -498,7 +498,7 @@ const OrderManagement: React.FC = () => {
             </Select>
           </Box>
 
-          <Box className="toolbar_filter_search">
+          <Box className="toolbar_filter_search" style={{color:'black'}}>
             <Text style={{ color: "black" }}>{t("orderManagement.date")}</Text>
             {hideDatePicker ? (
               <DatePicker
