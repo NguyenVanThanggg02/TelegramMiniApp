@@ -105,8 +105,8 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   }, [isShow]);
 
   useEffect(() => {
-    if (!table) resetDefault();
-  }, [table]);
+    if (tableSelected) resetDefault();
+  }, [tableSelected]);
 
 
   return (
