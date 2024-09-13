@@ -35,6 +35,7 @@ import { followOA, openChat } from "zmp-sdk/apis";
 import appConfig from "../../../../app-config.json";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import { useNavigate } from "react-router-dom";
+import { refreshCache } from "@/api/cloudStorageManager";
 
 interface StoreState {
   uuid: string;
@@ -131,6 +132,8 @@ const StorePage: React.FC = () => {
       await cloudStorage.set("defaultStore", JSON.stringify(selectedStore));
       await cloudStorage.set("subdomain", selectedStore.subdomain);
   
+      await refreshCache();
+
       if (getStore) {
         sendRequestGetStore();
       }
