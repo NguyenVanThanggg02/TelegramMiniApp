@@ -94,7 +94,8 @@ const TablePage: React.FC = () => {
 
   const linkBuilder = (table_uuid: string): string => {
     const botUsername = "MiLiKun_bot";
-    return `tg://resolve?domain=${botUsername}/menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    const shortName = "orderfood"; 
+    return `https://t.me/${botUsername}}&appname=${shortName}/menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
 
   // const linkBuilder = (table_uuid: string): string => {
