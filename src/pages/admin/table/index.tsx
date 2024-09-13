@@ -92,17 +92,16 @@ const TablePage: React.FC = () => {
     }
   };
 
-  // const linkBuilder = (table_uuid: string): string => {
-  //   return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-  // };
-
   const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    // const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
-    const startParam = `${tenant_id}/tableId=${table_uuid}`;
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
+
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
