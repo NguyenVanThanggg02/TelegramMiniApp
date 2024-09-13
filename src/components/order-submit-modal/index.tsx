@@ -22,7 +22,7 @@ import {
   tableState,
 } from '../../state';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
@@ -35,7 +35,7 @@ interface OrderSubmitModalProps {
 
 const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) => {
   const { t } = useTranslation('global');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { Option } = Select;
 
   const table = useRecoilValue(tableState);
@@ -88,9 +88,9 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
       setSnackbarMessage(t("snackbarMessage.createOrderSuccess"));
       setSnackbarType("success");
       setSnackbarOpen(true);
-        setTimeout(() => {
-          navigate(-1); 
-        }, 2000);
+        // setTimeout(() => {
+        //   navigate(-1); 
+        // }, 2000);
     } else {
       setSnackbarMessage(String(data.error));
       setSnackbarType("error");
