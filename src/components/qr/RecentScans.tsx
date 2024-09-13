@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./RecentScans.scss";
 import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Icon, Text } from "zmp-ui";
+import { Checkbox, Icon, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
@@ -61,10 +61,6 @@ const RecentScans: React.FC = () => {
     setSelectedIndexes([]);
 };
 
-const handleRemove = () =>{
-  localStorage.clear()
-}
-
   const handleRedirect = (qrData: string) => {
     try {
       const urlRedirect = new URL(qrData);
@@ -105,7 +101,6 @@ const handleRemove = () =>{
       >
         <Icon icon="zi-delete" />
       </button>
-      <Button onClick={handleRemove}> xoá</Button>
       {/* value={index.toString()} */}
       <ul className="link-list">
         {scanList.length > 0 ? (
