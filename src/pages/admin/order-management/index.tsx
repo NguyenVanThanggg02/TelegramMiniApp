@@ -474,7 +474,7 @@ const OrderManagement: React.FC = () => {
         alignItems="center"
       >
         <Box flex alignItems="center" className="toolbar_filter">
-          <Box className="toolbar_filter_search">
+          <Box className="toolbar_filter_search" style={{color:'black'}}>
             <Text style={{ color: "black" }}>
               {t("orderManagement.status")}
             </Text>
