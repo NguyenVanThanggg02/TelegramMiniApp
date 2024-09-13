@@ -97,18 +97,27 @@ const TablePage: React.FC = () => {
   //   return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   // };
 
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
+  
+
+
   const linkBuilder = (table_uuid: string): string => {
-    if (!tenant_id || !store_uuid) {
-        console.error("tenant_id or store_uuid is missing");
-        return "";
-    }
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    const startParam = `/menu/${store_uuid}/${table_uuid}?tenant_id=${encodeURIComponent(tenant_id)}&tableId=${encodeURIComponent(table_uuid)}&storeId=${encodeURIComponent(store_uuid)}`;
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    const baseUrl =`/menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`; 
+    const queryParams = new URLSearchParams({
+        tenant_id: tenant_id || "",
+        tableId: table_uuid,
+        storeId: store_uuid,
+    });
+
+    return `${baseUrl}/${store_uuid}/${table_uuid}?${queryParams.toString()}`;
 };
 
-  
+
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({
