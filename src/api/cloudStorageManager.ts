@@ -7,7 +7,6 @@ let subdomainCache: string | undefined;
 let authTokenCache: string | undefined;
 let languageCache: string | undefined;
 
-// Phương thức để làm mới cache khi có thay đổi store
 export const refreshCache = async () => {
   subdomainCache = undefined;
   authTokenCache = undefined;
