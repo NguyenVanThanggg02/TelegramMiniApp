@@ -127,7 +127,8 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const tenant_id = searchParams.get("tenant_id");
 
   const [, setStore] = useRecoilState(storeState);
-  const [table, setTable] = useRecoilState(tableState);
+  //@ts-ignore
+  const [table, setTable] = useRecoilState<Record<string, []> | null>(tableState);
   const [tableList, setTableList] = useRecoilState(tableListState);
   const [categoryList, setCategoryList] = useRecoilState(categoryListState);
   const [productList, setProductList] = useRecoilState(productListState);
@@ -321,6 +322,8 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       if (table_uuid) {
         const currentTable = tables.find((item: any) => item.uuid === table_uuid);
         if (currentTable) {
+          setTable(null);  
+
           setTable(currentTable);
         }
       }
@@ -392,7 +395,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   
   useEffect(() => {
     if (table?.name) {
-        console.log(`Tên bàn đã được cập nhật: ${table.name}`);
+        console.log(`bàn: ${table.name}`);
     }
 }, [table]);
 
