@@ -93,6 +93,7 @@ const TablePage: React.FC = () => {
   };
 
   const linkBuilder = (table_uuid: string): string => {
+    // return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
     return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   };
 
