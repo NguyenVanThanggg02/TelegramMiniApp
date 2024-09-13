@@ -14,7 +14,7 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import HistoryIcon from "@mui/icons-material/History";
-import { initCloudStorage, useInitData } from "@telegram-apps/sdk-react";
+import { initCloudStorage } from "@telegram-apps/sdk-react";
 import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +43,7 @@ const Index: React.FC = () => {
   const cloudStorage = initCloudStorage();
   const MAX_SCAN_COUNT = 5;
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
-  const [isProcessing, setIsProcessing] = useState(false); // Biến cờ để kiểm tra việc xử lý
+  const [isProcessing, setIsProcessing] = useState(false); 
 
  const getStoreData = async () => {
     const response = await getStoreList();
@@ -87,12 +87,8 @@ const Index: React.FC = () => {
       getStoreData();
     }
   }, [hostname]);
-  const initData = useInitData();
 
   useEffect(() => {
-    console.log(initData);
-    const tg = window
-    console.log(tg);
     
     let qrScanner: QrScanner | undefined;;
     if (showScanner && videoRef.current) {
