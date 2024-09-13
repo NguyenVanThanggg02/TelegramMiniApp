@@ -14,7 +14,7 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import HistoryIcon from "@mui/icons-material/History";
-import { initCloudStorage } from "@telegram-apps/sdk-react";
+import { initCloudStorage, useInitData, useLaunchParams } from "@telegram-apps/sdk-react";
 import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
@@ -44,7 +44,10 @@ const Index: React.FC = () => {
   const MAX_SCAN_COUNT = 5;
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
   const [isProcessing, setIsProcessing] = useState(false); 
-
+  const initDataRaw = useLaunchParams().initDataRaw;
+  const initData = useInitData();
+console.log(initData);
+console.log(initDataRaw);
  const getStoreData = async () => {
     const response = await getStoreList();
     const data = response.data
