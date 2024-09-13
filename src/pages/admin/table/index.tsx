@@ -79,7 +79,7 @@ const TablePage: React.FC = () => {
       if (!response.error && Array.isArray(response.data)) {
         const listTables = response.data.map((tab) => ({
           ...tab,
-          link: linkBuilder(tab.uuid),
+          link: linkBuilder(store_uuid, tab.tableId, tab.tenantId, tab.uuid),
         }));
         setTables(listTables);
       } else {
@@ -96,14 +96,38 @@ const TablePage: React.FC = () => {
   //   return `https://zalo.me/s//menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   // };
 
-  const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    const startParam = `/menuu/${store_uuid}/${table_uuid}`;
-    console.log(table_uuid);
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `/menuu/${store_uuid}/${table_uuid}`;
+  //   console.log(table_uuid);
     
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
+
+  const redirectToMenu = (storeId: string, tableId: string, tenantId: string) => {
+    navigate({
+      pathname: `/menuu/${storeId}/${tableId}`,
+      search: `?tenant_id=${tenantId}`,
+    });
+  };
+  
+  const linkBuilder = (
+    storeId: string,
+    tableId: string,
+    tenantId: string,
+    table_uuid: string
+  ): string => {
+    const botUsername = "MiLiKun_bot";
+    const shortName = "orderfood";
+    const startParam = `/menuu/${storeId}/${table_uuid}`;
+    
+    // Thực hiện điều hướng khi xây dựng link
+    redirectToMenu(storeId, tableId, tenantId);
+  
     return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
   };
+  
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
