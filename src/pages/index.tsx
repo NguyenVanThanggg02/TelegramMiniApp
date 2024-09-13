@@ -261,7 +261,7 @@ const Index: React.FC = () => {
       </Box>
       <Box flex flexDirection="column" className="section-container">
         <Box style={{ textAlign: "center" , color:'black'}}>
-          <Text size="xLarge" bold onClick={() => navigate('/menuu/${storeId}/${tableId}')}>
+          <Text size="xLarge" bold>
             {t("main.scanQrDes")}
           </Text>
           {showScanner ? (
