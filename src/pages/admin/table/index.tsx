@@ -98,11 +98,16 @@ const TablePage: React.FC = () => {
   // };
 
   const linkBuilder = (table_uuid: string): string => {
+    if (!tenant_id || !store_uuid) {
+        console.error("tenant_id or store_uuid is missing");
+        return "";
+    }
     const botUsername = "MiLiKun_bot"; 
     const shortName = "orderfood"; 
-    const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    const startParam = `tenant_id=${encodeURIComponent(tenant_id)}&tableId=${encodeURIComponent(table_uuid)}&storeId=${encodeURIComponent(store_uuid)}`;
     return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
-  };
+};
+
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
