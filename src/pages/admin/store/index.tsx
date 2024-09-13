@@ -109,8 +109,6 @@ const StorePage: React.FC = () => {
 
   const handleChangeStore = async (value: string | undefined, getStore: boolean) => {
     if (typeof value === 'string') {
-      setLoading({ ...loading, isLoading: true });
-
       const selectedStore = storeList.stores.find((s) => s.uuid === value);
       if (!selectedStore) return;
   
@@ -124,7 +122,7 @@ const StorePage: React.FC = () => {
       if (getStore) {
         sendRequestGetStore();
       }
-      setLoading({ ...loading, isLoading: false });
+      
     }
   };
   
