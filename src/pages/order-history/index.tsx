@@ -137,7 +137,7 @@ const OrderHistory: React.FC = () => {
               <Box className="filter-section_title">
                 <Text>{t("orderHistory.filterByStore")}</Text>
               </Box>
-              <Box className="filter-section_filter">
+              <Box className="filter-section_filter" style={{color:'black'}}>
                 <Select
                   closeOnSelect
                   placeholder={t("orderHistory.allStore")}
