@@ -60,7 +60,6 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
 
   const resetDefault = () => {
     setNote('');
-    setTableSelected('');
   };
 
   const onOrderSubmit = async () => {
@@ -103,11 +102,6 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   useEffect(() => {
     if (!isShow) resetDefault();
   }, [isShow]);
-
-  useEffect(() => {
-    if (tableSelected) resetDefault();
-  }, [tableSelected]);
-
 
   return (
     <Modal visible={isShow} onClose={onClose} className="order-submit-modal">
