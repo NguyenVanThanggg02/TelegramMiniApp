@@ -26,8 +26,6 @@ const RecentScans: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
-  // console.log(scanList);
-
   const toggleSelect = (index: number) => {
     setSelectedIndexes((prevSelectedIndexes) =>
       prevSelectedIndexes.includes(index)
@@ -48,12 +46,11 @@ const RecentScans: React.FC = () => {
         (_, index) => !selectedIndexes.includes(index)
     );
 
-    // Cập nhật scanCount
     let scanCount = parseInt(localStorage.getItem("scanCount") || "0", 10);
     const itemsToDelete = selectedIndexes.length;
-    scanCount -= itemsToDelete; // Giảm scanCount cho số mục bị xóa
+    scanCount -= itemsToDelete;
     if (scanCount < 0) {
-        scanCount = 0; // Đảm bảo scanCount không âm
+        scanCount = 0; 
     }
 
     localStorage.setItem("scanCount", scanCount.toString());
