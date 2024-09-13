@@ -580,9 +580,8 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           borderTop: "1px solid #e0e0e0",
           backgroundColor: "#fff",
           position: "sticky",
-          paddingBottom: 15, 
-          left: 0, 
-          right: 0, 
+          height:'50px',
+paddingBottom:'25px'
         }}
       >
         <Box
