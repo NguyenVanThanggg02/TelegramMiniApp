@@ -104,7 +104,7 @@ const TablePage: React.FC = () => {
     }
     const botUsername = "MiLiKun_bot"; 
     const shortName = "orderfood"; 
-    const startParam = `tenant_id=${encodeURIComponent(tenant_id)}&tableId=${encodeURIComponent(table_uuid)}&storeId=${encodeURIComponent(store_uuid)}`;
+    const startParam = `/menu/${store_uuid}/${table_uuid}?tenant_id=${encodeURIComponent(tenant_id)}&tableId=${encodeURIComponent(table_uuid)}&storeId=${encodeURIComponent(store_uuid)}`;
     return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
 };
 
