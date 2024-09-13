@@ -390,6 +390,12 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     };
   };
   
+  useEffect(() => {
+    if (table?.name) {
+        console.log(`Tên bàn đã được cập nhật: ${table.name}`);
+    }
+}, [table]);
+
 
   return (
     <>
