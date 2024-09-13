@@ -473,8 +473,8 @@ const OrderManagement: React.FC = () => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box flex alignItems="center" className="toolbar_filter">
-          <Box className="toolbar_filter_search" style={{color:'black'}}>
+        <Box flex alignItems="center" className="toolbar_filter" style={{color:'black'}}>
+          <Box className="toolbar_filter_search">
             <Text style={{ color: "black" }}>
               {t("orderManagement.status")}
             </Text>
