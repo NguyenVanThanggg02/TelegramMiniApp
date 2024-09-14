@@ -29,7 +29,6 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
-import { useInitData, useLaunchParams } from "@telegram-apps/sdk-react";
 interface Table {
   uuid: string;
   name: string;
@@ -96,10 +95,6 @@ const TablePage: React.FC = () => {
   // const linkBuilder = (table_uuid: string): string => {
   //   return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   // };
-  const initDataRaw = useLaunchParams().initDataRaw;
-  const initData = useInitData();
-console.log(initData);
-console.log(initDataRaw);
 
   const linkBuilder = (table_uuid: string): string => {
     const botUsername = "MiLiKun_bot"; 
