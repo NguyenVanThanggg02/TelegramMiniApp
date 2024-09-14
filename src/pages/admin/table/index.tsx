@@ -37,7 +37,7 @@ interface Table {
 
 const TablePage: React.FC = () => {
   const { t } = useTranslation("global");
-  const { store_uuid, table_uuid } = useParams<{ store_uuid?: string; table_uuid?: string }>(); // Lấy store_uuid và table_uuid từ URL
+  const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
   const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
@@ -99,29 +99,10 @@ const TablePage: React.FC = () => {
   const linkBuilder = (table_uuid: string): string => {
     const botUsername = "MiLiKun_bot"; 
     const shortName = "orderfood"; 
-    const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}&action=goToMenu`;
+    const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
     return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
   };
   
-
-  useEffect(() => {
-    if (tenant_id && store_uuid) {
-      const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}&action=goToMenu`;
-      const urlParams = new URLSearchParams(startParam); 
-      const action = urlParams.get("action");
-  
-      if (action === "goToMenu") {
-        navigateToMenu();
-      }
-    }
-  }, [tenant_id, store_uuid]);
-  
-  const navigateToMenu = () => {
-    navigate(`/menu/${store_uuid}/${table_uuid}`);
-  };
-  
-  
-
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({
