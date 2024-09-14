@@ -79,7 +79,7 @@ const TablePage: React.FC = () => {
       if (!response.error && Array.isArray(response.data)) {
         const listTables = response.data.map((tab) => ({
           ...tab,
-          link: linkBuilder(tab.uuid),
+          link: linkBuilder(tab.uuid, tenant_id),
         }));
         setTables(listTables);
       } else {
@@ -96,7 +96,7 @@ const TablePage: React.FC = () => {
   //   return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
   // };
 
-  const linkBuilder = (table_uuid: string): string => {
+  const linkBuilder = (table_uuid: string, tenant_id: string | null): string => {
     const botUsername = "MiLiKun_bot"; 
     const shortName = "orderfood"; 
     const startParam = `tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
