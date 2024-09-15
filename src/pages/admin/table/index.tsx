@@ -6,12 +6,13 @@ import {
   Box,
   Text,
 } from "zmp-ui";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
+  userState,
   // userState,
 } from "../../../state";
 import { fetchTablesForStore } from "../../../api/api";
@@ -45,6 +46,7 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const user = useRecoilValue(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -96,13 +98,26 @@ const TablePage: React.FC = () => {
 //     return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
 //   };
 
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
+  
+
   const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    if (user) {
+      return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    } else {
+      const botUsername = "MiLiKun_bot"; 
+      const shortName = "orderfood"; 
+      const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
+      return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    }
   };
   
+
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
     navigate({
