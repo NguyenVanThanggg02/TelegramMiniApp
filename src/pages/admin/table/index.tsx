@@ -29,6 +29,7 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
+import { initCloudStorage } from "@telegram-apps/sdk-react";
 interface Table {
   uuid: string;
   name: string;
@@ -45,6 +46,7 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const cloudStorage = initCloudStorage();
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -75,33 +77,64 @@ const TablePage: React.FC = () => {
   const fetchTableData = async () => {
     try {
       const response = await fetchTablesForStore(store_uuid);
-
+  
       if (!response.error && Array.isArray(response.data)) {
-        const listTables = response.data.map((tab) => ({
-          ...tab,
-          link: linkBuilder(tab.uuid),
-        }));
+        const tablesData = response.data;
+  
+        const listTables = await Promise.all(
+          tablesData.map(async (tab) => {
+            const link = await linkBuilder(tab.uuid);
+            return {
+              ...tab,
+              link,
+            };
+          })
+        );
         setTables(listTables);
       } else {
-        console.error("Lỗi khi lấy dữ liệu bảng:", response.error);
+        console.error("Error fetching table data:", response.error);
       }
     } catch (error) {
-      console.error("Lỗi không mong muốn:", error);
+      console.error("Unexpected error:", error);
     } finally {
       setLoading({ ...loading, isLoading: false });
     }
   };
+  
 
 // const linkBuilder = (table_uuid: string): string => { 
 //     return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
 //   };
 
-  const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
-    const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+
+
+  // const linkBuilder = (table_uuid: string): string => {
+  //   const botUsername = "MiLiKun_bot"; 
+  //   const shortName = "orderfood"; 
+  //   const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
+  //   return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+  // };
+  
+  const isLoggedIn = async () => {
+    const authToken = await cloudStorage.get('auth_token');
+    return authToken;
   };
+  
+  const linkBuilder = async (table_uuid: string): Promise<string> => {
+    const authToken = await isLoggedIn(); // Wait for the result of isLoggedIn
+  
+    if (authToken) {
+      // Người dùng đã đăng nhập vào app, redirect đến đường dẫn của app
+      return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+    } else {
+      // Quét mã từ ngoài thiết bị, chuyển hướng qua Telegram
+      const botUsername = "MiLiKun_bot"; 
+      const shortName = "orderfood"; 
+      const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
+      return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    }
+  };
+  
   
 
   const goToTableDetails = (tableUUID: string, tableName: string) => {
@@ -181,13 +214,14 @@ const TablePage: React.FC = () => {
                   ></Button>
                 </Box>
                 <Box>
-                  {selectedTableUUID === table.uuid && (
-                    <QRCodeViewer
-                      value={table.link}
-                      title={table.name.toUpperCase()}
-                      handleSave={handleSaveQr}
-                    />
-                  )}
+                {selectedTableUUID === table.uuid && (
+  <QRCodeViewer
+    value={table.link}
+    title={table.name.toUpperCase()}
+    handleSave={handleSaveQr}
+  />
+)}
+
                 </Box>
               </Box>
             ))
