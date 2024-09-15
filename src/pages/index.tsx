@@ -158,7 +158,7 @@ console.log(initData);
     if (initData?.startParam) {
       let parts = initData?.startParam.split("_");
       console.log(parts);
-      redirectToMenu(parts[2],parts[1],parts[0]);
+      redirectToMenu(parts[2], parts[1], parts[0]);
     }
 
   },[])
