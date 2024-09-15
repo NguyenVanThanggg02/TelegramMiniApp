@@ -14,7 +14,7 @@ import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import HistoryIcon from "@mui/icons-material/History";
-import { initCloudStorage, useInitData, useLaunchParams } from "@telegram-apps/sdk-react";
+import { initCloudStorage, useInitData } from "@telegram-apps/sdk-react";
 import QrScanner from "qr-scanner";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import { useNavigate } from "react-router-dom";
@@ -44,10 +44,8 @@ const Index: React.FC = () => {
   const MAX_SCAN_COUNT = 5;
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
   const [isProcessing, setIsProcessing] = useState(false); 
-  const initDataRaw = useLaunchParams().initDataRaw;
   const initData = useInitData();
 console.log(initData);
-console.log(initDataRaw);
  const getStoreData = async () => {
     const response = await getStoreList();
     const data = response.data
@@ -156,6 +154,14 @@ console.log(initDataRaw);
     }
   };
 
+  useEffect(() => {
+    if (initData?.startParam) {
+      let parts = initData?.startParam.split("_");
+      console.log(parts);
+      // redirectToMenu()
+    }
+
+  },[])
   const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
