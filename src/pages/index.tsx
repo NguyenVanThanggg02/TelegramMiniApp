@@ -180,8 +180,6 @@ console.log(initData);
 
   },[])
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
-    await refreshCache();
-
     const subdomain = await getSubdomain();
     console.log(subdomain);
     
@@ -189,6 +187,8 @@ console.log(initData);
         console.error('Error: Subdomain not found');
         return;
     }
+
+    await refreshCache();
 
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
