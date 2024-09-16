@@ -108,17 +108,21 @@ console.log(initData);
             const startApp = data.split("startapp=")[1];
             console.log(startApp);
 
-            let startAppArray: String[] = [];
+            let startAppArray: string[] = [];
             if (startApp) {
               startAppArray = startApp.split('_');
             }
 
-            console.log('StartApp Array:', startAppArray);
+            console.log('start arr', startAppArray);
 
-            const urlRedirect = new URL(result.data);
-            const storeId = urlRedirect.searchParams.get("storeId");
-            const tableId = urlRedirect.searchParams.get("tableId");
-            const tenantId = urlRedirect.searchParams.get("tenant_id");
+            const tenantId = startAppArray[0]
+            const tableId = startAppArray[1]
+            const storeId = startAppArray[2]
+
+            // const urlRedirect = new URL(result.data);
+            // const storeId = urlRedirect.searchParams.get("storeId");
+            // const tableId = urlRedirect.searchParams.get("tableId");
+            // const tenantId = urlRedirect.searchParams.get("tenant_id");
 
             if (storeId && tableId && tenantId) {
               await handleScanQr(result.data, storeId, tableId, tenantId);
