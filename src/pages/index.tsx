@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import { refreshCache } from "@/api/cloudStorageManager";
 interface Table {
   uuid: string;
   name: string;
@@ -178,7 +179,8 @@ console.log(initData);
     }
 
   },[])
-  const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
+  const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
+    await refreshCache();
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
         JSON.parse(localStorage.getItem("scanList") || "[]");
