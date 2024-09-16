@@ -180,16 +180,10 @@ console.log(initData);
 
   },[])
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
-    
-    // const subdomain = await getSubdomain();
-    // console.log(subdomain);
-    
-    // if (!subdomain) {
-    //     console.error('Error: Subdomain not found');
-    //     return;
-    // }
+
     await cloudStorage.set("subdomain", tenantId);
-    console.log(tenantId);
+    const storedSubdomain = await cloudStorage.get("subdomain");
+    console.log("Stored subdomain:", storedSubdomain);
     
     await refreshCache();
 
