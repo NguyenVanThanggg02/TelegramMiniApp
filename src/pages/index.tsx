@@ -109,7 +109,7 @@ console.log(initData);
             const tenantId = urlRedirect.searchParams.get("tenant_id");
 
             if (storeId && tableId && tenantId) {
-              await handleScanQr(result.data, storeId, tableId, tenantId);
+              await handleScanQr(result.data);
             } else {
               notifyErrorStoreNotFound();
             }
@@ -162,31 +162,52 @@ console.log(initData);
     }
 
   },[])
-  const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
-    let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
-    let scanList: { qrData: string; storeName: string; tableName: string }[] = 
-        JSON.parse(localStorage.getItem("scanList") || "[]");
+  const handleScanQr = (qrData: string) => {
+    // Tách tham số từ qrData
+    const url = new URL(qrData, "http://localhost"); // Cung cấp URL gốc nếu cần
+    const startapp = url.searchParams.get("startapp");
 
-    if (scanCount >= MAX_SCAN_COUNT) {
-        scanList.shift();
-        scanCount--;   
-    } else {
-        scanCount++;
-    }
+    if (startapp) {
+        const [storeId, tableId, tenantId] = startapp.split('_');
 
-    getNamesByStoreAndTable(storeId, tableId).then(({ storeName, tableName }) => {
-        if (storeName && tableName) {
-            scanList.push({ qrData, storeName, tableName });  
-            localStorage.setItem("scanList", JSON.stringify(scanList));
-            localStorage.setItem("scanCount", scanCount.toString());
-            console.log(localStorage.getItem("scanCount"));
-            console.log(localStorage.getItem("scanList"));
+        if (!storeId || !tableId || !tenantId) {
+            console.error('Invalid QR data format.');
+            return;
         }
-        redirectToMenu(storeId, tableId, tenantId);
-    }).catch(error => {
-        console.error('Error fetching store and table names:', error);
-    });
+
+        let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
+        let scanList: { qrData: string; storeName: string; tableName: string }[] = 
+            JSON.parse(localStorage.getItem("scanList") || "[]");
+
+        if (scanCount >= MAX_SCAN_COUNT) {
+            scanList.shift();
+            scanCount--;   
+        } else {
+            scanCount++;
+        }
+
+        getNamesByStoreAndTable(storeId, tableId).then(({ storeName, tableName }) => {
+            if (storeName && tableName) {
+                scanList.push({ qrData, storeName, tableName });  
+                localStorage.setItem("scanList", JSON.stringify(scanList));
+                localStorage.setItem("scanCount", scanCount.toString());
+
+                console.log(localStorage.getItem("scanCount"));
+                console.log(localStorage.getItem("scanList"));
+
+                // Gọi hàm redirectToMenu sau khi cập nhật localStorage
+                redirectToMenu(storeId, tableId, tenantId);
+            } else {
+                console.error('Failed to get store or table name.');
+            }
+        }).catch(error => {
+            console.error('Error fetching store and table names:', error);
+        });
+    } else {
+        console.error('No startapp parameter found in QR data.');
+    }
 };
+
 
 
   const notifyErrorStoreNotFound = () => {
