@@ -191,7 +191,7 @@ console.log(initData);
       const setSubdomain = async (subdomain: string) => {
         try {
           await cloudStorage.set("subdomain", subdomain);
-          console.log('Subdomain set successfully:', subdomain);
+          console.log(subdomain);
           
           await refreshCache();
           
@@ -209,7 +209,6 @@ console.log(initData);
     // await cloudStorage.set("subdomain", tenantId);
     // const storedSubdomain = await cloudStorage.get("subdomain");
     // console.log("Stored subdomain:", storedSubdomain);
-    
     // await refreshCache();
 
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
