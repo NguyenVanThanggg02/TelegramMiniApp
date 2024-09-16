@@ -188,8 +188,11 @@ console.log(initData);
     //     console.error('Error: Subdomain not found');
     //     return;
     // }
-    await cloudStorage.set("subdomain", tenantId);
+    console.log(tenantId);
 
+    await cloudStorage.set("subdomain", tenantId);
+    console.log(tenantId);
+    
     await refreshCache();
 
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
