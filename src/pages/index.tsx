@@ -180,41 +180,48 @@ console.log(initData);
 
   },[])
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
-    await refreshCache();
-
-    const subdomain = await getSubdomain();
-    console.log(subdomain);
-    
-    if (!subdomain) {
+    try {
+      // Refresh cache to ensure we have the latest subdomain
+      await refreshCache();
+      const subdomain = await getSubdomain(); // Get the latest subdomain
+      
+      if (!subdomain) {
         console.error('Error: Subdomain not found');
         return;
-    }
-
-    let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
-    let scanList: { qrData: string; storeName: string; tableName: string }[] = 
-        JSON.parse(localStorage.getItem("scanList") || "[]");
-
-    if (scanCount >= MAX_SCAN_COUNT) {
+      }
+  
+      let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
+      let scanList: { qrData: string; storeName: string; tableName: string }[] = 
+          JSON.parse(localStorage.getItem("scanList") || "[]");
+  
+      if (scanCount >= MAX_SCAN_COUNT) {
         scanList.shift();
-        scanCount--;   
-    } else {
+        scanCount--;
+      } else {
         scanCount++;
+      }
+  
+      const { storeName, tableName } = await getNamesByStoreAndTable(storeId, tableId);
+  
+      if (storeName && tableName) {
+        scanList.push({ qrData, storeName, tableName });
+        localStorage.setItem("scanList", JSON.stringify(scanList));
+        localStorage.setItem("scanCount", scanCount.toString());
+        console.log(localStorage.getItem("scanCount"));
+        console.log(localStorage.getItem("scanList"));
+      } else {
+        notifyErrorStoreNotFound();
+        return;
+      }
+  
+      // Redirect to menu using the latest subdomain
+      redirectToMenu(storeId, tableId, tenantId);
+    } catch (error) {
+      console.error('Error handling QR scan:', error);
+      handleError("Lỗi xử lý quét mã QR.");
     }
-
-    getNamesByStoreAndTable(storeId, tableId).then(({ storeName, tableName }) => {
-        if (storeName && tableName) {
-            scanList.push({ qrData, storeName, tableName });  
-            localStorage.setItem("scanList", JSON.stringify(scanList));
-            localStorage.setItem("scanCount", scanCount.toString());
-            console.log(localStorage.getItem("scanCount"));
-            console.log(localStorage.getItem("scanList"));
-        }
-        redirectToMenu(storeId, tableId, tenantId);
-    }).catch(error => {
-        console.error('Error fetching store and table names:', error);
-    });
-};
-
+  };
+  
 
   const notifyErrorStoreNotFound = () => {
     setSnackbarMessage(t("main.not_found"));
