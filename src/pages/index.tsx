@@ -171,21 +171,46 @@ console.log(initData);
     }
   };
 
+  // useEffect(() => {
+  //   if (initData?.startParam) {
+  //     let parts = initData?.startParam.split("_");
+  //     console.log(parts);
+  //     redirectToMenu(parts[2], parts[1], parts[0]);
+  //   }
+
+  // },[])
+
+
   useEffect(() => {
     if (initData?.startParam) {
       let parts = initData?.startParam.split("_");
       console.log(parts);
-      redirectToMenu(parts[2], parts[1], parts[0]);
-    }
+      
+      const tenantId = parts[0];
+      
+      const setSubdomain = async (subdomain: string) => {
+        try {
+          await cloudStorage.set("subdomain", subdomain);
+          console.log('Subdomain set successfully:', subdomain);
+          
+          await refreshCache();
+          
+          redirectToMenu(parts[2], parts[1], tenantId);
+        } catch (error) {
+          console.error('Error setting subdomain:', error);
+        }
+      };
 
-  },[])
+      setSubdomain(tenantId);
+    }
+  }, [initData]);
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
 
-    await cloudStorage.set("subdomain", tenantId);
-    const storedSubdomain = await cloudStorage.get("subdomain");
-    console.log("Stored subdomain:", storedSubdomain);
+    // await cloudStorage.set("subdomain", tenantId);
+    // const storedSubdomain = await cloudStorage.get("subdomain");
+    // console.log("Stored subdomain:", storedSubdomain);
     
-    await refreshCache();
+    // await refreshCache();
 
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
