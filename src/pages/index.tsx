@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-// import {refreshCache } from "@/api/cloudStorageManager";
+import {refreshCache } from "@/api/cloudStorageManager";
 interface Table {
   uuid: string;
   name: string;
@@ -171,39 +171,39 @@ console.log(initData);
     }
   };
 
-  useEffect(() => {
-    if (initData?.startParam) {
-      let parts = initData?.startParam.split("_");
-      console.log(parts);
-      redirectToMenu(parts[2], parts[1], parts[0]);
-    }
-
-  },[])
-
-
   // useEffect(() => {
   //   if (initData?.startParam) {
   //     let parts = initData?.startParam.split("_");
   //     console.log(parts);
-      
-  //     const tenantId = parts[0];
-      
-  //     const setSubdomain = async (subdomain: string) => {
-  //       try {
-  //         await cloudStorage.set("subdomain", subdomain);
-  //         console.log(subdomain);
-          
-  //         await refreshCache();
-          
-  //         redirectToMenu(parts[2], parts[1], tenantId);
-  //       } catch (error) {
-  //         console.error('Error setting subdomain:', error);
-  //       }
-  //     };
-
-  //     setSubdomain(tenantId);
+  //     redirectToMenu(parts[2], parts[1], parts[0]);
   //   }
-  // }, [initData]);
+
+  // },[])
+
+
+  useEffect(() => {
+    if (initData?.startParam) {
+      let parts = initData?.startParam.split("_");
+      console.log(parts);
+      
+      const tenantId = parts[0];
+      
+      const setSubdomain = async (subdomain: string) => {
+        try {
+          await cloudStorage.set("subdomain", subdomain);
+          console.log(subdomain);
+          
+          await refreshCache();
+          
+          redirectToMenu(parts[2], parts[1], tenantId);
+        } catch (error) {
+          console.error('Error setting subdomain:', error);
+        }
+      };
+
+      setSubdomain(tenantId);
+    }
+  }, [initData]);
   
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
 
