@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import { refreshCache } from "@/api/cloudStorageManager";
 interface Table {
   uuid: string;
   name: string;
@@ -199,7 +198,6 @@ console.log(initData);
             console.log(localStorage.getItem("scanCount"));
             console.log(localStorage.getItem("scanList"));
         }
-        refreshCache();
         redirectToMenu(storeId, tableId, tenantId);
     }).catch(error => {
         console.error('Error fetching store and table names:', error);
