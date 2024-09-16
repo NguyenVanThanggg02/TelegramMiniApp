@@ -113,6 +113,8 @@ console.log(initData);
               startAppArray = startApp.split('_');
             }
 
+            console.log('StartApp Array:', startAppArray);
+
             const urlRedirect = new URL(result.data);
             const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
