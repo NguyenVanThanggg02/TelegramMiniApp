@@ -101,6 +101,7 @@ console.log(initData);
           setIsProcessing(true); 
           // setTimeout(async () => {
             console.log(result);
+            console.log(result.data);
             setScanResult(result.data);
             setShowScanner(false);
             const urlRedirect = new URL(result.data);
