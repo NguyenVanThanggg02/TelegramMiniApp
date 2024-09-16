@@ -154,40 +154,26 @@ console.log(initData);
     }
   };
 
-  // useEffect(() => {
-  //   if (initData?.startParam) {
-  //     let parts = initData?.startParam.split("_");
-  //     console.log(parts);
-  //     redirectToMenu(parts[2], parts[1], parts[0]);
-  //   }
-
-  // },[])
-
   useEffect(() => {
     if (initData?.startParam) {
       let parts = initData?.startParam.split("_");
-      if (parts.length === 3) {
-        const [storeId, tableId, tenantId] = parts;
-        redirectToMenu(storeId, tableId, tenantId);
-      } else {
-        console.error("Invalid startParam format");
-      }
+      console.log(parts);
+      redirectToMenu(parts[2], parts[1], parts[0]);
     }
-  }, [initData]);
-  
-  
+
+  },[])
   const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
         JSON.parse(localStorage.getItem("scanList") || "[]");
-  
+
     if (scanCount >= MAX_SCAN_COUNT) {
         scanList.shift();
         scanCount--;   
     } else {
         scanCount++;
     }
-  
+
     getNamesByStoreAndTable(storeId, tableId).then(({ storeName, tableName }) => {
         if (storeName && tableName) {
             scanList.push({ qrData, storeName, tableName });  
@@ -200,8 +186,7 @@ console.log(initData);
     }).catch(error => {
         console.error('Error fetching store and table names:', error);
     });
-  };
-  
+};
 
 
   const notifyErrorStoreNotFound = () => {
