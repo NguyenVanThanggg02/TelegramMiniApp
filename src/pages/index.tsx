@@ -108,7 +108,7 @@ console.log(initData);
             const startApp = data.split("startapp=")[1];
             console.log(startApp);
 
-            let startAppArray: string[] = [];
+            let startAppArray: String[] = [];
             if (startApp) {
               startAppArray = startApp.split('_');
             }
