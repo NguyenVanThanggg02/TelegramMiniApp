@@ -106,9 +106,9 @@ console.log(initData);
             setShowScanner(false);
 
             const data = result.data
-            const startApp = data.split("_");
+            const startApp = data.split("startapp");
             console.log(startApp);
-
+          
             const urlRedirect = new URL(result.data);
             const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
