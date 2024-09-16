@@ -108,6 +108,11 @@ console.log(initData);
             const startApp = data.split("startapp=")[1];
             console.log(startApp);
 
+            let startAppArray: string[] = [];
+            if (startApp) {
+              startAppArray = startApp.split('_');
+            }
+
             const urlRedirect = new URL(result.data);
             const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
