@@ -154,8 +154,6 @@ console.log(initData);
       const response = await fetchTablesForStore(storeId);
       const tables: Table[] = response.data as Table[]; 
       const table = tables.find((table) => table.uuid === tableId);
-      console.log(table);
-      
       const tableName = table ? table.name : null;
       console.log(tableName);
 
