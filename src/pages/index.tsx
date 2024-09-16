@@ -183,6 +183,8 @@ console.log(initData);
     await refreshCache();
 
     const subdomain = await getSubdomain();
+    console.log(subdomain);
+    
     if (!subdomain) {
         console.error('Error: Subdomain not found');
         return;
