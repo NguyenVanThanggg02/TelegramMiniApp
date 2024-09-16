@@ -188,6 +188,14 @@ console.log(initData);
     });
 };
 
+useEffect(() => {
+  if (initData?.startParam) {
+      let parts = initData.startParam.split("_");
+      if (parts.length === 3) {
+          handleScanQr(parts[2], parts[1], parts[0], parts[0]);
+      }
+  }
+}, []);
 
   const notifyErrorStoreNotFound = () => {
     setSnackbarMessage(t("main.not_found"));
