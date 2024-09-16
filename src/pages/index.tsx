@@ -189,16 +189,12 @@ console.log(initData);
       const tenantId = parts[0];
       
       const setSubdomain = async (subdomain: string) => {
-        try {
           await cloudStorage.set("subdomain", subdomain);
           console.log(subdomain);
           
           await refreshCache();
           
           redirectToMenu(parts[2], parts[1], tenantId);
-        } catch (error) {
-          console.error('Error setting subdomain:', error);
-        }
       };
 
       setSubdomain(tenantId);
