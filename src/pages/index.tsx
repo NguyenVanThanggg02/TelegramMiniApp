@@ -154,14 +154,14 @@ console.log(initData);
     }
   };
 
-  // useEffect(() => {
-  //   if (initData?.startParam) {
-  //     let parts = initData?.startParam.split("_");
-  //     console.log(parts);
-  //     redirectToMenu(parts[2], parts[1], parts[0]);
-  //   }
+  useEffect(() => {
+    if (initData?.startParam) {
+      let parts = initData?.startParam.split("_");
+      console.log(parts);
+      redirectToMenu(parts[2], parts[1], parts[0]);
+    }
 
-  // },[])
+  },[])
   const handleScanQr = (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
