@@ -103,6 +103,11 @@ console.log(initData);
             console.log(result);
             setScanResult(result.data);
             setShowScanner(false);
+
+            const data = result.data
+            const startApp = data.split("startapp=")[1];
+            console.log(startApp);
+
             const urlRedirect = new URL(result.data);
             const storeId = urlRedirect.searchParams.get("storeId");
             const tableId = urlRedirect.searchParams.get("tableId");
