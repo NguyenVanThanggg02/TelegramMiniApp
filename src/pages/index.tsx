@@ -188,8 +188,6 @@ console.log(initData);
     //     console.error('Error: Subdomain not found');
     //     return;
     // }
-    console.log(tenantId);
-
     await cloudStorage.set("subdomain", tenantId);
     console.log(tenantId);
     
