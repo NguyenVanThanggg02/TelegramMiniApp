@@ -46,8 +46,6 @@ const Index: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
   const [isProcessing, setIsProcessing] = useState(false); 
   const initData = useInitData();
-  const [, setSubdomain] = useState<string | undefined>(undefined);
-
 console.log(initData);
  const getStoreData = async () => {
     const response = await getStoreList();
@@ -184,12 +182,10 @@ console.log(initData);
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     await refreshCache();
 
-    const newSubdomain = await getSubdomain();
-    setSubdomain(newSubdomain); 
-
-    console.log(newSubdomain);
-
-    if (!newSubdomain) {
+    const subdomain = await getSubdomain();
+    console.log(subdomain);
+    
+    if (!subdomain) {
         console.error('Error: Subdomain not found');
         return;
     }
