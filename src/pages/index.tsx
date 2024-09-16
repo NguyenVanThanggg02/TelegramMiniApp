@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import { refreshCache } from "@/api/cloudStorageManager";
+import { getSubdomain, refreshCache } from "@/api/cloudStorageManager";
 interface Table {
   uuid: string;
   name: string;
@@ -181,7 +181,12 @@ console.log(initData);
   },[])
   const handleScanQr = async (qrData: string, storeId: string, tableId: string, tenantId: string) => {
     await refreshCache();
-    cloudStorage.get('subdomain');
+
+    const subdomain = await getSubdomain();
+    if (!subdomain) {
+        console.error('Error: Subdomain not found');
+        return;
+    }
 
     let scanCount: number = parseInt(localStorage.getItem("scanCount") || "0", 10);
     let scanList: { qrData: string; storeName: string; tableName: string }[] = 
