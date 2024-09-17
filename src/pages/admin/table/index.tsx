@@ -164,15 +164,13 @@ const TablePage: React.FC = () => {
         const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
         console.log(response.data.data.urls[0]);
         
-        if (response && response.data && response.data.url) {
-          const serverImageUrl = response.data.data.urls;
+          const serverImageUrl = response.data.data.urls[0];
           
           downloadImage(serverImageUrl, "qr-code-from-server.png");
   
           setSnackbarMessage(t("tableManagement.saveQrNoti"));
           setSnackbarType("success");
           setSnackbarOpen(true);
-        }
   
       } catch (error) {
         console.error("Error saving QR code:", error);
