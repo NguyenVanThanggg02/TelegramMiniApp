@@ -149,16 +149,27 @@ const TablePage: React.FC = () => {
   // };
 
 
-  const downloadImage = (url: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.href = url;
-    fakeLink.setAttribute("download", fileName);
+  const downloadImage = async (url: string, fileName: string): Promise<void> => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
   
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
+      const blobUrl = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', fileName);
+  
+      document.body.appendChild(link);
+      link.click();
+  
+      // Sau khi tải về thì dọn dẹp URL và link
+      URL.revokeObjectURL(blobUrl);
+      link.remove();
+    } catch (error) {
+      console.error('Error downloading the image:', error);
+    }
   };
+  
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
