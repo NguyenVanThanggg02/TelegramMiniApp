@@ -28,7 +28,6 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
-import { saveAs } from "file-saver";
 import { toPng } from 'html-to-image';
 interface Table {
   uuid: string;
@@ -59,7 +58,6 @@ const TablePage: React.FC = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   const [, setSpinner] = useRecoilState(spinnerState);
-
 
   const handleTableAdded = () => {
     fetchTableData();
@@ -113,38 +111,13 @@ const TablePage: React.FC = () => {
     });
   };
 
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-  //       downloadImage(dataUrl, "qr-code.png");
-  //       setSnackbarMessage(t("tableManagement.saveQrNoti"));
-  //       setSnackbarType("success");
-  //       setSnackbarOpen(true);
-
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
-  //       setSnackbarType("error");
-  //       setSnackbarOpen(true);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
-
-
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        const blob = await (await fetch(dataUrl)).blob(); // Chuyển dataURL thành Blob
-        saveAs(blob, "qr-code.png"); // Sử dụng FileSaver để lưu file
-
+        downloadImage(dataUrl, "qr-code.png");
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -158,19 +131,19 @@ const TablePage: React.FC = () => {
         setSpinner(false);
       }
     }
-};
+  };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
   return (
     <Page className="page">
