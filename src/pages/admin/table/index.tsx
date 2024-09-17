@@ -134,16 +134,19 @@ const TablePage: React.FC = () => {
   };
   
   const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+    const link = document.createElement("a");
+    link.style.display = "none";
+    link.href = blob;
+    link.download = fileName;
 
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+    if (blob) {
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        console.error("err");
+    }
+};
 
   return (
     <Page className="page">
