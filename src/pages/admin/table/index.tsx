@@ -6,17 +6,16 @@ import {
   Box,
   Text,
 } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
-  storeState,
-  userState,
+  // storeState,
   // userState,
 } from "../../../state";
-import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
+import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -47,8 +46,8 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const [user, ] = useRecoilState(userState);
-  const store = useRecoilValue(storeState);
+  // const [user, ] = useRecoilState(userState);
+  // const store = useRecoilValue(storeState);
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
   }
@@ -114,27 +113,27 @@ const TablePage: React.FC = () => {
     });
   };
 
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-  //       downloadImage(dataUrl, "qr-code.png");
-  //       setSnackbarMessage(t("tableManagement.saveQrNoti"));
-  //       setSnackbarType("success");
-  //       setSnackbarOpen(true);
+  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+    if (element.current) {
+      setSpinner(true);
+      element.current.style.fontFamily = "Montserrat";
+      try {
+        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        downloadImage(dataUrl, "qr-code.png");
+        setSnackbarMessage(t("tableManagement.saveQrNoti"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
 
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
-  //       setSnackbarType("error");
-  //       setSnackbarOpen(true);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
+      } catch (error) {
+        console.error("Error saving QR code:", error);
+        setSnackbarMessage(t("tableManagement.saveQrFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
+      } finally {
+        setSpinner(false);
+      }
+    }
+  };
   
   const downloadImage = (blob: string, fileName: string): void => {
     const fakeLink = document.createElement("a");
@@ -149,38 +148,38 @@ const TablePage: React.FC = () => {
   };
 
 
-  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    if (element.current) {
-      setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
-      try {
-        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+  //   if (element.current) {
+  //     setSpinner(true);
+  //     element.current.style.fontFamily = "Montserrat";
+  //     try {
+  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
   
-        const blob = await (await fetch(dataUrl)).blob();
-        const formData = new FormData();
-        formData.append("file", blob, "qr-code.png");
+  //       const blob = await (await fetch(dataUrl)).blob();
+  //       const formData = new FormData();
+  //       formData.append("file", blob, "qr-code.png");
   
-        const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
-        console.log(response.data.data.urls[0]);
+  //       const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
+  //       console.log(response.data.data.urls[0]);
         
-          const serverImageUrl = response.data.data.urls[0];
+  //         const serverImageUrl = response.data.data.urls[0];
           
-          downloadImage(serverImageUrl, "qr-code-from-server.png");
+  //         downloadImage(serverImageUrl, "qr-code-from-server.png");
   
-          setSnackbarMessage(t("tableManagement.saveQrNoti"));
-          setSnackbarType("success");
-          setSnackbarOpen(true);
+  //         setSnackbarMessage(t("tableManagement.saveQrNoti"));
+  //         setSnackbarType("success");
+  //         setSnackbarOpen(true);
   
-      } catch (error) {
-        console.error("Error saving QR code:", error);
-        setSnackbarMessage(t("tableManagement.saveQrFail"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      } finally {
-        setSpinner(false);
-      }
-    }
-  };
+  //     } catch (error) {
+  //       console.error("Error saving QR code:", error);
+  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
+  //       setSnackbarType("error");
+  //       setSnackbarOpen(true);
+  //     } finally {
+  //       setSpinner(false);
+  //     }
+  //   }
+  // };
   
 
 
