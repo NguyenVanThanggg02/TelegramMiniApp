@@ -162,7 +162,7 @@ const TablePage: React.FC = () => {
         formData.append("file", blob, "qr-code.png");
   
         const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
-        console.log(response.data.data.urls);
+        console.log(response.data.data.urls[0]);
         
         if (response && response.data && response.data.url) {
           const serverImageUrl = response.data.data.urls;
