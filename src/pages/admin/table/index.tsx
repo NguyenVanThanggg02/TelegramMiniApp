@@ -6,16 +6,17 @@ import {
   Box,
   Text,
 } from "zmp-ui";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
-  // storeState,
+  storeState,
+  userState,
   // userState,
 } from "../../../state";
-import { fetchTablesForStore } from "../../../api/api";
+import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -46,8 +47,8 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  // const [user, ] = useRecoilState(userState);
-  // const store = useRecoilValue(storeState);
+  const [user, ] = useRecoilState(userState);
+  const store = useRecoilValue(storeState);
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
   }
@@ -135,52 +136,17 @@ const TablePage: React.FC = () => {
   //   }
   // };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
-
-// tải ảnh lên server
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-  
-  //       const blob = await (await fetch(dataUrl)).blob();
-  //       const formData = new FormData();
-  //       formData.append("file", blob, "qr-code.png");
-  
-  //       const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
-  //       console.log(response.data.data.urls[0]);
-        
-  //         const serverImageUrl = response.data.data.urls[0];
-          
-  //         downloadImage(serverImageUrl, "qr-code-from-server.png");
-  
-  //         setSnackbarMessage(t("tableManagement.saveQrNoti"));
-  //         setSnackbarType("success");
-  //         setSnackbarOpen(true);
-  
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
-  //       setSnackbarType("error");
-  //       setSnackbarOpen(true);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
-
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
@@ -188,18 +154,23 @@ const TablePage: React.FC = () => {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
-        // Chuyển đổi thành URL base64
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+  
         const blob = await (await fetch(dataUrl)).blob();
         const formData = new FormData();
         formData.append("file", blob, "qr-code.png");
   
-        // Gửi ảnh tới bot Telegram
-        await sendImageToTelegramBot(blob);
+        const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
+        console.log(response.data.data.urls[0]);
+        
+          const serverImageUrl = response.data.data.urls[0];
+          
+          downloadImage(serverImageUrl, "qr-code-from-server.png");
   
-        setSnackbarMessage(t("tableManagement.saveQrNoti"));
-        setSnackbarType("success");
-        setSnackbarOpen(true);
+          setSnackbarMessage(t("tableManagement.saveQrNoti"));
+          setSnackbarType("success");
+          setSnackbarOpen(true);
+  
       } catch (error) {
         console.error("Error saving QR code:", error);
         setSnackbarMessage(t("tableManagement.saveQrFail"));
@@ -208,26 +179,6 @@ const TablePage: React.FC = () => {
       } finally {
         setSpinner(false);
       }
-    }
-  };
-  
-  const sendImageToTelegramBot = async (blob: Blob) => {
-    const formData = new FormData();
-    formData.append("photo", blob, "qr-code.png");
-  
-    // Thay thế TOKEN_BOT và CHAT_ID bằng giá trị thực tế của bạn
-    const response = await fetch(`https://api.telegram.org/bot7273544566:AAFEYQS5oJZR0s9npHlbWwlBYcT1RKjoa3o/sendPhoto?chat_id=7544938611`, {
-      method: "POST",
-      body: formData,
-    });
-  
-    if (!response.ok) {
-      throw new Error("Failed to send image to Telegram bot");
-    }
-  
-    const result = await response.json();
-    if (!result.ok) {
-      throw new Error(`Telegram API error: ${result.description}`);
     }
   };
   
