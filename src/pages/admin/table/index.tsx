@@ -166,7 +166,8 @@ const TablePage: React.FC = () => {
         
         if (response && response.data && response.data.url) {
           const serverImageUrl = response.data.data.urls;
-  
+          console.log(serverImageUrl);
+          
           downloadImage(serverImageUrl, "qr-code-from-server.png");
   
           setSnackbarMessage(t("tableManagement.saveQrNoti"));
