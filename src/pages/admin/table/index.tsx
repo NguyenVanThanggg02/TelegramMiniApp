@@ -136,19 +136,40 @@ const TablePage: React.FC = () => {
   //   }
   // };
   
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
 
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
+
+  const downloadImage = async (url: string, fileName: string) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+  
+      const fakeLink = document.createElement("a");
+      fakeLink.style.display = "none";
+      fakeLink.href = objectUrl;
+      fakeLink.download = fileName;
+  
+      document.body.appendChild(fakeLink);
+      fakeLink.click();
+      
+      // Cleanup the object URL
+      URL.revokeObjectURL(objectUrl);
+      fakeLink.remove();
+    } catch (error) {
+      console.error("Error downloading the image:", error);
+    }
   };
-
-
+  
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
@@ -162,15 +183,14 @@ const TablePage: React.FC = () => {
         formData.append("file", blob, "qr-code.png");
   
         const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
-        console.log(response.data.data.urls[0]);
+        const serverImageUrl = response.data.data.urls[0];
         
-          const serverImageUrl = response.data.data.urls[0];
-          
-          downloadImage(serverImageUrl, "qr-code-from-server.png");
+        // Gọi downloadImage để lưu hình ảnh về máy
+        await downloadImage(serverImageUrl, "qr-code-from-server.png");
   
-          setSnackbarMessage(t("tableManagement.saveQrNoti"));
-          setSnackbarType("success");
-          setSnackbarOpen(true);
+        setSnackbarMessage(t("tableManagement.saveQrNoti"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
   
       } catch (error) {
         console.error("Error saving QR code:", error);
@@ -182,6 +202,7 @@ const TablePage: React.FC = () => {
       }
     }
   };
+  
   
 
 
