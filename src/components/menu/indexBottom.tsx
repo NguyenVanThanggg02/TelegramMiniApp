@@ -13,6 +13,7 @@ import {
   tableState,
   tableListState,
   storeState,
+  loadingState,
 } from "../../state";
 import "./styles.scss";
 import DishOrderSheet from "../../components/dish/dish-order";
@@ -147,6 +148,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const cloudStorage = initCloudStorage();
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useRecoilState(loadingState);
 
   const navigate = useNavigate();
 
@@ -336,7 +338,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!store_uuid) return;
-      
+      setLoading({ ...loading, isLoading: true });
       await getStoreDetail();
   
       if (tenant_id) {
@@ -372,7 +374,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         await fetchTablesByStore(store_uuid);
       }
     };
-  
+    setLoading({ ...loading, isLoading: false });
     fetchData();
   }, [store_uuid]);
 
