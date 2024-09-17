@@ -117,7 +117,6 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        window.open(dataUrl);
         downloadImage(dataUrl, "qr-code.png");
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
