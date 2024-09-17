@@ -151,6 +151,8 @@ const TablePage: React.FC = () => {
   const downloadImage = async (url: string, fileName: string) => {
     try {
       const response = await fetch(url);
+      console.log(response);
+      
       const blob = await response.blob();
       const objectUrl = URL.createObjectURL(blob);
   
@@ -184,8 +186,8 @@ const TablePage: React.FC = () => {
   
         const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
         const serverImageUrl = response.data.data.urls[0];
+        console.log(serverImageUrl);
         
-        // Gọi downloadImage để lưu hình ảnh về máy
         await downloadImage(serverImageUrl, "qr-code-from-server.png");
   
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
