@@ -373,8 +373,9 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       if (!tableList.tables.length) {
         await fetchTablesByStore(store_uuid);
       }
+      setLoading({ ...loading, isLoading: false });
     };
-    setLoading({ ...loading, isLoading: false });
+   
     fetchData();
   }, [store_uuid]);
 
