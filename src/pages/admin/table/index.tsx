@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
-  spinnerState,
+  // spinnerState,
   storeListState,
   // userState,
 } from "../../../state";
@@ -28,7 +28,8 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
-import { toPng } from 'html-to-image';
+// import { toPng } from 'html-to-image';
+import FileSaver from "file-saver";
 interface Table {
   uuid: string;
   name: string;
@@ -43,8 +44,8 @@ const TablePage: React.FC = () => {
   const navigate = useNavigate();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const [snackbarMessage, ] = useState("");
+  const [snackbarType, ] = useState<"success" | "error">("success");
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -57,7 +58,7 @@ const TablePage: React.FC = () => {
   );
   const [loading, setLoading] = useRecoilState(loadingState);
   const [storeList, setStoreListState] = useRecoilState(storeListState);
-  const [, setSpinner] = useRecoilState(spinnerState);
+  // const [, setSpinner] = useRecoilState(spinnerState);
 
   const handleTableAdded = () => {
     fetchTableData();
@@ -111,39 +112,44 @@ const TablePage: React.FC = () => {
     });
   };
 
-  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    if (element.current) {
-      setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
-      try {
-        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl, "qr-code.png");
-        setSnackbarMessage(t("tableManagement.saveQrNoti"));
-        setSnackbarType("success");
-        setSnackbarOpen(true);
+  const handleSaveQr = async (_element: React.RefObject<HTMLDivElement>) => {
+    // if (element.current) {
+    //   setSpinner(true);
+    //   element.current.style.fontFamily = "Montserrat";
+    //   try {
+    //     const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+    //     downloadImage(dataUrl, "qr-code.png");
+    //     setSnackbarMessage(t("tableManagement.saveQrNoti"));
+    //     setSnackbarType("success");
+    //     setSnackbarOpen(true);
 
-      } catch (error) {
-        console.error("Error saving QR code:", error);
-        setSnackbarMessage(t("tableManagement.saveQrFail"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      } finally {
-        setSpinner(false);
-      }
-    }
+    //   } catch (error) {
+    //     console.error("Error saving QR code:", error);
+    //     setSnackbarMessage(t("tableManagement.saveQrFail"));
+    //     setSnackbarType("error");
+    //     setSnackbarOpen(true);
+    //   } finally {
+    //     setSpinner(false);
+    //   }
+    // }
+
+    var blob = new Blob(["Hello, world!"], {
+      type: "text/plain;charset=utf-8"
+    });
+    FileSaver.saveAs(blob, "hello world.txt");
   };
   
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
 
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
 
   return (
     <Page className="page">
