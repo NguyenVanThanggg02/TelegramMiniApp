@@ -672,6 +672,7 @@ const OrderPage: React.FC = () => {
                                   <span
                                     style={{
                                       paddingLeft: "6px",
+                                      color: 'black'
                                     }}
                                   >
                                     {priceFormatter(item.actual_payment_amount)}
