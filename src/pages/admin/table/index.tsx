@@ -165,7 +165,7 @@ const TablePage: React.FC = () => {
         console.log(response);
         
         if (response && response.data && response.data.url) {
-          const serverImageUrl = response.data.url;
+          const serverImageUrl = response.data.data.urls;
   
           downloadImage(serverImageUrl, "qr-code-from-server.png");
   
