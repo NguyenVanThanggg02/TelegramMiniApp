@@ -136,39 +136,18 @@ const TablePage: React.FC = () => {
   //   }
   // };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
-
-const downloadImage = async (url: string, fileName: string) => {
-  try {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const objectUrl = URL.createObjectURL(blob);
-
+  const downloadImage = (blob: string, fileName: string): void => {
     const fakeLink = document.createElement("a");
     fakeLink.style.display = "none";
-    fakeLink.href = objectUrl;
     fakeLink.download = fileName;
 
+    fakeLink.href = blob;
     document.body.appendChild(fakeLink);
     fakeLink.click();
-    
-    // Cleanup the object URL
-    URL.revokeObjectURL(objectUrl);
+    document.body.removeChild(fakeLink);
     fakeLink.remove();
-  } catch (error) {
-    console.error("Error downloading the image:", error);
-  }
-};
+  };
+
 
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
@@ -186,7 +165,6 @@ const downloadImage = async (url: string, fileName: string) => {
         console.log(response.data.data.urls[0]);
         
           const serverImageUrl = response.data.data.urls[0];
-          console.log(serverImageUrl);
           
           downloadImage(serverImageUrl, "qr-code-from-server.png");
   
