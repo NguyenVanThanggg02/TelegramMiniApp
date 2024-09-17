@@ -12,7 +12,6 @@ import {
   loadingState,
   spinnerState,
   storeListState,
-  // storeState,
   // userState,
 } from "../../../state";
 import { fetchTablesForStore } from "../../../api/api";
@@ -46,8 +45,7 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  // const [user, ] = useRecoilState(userState);
-  // const store = useRecoilValue(storeState);
+
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
   }
@@ -146,42 +144,6 @@ const TablePage: React.FC = () => {
     document.body.removeChild(fakeLink);
     fakeLink.remove();
   };
-
-
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-  
-  //       const blob = await (await fetch(dataUrl)).blob();
-  //       const formData = new FormData();
-  //       formData.append("file", blob, "qr-code.png");
-  
-  //       const response = await uploadImagesToDown(store.uuid, user.uuid, formData);
-  //       console.log(response.data.data.urls[0]);
-        
-  //         const serverImageUrl = response.data.data.urls[0];
-          
-  //         downloadImage(serverImageUrl, "qr-code-from-server.png");
-  
-  //         setSnackbarMessage(t("tableManagement.saveQrNoti"));
-  //         setSnackbarType("success");
-  //         setSnackbarOpen(true);
-  
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
-  //       setSnackbarType("error");
-  //       setSnackbarOpen(true);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
-  
-
 
   return (
     <Page className="page">
