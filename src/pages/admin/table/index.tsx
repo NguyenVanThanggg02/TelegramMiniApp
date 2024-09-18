@@ -117,8 +117,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        // downloadImage(dataUrl, "qr-code.png");
-        downloadImage(dataUrl);
+        downloadImage(dataUrl, "qr-code.png");
+        // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -134,17 +134,17 @@ const TablePage: React.FC = () => {
     }
   };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.setAttribute('sandbox',"allow-downloads")
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.setAttribute('sandbox',"allow-downloads")
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
 // hết tb allow-downloads
 // const downloadImage = (blob: string): void => {
@@ -155,29 +155,6 @@ const TablePage: React.FC = () => {
 //   document.body.appendChild(iframe); 
 //   document.body.removeChild(iframe); 
 // };
-
-const downloadImage = (blob: string): void => {
-  const iframe = document.createElement("iframe");
-  iframe.style.display = "none";
-  document.body.appendChild(iframe);
-
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-
-  iframe.srcdoc = `
-    <html>
-      <body>
-        <a href="${blob}" download="qr-code.png"></a>
-        <script>
-          document.querySelector('a').click();
-        </script>
-      </body>
-    </html>
-  `;
-  
-  setTimeout(() => {
-    document.body.removeChild(iframe);
-  }, 2000);
-};
 
   return (
     <Page className="page">
