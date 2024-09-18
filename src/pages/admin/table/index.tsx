@@ -171,6 +171,7 @@ const TablePage: React.FC = () => {
 
 const downloadImage = (blobUrl: string): void => {
   const iframe = document.createElement("iframe");
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
   iframe.style.display = "none";
   document.body.appendChild(iframe);
 
