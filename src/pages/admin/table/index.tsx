@@ -117,8 +117,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        // downloadImage(dataUrl, "qr-code.png");
-        downloadImage(dataUrl);
+        downloadImage(dataUrl, "qr-code.png");
+        // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -146,14 +146,32 @@ const TablePage: React.FC = () => {
   // };
 
 // ẩn thẻ khỏi ui
-const downloadImage = (blob: string): void => {
+// const downloadImage = (blob: string): void => {
+//   const iframe = document.createElement("iframe");
+//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+//   iframe.src = blob; 
+//   iframe.style.display = "none"; 
+//   document.body.appendChild(iframe); 
+//   document.body.removeChild(iframe); 
+// };
+
+const downloadImage = (blobUrl: string, fileName: string): void => {
   const iframe = document.createElement("iframe");
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-  iframe.src = blob; 
-  iframe.style.display = "none"; 
-  document.body.appendChild(iframe); 
-  document.body.removeChild(iframe); 
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
+
+  const link = document.createElement("a");
+  link.href = blobUrl;
+  link.download = fileName; 
+  link.style.display = "none"; 
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  document.body.removeChild(iframe);
 };
+
 
   return (
     <Page className="page">
