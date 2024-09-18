@@ -170,7 +170,8 @@ const TablePage: React.FC = () => {
 // };
 
   return (
-    <Page className="page">
+    <Page className="page"  //@ts-ignore
+    ref={divRef}>
       <div className="section-container">
         <AddTableForm store_uuid={store_uuid} onTableAdded={handleTableAdded} />
         <List style={{ marginBottom: "60px" }}>
@@ -210,8 +211,7 @@ const TablePage: React.FC = () => {
                       value={table.link}
                       title={table.name.toUpperCase()}
                       handleSave={handleSaveQr}
-                      //@ts-ignore
-                      ref={divRef}
+                     
                     />
                   )}
                 </Box>
