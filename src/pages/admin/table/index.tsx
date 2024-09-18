@@ -117,8 +117,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        // downloadImage(dataUrl, "qr-code.png");
-        downloadImage(dataUrl);
+        downloadImage(dataUrl, "qr-code.png");
+        // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -145,28 +145,41 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
-  // k báo k cho phép down nhưng hiển thị thẻ iframe ở ui
-//   const downloadImage = (blob: string): void => {
-//     const downloadURL = blob;
-//     const iframe = document.createElement("iframe");
-//     iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
-//     iframe.src = downloadURL;
-//     document.body.appendChild(iframe);
+// ẩn thẻ khỏi ui
+// const downloadImage = (blob: string): void => {
+//   const iframe = document.createElement("iframe");
+//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+//   iframe.src = blob; 
+//   iframe.style.display = "none"; 
+//   document.body.appendChild(iframe); 
+//   iframe.onload = () => {
+//     setTimeout(() => {
+//       document.body.removeChild(iframe); 
+//     }, 1000); 
+//   };
 // };
 
-// ẩn thẻ khỏi ui
-const downloadImage = (blob: string): void => {
+const downloadImage = (blob: string, fileName: string): void => {
   const iframe = document.createElement("iframe");
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-  iframe.src = blob; 
-  iframe.style.display = "none"; 
-  document.body.appendChild(iframe); 
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
+
+  const a = document.createElement("a");
+  a.href = blob; // blob là URL của hình ảnh (data URL)
+  a.download = fileName; // tên file khi lưu về máy
+  a.style.display = "none";
+  document.body.appendChild(a);
+
+  a.click();
   iframe.onload = () => {
     setTimeout(() => {
-      document.body.removeChild(iframe); 
+      document.body.removeChild(iframe);
+      document.body.removeChild(a);
     }, 1000); 
   };
 };
+
 
 
   return (
