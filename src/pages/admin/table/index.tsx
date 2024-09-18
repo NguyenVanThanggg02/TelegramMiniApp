@@ -146,6 +146,7 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
+  // k báo k cho phép down nhưng hiển thị thẻ iframe ở ui
 //   const downloadImage = (blob: string): void => {
 //     const downloadURL = blob;
 //     const iframe = document.createElement("iframe");
@@ -154,22 +155,35 @@ const TablePage: React.FC = () => {
 //     document.body.appendChild(iframe);
 // };
 
-const downloadImage = (blob: string): void => {
+// ẩn thẻ khỏi ui
+// const downloadImage = (blob: string): void => {
+//   const iframe = document.createElement("iframe");
+//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+//   iframe.src = blob; 
+//   iframe.style.display = "none"; 
+//   document.body.appendChild(iframe); 
+//   iframe.onload = () => {
+//     setTimeout(() => {
+//       document.body.removeChild(iframe); 
+//     }, 1000); 
+//   };
+// };
+
+const downloadImage = (blobUrl: string): void => {
   const iframe = document.createElement("iframe");
-  
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); // Cho phép tải xuống
-  iframe.src = blob; // Gán URL của ảnh vào src
+  iframe.style.display = "none";
+  document.body.appendChild(iframe);
 
-  iframe.style.display = "none"; // Ẩn iframe khỏi UI
-  document.body.appendChild(iframe); // Thêm iframe vào DOM
-  
   iframe.onload = () => {
-    setTimeout(() => {
-      document.body.removeChild(iframe); // Xóa iframe sau khi tải xuống xong
-    }, 1000); // Đợi 1 giây trước khi xóa
+    const downloadLink = document.createElement("a");
+    downloadLink.href = blobUrl; 
+    downloadLink.download = "qrcode.png"; 
+    downloadLink.click(); 
+    document.body.removeChild(iframe); 
   };
-};
 
+  iframe.src = blobUrl; 
+};
 
   return (
     <Page className="page">
