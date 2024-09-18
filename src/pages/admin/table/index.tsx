@@ -145,16 +145,6 @@ const TablePage: React.FC = () => {
     fakeLink.remove();
   };
 
-// hết tb allow-downloads
-// const downloadImage = (blob: string): void => {
-//   const iframe = document.createElement("iframe");
-//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-//   iframe.src = blob; 
-//   iframe.style.display = "none"; 
-//   document.body.appendChild(iframe); 
-//   document.body.removeChild(iframe); 
-// };
-
   return (
     <Page className="page">
       <div className="section-container">
