@@ -134,18 +134,18 @@ const TablePage: React.FC = () => {
     }
   };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
-// ẩn thẻ khỏi ui
+// hết tb allow-downloads
 // const downloadImage = (blob: string): void => {
 //   const iframe = document.createElement("iframe");
 //   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
@@ -154,24 +154,6 @@ const TablePage: React.FC = () => {
 //   document.body.appendChild(iframe); 
 //   document.body.removeChild(iframe); 
 // };
-
-const downloadImage = (blobUrl: string, fileName: string): void => {
-  const iframe = document.createElement("iframe");
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
-  iframe.style.display = "none";
-  document.body.appendChild(iframe);
-
-  const link = document.createElement("a");
-  link.href = blobUrl;
-  link.download = fileName; 
-  link.style.display = "none"; 
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  document.body.removeChild(iframe);
-};
-
 
   return (
     <Page className="page">
