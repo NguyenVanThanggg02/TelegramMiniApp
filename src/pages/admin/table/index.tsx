@@ -147,14 +147,49 @@ const TablePage: React.FC = () => {
   // };
 
 // hết tb allow-downloads
-const downloadImage = (blob: string): void => {
-  const iframe = document.createElement("iframe");
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-  iframe.src = blob; 
-  iframe.style.display = "none"; 
-  document.body.appendChild(iframe); 
-  document.body.removeChild(iframe); 
+// const downloadImage = (blob: string): void => {
+//   const iframe = document.createElement("iframe");
+//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+//   iframe.src = blob; 
+//   iframe.style.display = "none"; 
+//   document.body.appendChild(iframe); 
+//   document.body.removeChild(iframe); 
+// };
+const downloadImage = async (element: any) => {
+  try {
+    const dataUrl = await toPng(element, { cacheBust: true, backgroundColor: '#ffffff' });
+
+    const iframe = document.createElement("iframe");
+    iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+    
+    // Sử dụng cách này để tạo URL từ Data URI (không dùng blob URL)
+    const byteString = atob(dataUrl.split(',')[1]);
+    const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0];
+    
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    
+    const blob = new Blob([ab], { type: mimeString });
+    const objectURL = URL.createObjectURL(blob);
+    
+    // Gán object URL vào iframe
+    iframe.src = objectURL;
+    
+    // Xóa iframe sau khi tải xuống
+    setTimeout(() => {
+      URL.revokeObjectURL(objectURL); // Hủy URL object để tránh memory leak
+      document.body.removeChild(iframe);
+    }, 1000);
+  } catch (error) {
+    console.error("Error while saving the image", error);
+  }
 };
+
 
   return (
     <Page className="page">
