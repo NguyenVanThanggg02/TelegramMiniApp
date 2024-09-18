@@ -136,6 +136,7 @@ const TablePage: React.FC = () => {
   
   const downloadImage = (blob: string, fileName: string): void => {
     const fakeLink = document.createElement("a");
+    fakeLink.setAttribute('sandbox',"allow-downloads")
     fakeLink.style.display = "none";
     fakeLink.download = fileName;
     fakeLink.href = blob;
