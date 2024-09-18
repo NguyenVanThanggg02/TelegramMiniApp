@@ -45,6 +45,7 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const qrCodeRef = React.useRef<HTMLDivElement>(null);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -160,7 +161,7 @@ const downloadImage = async (element: any) => {
     const dataUrl = await toPng(element, { cacheBust: true, backgroundColor: '#ffffff' });
 
     const iframe = document.createElement("iframe");
-    iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
+    // iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
     iframe.style.display = "none";
     document.body.appendChild(iframe);
     
@@ -228,11 +229,13 @@ const downloadImage = async (element: any) => {
                 </Box>
                 <Box>
                   {selectedTableUUID === table.uuid && (
+                    <div ref={qrCodeRef}>
                     <QRCodeViewer
                       value={table.link}
                       title={table.name.toUpperCase()}
                       handleSave={handleSaveQr}
                     />
+                    </div>
                   )}
                 </Box>
               </Box>
