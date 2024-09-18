@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Page,
   List,
@@ -29,6 +29,7 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
+import html2canvas from 'html2canvas';
 interface Table {
   uuid: string;
   name: string;
@@ -36,6 +37,7 @@ interface Table {
 }
 
 const TablePage: React.FC = () => {
+  const divRef = useRef(null);
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
   const [searchParams] = useSearchParams();
@@ -112,6 +114,17 @@ const TablePage: React.FC = () => {
   };
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+    const divToCapture = divRef.current; // Lấy tham chiếu đến div cần chụp
+    //@ts-ignore
+        html2canvas(divToCapture).then((canvas) => {
+          // Tạo một link để tải ảnh
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = 'screenshot.png';
+    
+          // Kích hoạt download
+          link.click();
+        });
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
@@ -197,6 +210,8 @@ const TablePage: React.FC = () => {
                       value={table.link}
                       title={table.name.toUpperCase()}
                       handleSave={handleSaveQr}
+                      //@ts-ignore
+                      ref={divRef}
                     />
                   )}
                 </Box>
