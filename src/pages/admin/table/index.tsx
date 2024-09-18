@@ -117,8 +117,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl, "qr-code.png");
-        // downloadImage(dataUrl);
+        // downloadImage(dataUrl, "qr-code.png");
+        downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -146,18 +146,10 @@ const TablePage: React.FC = () => {
   // };
 
 // hết tb allow-downloads
-const downloadImage = (blob: string, fileName: string): void => {
+const downloadImage = (blob: string): void => {
   const iframe = document.createElement("iframe");
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  // iframe.src = blob; 
+  iframe.src = blob; 
   iframe.style.display = "none"; 
   document.body.appendChild(iframe); 
   document.body.removeChild(iframe); 
