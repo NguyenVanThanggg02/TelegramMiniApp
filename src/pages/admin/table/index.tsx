@@ -161,10 +161,8 @@ const downloadImage = (blob: string): void => {
   iframe.style.display = "none";
   document.body.appendChild(iframe);
 
-  // Sử dụng `sandbox` để cấp quyền tải xuống
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
 
-  // Tạo nội dung bên trong iframe để xử lý tải file
   iframe.srcdoc = `
     <html>
       <body>
@@ -176,10 +174,9 @@ const downloadImage = (blob: string): void => {
     </html>
   `;
   
-  // Xóa iframe sau khi hoàn tất
   setTimeout(() => {
     document.body.removeChild(iframe);
-  }, 2000); // Đảm bảo đủ thời gian để hoàn tất việc tải
+  }, 2000);
 };
 
   return (
