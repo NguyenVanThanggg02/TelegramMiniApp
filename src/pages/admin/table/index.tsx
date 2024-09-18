@@ -146,17 +146,30 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
-  const downloadImage = (blob: string): void => {
-    const downloadURL = blob;
+//   const downloadImage = (blob: string): void => {
+//     const downloadURL = blob;
+//     const iframe = document.createElement("iframe");
+//     iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
+//     iframe.src = downloadURL;
+//     document.body.appendChild(iframe);
+// };
 
-    const iframe = document.createElement("iframe");
+const downloadImage = (blob: string): void => {
+  const iframe = document.createElement("iframe");
   
-    iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); // Cho phép tải xuống
+  iframe.src = blob; // Gán URL của ảnh vào src
 
-    iframe.src = downloadURL;
-
-    document.body.appendChild(iframe);
+  iframe.style.display = "none"; // Ẩn iframe khỏi UI
+  document.body.appendChild(iframe); // Thêm iframe vào DOM
+  
+  iframe.onload = () => {
+    setTimeout(() => {
+      document.body.removeChild(iframe); // Xóa iframe sau khi tải xuống xong
+    }, 1000); // Đợi 1 giây trước khi xóa
+  };
 };
+
 
   return (
     <Page className="page">
