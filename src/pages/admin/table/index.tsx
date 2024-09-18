@@ -117,7 +117,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl);
+        downloadImage(dataUrl, "qr-code.png");
+        // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -133,30 +134,29 @@ const TablePage: React.FC = () => {
     }
   };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
-  const downloadImage = (blob: string): void => {
-    const downloadURL = blob;
+//   const downloadImage = (blob: string): void => {
+//     const downloadURL = blob;
 
-    const iframe = document.createElement("iframe");
+//     const iframe = document.createElement("iframe");
   
-    iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
+//     iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
 
-    iframe.src = downloadURL;
+//     iframe.src = downloadURL;
 
-    document.body.appendChild(iframe);
-};
-
+//     document.body.appendChild(iframe);
+// };
 
   return (
     <Page className="page">
