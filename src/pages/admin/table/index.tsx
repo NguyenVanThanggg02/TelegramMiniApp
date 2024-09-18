@@ -150,7 +150,8 @@ const TablePage: React.FC = () => {
 
     const iframe = document.createElement("iframe");
   
-    iframe.setAttribute("sandbox", "allow-same-origin"); // Use setAttribute to modify sandbox
+    iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
+
     iframe.src = downloadURL;
 
     document.body.appendChild(iframe);
