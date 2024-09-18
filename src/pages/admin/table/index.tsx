@@ -117,8 +117,8 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl, "qr-code.png");
-        // downloadImage(dataUrl);
+        // downloadImage(dataUrl, "qr-code.png");
+        downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -134,18 +134,16 @@ const TablePage: React.FC = () => {
     }
   };
   
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
 
   // k báo k cho phép down nhưng hiển thị thẻ iframe ở ui
 //   const downloadImage = (blob: string): void => {
@@ -157,35 +155,19 @@ const TablePage: React.FC = () => {
 // };
 
 // ẩn thẻ khỏi ui
-// const downloadImage = (blob: string): void => {
-//   const iframe = document.createElement("iframe");
-//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-//   iframe.src = blob; 
-//   iframe.style.display = "none"; 
-//   document.body.appendChild(iframe); 
-//   iframe.onload = () => {
-//     setTimeout(() => {
-//       document.body.removeChild(iframe); 
-//     }, 1000); 
-//   };
-// };
+const downloadImage = (blob: string): void => {
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+  iframe.src = blob; 
+  iframe.style.display = "none"; 
+  document.body.appendChild(iframe); 
+  iframe.onload = () => {
+    setTimeout(() => {
+      document.body.removeChild(iframe); 
+    }, 1000); 
+  };
+};
 
-// const downloadImage = (blobUrl: string): void => {
-//   const iframe = document.createElement("iframe");
-//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-//   iframe.style.display = "none";
-//   document.body.appendChild(iframe);
-
-//   iframe.onload = () => {
-//     const downloadLink = document.createElement("a");
-//     downloadLink.href = blobUrl; 
-//     downloadLink.download = "qrcode.png"; 
-//     downloadLink.click(); 
-//     document.body.removeChild(iframe); 
-//   };
-
-//   iframe.src = blobUrl; 
-// };
 
   return (
     <Page className="page">
