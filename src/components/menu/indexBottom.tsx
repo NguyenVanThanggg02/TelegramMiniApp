@@ -152,6 +152,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (!pageRef.current) return;
 
@@ -630,7 +631,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/profile/bottomnavbar`,{ state: { store_uuid: store_uuid } })}
+          onClick={() => navigate(`/user/profile/bottomnavbar`)}
 
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
