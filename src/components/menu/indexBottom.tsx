@@ -127,7 +127,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [searchParams, ] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
 
-  const [, setStore] = useRecoilState(storeState);
+  const [store, setStore] = useRecoilState(storeState);
   //@ts-ignore
   const [table, setTable] = useRecoilState<Record<string, []> | null>(tableState);
   const [tableList, setTableList] = useRecoilState(tableListState);
@@ -151,10 +151,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
 
   const navigate = useNavigate();
-
-  localStorage.setItem('store_uuid', store_uuid || '');
-
-  const storeId = localStorage.getItem('store_uuid');
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -600,7 +596,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menu/${storeId}/${table_uuid}`)}
+          onClick={() => navigate(`/menu/${store.uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
@@ -617,7 +613,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/order/${storeId}`)}
+          onClick={() => navigate(`/user/order/${store.uuid}`)}
         >
           <AssignmentOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
@@ -634,7 +630,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/profile/bottomnavbar`)}
+          onClick={() => navigate(`/user/profile/bottomnavbar`,{ state: { store_uuid } })}
 
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
