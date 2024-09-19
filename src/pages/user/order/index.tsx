@@ -832,7 +832,7 @@ const OrderPage: React.FC = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate('/user/profile/bottomnavbar')}
+          onClick={() => navigate(`/user/profile/bottomnavbar`, { state: { store_uuid } })}
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
           <span>{t("navbar.user")}</span>
