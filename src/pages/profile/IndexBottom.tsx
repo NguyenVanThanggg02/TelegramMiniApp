@@ -25,7 +25,7 @@ import {
 } from "../../constants";
 import usa from "../../static/icons/usa.png";
 import vietnam from "../../static/icons/vietnam.png";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getLoginToken } from "../../api/api";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -36,9 +36,8 @@ const ProfilePageBottomNavBar: React.FC = () => {
   const user = useRecoilValue(userState);
   const { t, i18n } = useTranslation("global");
   const navigate = useNavigate();
-  const {  table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
-  const location = useLocation();
-  const { store_uuid } = location.state || {};
+  const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
+  
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
@@ -379,7 +378,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menuu/${store_uuid}/${table_uuid}`,{ state: { store_uuid } })}
+          onClick={() => navigate(`/menuu/${store_uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
