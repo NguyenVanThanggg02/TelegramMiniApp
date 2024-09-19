@@ -395,7 +395,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/order/${store_uuid}`,{ state: { store_uuid } })}
+          onClick={() => navigate(`/user/order/${store_uuid}`)}
         >
           <AssignmentOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
@@ -412,7 +412,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/profile/bottomnavbar`, { state: { store_uuid } })}
+          onClick={() => navigate('/user/profile/bottomnavbar')}
         >
           <PersonOutlinedIcon style={{ color: "#f44336", fontSize: "24px" }} />
           <span>{t("navbar.user")}</span>
