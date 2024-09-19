@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Page,
   List,
@@ -29,7 +29,6 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
-import html2canvas from 'html2canvas';
 interface Table {
   uuid: string;
   name: string;
@@ -37,7 +36,6 @@ interface Table {
 }
 
 const TablePage: React.FC = () => {
-  const divRef = useRef(null);
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
   const [searchParams] = useSearchParams();
@@ -95,7 +93,7 @@ const TablePage: React.FC = () => {
   };
 
 // const linkBuilder = (table_uuid: string): string => { 
-//     return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
+//     return https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid};
 //   };
 
   const linkBuilder = (table_uuid: string): string => {
@@ -114,24 +112,12 @@ const TablePage: React.FC = () => {
   };
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    const divToCapture = divRef.current; // Lấy tham chiếu đến div cần chụp
-    //@ts-ignore
-        html2canvas(divToCapture).then((canvas) => {
-          // Tạo một link để tải ảnh
-          const link = document.createElement('a');
-          link.href = canvas.toDataURL('image/png');
-          link.download = 'screenshot.png';
-    
-          // Kích hoạt download
-          link.click();
-        });
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl, "qr-code.png");
-        // downloadImage(dataUrl);
+        downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -147,31 +133,33 @@ const TablePage: React.FC = () => {
     }
   };
   
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.setAttribute('sandbox',"allow-downloads")
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
 
-// hết tb allow-downloads
-// const downloadImage = (blob: string): void => {
-//   const iframe = document.createElement("iframe");
-//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-//   iframe.src = blob; 
-//   iframe.style.display = "none"; 
-//   document.body.appendChild(iframe); 
-//   document.body.removeChild(iframe); 
-// };
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
+
+  const downloadImage = (blob: string): void => {
+    const downloadURL = blob;
+
+    const iframe = document.createElement("iframe");
+  
+    iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
+
+    iframe.src = downloadURL;
+
+    document.body.appendChild(iframe);
+};
+
 
   return (
-    <Page className="page"  //@ts-ignore
-    ref={divRef}>
+    <Page className="page">
       <div className="section-container">
         <AddTableForm store_uuid={store_uuid} onTableAdded={handleTableAdded} />
         <List style={{ marginBottom: "60px" }}>
@@ -211,7 +199,6 @@ const TablePage: React.FC = () => {
                       value={table.link}
                       title={table.name.toUpperCase()}
                       handleSave={handleSaveQr}
-                     
                     />
                   )}
                 </Box>
@@ -245,7 +232,7 @@ const TablePage: React.FC = () => {
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
               className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
-            >
+              >
               <div style={{ display: "flex" }}>
                 {snackbarType === "success" && (
                   <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
