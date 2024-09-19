@@ -59,6 +59,7 @@ const RecentScans: React.FC = () => {
 };
 
   const handleRedirect = (qrData: string) => {
+    console.log(qrData);
     try {
       const urlRedirect = new URL(qrData);
       const storeId = urlRedirect.searchParams.get("storeId");
