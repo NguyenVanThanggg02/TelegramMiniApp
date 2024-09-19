@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
 import { useRecoilState, useRecoilValue } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
@@ -597,7 +597,12 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menu/${store.uuid}/${table_uuid}`)}
+          onClick={() =>
+            navigate({
+              pathname: `/menu/${store.uuid}/${table_uuid}`,
+              search: `?tenant_id=${store.subdomain}`,
+            })
+          }
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
