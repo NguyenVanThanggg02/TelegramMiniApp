@@ -25,7 +25,7 @@ import {
 } from "../../constants";
 import usa from "../../static/icons/usa.png";
 import vietnam from "../../static/icons/vietnam.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getLoginToken } from "../../api/api";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -51,6 +51,8 @@ const ProfilePageBottomNavBar: React.FC = () => {
 
   const [timer, setTimer] = useState(60);
   const increment = useRef<NodeJS.Timeout | null>(null);
+  const location = useLocation();
+  const storeUuid = location.state?.store_uuid;
 
   useEffect(() => {
     if (showToken) {
@@ -149,6 +151,10 @@ const ProfilePageBottomNavBar: React.FC = () => {
   useEffect(() => {
     loadKeepScreenSetting();
   }, [keepScreenOn]);
+
+  useEffect(() => {
+    localStorage.setItem('store_uuid', storeUuid);
+  }, [storeUuid]);
 
   return (
     <>
@@ -378,7 +384,7 @@ const ProfilePageBottomNavBar: React.FC = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menuu/${store_uuid}/${table_uuid}`)}
+          onClick={() => navigate(`/menuu/${storeUuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
