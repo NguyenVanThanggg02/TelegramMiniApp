@@ -59,12 +59,28 @@ const RecentScans: React.FC = () => {
 };
 
   const handleRedirect = (qrData: string) => {
-    console.log(qrData);
+
+    const data = qrData
+    const startApp = data.split("startapp=")[1];
+    console.log(startApp);
+
+    let startAppArray: string[] = [];
+    if (startApp) {
+      startAppArray = startApp.split('_');
+    }
+
+    console.log('start arr', startAppArray);
+
+    const tenantId = startAppArray[0]
+    const tableId = startAppArray[1]
+    const storeId = startAppArray[2]
+
+
     try {
-      const urlRedirect = new URL(qrData);
-      const storeId = urlRedirect.searchParams.get("storeId");
-      const tableId = urlRedirect.searchParams.get("tableId");
-      const tenantId = urlRedirect.searchParams.get("tenant_id");
+      // const urlRedirect = new URL(qrData);
+      // const storeId = urlRedirect.searchParams.get("storeId");
+      // const tableId = urlRedirect.searchParams.get("tableId");
+      // const tenantId = urlRedirect.searchParams.get("tenant_id");
 
       if (storeId && tableId && tenantId) {
         redirectToMenu(storeId, tableId, tenantId);
