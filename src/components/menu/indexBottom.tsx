@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import {useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Page, Text, Box, Button } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import DishMenu from "../dish/dish-card/dish-menu";
 import RestaurantMenuOutlinedIcon from "@mui/icons-material/RestaurantMenuOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
@@ -126,8 +126,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const { store_uuid, table_uuid } = useParams<{ store_uuid: string; table_uuid?: string }>();
   const [searchParams, ] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
-  const store = useRecoilValue(storeState);
-  const [, setStore] = useRecoilState(storeState);
+  const [store, setStore] = useRecoilState(storeState);
   //@ts-ignore
   const [table, setTable] = useRecoilState<Record<string, []> | null>(tableState);
   const [tableList, setTableList] = useRecoilState(tableListState);
@@ -597,12 +596,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() =>
-            navigate({
-              pathname: `/menu/${store.uuid}/${table_uuid}`,
-              search: `?tenant_id=${store.subdomain}`,
-            })
-          }
+          onClick={() => navigate(`/menu/${store.uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
