@@ -75,7 +75,6 @@ const RecentScans: React.FC = () => {
     const tableId = startAppArray[1]
     const storeId = startAppArray[2]
 
-
     try {
       // const urlRedirect = new URL(qrData);
       // const storeId = urlRedirect.searchParams.get("storeId");
