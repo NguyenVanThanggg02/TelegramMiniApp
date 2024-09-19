@@ -127,7 +127,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [searchParams, ] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
 
-  const [store, setStore] = useRecoilState(storeState);
+  const [, setStore] = useRecoilState(storeState);
   //@ts-ignore
   const [table, setTable] = useRecoilState<Record<string, []> | null>(tableState);
   const [tableList, setTableList] = useRecoilState(tableListState);
@@ -596,7 +596,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menu/${store.uuid}/${table_uuid}`)}
+          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
@@ -613,7 +613,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/order/${store.uuid}`)}
+          onClick={() => navigate(`/user/order/${store_uuid}`)}
         >
           <AssignmentOutlinedIcon
             style={{ color: "#757575", fontSize: "24px" }}
@@ -630,7 +630,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#757575",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/profile/bottomnavbar`,{ state: { store_uuid } })}
+          onClick={() => navigate(`/user/profile/bottomnavbar`, { state: { store_uuid } })}
 
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
