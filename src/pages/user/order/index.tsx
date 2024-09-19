@@ -114,7 +114,7 @@ const OrderPage: React.FC = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const storeId = location.state?.storeId;
+  const storeId = location.state?.store_uuid;
 
   console.log(disableMenuPayment);
   
