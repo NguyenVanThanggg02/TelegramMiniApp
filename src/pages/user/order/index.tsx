@@ -42,7 +42,7 @@ import PaymentModal from "../../../components/payment-modal";
 import LoadingComponent from "../../../components/loading_component";
 import { clone, groupBy, isEmpty } from "lodash";
 import CachedIcon from "@mui/icons-material/Cached";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import AddProductModal from "../../admin/order-management/add-products-modal";
 
 interface ProductImage {
@@ -112,6 +112,9 @@ const OrderPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const storeId = location.state?.storeId;
 
   console.log(disableMenuPayment);
   
@@ -815,7 +818,7 @@ const OrderPage: React.FC = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/user/order/${store_uuid}`)}
+          onClick={() => navigate(`/user/order/${storeId}`)}
         >
           <AssignmentOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
