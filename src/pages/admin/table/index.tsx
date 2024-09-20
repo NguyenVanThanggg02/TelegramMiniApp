@@ -120,12 +120,15 @@ const TablePage: React.FC = () => {
       element.current.style.fontFamily = "Montserrat"; // Tùy chỉnh font nếu cần
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        
+  
         // Tạo Blob từ Data URL
         const blob = await fetch(dataUrl).then(res => res.blob());
   
         // Lưu ảnh sử dụng file-saver
         saveAs(blob, 'table.png');
+  
+        // Gọi hàm downloadImage để tải ảnh về máy
+        downloadImage(dataUrl, 'table.png');
   
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
@@ -142,17 +145,18 @@ const TablePage: React.FC = () => {
     }
   };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
+  
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
 
 
