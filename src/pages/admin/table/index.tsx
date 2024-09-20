@@ -29,6 +29,9 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
+// @ts-ignore
+import { saveAs } from 'file-saver';
+
 interface Table {
   uuid: string;
   name: string;
@@ -111,28 +114,28 @@ const TablePage: React.FC = () => {
     });
   };
 
-  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    if (element.current) {
-      setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
-      try {
-        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        // downloadImage(dataUrl, "qr-code.png");
-        downloadImage(dataUrl);
-        setSnackbarMessage(t("tableManagement.saveQrNoti"));
-        setSnackbarType("success");
-        setSnackbarOpen(true);
+  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+  //   if (element.current) {
+  //     setSpinner(true);
+  //     element.current.style.fontFamily = "Montserrat";
+  //     try {
+  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+  //       // downloadImage(dataUrl, "qr-code.png");
+  //       downloadImage(dataUrl);
+  //       setSnackbarMessage(t("tableManagement.saveQrNoti"));
+  //       setSnackbarType("success");
+  //       setSnackbarOpen(true);
 
-      } catch (error) {
-        console.error("Error saving QR code:", error);
-        setSnackbarMessage(t("tableManagement.saveQrFail"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      } finally {
-        setSpinner(false);
-      }
-    }
-  };
+  //     } catch (error) {
+  //       console.error("Error saving QR code:", error);
+  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
+  //       setSnackbarType("error");
+  //       setSnackbarOpen(true);
+  //     } finally {
+  //       setSpinner(false);
+  //     }
+  //   }
+  // };
   
   // const downloadImage = (blob: string, fileName: string): void => {
   //   const fakeLink = document.createElement("a");
@@ -147,13 +150,47 @@ const TablePage: React.FC = () => {
   // };
 
 // hết tb allow-downloads
+// const downloadImage = (blob: string): void => {
+//   const iframe = document.createElement("iframe");
+//   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+//   iframe.src = blob; 
+//   iframe.style.display = "none"; 
+//   document.body.appendChild(iframe); 
+//   document.body.removeChild(iframe); 
+// };
+
+const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+  if (element.current) {
+    setSpinner(true);
+    element.current.style.fontFamily = "Montserrat";
+    try {
+      const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+      downloadImage(dataUrl); // Gọi hàm downloadImage đã cập nhật
+      setSnackbarMessage(t("tableManagement.saveQrNoti"));
+      setSnackbarType("success");
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Error saving QR code:", error);
+      setSnackbarMessage(t("tableManagement.saveQrFail"));
+      setSnackbarType("error");
+      setSnackbarOpen(true);
+    } finally {
+      setSpinner(false);
+    }
+  }
+};
+
+
 const downloadImage = (blob: string): void => {
-  const iframe = document.createElement("iframe");
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-  iframe.src = blob; 
-  iframe.style.display = "none"; 
-  document.body.appendChild(iframe); 
-  document.body.removeChild(iframe); 
+  // Chuyển đổi Data URL thành Blob
+  fetch(blob)
+    .then(res => res.blob())
+    .then(blobData => {
+      saveAs(blobData, "qr-code.png"); // Đặt tên file khi lưu
+    })
+    .catch(error => {
+      console.error("Lỗi khi lưu ảnh:", error);
+    });
 };
 
   return (
