@@ -122,6 +122,7 @@ const TablePage: React.FC = () => {
         const dataUrl = await domToPng(element.current, { scale: 3 });
         const blob = await (await fetch(dataUrl)).blob(); // Convert dataURL to Blob
         saveAs(blob, 'table.png'); // Use saveAs to save the image as a file
+        downloadImage
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -148,7 +149,29 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
-
+  const downloadImage = (blob: string): void => {
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+  
+    iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+  
+    iframe.srcdoc = `
+      <html>
+        <body>
+          <a href="${blob}" download="qr-code.png"></a>
+          <script>
+            document.querySelector('a').click();
+          </script>
+        </body>
+      </html>
+    `;
+    
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 2000);
+  };
+  
 
   return (
     <Page className="page">
