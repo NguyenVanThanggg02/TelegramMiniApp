@@ -29,7 +29,7 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
-// import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 interface Table {
   uuid: string;
   name: string;
@@ -114,17 +114,17 @@ const TablePage: React.FC = () => {
   };
 
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-    // const divToCapture = divRef.current; // Lấy tham chiếu đến div cần chụp
-    // //@ts-ignore
-    //     html2canvas(divToCapture).then((canvas) => {
-    //       // Tạo một link để tải ảnh
-    //       const link = document.createElement('a');
-    //       link.href = canvas.toDataURL('image/png');
-    //       link.download = 'screenshot.png';
+    const divToCapture = divRef.current; // Lấy tham chiếu đến div cần chụp
+    //@ts-ignore
+        html2canvas(divToCapture).then((canvas) => {
+          // Tạo một link để tải ảnh
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = 'screenshot.png';
     
-    //       // Kích hoạt download
-    //       link.click();
-    //     });
+          // Kích hoạt download
+          link.click();
+        });
     if (element.current) {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
