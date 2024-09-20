@@ -137,7 +137,7 @@ const TablePage: React.FC = () => {
         console.log(response.data.data.urls[0]);
 
         const serverImageUrl = response.data.data.urls[0];
-        await sendUrlToTelegramBot(serverImageUrl);
+        await sendPhotoToTelegramBot(serverImageUrl);
 
         // downloadImage(serverImageUrl, "qr-code-from-server.png");
 
@@ -154,20 +154,18 @@ const TablePage: React.FC = () => {
     }
   };
   
-  const sendUrlToTelegramBot = async (imageUrl: string) => {
-    const BOT_API_KEY = "7273544566:AAFEYQS5oJZR0s9npHlbWwlBYcT1RKjoa3o"
-    const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendMessage`;
-    
+  const sendPhotoToTelegramBot = async (blob: Blob) => {
+    const BOT_API_KEY = "YOUR_BOT_API_KEY"; // Thay thế bằng API Key của bot
+    const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
+  
+    const formData = new FormData();
+    formData.append("chat_id", "7198463939"); // Thay thế với chat_id của bạn
+    formData.append("photo", blob, "qr-code.png"); // Thêm tệp ảnh vào formData
+  
     try {
       const response = await fetch(botApiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id:"7198463939" ,
-          text: `${imageUrl}`,
-        }),
+        body: formData,
       });
   
       const result = await response.json();
@@ -175,9 +173,10 @@ const TablePage: React.FC = () => {
         throw new Error(`Lỗi: ${result.description}`);
       }
     } catch (error) {
-      console.error("Lỗi khi gửi URL cho bot Telegram:", error);
+      console.error("Lỗi khi gửi ảnh cho bot Telegram:", error);
     }
   };
+  
   
 
   // const downloadImage = (blob: string, fileName: string): void => {
