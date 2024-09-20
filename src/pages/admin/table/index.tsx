@@ -6,13 +6,12 @@ import {
   Box,
   Text,
 } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
-  storeState,
   userState,
   // userState,
 } from "../../../state";
@@ -48,8 +47,7 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const store = useRecoilValue(storeState);
-  const user = useRecoilValue(userState);
+  const [user ] = useRecoilState(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -126,7 +124,7 @@ const TablePage: React.FC = () => {
         const blob = await (await fetch(dataUrl)).blob()
         const formData = new FormData();
         formData.append("image", blob, "qr-code.png");
-        const response = await uploadImagesToDown(store.uuid, user.uuid, formData)
+        const response = await uploadImagesToDown(store_uuid, user.uuid, formData)
         console.log(response.data.data.urls[0]);
         const serverImageUrl = response.data.data.urls[0]
         downloadImage(serverImageUrl, "qr-code.png");
