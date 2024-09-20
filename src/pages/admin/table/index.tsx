@@ -147,6 +147,7 @@ const TablePage: React.FC = () => {
           setSnackbarType("error");
           setSnackbarOpen(true);
         }
+        setSpinner(false);
       }
     };
   
