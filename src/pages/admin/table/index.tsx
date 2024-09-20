@@ -27,11 +27,8 @@ import "./styles.scss";
 import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
-import { domToPng } from "modern-screenshot";
-// import { toPng } from 'html-to-image';
-//@ts-ignore
-import { saveAs } from "file-saver"; 
-
+// import { domToPng } from "modern-screenshot";
+import { toPng } from 'html-to-image';
 interface Table {
   uuid: string;
   name: string;
@@ -96,7 +93,7 @@ const TablePage: React.FC = () => {
   };
 
 // const linkBuilder = (table_uuid: string): string => { 
-//     return https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid};
+//     return `https://menu/${store_uuid}/${table_uuid}?tenant_id=${tenant_id}&tableId=${table_uuid}&storeId=${store_uuid}`;
 //   };
 
   const linkBuilder = (table_uuid: string): string => {
@@ -119,13 +116,13 @@ const TablePage: React.FC = () => {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
-        const dataUrl = await domToPng(element.current, { scale: 3 });
-        const blob = await (await fetch(dataUrl)).blob(); // Convert dataURL to Blob
-        saveAs(blob, 'table.png'); // Use saveAs to save the image as a file
-        downloadImage
+        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        // downloadImage(dataUrl, "qr-code.png");
+        downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
+
       } catch (error) {
         console.error("Error saving QR code:", error);
         setSnackbarMessage(t("tableManagement.saveQrFail"));
@@ -139,9 +136,9 @@ const TablePage: React.FC = () => {
   
   // const downloadImage = (blob: string, fileName: string): void => {
   //   const fakeLink = document.createElement("a");
+  //   fakeLink.setAttribute('sandbox',"allow-downloads")
   //   fakeLink.style.display = "none";
   //   fakeLink.download = fileName;
-
   //   fakeLink.href = blob;
   //   document.body.appendChild(fakeLink);
   //   fakeLink.click();
@@ -149,29 +146,15 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
-  const downloadImage = (blob: string): void => {
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
-  
-    iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-  
-    iframe.srcdoc = `
-      <html>
-        <body>
-          <a href="${blob}" download="qr-code.png"></a>
-          <script>
-            document.querySelector('a').click();
-          </script>
-        </body>
-      </html>
-    `;
-    
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-    }, 2000);
-  };
-  
+// hết tb allow-downloads
+const downloadImage = (blob: string): void => {
+  const iframe = document.createElement("iframe");
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
+  iframe.src = blob; 
+  iframe.style.display = "none"; 
+  document.body.appendChild(iframe); 
+  document.body.removeChild(iframe); 
+};
 
   return (
     <Page className="page">
@@ -247,7 +230,7 @@ const TablePage: React.FC = () => {
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
             <div
               className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
-              >
+            >
               <div style={{ display: "flex" }}>
                 {snackbarType === "success" && (
                   <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
