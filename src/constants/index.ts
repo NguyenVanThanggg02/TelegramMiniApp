@@ -3,6 +3,8 @@ import appConfig from "../../app-config.json";
 export const BASE_URL = import.meta.env.VITE_BASE_URL;
 export const BASE_SOCKET_URL = import.meta.env.VITE_BASE_SOCKET_URL;
 export const DEFAULT_TENANT_ID = import.meta.env.VITE_DEFAULT_TENANT_ID;
+export const BOT_USERNAME =import.meta.env.BOT_USERNAME
+export const SHORT_NAME =import.meta.env.SHORT_NAME
 export const APP_VERSION = appConfig.app.version;
 export const DEFAULT_PER_PAGE = 100;
 

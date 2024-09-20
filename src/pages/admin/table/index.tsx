@@ -12,10 +12,9 @@ import {
   loadingState,
   spinnerState,
   storeListState,
-  userState,
   // userState,
 } from "../../../state";
-import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
+import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -29,6 +28,7 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
+import { BOT_USERNAME, SHORT_NAME } from "@/constants";
 // import { toPng } from 'html-to-image';
 interface Table {
   uuid: string;
@@ -47,7 +47,6 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const [user ] = useRecoilState(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -100,8 +99,8 @@ const TablePage: React.FC = () => {
 //   };
 
   const linkBuilder = (table_uuid: string): string => {
-    const botUsername = "MiLiKun_bot"; 
-    const shortName = "orderfood"; 
+    const botUsername = BOT_USERNAME; 
+    const shortName = SHORT_NAME; 
     const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
     return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
   };
@@ -121,13 +120,8 @@ const TablePage: React.FC = () => {
       try {
         // const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
         const dataUrl = await domToPng(element.current, { scale: 3 });
-        const blob = await (await fetch(dataUrl)).blob()
-        const formData = new FormData();
-        formData.append("image", blob, "qr-code.png");
-        const response = await uploadImagesToDown(store_uuid, user.uuid, formData)
-        console.log(response.data.data.urls[0]);
-        const serverImageUrl = response.data.data.urls[0]
-        downloadImage(serverImageUrl, "qr-code.png");
+        
+        downloadImage(dataUrl, "qr-code.png");
         // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
