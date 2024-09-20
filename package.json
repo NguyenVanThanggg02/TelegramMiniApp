@@ -24,7 +24,6 @@
     "@telegram-apps/telegram-ui": "^2.1.5",
     "@tonconnect/ui-react": "^2.0.5",
     "@types/rails__actioncable": "^6.1.11",
-    "dom-to-image": "^2.6.0",
     "downloadjs": "^1.4.7",
     "eruda": "^3.0.1",
     "file-saver": "^2.0.5",

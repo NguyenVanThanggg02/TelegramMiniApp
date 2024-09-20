@@ -29,6 +29,9 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
+//@ts-ignore
+import { saveAs } from "file-saver"; 
+
 interface Table {
   uuid: string;
   name: string;
@@ -114,14 +117,20 @@ const TablePage: React.FC = () => {
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
+      element.current.style.fontFamily = "Montserrat"; // Tùy chỉnh font nếu cần
       try {
         const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-        downloadImage(dataUrl);
+        
+        // Tạo Blob từ Data URL
+        const blob = await fetch(dataUrl).then(res => res.blob());
+  
+        // Lưu ảnh sử dụng file-saver
+        saveAs(blob, 'table.png');
+  
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
-
+  
       } catch (error) {
         console.error("Error saving QR code:", error);
         setSnackbarMessage(t("tableManagement.saveQrFail"));
@@ -145,17 +154,6 @@ const TablePage: React.FC = () => {
   //   fakeLink.remove();
   // };
 
-  const downloadImage = (blob: string): void => {
-    const downloadURL = blob;
-
-    const iframe = document.createElement("iframe");
-  
-    iframe.setAttribute("sandbox", "allow-same-origin allow-downloads");
-
-    iframe.src = downloadURL;
-
-    document.body.appendChild(iframe);
-};
 
 
   return (
