@@ -6,15 +6,17 @@ import {
   Box,
   Text,
 } from "zmp-ui";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
+  storeState,
+  userState,
   // userState,
 } from "../../../state";
-import { fetchTablesForStore } from "../../../api/api";
+import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -46,6 +48,8 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
+  const store = useRecoilValue(storeState);
+  const user = useRecoilValue(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -119,8 +123,13 @@ const TablePage: React.FC = () => {
       try {
         // const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
         const dataUrl = await domToPng(element.current, { scale: 3 });
-        
-        downloadImage(dataUrl, "qr-code.png");
+        const blob = await (await fetch(dataUrl)).blob()
+        const formData = new FormData();
+        formData.append("image", blob, "qr-code.png");
+        const response = await uploadImagesToDown(store.uuid, user.uuid, formData)
+        console.log(response.data.data.urls[0]);
+        const serverImageUrl = response.data.data.urls[0]
+        downloadImage(serverImageUrl, "qr-code.png");
         // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
@@ -137,38 +146,16 @@ const TablePage: React.FC = () => {
     }
   };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
-
-  const downloadImage = (dataUrl: string, fileName: string): void => {
-    // Chuyển đổi data URL thành Blob
-    fetch(dataUrl)
-      .then(res => res.blob())
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = fileName;
-        
-        // Tạo một sự kiện click ảo
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url); // Giải phóng URL
-      })
-      .catch(error => {
-        console.error("Error downloading image:", error);
-      });
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
   };
-  
 
 // hết tb allow-downloads
 // const downloadImage = (blob: string): void => {
