@@ -46,14 +46,11 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  // const user = useRecoilValue(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
   }
-
   const [tables, setTables] = useState<Table[]>([]);
-  // const user = useRecoilValue(userState);
   const [selectedTableUUID, setSelectedTableUUID] = useState<string | null>(
     null
   );
@@ -123,7 +120,6 @@ const TablePage: React.FC = () => {
         const dataUrl = await domToPng(element.current, { scale: 3 });
         const blob = await (await fetch(dataUrl)).blob();
   
-        // Gọi hàm gửi ảnh
         await sendUrlToTelegramBot(blob);
   
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
@@ -139,13 +135,12 @@ const TablePage: React.FC = () => {
     }
   };
   
-  
   const sendUrlToTelegramBot = async (imageBlob: Blob) => {
     const BOT_API_KEY = "7273544566:AAFEYQS5oJZR0s9npHlbWwlBYcT1RKjoa3o";
     const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
   
     const formData = new FormData();
-    formData.append("chat_id", "7198463939");  // ID của bạn
+    formData.append("chat_id", "7198463939");  
     formData.append("photo", imageBlob, "qr-code.png");
   
     try {
@@ -159,10 +154,9 @@ const TablePage: React.FC = () => {
         throw new Error(`Lỗi: ${result.description}`);
       }
     } catch (error) {
-      console.error("Lỗi khi gửi ảnh cho bot Telegram:", error);
+      console.error("gửi cho bot lỗi", error);
     }
   };
-  
   
 
   // const downloadImage = (blob: string, fileName: string): void => {
