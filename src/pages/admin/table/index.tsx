@@ -165,7 +165,7 @@ const TablePage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          chat_id:"@babebo28999" ,
+          chat_id:"7198463939" ,
           text: `${imageUrl}`,
         }),
       });
