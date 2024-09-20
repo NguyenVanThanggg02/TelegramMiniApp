@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import { BOT_USERNAME, SHORT_NAME } from "@/constants";
+import { BOT, BOT_USERNAME, SHORT_NAME } from "@/constants";
 // import { toPng } from 'html-to-image';
 interface Table {
   uuid: string;
@@ -136,7 +136,7 @@ const TablePage: React.FC = () => {
   };
   
   const sendUrlToTelegramBot = async (imageBlob: Blob) => {
-    const BOT_API_KEY = "7273544566:AAFEYQS5oJZR0s9npHlbWwlBYcT1RKjoa3o";
+    const BOT_API_KEY = BOT;
     const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
   
     const formData = new FormData();
