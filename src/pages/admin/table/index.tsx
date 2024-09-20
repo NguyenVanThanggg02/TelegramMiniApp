@@ -117,19 +117,17 @@ const TablePage: React.FC = () => {
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
-      element.current.style.fontFamily = "Montserrat"; // Tùy chỉnh font nếu cần
+      element.current.style.fontFamily = "Montserrat";
       try {
-      const dataUrl = await domToPng(element.current, { scale: 3 });
-        // Tạo Blob từ Data URL
-        const blob = await fetch(dataUrl).then(res => res.blob());
-  
-        // Lưu ảnh sử dụng file-saver
-        saveAs(blob, 'table.png');
-  
+        // const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+    const dataUrl = await domToPng(element.current, { scale: 3 });
+
+        // downloadImage(dataUrl);
+        downloadImage(dataUrl,'table.png');
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
-  
+
       } catch (error) {
         console.error("Error saving QR code:", error);
         setSnackbarMessage(t("tableManagement.saveQrFail"));
@@ -141,17 +139,17 @@ const TablePage: React.FC = () => {
     }
   };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
 
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
 
 
