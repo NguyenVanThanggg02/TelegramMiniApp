@@ -117,51 +117,79 @@ const TablePage: React.FC = () => {
     });
   };
 
+  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+    if (element.current) {
+      setSpinner(true);
+      element.current.style.fontFamily = "Montserrat";
+      try {
+        // const dataUrl = await domToPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        const dataUrl = await domToPng(element.current, { scale: 3 });
 
-    const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-      if (element.current) {
-        setSpinner(true);
-        element.current.style.fontFamily = "Montserrat";
-        try {
-          // const dataUrl = await domToPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-          const dataUrl = await domToPng(element.current, { scale: 3 });
-  
-          const blob = await (await fetch(dataUrl)).blob();
-          const formData = new FormData();
-          formData.append("file", blob, "qr-code.png");
-  
-          const response = await uploadImagesToDown(store_uuid, user.uuid, formData);
-          console.log(response.data.data.urls[0]);
-  
-          const serverImageUrl = response.data.data.urls[0];
-  
-          downloadImage(serverImageUrl, "qr-code-from-server.png");
-  
-          setSnackbarMessage(t("tableManagement.saveQrNoti"));
-          setSnackbarType("success");
-          setSnackbarOpen(true);
-  
-        } catch (error) {
-          console.error("Error saving QR code:", error);
-          setSnackbarMessage(t("tableManagement.saveQrFail"));
-          setSnackbarType("error");
-          setSnackbarOpen(true);
-        }
-        setSpinner(false);
+        const blob = await (await fetch(dataUrl)).blob();
+        const formData = new FormData();
+        formData.append("file", blob, "qr-code.png");
+
+        const response = await uploadImagesToDown(
+          store_uuid,
+          user.uuid,
+          formData
+        );
+        console.log(response.data.data.urls[0]);
+
+        const serverImageUrl = response.data.data.urls[0];
+        await sendUrlToTelegramBot(serverImageUrl);
+
+        // downloadImage(serverImageUrl, "qr-code-from-server.png");
+
+        setSnackbarMessage(t("tableManagement.saveQrNoti"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
+      } catch (error) {
+        console.error("Error saving QR code:", error);
+        setSnackbarMessage(t("tableManagement.saveQrFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
       }
-    };
-  
-  
-  const downloadImage = (blob: string, fileName: string): void => {
-    const fakeLink = document.createElement("a");
-    fakeLink.style.display = "none";
-    fakeLink.download = fileName;
-    fakeLink.href = blob;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
+      setSpinner(false);
+    }
   };
+  
+  const sendUrlToTelegramBot = async (imageUrl: string) => {
+    const BOT_API_KEY = "7273544566:AAFEYQS5oJZR0s9npHlbWwlBYcT1RKjoa3o"
+    const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendMessage`;
+    
+    try {
+      const response = await fetch(botApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id:"@babebo28999" ,
+          text: `${imageUrl}`,
+        }),
+      });
+  
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(`Lỗi: ${result.description}`);
+      }
+    } catch (error) {
+      console.error("Lỗi khi gửi URL cho bot Telegram:", error);
+    }
+  };
+  
+
+  // const downloadImage = (blob: string, fileName: string): void => {
+  //   const fakeLink = document.createElement("a");
+  //   fakeLink.style.display = "none";
+  //   fakeLink.download = fileName;
+  //   fakeLink.href = blob;
+  //   document.body.appendChild(fakeLink);
+  //   fakeLink.click();
+  //   document.body.removeChild(fakeLink);
+  //   fakeLink.remove();
+  // };
 
 // hết tb allow-downloads
 // const downloadImage = (blob: string): void => {
