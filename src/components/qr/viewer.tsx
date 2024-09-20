@@ -10,6 +10,7 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ChecklistIcon from "@mui/icons-material/Checklist";
 //@ts-ignore
 import domtoimage from "dom-to-image";
+//@ts-ignore
 import { saveAs } from "file-saver";
 
 interface QRCodeViewerProps {
