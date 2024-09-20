@@ -6,16 +6,14 @@ import {
   Box,
   Text,
 } from "zmp-ui";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   loadingState,
   spinnerState,
   storeListState,
-  userState,
-  // userState,
 } from "../../../state";
-import { fetchTablesForStore, uploadImagesToDown } from "../../../api/api";
+import { fetchTablesForStore } from "../../../api/api";
 import AddTableForm from "../../../components/table-admin/add_table_form";
 import QRCodeViewer from "@/components/qr/viewer";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -48,7 +46,7 @@ const TablePage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const user = useRecoilValue(userState);
+  // const user = useRecoilValue(userState);
 
   if (!store_uuid) {
     return <div>Error: Store UUID is missing</div>;
@@ -122,25 +120,12 @@ const TablePage: React.FC = () => {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
-        // const dataUrl = await domToPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
         const dataUrl = await domToPng(element.current, { scale: 3 });
-
         const blob = await (await fetch(dataUrl)).blob();
-        const formData = new FormData();
-        formData.append("file", blob, "qr-code.png");
-
-        const response = await uploadImagesToDown(
-          store_uuid,
-          user.uuid,
-          formData
-        );
-        console.log(response.data.data.urls[0]);
-
-        const serverImageUrl = response.data.data.urls[0];
-        await sendPhotoToTelegramBot(serverImageUrl);
-
-        // downloadImage(serverImageUrl, "qr-code-from-server.png");
-
+  
+        // Gọi hàm gửi ảnh
+        await sendUrlToTelegramBot(blob);
+  
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
@@ -154,13 +139,14 @@ const TablePage: React.FC = () => {
     }
   };
   
-  const sendPhotoToTelegramBot = async (blob: Blob) => {
-    const BOT_API_KEY = "YOUR_BOT_API_KEY"; // Thay thế bằng API Key của bot
+  
+  const sendUrlToTelegramBot = async (imageBlob: Blob) => {
+    const BOT_API_KEY = "7273544566:AAFEYQS5oJZR0s9npHlbWwlBYcT1RKjoa3o";
     const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
   
     const formData = new FormData();
-    formData.append("chat_id", "7198463939"); // Thay thế với chat_id của bạn
-    formData.append("photo", blob, "qr-code.png"); // Thêm tệp ảnh vào formData
+    formData.append("chat_id", "7198463939");  // ID của bạn
+    formData.append("photo", imageBlob, "qr-code.png");
   
     try {
       const response = await fetch(botApiUrl, {
