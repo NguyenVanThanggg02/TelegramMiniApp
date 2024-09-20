@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Page,
   List,
@@ -29,9 +29,6 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 // import { domToPng } from "modern-screenshot";
 import { toPng } from 'html-to-image';
-// @ts-ignore
-import { saveAs } from 'file-saver';
-
 interface Table {
   uuid: string;
   name: string;
@@ -39,6 +36,7 @@ interface Table {
 }
 
 const TablePage: React.FC = () => {
+  const divRef = useRef(null);
   const { t } = useTranslation("global");
   const { store_uuid } = useParams<{ store_uuid?: string }>(); // Lấy store_uuid từ URL
   const [searchParams] = useSearchParams();
@@ -114,40 +112,40 @@ const TablePage: React.FC = () => {
     });
   };
 
-  // const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  //   if (element.current) {
-  //     setSpinner(true);
-  //     element.current.style.fontFamily = "Montserrat";
-  //     try {
-  //       const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-  //       // downloadImage(dataUrl, "qr-code.png");
-  //       downloadImage(dataUrl);
-  //       setSnackbarMessage(t("tableManagement.saveQrNoti"));
-  //       setSnackbarType("success");
-  //       setSnackbarOpen(true);
+  const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
+    if (element.current) {
+      setSpinner(true);
+      element.current.style.fontFamily = "Montserrat";
+      try {
+        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        downloadImage(dataUrl, "qr-code.png");
+        // downloadImage(dataUrl);
+        setSnackbarMessage(t("tableManagement.saveQrNoti"));
+        setSnackbarType("success");
+        setSnackbarOpen(true);
 
-  //     } catch (error) {
-  //       console.error("Error saving QR code:", error);
-  //       setSnackbarMessage(t("tableManagement.saveQrFail"));
-  //       setSnackbarType("error");
-  //       setSnackbarOpen(true);
-  //     } finally {
-  //       setSpinner(false);
-  //     }
-  //   }
-  // };
+      } catch (error) {
+        console.error("Error saving QR code:", error);
+        setSnackbarMessage(t("tableManagement.saveQrFail"));
+        setSnackbarType("error");
+        setSnackbarOpen(true);
+      } finally {
+        setSpinner(false);
+      }
+    }
+  };
   
-  // const downloadImage = (blob: string, fileName: string): void => {
-  //   const fakeLink = document.createElement("a");
-  //   fakeLink.setAttribute('sandbox',"allow-downloads")
-  //   fakeLink.style.display = "none";
-  //   fakeLink.download = fileName;
-  //   fakeLink.href = blob;
-  //   document.body.appendChild(fakeLink);
-  //   fakeLink.click();
-  //   document.body.removeChild(fakeLink);
-  //   fakeLink.remove();
-  // };
+  const downloadImage = (blob: string, fileName: string): void => {
+    const fakeLink = document.createElement("a");
+    fakeLink.setAttribute('sandbox',"allow-downloads")
+    fakeLink.style.display = "none";
+    fakeLink.download = fileName;
+    fakeLink.href = blob;
+    document.body.appendChild(fakeLink);
+    fakeLink.click();
+    document.body.removeChild(fakeLink);
+    fakeLink.remove();
+  };
 
 // hết tb allow-downloads
 // const downloadImage = (blob: string): void => {
@@ -159,56 +157,9 @@ const TablePage: React.FC = () => {
 //   document.body.removeChild(iframe); 
 // };
 
-const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
-  if (element.current) {
-    setSpinner(true);
-    element.current.style.fontFamily = "Montserrat";
-    try {
-      const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
-      
-      // Sử dụng downloadImageWithIframe hoặc downloadImage
-      // downloadImage(dataUrl); // Sử dụng file-saver
-      downloadImageWithIframe(dataUrl); // Sử dụng iframe
-
-      setSnackbarMessage(t("tableManagement.saveQrNoti"));
-      setSnackbarType("success");
-      setSnackbarOpen(true);
-    } catch (error) {
-      console.error("Error saving QR code:", error);
-      setSnackbarMessage(t("tableManagement.saveQrFail"));
-      setSnackbarType("error");
-      setSnackbarOpen(true);
-    } finally {
-      setSpinner(false);
-    }
-  }
-};
-
-
-
-const downloadImageWithIframe = (blob: string): void => {
-  const iframe = document.createElement("iframe");
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-downloads"); 
-  document.body.appendChild(iframe);
-
-  // Set src của iframe với blob URL
-  iframe.src = blob;
-
-  // Tạo một sự kiện để tải file
-  iframe.onload = () => {
-    const link = document.createElement("a");
-    link.href = blob; // Gán link href là blob URL
-    link.download = "qr-code.png"; // Đặt tên file khi tải về
-    document.body.appendChild(link);
-    link.click(); // Kích hoạt sự kiện click để tải file
-    document.body.removeChild(link);
-    document.body.removeChild(iframe); // Xóa iframe sau khi sử dụng
-  };
-};
-
-
   return (
-    <Page className="page">
+    <Page className="page"  //@ts-ignore
+    ref={divRef}>
       <div className="section-container">
         <AddTableForm store_uuid={store_uuid} onTableAdded={handleTableAdded} />
         <List style={{ marginBottom: "60px" }}>
@@ -248,6 +199,7 @@ const downloadImageWithIframe = (blob: string): void => {
                       value={table.link}
                       title={table.name.toUpperCase()}
                       handleSave={handleSaveQr}
+                     
                     />
                   )}
                 </Box>
