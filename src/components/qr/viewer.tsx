@@ -8,6 +8,9 @@ import appIconFull from "../../static/icons/web-icon-full.png";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ChecklistIcon from "@mui/icons-material/Checklist";
+//@ts-ignore
+import domtoimage from "dom-to-image";
+import { saveAs } from "file-saver";
 
 interface QRCodeViewerProps {
   value: string;
@@ -15,10 +18,26 @@ interface QRCodeViewerProps {
   handleSave: (ref: MutableRefObject<HTMLDivElement | null>) => void;
 }
 
-const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave }) => {
+const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title }) => {
   const { t } = useTranslation("global");
-  const exportRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
+  const exportRef = useRef<HTMLDivElement>(
+    null
+  ) as React.MutableRefObject<HTMLDivElement>;
+  const saveImage = () => {
+    if (exportRef.current) {
+      domtoimage
+        .toBlob(exportRef.current)
+        //@ts-ignore
+        .then(function (blob) {
+          saveAs(blob, `${title}-QRCode.png`); // Lưu file với tên theo table title
+        })
 
+        //@ts-ignore
+        .catch(function (error) {
+          console.error("Oops, something went wrong!", error);
+        });
+    }
+  };
   return (
     <Box className="qr-code-container">
       <Box className="qr-code-content" mb={3} ref={exportRef}>
@@ -93,7 +112,7 @@ const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave })
           </Box>
         </Box>
       </Box>
-      <Button onClick={() => handleSave(exportRef)}>{t("button.save")}</Button>
+      <Button onClick={saveImage}>{t("button.save")}</Button>
     </Box>
   );
 };
