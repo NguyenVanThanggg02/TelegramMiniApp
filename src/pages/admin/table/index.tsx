@@ -27,8 +27,8 @@ import "./styles.scss";
 import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
-// import { domToPng } from "modern-screenshot";
-import { toPng } from 'html-to-image';
+import { domToPng } from "modern-screenshot";
+// import { toPng } from 'html-to-image';
 interface Table {
   uuid: string;
   name: string;
@@ -117,7 +117,9 @@ const TablePage: React.FC = () => {
       setSpinner(true);
       element.current.style.fontFamily = "Montserrat";
       try {
-        const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        // const dataUrl = await toPng(element.current, { cacheBust: true, backgroundColor: '#ffffff' });
+        const dataUrl = await domToPng(element.current, { scale: 3 });
+        
         downloadImage(dataUrl, "qr-code.png");
         // downloadImage(dataUrl);
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
