@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import { BOT, BOT_USERNAME, CHAT_ID, SHORT_NAME } from "@/constants";
+import { BOT, BOT_USERNAME, SHORT_NAME } from "@/constants";
 // import { Telegraf } from "telegraf";
 // import { toPng } from 'html-to-image';
 interface Table {
@@ -152,7 +152,7 @@ const TablePage: React.FC = () => {
     // }); 
     const BOT_API_KEY = BOT;
     const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
-    const chatID = CHAT_ID
+    // const chatID = CHAT_ID
     const formData = new FormData();
     formData.append("chat_id", '7198463939');  
     formData.append("photo", imageBlob, "qr-code.png");
