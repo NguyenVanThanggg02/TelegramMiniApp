@@ -154,7 +154,7 @@ const TablePage: React.FC = () => {
     const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
     // const chatID = CHAT_ID
     const formData = new FormData();
-    formData.append("chat_id", '7198463939');  
+    formData.append("chat_id", '7257947660');  
     formData.append("photo", imageBlob, "qr-code.png");
   
     try {
