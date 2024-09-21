@@ -28,7 +28,7 @@ import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
 import { BOT, BOT_USERNAME, SHORT_NAME } from "@/constants";
-// import { Telegraf } from "telegraf";
+import { useInitData } from "@telegram-apps/sdk-react";
 // import { toPng } from 'html-to-image';
 interface Table {
   uuid: string;
@@ -43,7 +43,7 @@ const TablePage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const tenant_id = searchParams.get("tenant_id");
   const navigate = useNavigate();
-
+  const initData = useInitData();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
@@ -137,24 +137,13 @@ const TablePage: React.FC = () => {
   };
   
   const sendUrlToTelegramBot = async (imageBlob: Blob) => {
-    // const bot = new Telegraf(BOT);
-    // bot.on("message", (ctx) => {
-    //   const chatId = ctx.chat.id;  // This will give the chat_id
-    //   console.log(`Chat ID: ${chatId}`);
-      
-    //   if (ctx.message.chat.type === "private") {
-    //     console.log('private');
-        
-    //   } else {
-    //     console.log('group');
-        
-    //   }
-    // }); 
     const BOT_API_KEY = BOT;
+    //@ts-ignore
+    const { id } =initData?.user
     const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
     // const chatID = CHAT_ID
     const formData = new FormData();
-    formData.append("chat_id", '7257947660');  
+    formData.append("chat_id", id);  
     formData.append("photo", imageBlob, "qr-code.png");
   
     try {
@@ -165,10 +154,10 @@ const TablePage: React.FC = () => {
   
       const result = await response.json();
       if (!result.ok) {
-        throw new Error(`Lỗi: ${result.description}`);
+        throw new Error(`error: ${result.description}`);
       }
     } catch (error) {
-      console.error("gửi cho bot lỗi", error);
+      console.error("send to bot is error", error);
     }
   };
   
