@@ -8,7 +8,8 @@ const web_link = "https://telegram-mini-app-psi.vercel.app/";
 bot.start((ctx) => {
   const message = ctx.message.text;
   const params = message.replace('/start ', ''); 
-
+  console.log(ctx , "ctx");
+  
   if (params) {
     const urlParams = new URLSearchParams(params);
     const tenantId = urlParams.get('tenant_id');
