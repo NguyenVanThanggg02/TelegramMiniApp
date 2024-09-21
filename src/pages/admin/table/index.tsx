@@ -27,8 +27,12 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import { BOT, BOT_USERNAME, CHAT_ID, SHORT_NAME } from "@/constants";
+// import { BOT, BOT_USERNAME, CHAT_ID, SHORT_NAME } from "@/constants";
+import {BOT_USERNAME, SHORT_NAME } from "@/constants";
 // import { toPng } from 'html-to-image';
+//@ts-ignore
+import { saveAs } from "file-saver";
+
 interface Table {
   uuid: string;
   name: string;
@@ -115,48 +119,47 @@ const TablePage: React.FC = () => {
   const handleSaveQr = async (element: React.RefObject<HTMLDivElement>) => {
     if (element.current) {
       setSpinner(true);
-      element.current.style.fontFamily = "Montserrat";
       try {
         const dataUrl = await domToPng(element.current, { scale: 3 });
         const blob = await (await fetch(dataUrl)).blob();
-  
-        await sendUrlToTelegramBot(blob);
+        saveAs(blob, "qr-code.png");
   
         setSnackbarMessage(t("tableManagement.saveQrNoti"));
         setSnackbarType("success");
         setSnackbarOpen(true);
       } catch (error) {
-        console.error("Error saving QR code:", error);
+        console.error("Lỗi khi lưu mã QR:", error);
         setSnackbarMessage(t("tableManagement.saveQrFail"));
         setSnackbarType("error");
         setSnackbarOpen(true);
+      } finally {
+        setSpinner(false);
       }
-      setSpinner(false);
     }
   };
   
-  const sendUrlToTelegramBot = async (imageBlob: Blob) => {
-    const BOT_API_KEY = BOT;
-    const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
-    const chatID = CHAT_ID
-    const formData = new FormData();
-    formData.append("chat_id", chatID);  
-    formData.append("photo", imageBlob, "qr-code.png");
+  // const sendUrlToTelegramBot = async (imageBlob: Blob) => {
+  //   const BOT_API_KEY = BOT;
+  //   const botApiUrl = `https://api.telegram.org/bot${BOT_API_KEY}/sendPhoto`;
+  //   const chatID = CHAT_ID
+  //   const formData = new FormData();
+  //   formData.append("chat_id", chatID);  
+  //   formData.append("photo", imageBlob, "qr-code.png");
   
-    try {
-      const response = await fetch(botApiUrl, {
-        method: 'POST',
-        body: formData,
-      });
+  //   try {
+  //     const response = await fetch(botApiUrl, {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
   
-      const result = await response.json();
-      if (!result.ok) {
-        throw new Error(`Lỗi: ${result.description}`);
-      }
-    } catch (error) {
-      console.error("gửi cho bot lỗi", error);
-    }
-  };
+  //     const result = await response.json();
+  //     if (!result.ok) {
+  //       throw new Error(`Lỗi: ${result.description}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("gửi cho bot lỗi", error);
+  //   }
+  // };
   
 
   // const downloadImage = (blob: string, fileName: string): void => {
