@@ -27,7 +27,7 @@ import { useTranslation } from "react-i18next";
 import QRCodeMultiplyViewer from "../../../components/qr/multiplyViewer";
 // import { createTenantURL } from "../../../api/urlHelper";
 import { domToPng } from "modern-screenshot";
-import { BOT, BOT_USERNAME, SHORT_NAME } from "@/constants";
+import { BOT, BOT_USERNAME } from "@/constants";
 import { useInitData } from "@telegram-apps/sdk-react";
 // import { toPng } from 'html-to-image';
 interface Table {
@@ -100,9 +100,9 @@ const TablePage: React.FC = () => {
     // const botUsername = "MiLiKun_bot"; 
     // const shortName = "orderfood";
     const botUsername = BOT_USERNAME; 
-    const shortName = SHORT_NAME;
+    // const shortName = SHORT_NAME;
     const startParam = `${tenant_id}_${table_uuid}_${store_uuid}`;
-    return `tg://resolve?domain=${botUsername}&appname=${shortName}&startapp=${startParam}`;
+    return `tg://resolve?domain=${botUsername}&startapp=${startParam}`;
   };
   
 
