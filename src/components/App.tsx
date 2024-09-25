@@ -34,7 +34,7 @@ export const App: FC = () => {
   // const cloudStorage = initCloudStorage();
   const [language, setLanguage] = useState<string>('');
   const initData = useInitData();
-console.log(language);
+  console.log(language);
 
   // useEffect(() => {
   //   const fetchLanguage = async () => {
@@ -62,18 +62,18 @@ console.log(language);
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  i18next.init({
-    interpolation: { escapeValue: false },
-    lng: language,
-    resources: {
-      en: {
-        global: global_en,
-      },
-      vi: {
-        global: global_vi,
-      },
-    },
-  });
+  useEffect(() => {
+    if (language) {
+      i18next.init({
+        interpolation: { escapeValue: false },
+        lng: language,
+        resources: {
+          en: { global: global_en },
+          vi: { global: global_vi },
+        },
+      });
+    }
+  }, [language]);
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
