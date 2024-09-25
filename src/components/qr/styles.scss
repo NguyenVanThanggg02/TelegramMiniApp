@@ -107,10 +107,14 @@
   height: 28px;
   z-index: 3;
 }
-
+.img-app-icon-container img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 .img-app-icon {
   object-fit: contain;
-  width: 200px;
+  width: 100px;
   height: 30px;
   border-radius: 4px;
 }
