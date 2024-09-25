@@ -62,18 +62,18 @@ export const App: FC = () => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  useEffect(() => {
-    if (language) {
-      i18next.init({
-        interpolation: { escapeValue: false },
-        lng: language,
-        resources: {
-          en: { global: global_en },
-          vi: { global: global_vi },
-        },
-      });
-    }
-  }, [language]);
+  i18next.init({
+    interpolation: { escapeValue: false },
+    lng: language,
+    resources: {
+      en: {
+        global: global_en,
+      },
+      vi: {
+        global: global_vi,
+      },
+    },
+  });
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
