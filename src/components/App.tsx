@@ -62,19 +62,22 @@ console.log(language);
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  i18next.init({
-    interpolation: { escapeValue: false },
-    lng: language,
-    fallbackLng: "en",
-    resources: {
-      en: {
-        global: global_en,
+  useEffect(() => {
+    i18next.init({
+      interpolation: { escapeValue: false },
+      lng: language,
+      fallbackLng: "en",
+      resources: {
+        en: {
+          global: global_en,
+        },
+        vi: {
+          global: global_vi,
+        },
       },
-      vi: {
-        global: global_vi,
-      },
-    },
-  });
+    });
+  }, [language]); 
+
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
