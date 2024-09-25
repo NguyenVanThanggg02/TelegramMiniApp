@@ -3,8 +3,8 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
-  // initCloudStorage,
-  initNavigator, useInitData, useLaunchParams,
+  initCloudStorage,
+  initNavigator, useLaunchParams,
   useMiniApp,
   useThemeParams,
   useViewport,
@@ -26,66 +26,42 @@ import global_en from "@/locales/en/global.json";
 import global_vi from "@/locales/vi/global.json";
 import AuthChecker from './auth_checker';
 
-i18next.init({
-  interpolation: { escapeValue: false },
-  resources: {
-    en: {
-      global: global_en,
-    },
-    vi: {
-      global: global_vi,
-    },
-  },
-});
-
 export const App: FC = () => {
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
-  // const cloudStorage = initCloudStorage();
-  const [language, setLanguage] = useState<string | null>(null); 
-  const initData = useInitData();
-  console.log(language);
-
-  // useEffect(() => {
-  //   const fetchLanguage = async () => {
-  //     const storedLanguage = await cloudStorage.get('language');
-  //     if (storedLanguage) {
-  //       setLanguage(storedLanguage);
-  //       i18next.changeLanguage(storedLanguage);
-  //     }
-  //   };
-  //   fetchLanguage();
-  // }, [cloudStorage]);
+  const cloudStorage = initCloudStorage();
+  const [language, setLanguage] = useState<string>('en');
 
   useEffect(() => {
-    if(initData?.user?.languageCode){
-      const userLanguage = initData?.user?.languageCode
-      setLanguage(userLanguage);
-      i18next.changeLanguage(userLanguage)
-    }else{
-      setLanguage('en')
-      i18next.changeLanguage('en')
-    }
-  }, [initData]);
+    const fetchLanguage = async () => {
+      const storedLanguage = await cloudStorage.get('language');
+      if (storedLanguage) {
+        setLanguage(storedLanguage);
+        i18next.changeLanguage(storedLanguage);
+      }
+    };
+    fetchLanguage();
+  }, [cloudStorage]);
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  // i18next.init({
-  //   interpolation: { escapeValue: false },
-  //   lng: language,
-  //   resources: {
-  //     en: {
-  //       global: global_en,
-  //     },
-  //     vi: {
-  //       global: global_vi,
-  //     },
-  //   },
-  // });
+  i18next.init({
+    interpolation: { escapeValue: false },
+    lng: language,
+    fallbackLng: "en",
+    resources: {
+      en: {
+        global: global_en,
+      },
+      vi: {
+        global: global_vi,
+      },
+    },
+  });
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
@@ -105,10 +81,7 @@ export const App: FC = () => {
     navigator.attach();
     return () => navigator.detach();
   }, [navigator]);
-  
-  if (!language) {
-    return null; // Hoặc hiển thị loading trong khi chờ language được set
-  }
+
   return (
     <RecoilRoot>
       <I18nextProvider i18n={i18next}>
