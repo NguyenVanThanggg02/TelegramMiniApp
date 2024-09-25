@@ -61,23 +61,19 @@ export const App: FC = () => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  useEffect(() => {
-    if (language) {
-      i18next.init({
-        interpolation: { escapeValue: false },
-        lng: language,
-        fallbackLng: "en",
-        resources: {
-          en: {
-            global: global_en,
-          },
-          vi: {
-            global: global_vi,
-          },
-        },
-      });
-    }
-  }, [language]);
+  i18next.init({
+    interpolation: { escapeValue: false },
+    lng: language,
+    fallbackLng: "en",
+    resources: {
+      en: {
+        global: global_en,
+      },
+      vi: {
+        global: global_vi,
+      },
+    },
+  });
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
@@ -97,7 +93,7 @@ export const App: FC = () => {
     navigator.attach();
     return () => navigator.detach();
   }, [navigator]);
-
+  
   if (!language) {
     return null; // Hoặc hiển thị loading trong khi chờ language được set
   }
