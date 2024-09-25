@@ -32,8 +32,9 @@ export const App: FC = () => {
   const themeParams = useThemeParams();
   const viewport = useViewport();
   // const cloudStorage = initCloudStorage();
-  const [language, setLanguage] = useState<string>("");
+  const [language, setLanguage] = useState<string>('');
   const initData = useInitData();
+
   // useEffect(() => {
   //   const fetchLanguage = async () => {
   //     const storedLanguage = await cloudStorage.get('language');
@@ -50,9 +51,11 @@ export const App: FC = () => {
       const userLanguage = initData?.user?.languageCode
       setLanguage(userLanguage);
       i18next.changeLanguage(userLanguage)
+    }else{
+      setLanguage('en')
+      i18next.changeLanguage('en')
     }
   }, [initData]);
-
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
@@ -90,7 +93,10 @@ export const App: FC = () => {
     navigator.attach();
     return () => navigator.detach();
   }, [navigator]);
-
+  
+  if (!language) {
+    return null; // Hoặc hiển thị loading trong khi chờ language được set
+  }
   return (
     <RecoilRoot>
       <I18nextProvider i18n={i18next}>
