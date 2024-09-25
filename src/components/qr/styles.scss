@@ -99,7 +99,6 @@
 }
 
 .img-app-icon-container {
-  object-fit: scale-down;
   background: #242424;
   display: flex;
   align-items: center;
@@ -110,6 +109,7 @@
 }
 
 .img-app-icon {
+  object-fit: contain;
   width: 100px;
   height: 22px;
   border-radius: 4px;
