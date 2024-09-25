@@ -50,9 +50,6 @@ export const App: FC = () => {
       const userLanguage = initData?.user?.languageCode
       setLanguage(userLanguage);
       i18next.changeLanguage(userLanguage)
-    }else{
-      setLanguage("en")
-      i18next.changeLanguage("en")
     }
   }, [initData]);
 
