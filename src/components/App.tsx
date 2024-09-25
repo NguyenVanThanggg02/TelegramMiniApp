@@ -26,6 +26,19 @@ import global_en from "@/locales/en/global.json";
 import global_vi from "@/locales/vi/global.json";
 import AuthChecker from './auth_checker';
 
+i18next.init({
+  interpolation: { escapeValue: false },
+  lng: 'en', 
+  resources: {
+    en: {
+      global: global_en,
+    },
+    vi: {
+      global: global_vi,
+    },
+  },
+});
+
 export const App: FC = () => {
   const lp = useLaunchParams();
   const miniApp = useMiniApp();
@@ -62,18 +75,18 @@ export const App: FC = () => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
 
-  i18next.init({
-    interpolation: { escapeValue: false },
-    lng: language,
-    resources: {
-      en: {
-        global: global_en,
-      },
-      vi: {
-        global: global_vi,
-      },
-    },
-  });
+  // i18next.init({
+  //   interpolation: { escapeValue: false },
+  //   lng: language,
+  //   resources: {
+  //     en: {
+  //       global: global_en,
+  //     },
+  //     vi: {
+  //       global: global_vi,
+  //     },
+  //   },
+  // });
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
