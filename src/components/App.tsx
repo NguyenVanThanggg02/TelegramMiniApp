@@ -34,6 +34,7 @@ export const App: FC = () => {
   // const cloudStorage = initCloudStorage();
   const [language, setLanguage] = useState<string>('');
   const initData = useInitData();
+console.log(language);
 
   // useEffect(() => {
   //   const fetchLanguage = async () => {
