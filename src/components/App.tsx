@@ -28,7 +28,6 @@ import AuthChecker from './auth_checker';
 
 i18next.init({
   interpolation: { escapeValue: false },
-  lng: 'en', 
   resources: {
     en: {
       global: global_en,
@@ -45,7 +44,7 @@ export const App: FC = () => {
   const themeParams = useThemeParams();
   const viewport = useViewport();
   // const cloudStorage = initCloudStorage();
-  const [language, setLanguage] = useState<string>('');
+  const [language, setLanguage] = useState<string | null>(null); 
   const initData = useInitData();
   console.log(language);
 
