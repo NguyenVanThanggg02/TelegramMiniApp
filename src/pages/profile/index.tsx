@@ -28,6 +28,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { useInitData } from "@telegram-apps/sdk-react";
 
 const ProfilePage: React.FC = () => {
   // const { version, apiVersion, zaloVersion, platform } = getSystemInfo();
@@ -48,7 +49,11 @@ const ProfilePage: React.FC = () => {
 
   const [timer, setTimer] = useState(60);
   const increment = useRef<NodeJS.Timeout | null>(null);
-
+  const initData = useInitData();
+  
+  const avt = (initData?.user?.firstName?.charAt(0) )&& (initData?.user?.lastName?.charAt(0))
+  console.log(avt);
+  
   useEffect(() => {
     if (showToken) {
       increment.current = setInterval(() => {
