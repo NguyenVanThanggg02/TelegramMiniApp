@@ -167,7 +167,7 @@ const ProfilePage: React.FC = () => {
             story="default"
             size={96}
             online={true}
-            src={user.avatar.startsWith("http") ? user.avatar : undefined}
+            src={user.avatar.startsWith("http") ? user.avatar : String(avt)}
           >
             {user.avatar}
           </Avatar>
