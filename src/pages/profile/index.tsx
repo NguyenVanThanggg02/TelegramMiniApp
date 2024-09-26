@@ -53,7 +53,7 @@ const ProfilePage: React.FC = () => {
   
   const avt = [(initData?.user?.firstName?.charAt(0)), (initData?.user?.lastName?.charAt(0))]
   console.log(avt.toString()); 
-  console.log(String(avt)); 
+  console.log(String(avt).split(",")); 
   
   useEffect(() => {
     if (showToken) {
