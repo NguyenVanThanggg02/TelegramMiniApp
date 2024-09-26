@@ -169,7 +169,7 @@ const ProfilePage: React.FC = () => {
             online={true}
             src={user.avatar.startsWith("http") ? user.avatar : String(avt)}
           >
-            {user.avatar}
+            <span style={{height:'40px', width:'40px'}}>{user.avatar}</span>
           </Avatar>
         </Box>
         <Box flex flexDirection="row" alignItems="center" mt={3}>
