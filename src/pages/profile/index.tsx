@@ -163,14 +163,18 @@ const ProfilePage: React.FC = () => {
         style={{ marginTop: 20 }}
       >
         <Box>
-          <Avatar
-            story="default"
-            size={96}
-            online={true}
-            src={user.avatar.startsWith("http") ? user.avatar : String(avt)}
-          >
-            <span style={{height:'40px', width:'40px'}}>{user.avatar}</span>
-          </Avatar>
+        <Avatar
+        story="default"
+        size={96}
+        online={true}
+        src={user.avatar && user.avatar.startsWith("http") ? user.avatar : undefined}
+      >
+        {!user.avatar || !user.avatar.startsWith("http") ? (
+          <span style={{ fontSize: '40px', fontWeight: 'bold' }}>
+            {avt.join('')}
+          </span>
+        ) : null}
+      </Avatar>
         </Box>
         <Box flex flexDirection="row" alignItems="center" mt={3}>
           <Box>
