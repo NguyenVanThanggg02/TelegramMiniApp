@@ -51,8 +51,8 @@ const ProfilePage: React.FC = () => {
   const increment = useRef<NodeJS.Timeout | null>(null);
   const initData = useInitData();
   
-  const avt = (initData?.user?.firstName?.charAt(0) )&& (initData?.user?.lastName?.charAt(0))
-  console.log(avt);
+  const avt = [(initData?.user?.firstName?.charAt(0)), (initData?.user?.lastName?.charAt(0))]
+  console.log(avt); 
   
   useEffect(() => {
     if (showToken) {
