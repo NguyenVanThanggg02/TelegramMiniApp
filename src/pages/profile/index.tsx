@@ -170,7 +170,7 @@ const ProfilePage: React.FC = () => {
         src={user.avatar && user.avatar.startsWith("http") ? user.avatar : undefined}
       >
         {!user.avatar || !user.avatar.startsWith("http") ? (
-          <span style={{ fontSize: '40px', fontWeight: 'bold' }}>
+          <span style={{ fontSize: '28px', fontWeight: 'bold' }}>
             {avt.join('')}
           </span>
         ) : null}
