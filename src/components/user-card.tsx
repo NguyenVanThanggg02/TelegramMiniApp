@@ -52,7 +52,7 @@ const UserCard: React.FC<UserCardProps> = ({ isAdmin = false, showOrderHistory =
             }
           >
             {!user.avatar || !user.avatar.startsWith("http") ? (
-              <span style={{ fontSize: "40px", fontWeight: "bold" }}>
+              <span style={{ fontSize: "25px", fontWeight: "bold" }}>
                 {avt.join("")}
               </span>
             ) : null}
