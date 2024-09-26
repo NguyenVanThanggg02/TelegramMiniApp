@@ -52,7 +52,7 @@ const ProfilePage: React.FC = () => {
   const initData = useInitData();
   
   const avt = [(initData?.user?.firstName?.charAt(0)), (initData?.user?.lastName?.charAt(0))]
-  console.log(avt.toString()); 
+  console.log(avt.toString().split(",")); 
   console.log(String(avt).split(",")); 
   
   useEffect(() => {
