@@ -1,6 +1,7 @@
 import appConfig from "../../app-config.json";
 
 export const BASE_URL = import.meta.env.VITE_BASE_URL;
+export const BASE_COMMUNITY = import.meta.env.VITE_BASE_COMMUNITY;
 export const BASE_SOCKET_URL = import.meta.env.VITE_BASE_SOCKET_URL;
 export const DEFAULT_TENANT_ID = import.meta.env.VITE_DEFAULT_TENANT_ID;
 export const BOT_USERNAME =import.meta.env.VITE_BOT_USERNAME

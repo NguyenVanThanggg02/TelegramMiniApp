@@ -34,6 +34,7 @@ import UserCard from "../../../components/user-card";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import { useNavigate } from "react-router-dom";
 import { refreshCache } from "@/api/cloudStorageManager";
+import { BASE_COMMUNITY } from "@/constants";
 
 interface StoreState {
   uuid: string;
@@ -155,7 +156,8 @@ const StorePage: React.FC = () => {
 
   const handleJoinChannel = () => {
     // window.location.href = 'https://t.me/menumastercommunity';
-    window.open('https://t.me/menumastercommunity', '_blank');
+    const community = BASE_COMMUNITY
+    window.open(`https://t.me/${community}`, '_blank');
 
   };
 
