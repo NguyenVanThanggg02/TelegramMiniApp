@@ -434,7 +434,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         <Box
           className="section-container"
           style={{
-            marginBottom: !isEmpty(cart) ? 110 : 0,
+            marginBottom: !isEmpty(cart) ? 80 : 0,
             paddingTop: table_uuid ? 0 : 0,
           }}
         >
