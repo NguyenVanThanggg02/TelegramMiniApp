@@ -17,7 +17,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 
-import { getStoreListByTenantID, createFollowRequest } from "../../../api/api";
+import { getStoreListByTenantID,  } from "../../../api/api";
 import "./styles.scss";
 import { useTranslation } from "react-i18next";
 import tableIcon from "../../../static/icons/table.png";
@@ -31,8 +31,6 @@ import storeIcon from "../../../static/icons/store.png";
 import appLogo from "../../../static/icons/app-logo.png";
 import AddIcon from "@mui/icons-material/Add";
 import UserCard from "../../../components/user-card";
-import { followOA, openChat } from "zmp-sdk/apis";
-import appConfig from "../../../../app-config.json";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import { useNavigate } from "react-router-dom";
 import { refreshCache } from "@/api/cloudStorageManager";
@@ -70,14 +68,14 @@ const StorePage: React.FC = () => {
   const [storeList, setStoreListState] = useRecoilState(storeListState);
   const [loading, setLoading] = useRecoilState<LoadingState>(loadingState);
   const navigate = useNavigate();
-  const [user, setUserState] = useRecoilState(userState);
+  const [user, ] = useRecoilState(userState);
   const [errorGetStore, setErrorGetStore] = useState<null | boolean>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
   const [store, setStore] = useRecoilState(storeState);
-  const [folowOALoading, setFolowOALoading] = useState<boolean>(false);
+  const [folowOALoading, ] = useState<boolean>(false);
   const cloudStorage = initCloudStorage();
 
   useEffect(() => {
@@ -155,46 +153,8 @@ const StorePage: React.FC = () => {
     navigate(`/admin/store/edit/${storeUUID}`);
   };
 
-  const follow_oa = () => {
-    setFolowOALoading(true);
-
-    followOA({
-      id: appConfig.offical_oa_id,
-      success: () => {
-        createFollowRequest(appConfig.offical_oa_id);
-        setUserState((prevUserState) => ({
-          ...prevUserState,
-          is_oa_follow: true,
-        }));
-
-        setFolowOALoading(false);
-      },
-      fail: () => {
-        setSnackbarMessage(t("snackbarMessage.followedOAFailed"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      },
-    });
-  };
-
-  const send_message = () => {
-    setFolowOALoading(true);
-
-    openChat({
-      type: "oa",
-      id: appConfig.offical_oa_id,
-      message: "Tôi cần hỗ trợ",
-      success: () => {
-        console.log("done openChat");
-        setFolowOALoading(false);
-      },
-      fail: () => {
-        console.log("failed to followed OA");
-        setSnackbarMessage(t("snackbarMessage.followedOAFailed"));
-        setSnackbarType("error");
-        setSnackbarOpen(true);
-      },
-    });
+  const handleJoinChannel = () => {
+    window.location.href = 'https://t.me/menumastercommunity';
   };
 
   useEffect(() => {
@@ -223,21 +183,21 @@ const StorePage: React.FC = () => {
   };
 
   return (
-    <Page className="page" style={{height:'100vh'}}>
+    <Page className="page" style={{ height: "100vh" }}>
       <div className="section-container">
-      <UserCard isAdmin={true} />
+        <UserCard isAdmin={true} />
       </div>
       <Box className="section-container store-container">
         <Box flex alignItems="center">
           <Select
             id="store"
-            value={store?.uuid} 
+            value={store?.uuid}
             onChange={(value) => {
-              if (typeof value === 'string') {
+              if (typeof value === "string") {
                 handleChangeStore(value, true);
               }
             }}
-            style={{color:'black'}}
+            style={{ color: "black" }}
             closeOnSelect={true}
           >
             {storeList.stores.map((sto) => (
@@ -266,7 +226,9 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.tables_count}
               </span>
-              <span style={{color:'black'}}>{t("storeManagement.tables")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.tables")}
+              </span>
             </Box>
           )}
 
@@ -279,7 +241,9 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.categories_count}
               </span>
-              <span style={{color:'black'}}>{t("storeManagement.categories")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.categories")}
+              </span>
             </Box>
           )}
 
@@ -292,7 +256,9 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.products_count}
               </span>
-              <span style={{color:'black'}}>{t("storeManagement.products")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.products")}
+              </span>
             </Box>
           )}
 
@@ -305,7 +271,9 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.vouchers_count}
               </span>
-              <span style={{color:'black'}}>{t("storeManagement.voucher")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.voucher")}
+              </span>
             </Box>
           )}
 
@@ -318,7 +286,9 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.orders_count}
               </span>
-              <span style={{color:'black'}}>{t("storeManagement.order")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.order")}
+              </span>
             </Box>
           )}
 
@@ -331,7 +301,9 @@ const StorePage: React.FC = () => {
               <span className="count-badge status-finished">
                 {store?.staff_count}
               </span>
-              <span style={{color:'black'}}>{t("storeManagement.user")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.user")}
+              </span>
             </Box>
           )}
 
@@ -341,7 +313,9 @@ const StorePage: React.FC = () => {
               className="store_list-item_main_item"
             >
               <img className="icon-img" src={reportIcon}></img>
-              <span style={{color:'black'}}>{t("storeManagement.sale_report")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.sale_report")}
+              </span>
             </Box>
           )}
 
@@ -351,14 +325,14 @@ const StorePage: React.FC = () => {
               className="store_list-item_main_item"
             >
               <img className="icon-img" src={storeIcon}></img>
-              <span style={{color:'black'}}>{t("storeManagement.editStore")}</span>
+              <span style={{ color: "black" }}>
+                {t("storeManagement.editStore")}
+              </span>
             </Box>
           )}
 
           <Box
-            onClick={
-              user?.is_oa_follow ? () => send_message() : () => follow_oa()
-            }
+            onClick={handleJoinChannel}
             className="store_list-item_main_item"
           >
             {folowOALoading ? (
@@ -368,7 +342,7 @@ const StorePage: React.FC = () => {
             ) : (
               <img className="icon-img" src={appLogo} alt="App Logo" />
             )}
-            <span style={{color:'black'}}>
+            <span style={{ color: "black" }}>
               {user?.is_oa_follow
                 ? t("storeManagement.send_message")
                 : t("storeManagement.follow_oa")}
@@ -376,19 +350,25 @@ const StorePage: React.FC = () => {
           </Box>
         </Box>
       </Box>
-      <div style={{borderRadius:'10px'}}>
-          {snackbarOpen && (
-            <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
-              <div className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}>
-                <div style={{display:'flex'}}>
-                  {snackbarType === "success" && <CheckCircleIcon style={{ marginRight: 8, color:'green' }} />} 
-                  {snackbarType === "error" && <ErrorIcon style={{ marginRight: 8, color:'red' }} />} 
-                  {snackbarMessage}
-                </div>
+      <div style={{ borderRadius: "10px" }}>
+        {snackbarOpen && (
+          <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
+            <div
+              className={`snackbar ${snackbarType === "success" ? "snackbar-success" : "snackbar-error"}`}
+            >
+              <div style={{ display: "flex" }}>
+                {snackbarType === "success" && (
+                  <CheckCircleIcon style={{ marginRight: 8, color: "green" }} />
+                )}
+                {snackbarType === "error" && (
+                  <ErrorIcon style={{ marginRight: 8, color: "red" }} />
+                )}
+                {snackbarMessage}
               </div>
-            </Snackbar>
-          )}
-        </div>
+            </div>
+          </Snackbar>
+        )}
+      </div>
     </Page>
   );
 };
