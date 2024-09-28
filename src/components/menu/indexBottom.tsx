@@ -265,29 +265,28 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1) return; // Kiểm tra nếu tab không tồn tại
-    setActiveTab(value); // Luôn cập nhật trạng thái active
+    if (positionMenu === -1) return;
+    setActiveTab(value);
     
-    // Nếu bấm vào tab cuối, cuộn xuống cuối trang
+    // Kiểm tra nếu tab được nhấn là tab cuối
     if (positionMenu === menu.length - 1) {
-        window.scrollTo({
-            top: document.body.scrollHeight, // Cuộn xuống dưới cùng của trang
-            behavior: "smooth", // Thêm hiệu ứng cuộn mượt
+        // Cuộn đến tab thứ hai từ dưới lên
+        const secondLastTabPosition = menu.length - 2;
+        menuRef.current[secondLastTabPosition]?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
         });
-        return; // Không thực hiện cuộn vào sản phẩm
+        return;
     }
-
+    
     if (!table_uuid) {
         setDefaultMarginList(40);
     }
-    
-    // Nếu không phải tab cuối, cuộn đến menu tương ứng
     menuRef.current[positionMenu]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
     });
 };
-
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
@@ -302,6 +301,9 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       console.error("Error:", response.error);
     }
   };
+  
+  
+  
 
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
