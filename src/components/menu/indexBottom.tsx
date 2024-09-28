@@ -409,7 +409,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
-            <Box>
+            <Box style={{ display: "flex" }} alignItems="center">
               <StoreInformation
                 storeData={storeDetail}
                 onDetail={() => setShowStoreDetail(true)}
@@ -417,7 +417,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
               <Box
                 flex
                 alignItems="center"
-                style={{ paddingLeft: "10px", paddingBottom: "10px" }}
+                style={{ paddingLeft: "10px" }}
               >
                 <TableRestaurantIcon style={{ color: "black" }} />
                 <Text
@@ -435,7 +435,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           className="section-container"
           style={{
             marginBottom: !isEmpty(cart) ? 110 : 0,
-            paddingTop: table_uuid ? 0 : 16,
+            paddingTop: table_uuid ? 0 : 0,
           }}
         >
           <Box className="menu-tabs-container">
@@ -471,14 +471,14 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            {Object.keys(displayProductList).map((cate,index) => (
+            {Object.keys(displayProductList).map((cate, index) => (
               <Box key={cate}>
                 <Box
                   flex
                   justifyContent="space-between"
                   mt={4}
                   //@ts-ignore
-                  ref={(ref:any) => {
+                  ref={(ref: any) => {
                     menuRef.current[index] = ref!;
                   }}
                   style={{ scrollMargin: "100px" }}
@@ -512,6 +512,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                 className="sticky-payment"
                 flex
                 justifyContent="space-between"
+                style={{ paddingBottom: "5px" }}
               >
                 <Text size="large" bold style={{ color: "black" }}>
                   {t("menu.order")}
@@ -521,7 +522,10 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                 </Text>
               </Box>
 
-              <Box className="sticky-payment-btn">
+              <Box
+                className="sticky-payment-btn"
+                style={{ paddingBottom: "20px" }}
+              >
                 <Button
                   onClick={() => {
                     setShowOrderSubmitModal(true);
@@ -583,9 +587,10 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           borderTop: "1px solid #e0e0e0",
           backgroundColor: "#fff",
           position: "sticky",
-          bottom: 0, 
-          left: 0, 
-          right: 0, 
+          bottom: 0,
+          left: 0,
+          right: 0,
+          paddingBottom: "20px",
         }}
       >
         <Box
@@ -597,7 +602,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             color: "#f44336",
             fontSize: "12px",
           }}
-          onClick={() => navigate(`/menu/${store_uuid}/${table_uuid}`)}
+          onClick={() => navigate(`/menuu/${store_uuid}/${table_uuid}`)}
         >
           <RestaurantMenuOutlinedIcon
             style={{ color: "#f44336", fontSize: "24px" }}
@@ -632,7 +637,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             fontSize: "12px",
           }}
           onClick={() => navigate(`/user/profile/bottomnavbar/${store_uuid}`)}
-
         >
           <PersonOutlinedIcon style={{ color: "#757575", fontSize: "24px" }} />
           <span>{t("navbar.user")}</span>
