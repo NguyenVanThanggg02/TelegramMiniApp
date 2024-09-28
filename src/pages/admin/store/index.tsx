@@ -339,18 +339,9 @@ const StorePage: React.FC = () => {
             onClick={handleJoinChannel}
             className="store_list-item_main_item"
           >
-            {folowOALoading ? (
               <div className="spinner-container">
                 <Spinner visible={folowOALoading} logo={appLogo} />
               </div>
-            ) : (
-              <img className="icon-img" src={appLogo} alt="App Logo" />
-            )}
-            <span style={{ color: "black" }}>
-              {user?.is_oa_follow
-                ? t("storeManagement.send_message")
-                : t("storeManagement.follow_oa")}
-            </span>
           </Box>
         </Box>
       </Box>
