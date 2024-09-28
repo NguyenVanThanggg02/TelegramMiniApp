@@ -267,26 +267,22 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
     setActiveTab(value);
-    
-    // Kiểm tra nếu tab được nhấn là tab cuối
     if (positionMenu === menu.length - 1) {
-        // Cuộn đến tab thứ hai từ dưới lên
-        const secondLastTabPosition = menu.length - 2;
-        menuRef.current[secondLastTabPosition]?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
-        return;
-    }
-    
-    if (!table_uuid) {
-        setDefaultMarginList(40);
-    }
-    menuRef.current[positionMenu]?.scrollIntoView({
+      const secondLastTabPosition = menu.length - 1;
+      menuRef.current[secondLastTabPosition]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
+      });
+      return;
+    }
+    if (!table_uuid) {
+      setDefaultMarginList(40);
+    }
+    menuRef.current[positionMenu]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
     });
-};
+  };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
