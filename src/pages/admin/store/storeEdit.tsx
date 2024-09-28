@@ -19,6 +19,7 @@ interface StoreDetail {
   phoneNumber?: string;
   bankAccount?: string;
   bankName?: string;
+  currency?: string;
   avatar?: {
     url: string;
     uuid: string;
@@ -118,6 +119,7 @@ const StoreEditPage: React.FC = () => {
       phoneNumber: storeDetail.phoneNumber,
       bankName: storeDetail.bankName,
       bankAccount: storeDetail.bankAccount,
+      currency: storeDetail.currency,
     };
     const payload = {
       uuid: store_uuid,
@@ -142,6 +144,10 @@ const StoreEditPage: React.FC = () => {
   const handleBankNameChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, bankName: value as string }));
+  };
+  const handleCurrencyChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
+    const value = Array.isArray(selected) ? selected[0] : selected;
+    setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, currency: value as string }));
   };
   
 
@@ -482,6 +488,79 @@ const StoreEditPage: React.FC = () => {
                 title="Ngân hàng Hợp tác xã Việt Nam (Co-opBank)"
               >
                 Ngân hàng Hợp tác xã Việt Nam (Co-opBank)
+              </option>
+            </Select>
+          </Box>
+          <Box mb={2}>
+            <Select
+              label={t("editStore.currency")}
+              placeholder={t("editStore.selectCurrency")}
+              value={storeDetail?.currency}
+              onChange={handleCurrencyChange}
+              closeOnSelect={true}
+            >
+              <option value="USD" title="USD ">
+                USD
+              </option>
+              <option value="EUR" title="Euro">
+                EUR
+              </option>
+              <option value="JPY" title="Japanese yen">
+                JPY
+              </option>
+              <option value="GBP" title="Pound sterling">
+                GBP
+              </option>
+              <option value="AUD" title="Australian dollar">
+                AUD
+              </option>
+              <option value="CAD" title="Canadian dollar">
+                CAD
+              </option>
+              <option value="CHF" title="Swiss franc">
+                CHF
+              </option>
+              <option value="CNY" title="Chinese yuan">
+                CNY
+              </option>
+              <option value="HKD" title="Hong Kong dollar">
+                HKD
+              </option>
+              <option value="NZD" title="New Zealand dollar">
+                NZD
+              </option>
+              <option value="SGD" title="Singapore dollar">
+                SGD
+              </option>
+              <option value="KRW" title="South Korean won">
+                KRW
+              </option>
+              <option value="NOK" title="Norwegian krone">
+                NOK
+              </option>
+              <option value="SEK" title="Swedish krona">
+                SEK
+              </option>
+              <option value="DKK" title="Danish krone">
+                DKK
+              </option>
+              <option value="MXN" title="Mexican peso">
+                MXN
+              </option>
+              <option value="INR" title="Indian rupee">
+                INR
+              </option>
+              <option value="BRL" title="Brazilian real">
+                BRL
+              </option>
+              <option value="RUB" title="Russian ruble">
+                RUB
+              </option>
+              <option value="ZAR" title="South African rand">
+                ZAR
+              </option>
+              <option value="KRW" title="South Korean won">
+                KRW
               </option>
             </Select>
           </Box>
