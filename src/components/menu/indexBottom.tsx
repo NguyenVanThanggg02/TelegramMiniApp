@@ -434,7 +434,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         <Box
           className="section-container"
           style={{
-            marginBottom: !isEmpty(cart) ? 80 : 0,
+            marginBottom: !isEmpty(cart) ? 110 : 0,
             paddingTop: table_uuid ? 0 : 0,
           }}
         >
@@ -468,7 +468,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           <Box
             style={{
               marginLeft: "80px",
-              marginTop: table_uuid ? 100 : defaultMarginList,
+              marginTop: table_uuid ? 50 : defaultMarginList,
             }}
           >
             {Object.keys(displayProductList).map((cate, index) => (
