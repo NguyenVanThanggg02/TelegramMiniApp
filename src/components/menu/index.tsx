@@ -269,10 +269,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
-    // menuRef.current[positionMenu]?.scrollIntoView({
-    //   behavior: "smooth",
-    //   block: "start",
-    // });
+    menuRef.current[positionMenu]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
