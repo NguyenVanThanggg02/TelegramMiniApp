@@ -154,8 +154,9 @@ const StorePage: React.FC = () => {
   };
 
   const handleJoinChannel = () => {
-    window.close();
-    window.location.href = 'https://t.me/menumastercommunity';
+    // window.location.href = 'https://t.me/menumastercommunity';
+    window.open('https://t.me/menumastercommunity', '_blank');
+
   };
 
   useEffect(() => {
