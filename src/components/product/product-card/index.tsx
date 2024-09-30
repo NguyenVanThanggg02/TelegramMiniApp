@@ -50,23 +50,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
  console.log(currency);
  const getStoreDetail = async () => {
+  setLoading({ ...loading, isLoading: true }); 
   if (store_uuid) {
     const response = await getStoreByUUID(store_uuid);
     if (response.data) {
       const metadata = JSON.parse(response.data.metadata);
-      const currencyValue = metadata.currency || 'USD'; // Đặt mặc định là USD nếu không có currency
+      const currencyValue = metadata.currency || 'USD'; 
       setCurrency(currencyValue);
-      setLoading({ ...loading, isLoading: false }); 
     } else {
       console.error("Error fetching store data:", response.error);
-      setLoading({ ...loading, isLoading: false }); 
     }
+    setLoading({ ...loading, isLoading: false }); 
   }
 };
   useEffect(() => {
     getStoreDetail();
   }, []);
- 
+
   return (
     <Box
       flex
