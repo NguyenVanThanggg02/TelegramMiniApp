@@ -30,10 +30,10 @@ interface ProductCardProps {
   setIsShowConfirm: (show: boolean) => void;
   setSelectedProduct: (product: Product) => void;
 }
-// interface StoreData {
-//   name: string;
-//   metadata: string;
-// }
+interface StoreData {
+  name: string;
+  metadata: string;
+}
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { t } = useTranslation('global');
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState<StoreData | undefined>(undefined);
   // const currency = useRecoilValue(currencyState);
   console.log(currency);
 
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
   useEffect(() => {
     getStoreDetail();
-  }, [store_uuid]);
+  }, []);
   return (
     <Box
       flex
