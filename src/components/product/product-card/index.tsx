@@ -43,10 +43,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { t } = useTranslation('global');
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('USD');
   // const currency = useRecoilValue(currencyState);
+ 
+  const [currency, setCurrency] = useState<string | null>(null); // Khởi tạo với giá trị null
   console.log(currency);
-
   const getStoreDetail = async () => {
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
