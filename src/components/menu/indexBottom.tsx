@@ -268,7 +268,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     if (positionMenu === -1) return;
     setActiveTab(value);
     if (positionMenu === menu.length - 1) {
-      const secondLastTabPosition = menu.length - 2;
+      const secondLastTabPosition = menu.length - 1;
       menuRef.current[secondLastTabPosition]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
