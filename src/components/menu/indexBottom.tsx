@@ -269,27 +269,22 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     setActiveTab(value);
     if (positionMenu === menu.length - 1) {
       const secondLastTabPosition = menu.length - 1;
-    
-      // Quan sát DOM thay đổi và xóa footer nếu nó xuất hiện lại
-      const observer = new MutationObserver(() => {
+      
+      // Đợi một chút trước khi xóa footer để đảm bảo phần tử đã tồn tại trong DOM
+      setTimeout(() => {
         const footerElement = document.querySelector(".web-app-footer");
         if (footerElement) {
           footerElement.remove();
         }
-      });
-    
-      observer.observe(document.body, { childList: true, subtree: true });
+      }, 100); // Đợi 100ms trước khi kiểm tra
     
       menuRef.current[secondLastTabPosition]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
-      
-      // Ngừng quan sát sau một thời gian (ví dụ: 5 giây)
-      setTimeout(() => observer.disconnect(), 5000);
-    
       return;
     }
+    
     
     if (!table_uuid) {
       setDefaultMarginList(40);
