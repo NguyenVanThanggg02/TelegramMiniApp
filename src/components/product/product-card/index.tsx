@@ -5,6 +5,8 @@ import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { useRecoilValue } from 'recoil';
+import { currencyState } from '@/state';
 
 
 interface Category {
@@ -34,7 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   setSelectedProduct,
 }) => {
   const { t } = useTranslation('global');
-
+  const currency = useRecoilValue(currencyState);
   return (
     <Box
       flex
@@ -65,7 +67,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {t('productManagement.status.hidden')}
           </Box>
         )}
-        <Text size="normal" style={{color:'black'}}>₫{priceFormatter(product.price)}</Text>
+        <Text size="normal" style={{color:'black'}}>{currency}{priceFormatter(product.price)}</Text>
         <Text size="xxSmall" className="text-category">
           {t('storeManagement.categories')}:
           {product.categories.map((item, index) =>

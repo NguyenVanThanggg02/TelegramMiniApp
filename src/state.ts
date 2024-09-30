@@ -344,5 +344,7 @@ export const spinnerState = atom<boolean>({
   default: false,
 });
 
-
-
+export const currencyState = atom<string>({
+  key: "currencyState", 
+  default: "USD", 
+});
