@@ -44,23 +44,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { t } = useTranslation('global');
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   const [currency, setCurrency] = useState('USD')
+  const [isLoadingCurrency, setIsLoadingCurrency] = useState(true); // Thêm trạng thái để theo dõi việc load currency
 
  console.log(currency);
-  const getStoreDetail = async () => {
-    if (store_uuid) {
-      const response = await getStoreByUUID(store_uuid);
-      if (response.data) {
-        const metadata = JSON.parse(response.data.metadata);
-        const currencyValue = metadata.currency; 
-        setCurrency(currencyValue); 
-      } else {
-        console.error("Error fetching store data:", response.error);
-      }
+ const getStoreDetail = async () => {
+  if (store_uuid) {
+    const response = await getStoreByUUID(store_uuid);
+    if (response.data) {
+      const metadata = JSON.parse(response.data.metadata);
+      const currencyValue = metadata.currency || 'USD'; // Đặt mặc định là USD nếu không có currency
+      setCurrency(currencyValue);
+      setIsLoadingCurrency(false); // Đánh dấu là đã load xong
+    } else {
+      console.error("Error fetching store data:", response.error);
+      setIsLoadingCurrency(false); // Đánh dấu là đã load xong ngay cả khi có lỗi
     }
-  };
+  }
+};
   useEffect(() => {
     getStoreDetail();
   }, []);
+  if (isLoadingCurrency) {
+    return <Text>{t('loading')}</Text>; // Hiển thị trạng thái loading trong khi chờ currency
+  }
   return (
     <Box
       flex
