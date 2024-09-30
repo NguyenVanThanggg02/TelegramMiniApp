@@ -7,6 +7,8 @@ import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { getStoreByUUID } from '@/api/api';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { loadingState } from '@/state';
 // import { useRecoilValue } from 'recoil';
 // import { currencyState } from '@/state';
 
@@ -45,8 +47,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   // const currency = useRecoilValue(currencyState);
  
-  const [currency, setCurrency] = useState<string | null>(null); // Khởi tạo với giá trị null
-  console.log(currency);
+  const [currency, setCurrency] = useState<string | null>(null); 
+  const [loading, setLoading] = useRecoilState(loadingState);
+
+ console.log(currency);
   const getStoreDetail = async () => {
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
@@ -58,6 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         console.error("Error fetching store data:", response.error);
       }
     }
+    setLoading({ ...loading, isLoading: false });
   };
   useEffect(() => {
     getStoreDetail();
