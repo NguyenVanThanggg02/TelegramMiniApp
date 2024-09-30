@@ -7,6 +7,8 @@ import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { getStoreByUUID } from '@/api/api';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { loadingState } from '@/state';
 // import { useRecoilValue } from 'recoil';
 // import { currencyState } from '@/state';
 
@@ -44,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { t } = useTranslation('global');
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   const [currency, setCurrency] = useState('USD')
-  const [isLoadingCurrency, setIsLoadingCurrency] = useState(true); // Thêm trạng thái để theo dõi việc load currency
+  const [loading, setLoading] = useRecoilState(loadingState);
 
  console.log(currency);
  const getStoreDetail = async () => {
@@ -54,19 +56,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
       const metadata = JSON.parse(response.data.metadata);
       const currencyValue = metadata.currency || 'USD'; // Đặt mặc định là USD nếu không có currency
       setCurrency(currencyValue);
-      setIsLoadingCurrency(false); // Đánh dấu là đã load xong
+      setLoading({ ...loading, isLoading: false }); 
     } else {
       console.error("Error fetching store data:", response.error);
-      setIsLoadingCurrency(false); // Đánh dấu là đã load xong ngay cả khi có lỗi
+      setLoading({ ...loading, isLoading: false }); 
     }
   }
 };
   useEffect(() => {
     getStoreDetail();
   }, []);
-  if (isLoadingCurrency) {
-    return <Text>{t('loading')}</Text>; // Hiển thị trạng thái loading trong khi chờ currency
-  }
+ 
   return (
     <Box
       flex
