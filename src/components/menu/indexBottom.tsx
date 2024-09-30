@@ -288,23 +288,23 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   };
 
   useEffect(() => {
-    const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                const footerElement = document.querySelector('.web-app-footer');
-                if (footerElement) {
-                    footerElement.remove(); // Loại bỏ phần tử
-                }
-            }
+    const handleTabClick = () => {
+        const footerElement = document.querySelector('.web-app-footer');
+        if (footerElement) {
+            footerElement.remove()
         }
-    });
+    };
 
-    observer.observe(document.body, { childList: true, subtree: true });
-
+    const tabElement = document.querySelector('.tab-selector') as HTMLElement | null; // Allow null
+    if (tabElement) {
+        tabElement.addEventListener('click', handleTabClick);
+    }
+    
     return () => {
-        observer.disconnect(); // Ngắt kết nối khi component bị hủy
+        tabElement?.removeEventListener('click', handleTabClick); // Ngắt kết nối sự kiện khi component bị hủy
     };
 }, []);
+
 
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
