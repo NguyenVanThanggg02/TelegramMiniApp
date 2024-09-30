@@ -89,7 +89,7 @@ const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave })
             </Box>
           </Box>
           <Box className="img-app-icon-container">
-            <Text style={{color:'#33CC66', fontSize:'10px'}}>MenuMaster.tech</Text>
+            <Text style={{color:'#33CC66', fontSize:'12px', fontWeight:'bold'}}>MenuMaster.tech</Text>
           </Box>
         </Box>
       </Box>
