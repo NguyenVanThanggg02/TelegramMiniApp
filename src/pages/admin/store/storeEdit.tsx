@@ -120,7 +120,8 @@ const StoreEditPage: React.FC = () => {
       phoneNumber: storeDetail.phoneNumber,
       bankName: storeDetail.bankName,
       bankAccount: storeDetail.bankAccount,
-      currency: storeDetail.currency,
+      // currency: storeDetail.currency,
+      currency: storeDetail.currency || "USD",
     };
     const payload = {
       uuid: store_uuid,
@@ -146,11 +147,20 @@ const StoreEditPage: React.FC = () => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, bankName: value as string }));
   };
+  // const handleCurrencyChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
+  //   const value = Array.isArray(selected) ? selected[0] : selected;
+  //   setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, currency: value as string }));
+  //   // setCurrency(value as string); 
+  // };
+
   const handleCurrencyChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
     const value = Array.isArray(selected) ? selected[0] : selected;
-    setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, currency: value as string }));
-    // setCurrency(value as string); 
+    setStoreDetail((prevDetail: StoreDetail) => ({ 
+      ...prevDetail, 
+      currency: value ? value as string : "USD"  
+    }));
   };
+
   
 
 
