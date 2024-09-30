@@ -53,6 +53,7 @@ import dmIcon from "../../../../static/icons/dm.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import useStoreDetail from "@/components/userStoreDetail";
 
 interface Table {
     uuid: string;
@@ -132,6 +133,7 @@ const OrderManagementDetails: React.FC = () => {
   const orderGlobal = useRecoilValue(orderState);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [, setSpinner] = useRecoilState(spinnerState);
+  const { currency } = useStoreDetail();
 
   const orderStatusesSlider = {
     0: t("orderManagement.statusSelect." + ORDER_STATUS.PENDING),
@@ -618,7 +620,7 @@ const OrderManagementDetails: React.FC = () => {
                         <Box flex style={{ gap: "8px" }}>
                           <Text size="normal" style={{color:'black'}}>
                             {priceFormatter(item.unit_price)}
-                            <span style={{ marginLeft: "2px" }}>₫</span>
+                            <span style={{ marginLeft: "2px" }}>{" "+ currency}</span>
                           </Text>
                           {/* <Text
                             className="red-color"
@@ -726,7 +728,7 @@ const OrderManagementDetails: React.FC = () => {
               <Text size="large" bold style={{color:'black'}}>
                 {t("orderManagement.orderDetail.total")}:
               </Text>
-              <Text size="large" style={{color:'black'}}>{priceFormatter(totalBill)}₫</Text>
+              <Text size="large" style={{color:'black'}}>{priceFormatter(totalBill)}{" "+currency}</Text>
             </Box>
 
             {/* {invoiceData?.voucher && ( */}
@@ -738,7 +740,7 @@ const OrderManagementDetails: React.FC = () => {
                   <Text>
                     -
                     {priceFormatter(order.value - order?.actual_payment_amount)}
-                    ₫
+                    {" "+currency}
                   </Text>
                 </Box>
                 <Box
@@ -752,7 +754,7 @@ const OrderManagementDetails: React.FC = () => {
                     {t("orderManagement.orderDetail.totalPayment")}:
                   </Text>
                   <Text size="xLarge" bold>
-                    {priceFormatter(Math.max(0, order?.actual_payment_amount))}₫
+                    {priceFormatter(Math.max(0, order?.actual_payment_amount))}{" "+ currency}
                   </Text>
                 </Box>
               </>
