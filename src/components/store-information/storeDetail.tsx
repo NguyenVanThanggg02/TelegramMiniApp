@@ -150,7 +150,7 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
                 style={{ marginBottom: "0", color: "black" }}
                 title={t("editStore.currency")}
               >
-                <Text>{storeDetail?.bankName}</Text>
+                <Text>{storeDetail?.currency}</Text>
               </List.Item>
             )}
           </List>
