@@ -270,14 +270,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     if (positionMenu === menu.length - 1) {
       const secondLastTabPosition = menu.length - 1;
       
-      // Đợi một chút trước khi xóa footer để đảm bảo phần tử đã tồn tại trong DOM
-      setTimeout(() => {
-        const footerElement = document.querySelector<HTMLElement>(".web-app-footer");
-        if (footerElement) {
-          footerElement.remove();
-        }
-      }, 3000); // Đợi 100ms trước khi kiểm tra
-    
       menuRef.current[secondLastTabPosition]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -294,6 +286,26 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       block: "start",
     });
   };
+
+  useEffect(() => {
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                const footerElement = document.querySelector('.web-app-footer');
+                if (footerElement) {
+                    footerElement.remove(); // Loại bỏ phần tử
+                }
+            }
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+        observer.disconnect(); // Ngắt kết nối khi component bị hủy
+    };
+}, []);
+
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
