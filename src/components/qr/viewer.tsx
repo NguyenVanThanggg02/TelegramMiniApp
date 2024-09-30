@@ -4,7 +4,7 @@ import "./styles.scss";
 import { Box, Button, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import appIcon from "../../static/icons/app-logo.png";
-import appIconFull from "../../static/icons/web-icon-full.png";
+// import appIconFull from "../../static/icons/web-icon-full.png";
 import QrCodeScannerIcon from "@mui/icons-material/QrCodeScanner";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import ChecklistIcon from "@mui/icons-material/Checklist";
@@ -89,7 +89,7 @@ const QRCodeViewer: React.FC<QRCodeViewerProps> = ({ value, title, handleSave })
             </Box>
           </Box>
           <Box className="img-app-icon-container">
-            <img src={appIconFull} className="img-app-icon"></img>
+            <Text className="img-app-icon" style={{color:'#33CC66', fontSize:'12px', fontWeight:'bold', fontFamily:'Montserrat'}}>MenuMaster.tech</Text>
           </Box>
         </Box>
       </Box>
