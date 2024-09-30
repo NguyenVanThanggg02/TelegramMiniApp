@@ -262,10 +262,34 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     setDisplayProductList(result);
   }, [productList, categoryList]);
 
+  // const handleChangeTab = (value: string) => {
+  //   const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+  //   if (positionMenu === -1) return;
+  //   setActiveTab(value);
+  //   if (!table_uuid) {
+  //     setDefaultMarginList(40);
+  //   }
+  //   menuRef.current[positionMenu]?.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "start",
+  //   });
+  // };
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
     setActiveTab(value);
+    if (positionMenu === menu.length - 1) {
+      const secondLastTabPosition = menu.length - 1;
+      const footerElement = document.querySelector(".web-app-footer");
+      if (footerElement) {
+        footerElement.remove();
+      }
+      menuRef.current[secondLastTabPosition]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+      return;
+    }
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
