@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Button, List, Text } from 'zmp-ui';
+import React from 'react';
+import { Box, Button, Text } from 'zmp-ui';
 import { PRODUCT_STATUS } from '../../../constants';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
@@ -20,19 +20,6 @@ interface Product {
   categories: Category[];
 }
 
-interface StoreDetail {
-  description?: string;
-  address?: string;
-  phoneNumber?: string;
-  bankAccount?: string;
-  bankName?: string;
-  currency?: string;
-  avatar?: {
-    url: string;
-    uuid: string;
-  };
-}
-
 interface ProductCardProps {
   product: Product;
   onDetails: (product: Product) => void;
@@ -47,7 +34,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   setSelectedProduct,
 }) => {
   const { t } = useTranslation('global');
-  const [storeDetail, ] = useState<StoreDetail>({});
 
   return (
     <Box
@@ -79,14 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {t('productManagement.status.hidden')}
           </Box>
         )}
-        <Text size="normal" style={{color:'black'}}>{storeDetail?.currency && (
-              <List.Item
-                style={{ marginBottom: "0", color: "black" }}
-                title={t("editStore.currency")}
-              >
-                <Text>{storeDetail?.currency}</Text>
-              </List.Item>
-            )}{priceFormatter(product.price)}</Text>
+        <Text size="normal" style={{color:'black'}}>₫{priceFormatter(product.price)}</Text>
         <Text size="xxSmall" className="text-category">
           {t('storeManagement.categories')}:
           {product.categories.map((item, index) =>
