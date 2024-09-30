@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import DEFAULT_IMAGE_STORE from "../../../static/icons/store-background.png";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { storeState, userState } from "../../../state";
+import { currencyState, storeState, userState } from "../../../state";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { SelectValueType } from "zmp-ui/select";
 
@@ -41,7 +41,7 @@ const StoreEditPage: React.FC = () => {
   const [image, setImage] = useState<string>("");
   const [imageUUID, setImageUUID] = useState<string>("");
   const store = useRecoilValue(storeState);
-  // const [, setCurrency] = useRecoilState(currencyState);
+  const [, setCurrency] = useRecoilState(currencyState);
 
   const navigate = useNavigate();
 
@@ -149,7 +149,7 @@ const StoreEditPage: React.FC = () => {
   const handleCurrencyChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, currency: value as string }));
-    // setCurrency(value as string); 
+    setCurrency(value as string); 
   };
   
 
