@@ -18,6 +18,7 @@ interface StoreDetail {
   phoneNumber?: string;
   bankName?:string
   bankAccount?: string;
+  currency?: string;
   name?: string;
 }
 
@@ -142,6 +143,14 @@ const StoreDetailModal: React.FC<StoreDetailModalProps> = ({ storeData, isShow, 
                     />
                   </Box>
                 </Box>
+              </List.Item>
+            )}
+            {storeDetail?.currency && (
+              <List.Item
+                style={{ marginBottom: "0", color: "black" }}
+                title={t("editStore.currency")}
+              >
+                <Text>{storeDetail?.bankName}</Text>
               </List.Item>
             )}
           </List>
