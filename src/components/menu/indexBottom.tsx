@@ -272,11 +272,11 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       
       // Đợi một chút trước khi xóa footer để đảm bảo phần tử đã tồn tại trong DOM
       setTimeout(() => {
-        const footerElement = document.querySelector(".web-app-footer");
+        const footerElement = document.querySelector<HTMLElement>(".web-app-footer");
         if (footerElement) {
           footerElement.remove();
         }
-      }, 100); // Đợi 100ms trước khi kiểm tra
+      }, 3000); // Đợi 100ms trước khi kiểm tra
     
       menuRef.current[secondLastTabPosition]?.scrollIntoView({
         behavior: "smooth",
