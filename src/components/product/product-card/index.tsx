@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, Text } from 'zmp-ui';
 import { PRODUCT_STATUS } from '../../../constants';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { useRecoilValue } from 'recoil';
-import { currencyState } from '@/state';
+import { getStoreByUUID } from '@/api/api';
+import { useParams } from 'react-router-dom';
+// import { useRecoilValue } from 'recoil';
+// import { currencyState } from '@/state';
 
 
 interface Category {
@@ -28,6 +30,10 @@ interface ProductCardProps {
   setIsShowConfirm: (show: boolean) => void;
   setSelectedProduct: (product: Product) => void;
 }
+interface StoreData {
+  name: string;
+  metadata: string;
+}
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -36,7 +42,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
   setSelectedProduct,
 }) => {
   const { t } = useTranslation('global');
-  const currency = useRecoilValue(currencyState);
+  const { store_uuid } = useParams<{ store_uuid?: string }>();
+  const [currency, setCurrency] = useState<StoreData | undefined>(undefined);
+  // const currency = useRecoilValue(currencyState);
+  console.log(currency);
+
+  const getStoreDetail = async () => {
+    if (store_uuid) {
+      const response = await getStoreByUUID(store_uuid);
+      if (response.data) {
+        setCurrency(response.data);
+      } else {
+        console.error("Error fetching store data:", response.error);
+      }
+    }
+  };
+  useEffect(() => {
+    getStoreDetail();
+  }, []);
   return (
     <Box
       flex
@@ -67,7 +90,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {t('productManagement.status.hidden')}
           </Box>
         )}
-        <Text size="normal" style={{color:'black'}}>{currency + " "}{priceFormatter(product.price)}</Text>
+        <Text size="normal" style={{color:'black'}}>{currency+" "}{priceFormatter(product.price)}</Text>
         <Text size="xxSmall" className="text-category">
           {t('storeManagement.categories')}:
           {product.categories.map((item, index) =>
