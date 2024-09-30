@@ -30,10 +30,10 @@ interface ProductCardProps {
   setIsShowConfirm: (show: boolean) => void;
   setSelectedProduct: (product: Product) => void;
 }
-interface StoreData {
-  name: string;
-  metadata: string;
-}
+// interface StoreData {
+//   name: string;
+//   metadata: string;
+// }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { t } = useTranslation('global');
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState<StoreData | undefined>(undefined);
+  const [currency, setCurrency] = useState('USD');
   // const currency = useRecoilValue(currencyState);
   console.log(currency);
 
@@ -51,7 +51,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
-        setCurrency(response.data);
+        const metadata = JSON.parse(response.data.metadata);
+        const currencyValue = metadata.currency; 
+        setCurrency(currencyValue); 
       } else {
         console.error("Error fetching store data:", response.error);
       }
@@ -59,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
   useEffect(() => {
     getStoreDetail();
-  }, []);
+  }, [store_uuid]);
   return (
     <Box
       flex
