@@ -269,6 +269,12 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     setActiveTab(value);
     if (positionMenu === menu.length - 1) {
       const secondLastTabPosition = menu.length - 1;
+      const footerElement = document.querySelector(".web-app-footer");
+
+      if (footerElement) {
+        footerElement.remove();
+      }
+
       menuRef.current[secondLastTabPosition]?.scrollIntoView({
         behavior: "smooth",
         block: "start",
