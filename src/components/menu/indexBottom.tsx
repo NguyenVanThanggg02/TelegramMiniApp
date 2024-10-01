@@ -195,7 +195,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     const selectedMenuRef = menuRef.current[positionMenu];
   
     if (selectedMenuRef) {
-      const scrollPosition = selectedMenuRef.offsetTop; // Lấy vị trí offsetTop của tab
+      const scrollPosition = selectedMenuRef.offsetTop - 30; // Cuộn thêm một chút lên trên (giảm 30 pixel)
   
       if (table_uuid) {
         setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
@@ -203,9 +203,9 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   
       // Kiểm tra nếu tab hiện tại là tab cuối
       if (positionMenu === menu.length - 1) {
-        // Cuộn đến vị trí đầu của sản phẩm
+        // Cuộn đến vị trí đầu của sản phẩm với một chút offset
         pageRef.current.scrollTo({
-          top: scrollPosition, // Cuộn đến điểm đầu của danh sách sản phẩm
+          top: scrollPosition, // Cuộn đến điểm đầu của danh sách sản phẩm, giảm thêm 30 pixel
           behavior: 'smooth',
         });
       } else {
@@ -216,6 +216,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       }
     }
   };
+  
   
 
   const handleSelectedDish = (dish: Dish) => {
