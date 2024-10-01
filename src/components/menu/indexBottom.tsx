@@ -191,34 +191,36 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1 || !pageRef.current) return; // Kiểm tra pageRef.current
-  
+    if (positionMenu === -1 || !pageRef.current) return; // Check pageRef.current
+
     setActiveTab(value);
     const selectedMenuRef = menuRef.current[positionMenu];
-  
+
     if (selectedMenuRef) {
-      const menuHeight = selectedMenuRef.offsetHeight; // Chiều cao của phần tử tab
-      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current.scrollTop || 0); // Truy cập scrollTop an toàn
-  
+      // const menuHeight = selectedMenuRef.offsetHeight; // Height of the tab element
+      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current.scrollTop || 0); // Safe access to scrollTop
+
       if (table_uuid) {
-        setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
+        setDefaultMarginList(40); // Set margin if table_uuid is present
       }
-  
-      // Kiểm tra nếu tab hiện tại là tab cuối
+
+      // Check if the current tab is the last tab
       if (positionMenu === menu.length - 1) {
-        // Cuộn đến vị trí cuối của sản phẩm
+        // Scroll to the top of the product list
         pageRef.current.scrollTo({
-          top: scrollPosition + menuHeight, // Cuộn đến điểm cuối của danh sách sản phẩm
+          top: scrollPosition, // Scroll to the top of the product list
           behavior: 'smooth',
         });
-      }else{
+      } else {
+        // For other tabs, scroll the tab into view
         menuRef.current[positionMenu]?.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
       }
     }
-  };
+};
+
   
   
 
