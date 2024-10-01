@@ -195,7 +195,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     const selectedMenuRef = menuRef.current[positionMenu];
   
     if (selectedMenuRef) {
-      const scrollPosition = selectedMenuRef.offsetTop - 30; // Cuộn thêm một chút lên trên (giảm 30 pixel)
+      const scrollPosition = selectedMenuRef.offsetTop - 50; // Cuộn thêm một chút lên trên (giảm 30 pixel)
   
       if (table_uuid) {
         setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
