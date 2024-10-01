@@ -468,7 +468,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           <Box
             style={{
               marginLeft: "80px",
-              marginTop: table_uuid ? 20 : defaultMarginList,
+              marginTop: table_uuid ? 70 : defaultMarginList,
             }}
           >
             {Object.keys(displayProductList).map((cate, index) => (
@@ -481,7 +481,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                   ref={(ref: any) => {
                     menuRef.current[index] = ref!;
                   }}
-                  style={{ scrollMargin: "100px" }}
+                  style={{ scrollMargin: "auto" }}
                 >
                   <Text size="xLarge" bold className="grey-color">
                     {cate}
