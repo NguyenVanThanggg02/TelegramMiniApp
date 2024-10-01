@@ -478,12 +478,12 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                 <Box
                   flex
                   justifyContent="space-between"
-                  mt={4}
+                  // mt={4}
                   //@ts-ignore
                   ref={(ref: any) => {
                     menuRef.current[index] = ref!;
                   }}
-                  style={{ scrollMargin: "100px" }}
+                  style={{ scrollMargin: "100px", marginTop:'auto' }}
                 >
                   <Text size="xLarge" bold className="grey-color">
                     {cate}
