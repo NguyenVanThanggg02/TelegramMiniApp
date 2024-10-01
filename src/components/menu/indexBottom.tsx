@@ -170,7 +170,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         const { scrollTop } = container;
         if (scrollTop === 0) return;
         menuRef.current.forEach((ref, index) => {
-          if (ref && ref.getBoundingClientRect().top <= 500) {
+          if (ref && ref.getBoundingClientRect().top <= 210) {
             setActiveTab(menu[index].uuid);
           }
         });
@@ -191,15 +191,26 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
+    
     setActiveTab(value);
-    if (!table_uuid) {
-      setDefaultMarginList(40);
+    const selectedMenuRef = menuRef.current[positionMenu];
+  
+    if (selectedMenuRef) {
+      const menuHeight = selectedMenuRef.offsetHeight; // Chiều cao của phần tử tab
+      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current?.scrollTop || 0); // Vị trí của phần tử trong cuộn
+  
+      if (table_uuid) {
+        setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
+      }
+  
+      // Cuộn đến vị trí cuối của sản phẩm
+      pageRef.current?.scrollTo({
+        top: scrollPosition + menuHeight, // Cuộn đến điểm cuối của danh sách sản phẩm
+        behavior: 'smooth',
+      });
     }
-    menuRef.current[positionMenu]?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
   };
+  
 
   const handleSelectedDish = (dish: Dish) => {
     const dishInCart = cart.find((item) => item.uuid === dish.uuid);
