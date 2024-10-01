@@ -31,7 +31,7 @@ const DishMenu: React.FC<DishMenuProps> = ({ dishMenu, onDetails, onOrder }) => 
             <Box
               style={{
                 width: "100%",
-                height: "auto",
+                height: "0.5px",
                 backgroundColor: "#e9ebed",
               }}
             ></Box>
