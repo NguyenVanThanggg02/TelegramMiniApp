@@ -470,7 +470,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           <Box
             style={{
               marginLeft: "80px",
-              marginTop: table_uuid ? 70 : defaultMarginList,
+              marginTop: table_uuid ? 40 : defaultMarginList,
             }}
           >
             {Object.keys(displayProductList).map((cate, index) => (
