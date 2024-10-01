@@ -203,22 +203,26 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
       }
   
-      // Kiểm tra nếu tab hiện tại là tab cuối
-      if (positionMenu === menu.length - 1) {
-        // Cuộn đến vị trí cuối của sản phẩm
-        pageRef.current.scrollTo({
-          top: scrollPosition + menuHeight, // Cuộn đến điểm cuối của danh sách sản phẩm
-          behavior: 'smooth',
-        });
-      }else{
+      if (menu.length > 3) {
         menuRef.current[positionMenu]?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
+            behavior: "smooth",
+            block: "start",
         });
-      }
+    } else {
+        if (positionMenu === menu.length - 1) {
+            pageRef.current.scrollTo({
+                top: scrollPosition + menuHeight, 
+                behavior: 'smooth',
+            });
+        } else {
+            menuRef.current[positionMenu]?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
     }
-  };
-  
+}
+};
   
 
   const handleSelectedDish = (dish: Dish) => {
