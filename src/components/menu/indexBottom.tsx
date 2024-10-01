@@ -151,7 +151,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
 
   const navigate = useNavigate();
-console.log(productList);
+ console.log(productList);
 
 
   useEffect(() => {
