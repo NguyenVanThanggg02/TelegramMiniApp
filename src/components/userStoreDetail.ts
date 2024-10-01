@@ -15,14 +15,8 @@ const useStoreDetail = () => {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
         const metadata = JSON.parse(response.data.metadata);
-        if(metadata.currency === null){
-          const currencyValue = 'USD'
-          setCurrency(currencyValue);
-        }else{
-          const currencyValue = metadata.currency
-          setCurrency(currencyValue);
-        }
-       
+        const currencyValue = metadata.currency || 'USD'; 
+        setCurrency(currencyValue);
       } else {
         console.error("Error fetching store data:", response.error);
       }
