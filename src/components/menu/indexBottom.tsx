@@ -203,7 +203,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
         setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
       }
   
-      if (menu.length > 4) {
+      if (menu.length <= 3) {
         menuRef.current[positionMenu]?.scrollIntoView({
             behavior: "smooth",
             block: "start",
