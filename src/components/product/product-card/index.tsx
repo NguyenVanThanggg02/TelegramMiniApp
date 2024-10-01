@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Button, Text } from 'zmp-ui';
 import { PRODUCT_STATUS } from '../../../constants';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { getStoreByUUID } from '@/api/api';
-import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { loadingState } from '@/state';
-// import { useRecoilValue } from 'recoil';
-// import { currencyState } from '@/state';
-
+import useStoreDetail from '@/components/userStoreDetail';
 
 interface Category {
   name: string;
@@ -32,10 +26,6 @@ interface ProductCardProps {
   setIsShowConfirm: (show: boolean) => void;
   setSelectedProduct: (product: Product) => void;
 }
-// interface StoreData {
-//   name: string;
-//   metadata: string;
-// }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -44,29 +34,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   setSelectedProduct,
 }) => {
   const { t } = useTranslation('global');
-  const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('USD')
-  const [loading, setLoading] = useRecoilState(loadingState);
-
- console.log(currency);
- const getStoreDetail = async () => {
-  setLoading({ ...loading, isLoading: true }); 
-  if (store_uuid) {
-    const response = await getStoreByUUID(store_uuid);
-    if (response.data) {
-      const metadata = JSON.parse(response.data.metadata);
-      const currencyValue = metadata.currency || 'USD'; 
-      setCurrency(currencyValue);
-    } else {
-      console.error("Error fetching store data:", response.error);
-    }
-    setLoading({ ...loading, isLoading: false }); 
-  }
-};
-  useEffect(() => {
-    getStoreDetail();
-  }, []);
-
+  const { currency } = useStoreDetail();
+  console.log(currency);
+ 
   return (
     <Box
       flex
