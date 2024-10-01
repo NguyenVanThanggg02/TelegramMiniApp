@@ -263,21 +263,10 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     setDisplayProductList(result);
   }, [productList, categoryList]);
 
-  const handleChangeTab = (value: string) => {
+    const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
     setActiveTab(value);
-    if (positionMenu === menu.length - 1) {
-      const secondLastTabPosition = menu.length - 1;
-      
-      menuRef.current[secondLastTabPosition]?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-      return;
-    }
-    
-    
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
