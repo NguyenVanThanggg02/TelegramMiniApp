@@ -262,34 +262,43 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     setDisplayProductList(result);
   }, [productList, categoryList]);
 
+  // const handleChangeTab = (value: string) => {
+  //   const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+  //   if (positionMenu === -1) return;
+  //   setActiveTab(value);
+  //   if (!table_uuid) {
+  //     setDefaultMarginList(40);
+  //   }
+  //   menuRef.current[positionMenu]?.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "start",
+  //   });
+  // };
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1 || !pageRef.current) return; 
-  
+    if (positionMenu === -1) return;
     setActiveTab(value);
-    const selectedMenuRef = menuRef.current[positionMenu];
-  
-    if (selectedMenuRef) {
-      const menuHeight = selectedMenuRef.offsetHeight; 
-      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current.scrollTop || 0); 
-  
-      if (table_uuid) {
-        setDefaultMarginList(40); 
+    if (positionMenu === menu.length - 1) {
+      const secondLastTabPosition = menu.length - 1;
+      const footerElement = document.querySelector(".web-app-footer");
+      if (footerElement) {
+        footerElement.remove();
       }
-  
-      if (positionMenu === menu.length - 1) {
-        pageRef.current.scrollTo({
-          top: scrollPosition + menuHeight, 
-          behavior: 'smooth',
-        });
-      }else{
-        menuRef.current[positionMenu]?.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
+      menuRef.current[secondLastTabPosition]?.scrollIntoView({
+        behavior: "smooth",
+        // block: "start",
+      });
+      return;
     }
+    if (!table_uuid) {
+      setDefaultMarginList(40);
+    }
+    menuRef.current[positionMenu]?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
+
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
     
