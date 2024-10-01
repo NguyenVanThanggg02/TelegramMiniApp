@@ -508,7 +508,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           {!isEmpty(cart) && (
             <Box
               className="sticky-payment-container"
-              style={true ? { bottom: "48px" } : { bottom: "0" }}
+              style={true ? { bottom: "20px" } : { bottom: "0" }}
             >
               <Box
                 className="sticky-payment"
