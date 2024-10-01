@@ -210,6 +210,11 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
           top: scrollPosition + menuHeight, // Cuộn đến điểm cuối của danh sách sản phẩm
           behavior: 'smooth',
         });
+      }else{
+        menuRef.current[positionMenu]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }
     }
   };
