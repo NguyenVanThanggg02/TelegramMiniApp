@@ -190,26 +190,30 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1) return;
-    
+    if (positionMenu === -1 || !pageRef.current) return; // Kiểm tra pageRef.current
+  
     setActiveTab(value);
     const selectedMenuRef = menuRef.current[positionMenu];
   
     if (selectedMenuRef) {
       const menuHeight = selectedMenuRef.offsetHeight; // Chiều cao của phần tử tab
-      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current?.scrollTop || 0); // Vị trí của phần tử trong cuộn
+      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current.scrollTop || 0); // Truy cập scrollTop an toàn
   
       if (table_uuid) {
         setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
       }
   
-      // Cuộn đến vị trí cuối của sản phẩm
-      pageRef.current?.scrollTo({
-        top: scrollPosition + menuHeight, // Cuộn đến điểm cuối của danh sách sản phẩm
-        behavior: 'smooth',
-      });
+      // Kiểm tra nếu tab hiện tại là tab cuối
+      if (positionMenu === menu.length - 1) {
+        // Cuộn đến vị trí cuối của sản phẩm
+        pageRef.current.scrollTo({
+          top: scrollPosition + menuHeight, // Cuộn đến điểm cuối của danh sách sản phẩm
+          behavior: 'smooth',
+        });
+      }
     }
   };
+  
   
 
   const handleSelectedDish = (dish: Dish) => {
