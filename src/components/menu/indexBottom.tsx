@@ -195,8 +195,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     const selectedMenuRef = menuRef.current[positionMenu];
   
     if (selectedMenuRef) {
-      // const menuHeight = selectedMenuRef.offsetHeight; // Chiều cao của phần tử tab
-      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current.scrollTop || 0); // Truy cập scrollTop an toàn
+      const scrollPosition = selectedMenuRef.offsetTop; // Lấy vị trí offsetTop của tab
   
       if (table_uuid) {
         setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
@@ -217,7 +216,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       }
     }
   };
-
   
 
   const handleSelectedDish = (dish: Dish) => {
