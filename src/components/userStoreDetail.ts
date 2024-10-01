@@ -6,7 +6,7 @@ import { loadingState } from '@/state';
 
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState<string | null>(null); 
   const [loading, setLoading] = useRecoilState(loadingState);
 
   const getStoreDetail = async () => {
@@ -15,8 +15,13 @@ const useStoreDetail = () => {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
         const metadata = JSON.parse(response.data.metadata);
-        const currencyValue = metadata.currency || 'USD'; 
-        setCurrency(currencyValue);
+        if(metadata.currency === null){
+          const currencyValue = "USD"
+          setCurrency(currencyValue);
+        }else{
+          setCurrency(metadata.currency);
+        }
+        
       } else {
         console.error("Error fetching store data:", response.error);
       }
