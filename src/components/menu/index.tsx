@@ -261,7 +261,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     );
     setDisplayProductList(result);
   }, [productList, categoryList]);
-  
+
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1 || !pageRef.current) return; 
@@ -270,8 +270,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const selectedMenuRef = menuRef.current[positionMenu];
   
     if (selectedMenuRef) {
-      const menuHeight = selectedMenuRef.offsetHeight; 
-      const scrollPosition = selectedMenuRef.getBoundingClientRect().top + (pageRef.current.scrollTop || 0); 
+      const scrollPosition = selectedMenuRef.offsetTop - 100;
   
       if (table_uuid) {
         setDefaultMarginList(40); 
@@ -279,10 +278,10 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
       if (positionMenu === menu.length - 1) {
         pageRef.current.scrollTo({
-          top: scrollPosition + menuHeight, 
+          top: scrollPosition, 
           behavior: 'smooth',
         });
-      }else{
+      } else {
         menuRef.current[positionMenu]?.scrollIntoView({
           behavior: "smooth",
           block: "start",
@@ -290,6 +289,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       }
     }
   };
+  
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
     

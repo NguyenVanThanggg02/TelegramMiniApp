@@ -189,23 +189,21 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
 
   const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1 || !pageRef.current) return; // Kiểm tra pageRef.current
+    if (positionMenu === -1 || !pageRef.current) return; 
   
     setActiveTab(value);
     const selectedMenuRef = menuRef.current[positionMenu];
   
     if (selectedMenuRef) {
-      const scrollPosition = selectedMenuRef.offsetTop - 100; // Cuộn thêm một chút lên trên (giảm 30 pixel)
+      const scrollPosition = selectedMenuRef.offsetTop - 100;
   
       if (table_uuid) {
-        setDefaultMarginList(40); // Nếu có table_uuid, đặt margin
+        setDefaultMarginList(40); 
       }
   
-      // Kiểm tra nếu tab hiện tại là tab cuối
       if (positionMenu === menu.length - 1) {
-        // Cuộn đến vị trí đầu của sản phẩm với một chút offset
         pageRef.current.scrollTo({
-          top: scrollPosition, // Cuộn đến điểm đầu của danh sách sản phẩm, giảm thêm 30 pixel
+          top: scrollPosition, 
           behavior: 'smooth',
         });
       } else {
@@ -216,7 +214,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       }
     }
   };
-  
   
 
   const handleSelectedDish = (dish: Dish) => {
