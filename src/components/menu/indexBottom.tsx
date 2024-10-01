@@ -263,21 +263,10 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     setDisplayProductList(result);
   }, [productList, categoryList]);
 
-  const handleChangeTab = (value: string) => {
+    const handleChangeTab = (value: string) => {
     const positionMenu = menu.map((m) => m.uuid).indexOf(value);
     if (positionMenu === -1) return;
     setActiveTab(value);
-    if (positionMenu === menu.length - 1) {
-      const secondLastTabPosition = menu.length - 1;
-      
-      menuRef.current[secondLastTabPosition]?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      return;
-    }
-    
-    
     if (!table_uuid) {
       setDefaultMarginList(40);
     }
@@ -286,26 +275,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
       block: "start",
     });
   };
-
-  useEffect(() => {
-    const handleTabClick = () => {
-        const footerElement = document.querySelector('.web-app-footer');
-        if (footerElement) {
-            footerElement.remove()
-        }
-    };
-
-    const tabElement = document.querySelector('.tab-selector') as HTMLElement | null; // Allow null
-    if (tabElement) {
-        tabElement.addEventListener('click', handleTabClick);
-    }
-    
-    return () => {
-        tabElement?.removeEventListener('click', handleTabClick); // Ngắt kết nối sự kiện khi component bị hủy
-    };
-}, []);
-
-
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
