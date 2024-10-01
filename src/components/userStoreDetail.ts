@@ -6,9 +6,8 @@ import { loadingState } from '@/state';
 
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('USD'); // Khởi tạo với giá trị USD
+  const [currency, setCurrency] = useState('USD');
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [isCurrencyLoaded, setIsCurrencyLoaded] = useState(false); // Trạng thái để theo dõi việc tải currency
 
   const getStoreDetail = async () => {
     setLoading({ ...loading, isLoading: true }); 
@@ -17,20 +16,19 @@ const useStoreDetail = () => {
       if (response.data) {
         const metadata = JSON.parse(response.data.metadata);
         const currencyValue = metadata.currency || 'USD'; 
-        setCurrency(currencyValue); // Cập nhật giá trị currency
-        setIsCurrencyLoaded(true); // Đánh dấu rằng currency đã được tải
+        setCurrency(currencyValue);
       } else {
         console.error("Error fetching store data:", response.error);
       }
+      setLoading({ ...loading, isLoading: false }); 
     }
-    setLoading({ ...loading, isLoading: false }); 
   };
 
   useEffect(() => {
     getStoreDetail();
   }, []);
 
-  return { currency, loading, isCurrencyLoaded };
+  return { currency, loading };
 };
 
 export default useStoreDetail;
