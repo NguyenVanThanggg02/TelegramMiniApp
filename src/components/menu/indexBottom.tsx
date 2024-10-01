@@ -188,6 +188,37 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     };
   }, [menu]);
 
+  const handleChangeTab = (value: string) => {
+    const positionMenu = menu.map((m) => m.uuid).indexOf(value);
+    if (positionMenu === -1) return;
+  
+    setActiveTab(value);
+    if (!table_uuid) {
+      setDefaultMarginList(40);
+    }
+  
+    const menuItem = menuRef.current[positionMenu];
+    menuItem?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  
+    // Kiểm tra độ cao của container
+    setTimeout(() => {
+      if (pageRef.current && menuItem) {
+        const containerHeight = pageRef.current.offsetHeight;
+        const contentHeight = menuItem.offsetHeight;
+  
+        // Nếu nội dung của tab hiện tại ngắn hơn chiều cao container, thêm khoảng trống giả định
+        if (contentHeight < containerHeight) {
+          menuItem.style.marginBottom = `${containerHeight - contentHeight}px`;
+        } else {
+          menuItem.style.marginBottom = "0"; // Xóa khoảng trống nếu không cần
+        }
+      }
+    }, 300); // Đợi sau khi scroll xong mới kiểm tra
+  };
+
   const handleSelectedDish = (dish: Dish) => {
     const dishInCart = cart.find((item) => item.uuid === dish.uuid);
     if (!dishInCart) {
@@ -263,18 +294,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
     setDisplayProductList(result);
   }, [productList, categoryList]);
 
-    const handleChangeTab = (value: string) => {
-    const positionMenu = menu.map((m) => m.uuid).indexOf(value);
-    if (positionMenu === -1) return;
-    setActiveTab(value);
-    if (!table_uuid) {
-      setDefaultMarginList(40);
-    }
-    menuRef.current[positionMenu]?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
+
 
   const fetchCategoriesByStore = async (store_uuid: string) => {
     const response = await getCategoryByStore(store_uuid);
