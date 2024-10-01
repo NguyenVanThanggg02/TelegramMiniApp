@@ -481,7 +481,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                   ref={(ref: any) => {
                     menuRef.current[index] = ref!;
                   }}
-                  style={{ scrollMargin: "auto" }}
+                  style={{ scrollMargin: "100px" }}
                 >
                   <Text size="xLarge" bold className="grey-color">
                     {cate}
