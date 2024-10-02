@@ -22,6 +22,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import {refreshCache } from "@/api/cloudStorageManager";
+import scanQr from "../static/icons/scan-qr.png";
 interface Table {
   uuid: string;
   name: string;
@@ -439,15 +440,18 @@ console.log(initData);
               />
             </div>
           )  : (
-            <div
-              
-              style={{marginTop:'1.5rem', display: "flex", flexDirection: "column", justifyContent:'center', alignItems:'center' }}
-            >
-              {/* <Spinner onClick={toggleScanner} alt="Scan QR Code" /> */}
-              <Text style={{ fontSize: "20px", color:'black' }}>
-                ...
-              </Text>
-            </div>
+            <img
+            src={scanQr}
+            style={{
+              width: "90%",
+              height: "90%",
+              margin: "14px 0",
+              maxWidth: "550px",
+              maxHeight: "650px",
+            }}
+            onClick={toggleScanner}
+            alt="Scan QR Code"
+          />
           )}
         </Box>
         <Box mt={1}>
