@@ -28,7 +28,7 @@ const LoadingComponent: React.FC = () => {
   };
 
   const logoStyle: React.CSSProperties = {
-    width: "50px",
+    width: "53px",
     height: "53px",
     zIndex: 1,
     borderRadius:'100%',
