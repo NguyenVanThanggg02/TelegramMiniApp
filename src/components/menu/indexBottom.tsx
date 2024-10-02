@@ -468,7 +468,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                 menu.map((item) => (
                   <Tab
                     value={item.uuid}
-                    label={item.name}
+                    label={item.name.toUpperCase()}
                     sx={{
                       paddingLeft: "0px",
                       alignItems: "flex-start",
@@ -501,7 +501,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                   style={{ scrollMargin: "100px"}}
                 >
                   <Text size="xLarge" bold className="grey-color">
-                    {cate.toUpperCase()}
+                    {cate}
                   </Text>
                 </Box>
 
