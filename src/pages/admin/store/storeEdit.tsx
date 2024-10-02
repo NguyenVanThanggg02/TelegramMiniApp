@@ -513,7 +513,7 @@ const StoreEditPage: React.FC = () => {
               onChange={handleCurrencyChange}
               closeOnSelect={true}
             >
-              <option value="USD" title="$ ">
+              <option value="$" title="USD ">
                 USD
               </option>
               <option value="EUR" title="Euro">
