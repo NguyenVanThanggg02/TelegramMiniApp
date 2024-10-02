@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 import { useTranslation } from "react-i18next";
 import LoadingComponent from "./loading_component";
 import SpinnerComponent from "./spinner";
-import { initCloudStorage } from "@telegram-apps/sdk-react";
+import { initCloudStorage, useInitData } from "@telegram-apps/sdk-react";
 // import { values } from "lodash";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -49,7 +49,7 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
   const [errorLogin, setErrorLogin] = useState<boolean | null>(null);
   const [isInitialMount, setIsInitialMount] = useState(true);
   const [loading, setLoading] = useRecoilState(loadingState);
-
+  const initData = useInitData();
   // useEffect(() => {
   //   snackbarRef.current = snackbar;
   // }, [snackbar]);
@@ -91,11 +91,11 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
   };
 
   const setLanguage = async () => {
-    const language = await cloudStorage.get("language")
+    const language = initData?.user?.languageCode;
     if (language) {
       i18n.changeLanguage(language);
     } else {
-      cloudStorage.set("language", "vi");
+      cloudStorage.set("language", "en");
     }
   };
 
