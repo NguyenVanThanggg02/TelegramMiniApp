@@ -50,10 +50,27 @@ const StoreEditPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const [countries, setCountries] = useState<string[]>([]);
+  const [banks, setBanks] = useState<string[]>([]);
 
   useEffect(() => {
     setCountries(countriesData.countries.map(country => country.name)); 
   }, []);
+
+  const updateBanks = (country: string) => {
+    const selectedCountry = countriesData.countries.find(c => c.name === country);
+    if (selectedCountry) {
+      setBanks(selectedCountry.banks);
+    } else {
+      setBanks([]);
+    }
+  };
+
+  const handleCountryChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
+    const value = Array.isArray(selected) ? selected[0] : selected;
+    setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, country: value as string }));
+    updateBanks(value as string);
+  };
+
   useEffect(() => {
     if (storeData) {
       setStoreName(storeData.name);
@@ -152,10 +169,10 @@ const StoreEditPage: React.FC = () => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, bankName: value as string }));
   };
-  const handleCountryChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
-    const value = Array.isArray(selected) ? selected[0] : selected;
-    setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, country: value as string }));
-  };
+  // const handleCountryChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
+  //   const value = Array.isArray(selected) ? selected[0] : selected;
+  //   setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, country: value as string }));
+  // };
   
   useEffect(() => {
     if (!storeDetail.currency) {
@@ -271,265 +288,20 @@ const StoreEditPage: React.FC = () => {
             </Select>
           </Box>
           <Box mb={2}>
-            <Select
-              label={t("editStore.bankName")}
-              placeholder={t("editStore.selectBank")}
-              value={storeDetail?.bankName}
-              onChange={handleBankNameChange}
-              closeOnSelect={true}
-            >
-              <option
-                value="agribank"
-                title="Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank)"
-              >
-                Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam
-                (Agribank)
+          <Select
+            label={t("editStore.bankName")}
+            placeholder={t("editStore.selectBank")}
+            value={storeDetail?.bankName}
+            onChange={handleBankNameChange}
+            closeOnSelect={true}
+          >
+            {banks.map((bank, index) => (
+              <option key={index} value={bank} title={bank}>
+                {bank}
               </option>
-              <option
-                value="gpbank"
-                title="Ngân hàng TNHH MTV Dầu khí toàn cầu (GPBank)"
-              >
-                Ngân hàng TNHH MTV Dầu khí toàn cầu (GPBank)
-              </option>
-              <option
-                value="oceanbank"
-                title="Ngân hàng TNHH MTV Đại Dương (OceanBank)"
-              >
-                Ngân hàng TNHH MTV Đại Dương (OceanBank)
-              </option>
-              <option
-                value="cbbank"
-                title="Ngân hàng TNHH MTV Xây dựng (CBBank)"
-              >
-                Ngân hàng TNHH MTV Xây dựng (CBBank)
-              </option>
-              <option
-                value="vietinbank"
-                title="Ngân hàng TMCP Công thương Việt Nam (VietinBank)"
-              >
-                Ngân hàng TMCP Công thương Việt Nam (VietinBank)
-              </option>
-              <option
-                value="bidv"
-                title="Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)"
-              >
-                Ngân hàng TMCP Đầu tư và Phát triển Việt Nam (BIDV)
-              </option>
-              <option
-                value="vietcombank"
-                title="Ngân hàng TMCP Ngoại Thương Việt Nam (Vietcombank)"
-              >
-                Ngân hàng TMCP Ngoại Thương Việt Nam (Vietcombank)
-              </option>
-              <option value="acb" title="Ngân hàng TMCP Á Châu (ACB)">
-                Ngân hàng TMCP Á Châu (ACB)
-              </option>
-              <option value="abbank" title="Ngân hàng TMCP An Bình (ABBANK)">
-                Ngân hàng TMCP An Bình (ABBANK)
-              </option>
-              <option
-                value="vietcapitalbank"
-                title="Ngân hàng TMCP Bản Việt (Viet Capital Bank)"
-              >
-                Ngân hàng TMCP Bản Việt (Viet Capital Bank)
-              </option>
-              <option
-                value="baovietbank"
-                title="Ngân hàng TMCP Bảo Việt (BAOVIET Bank)"
-              >
-                Ngân hàng TMCP Bảo Việt (BAOVIET Bank)
-              </option>
-              <option
-                value="bacabank"
-                title="Ngân hàng TMCP Bắc Á (Bac A Bank)"
-              >
-                Ngân hàng TMCP Bắc Á (Bac A Bank)
-              </option>
-              <option
-                value="lienvietpostbank"
-                title="Ngân hàng TMCP Bưu điện Liên Việt (LienVietPostBank)"
-              >
-                Ngân hàng TMCP Bưu điện Liên Việt (LienVietPostBank)
-              </option>
-              <option
-                value="pvcombank"
-                title="Ngân hàng TMCP Đại Chúng Việt Nam (PVcomBank)"
-              >
-                Ngân hàng TMCP Đại Chúng Việt Nam (PVcomBank)
-              </option>
-              <option value="donga" title="Ngân hàng TMCP Đông Á (DongA Bank)">
-                Ngân hàng TMCP Đông Á (DongA Bank)
-              </option>
-              <option
-                value="seabank"
-                title="Ngân hàng TMCP Đông Nam Á (SeABank)"
-              >
-                Ngân hàng TMCP Đông Nam Á (SeABank)
-              </option>
-              <option value="msb" title="Ngân hàng TMCP Hàng Hải (MSB)">
-                Ngân hàng TMCP Hàng Hải (MSB)
-              </option>
-              <option
-                value="kienlongbank"
-                title="Ngân hàng TMCP Kiên Long (Kienlongbank)"
-              >
-                Ngân hàng TMCP Kiên Long (Kienlongbank)
-              </option>
-              <option
-                value="techcombank"
-                title="Ngân hàng TMCP Kỹ Thương (Techcombank)"
-              >
-                Ngân hàng TMCP Kỹ Thương (Techcombank)
-              </option>
-              <option
-                value="namabank"
-                title="Ngân hàng TMCP Nam Á (Nam A Bank)"
-              >
-                Ngân hàng TMCP Nam Á (Nam A Bank)
-              </option>
-              <option value="ocb" title="Ngân hàng TMCP Phương Đông (OCB)">
-                Ngân hàng TMCP Phương Đông (OCB)
-              </option>
-              <option value="mbbank" title="Ngân hàng TMCP Quân Đội (MB Bank)">
-                Ngân hàng TMCP Quân Đội (MB Bank)
-              </option>
-              <option value="vib" title="Ngân hàng TMCP Quốc Tế (VIB)">
-                Ngân hàng TMCP Quốc Tế (VIB)
-              </option>
-              <option value="ncb" title="Ngân hàng TMCP Quốc dân (NCB)">
-                Ngân hàng TMCP Quốc dân (NCB)
-              </option>
-              <option value="scb" title="Ngân hàng TMCP Sài Gòn (SCB)">
-                Ngân hàng TMCP Sài Gòn (SCB)
-              </option>
-              <option
-                value="saigonbank"
-                title="Ngân hàng TMCP Sài Gòn Công Thương (SAIGONBANK)"
-              >
-                Ngân hàng TMCP Sài Gòn Công Thương (SAIGONBANK)
-              </option>
-              <option value="shb" title="Ngân hàng TMCP Sài Gòn – Hà Nội (SHB)">
-                Ngân hàng TMCP Sài Gòn – Hà Nội (SHB)
-              </option>
-              <option
-                value="sacombank"
-                title="Ngân hàng TMCP Sài Gòn Thương Tín (Sacombank)"
-              >
-                Ngân hàng TMCP Sài Gòn Thương Tín (Sacombank)
-              </option>
-              <option value="tpbank" title="Ngân hàng TMCP Tiên Phong (TPBank)">
-                Ngân hàng TMCP Tiên Phong (TPBank)
-              </option>
-              <option
-                value="vietabank"
-                title="Ngân hàng TMCP Việt Á (VietABank)"
-              >
-                Ngân hàng TMCP Việt Á (VietABank)
-              </option>
-              <option
-                value="vpbank"
-                title="Ngân hàng TMCP Việt Nam Thịnh Vượng (VPBank)"
-              >
-                Ngân hàng TMCP Việt Nam Thịnh Vượng (VPBank)
-              </option>
-              <option
-                value="vietbank"
-                title="Ngân hàng TMCP Việt Nam Thương Tín (Vietbank)"
-              >
-                Ngân hàng TMCP Việt Nam Thương Tín (Vietbank)
-              </option>
-              <option
-                value="pgbank"
-                title="Ngân hàng TMCP Xăng dầu Petrolimex (PG Bank)"
-              >
-                Ngân hàng TMCP Xăng dầu Petrolimex (PG Bank)
-              </option>
-              <option
-                value="eximbank"
-                title="Ngân hàng TMCP Xuất Nhập Khẩu (Eximbank)"
-              >
-                Ngân hàng TMCP Xuất Nhập Khẩu (Eximbank)
-              </option>
-              <option
-                value="hdbank"
-                title="Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh (HDBank)"
-              >
-                Ngân hàng TMCP Phát triển Thành phố Hồ Chí Minh (HDBank)
-              </option>
-              <option value="indovina" title="Ngân hàng TNHH Indovina (IVB)">
-                Ngân hàng TNHH Indovina (IVB)
-              </option>
-              <option value="vrb" title="Ngân hàng Liên doanh Việt Nga (VRB)">
-                Ngân hàng Liên doanh Việt Nga (VRB)
-              </option>
-              <option
-                value="anzvl"
-                title="Ngân hàng TNHH MTV ANZ Việt Nam (ANZVL)"
-              >
-                Ngân hàng TNHH MTV ANZ Việt Nam (ANZVL)
-              </option>
-              <option
-                value="hlbvn"
-                title="Ngân hàng TNHH MTV Hong Leong Việt Nam (HLBVN)"
-              >
-                Ngân hàng TNHH MTV Hong Leong Việt Nam (HLBVN)
-              </option>
-              <option
-                value="hsbc"
-                title="Ngân hàng TNHH MTV HSBC Việt Nam (HSBC)"
-              >
-                Ngân hàng TNHH MTV HSBC Việt Nam (HSBC)
-              </option>
-              <option
-                value="shbvn"
-                title="Ngân hàng TNHH MTV Shinhan Việt Nam (SHBVN)"
-              >
-                Ngân hàng TNHH MTV Shinhan Việt Nam (SHBVN)
-              </option>
-              <option
-                value="scbvl"
-                title="Ngân hàng TNHH MTV Standard Chartered Việt Nam (SCBVL)"
-              >
-                Ngân hàng TNHH MTV Standard Chartered Việt Nam (SCBVL)
-              </option>
-              <option
-                value="pbvn"
-                title="Ngân hàng TNHH MTV Public Bank Việt Nam (PBVN)"
-              >
-                Ngân hàng TNHH MTV Public Bank Việt Nam (PBVN)
-              </option>
-              <option
-                value="cimb"
-                title="Ngân hàng TNHH MTV CIMB Việt Nam (CIMB)"
-              >
-                Ngân hàng TNHH MTV CIMB Việt Nam (CIMB)
-              </option>
-              <option
-                value="woori"
-                title="Ngân hàng TNHH MTV Woori Việt Nam (Woori)"
-              >
-                Ngân hàng TNHH MTV Woori Việt Nam (Woori)
-              </option>
-              <option value="uob" title="Ngân hàng TNHH MTV UOB Việt Nam (UOB)">
-                Ngân hàng TNHH MTV UOB Việt Nam (UOB)
-              </option>
-              <option
-                value="vbsp"
-                title="Ngân hàng Chính sách xã hội Việt Nam (VBSP)"
-              >
-                Ngân hàng Chính sách xã hội Việt Nam (VBSP)
-              </option>
-              <option value="vdb" title="Ngân hàng Phát triển Việt Nam (VDB)">
-                Ngân hàng Phát triển Việt Nam (VDB)
-              </option>
-              <option
-                value="coopbank"
-                title="Ngân hàng Hợp tác xã Việt Nam (Co-opBank)"
-              >
-                Ngân hàng Hợp tác xã Việt Nam (Co-opBank)
-              </option>
-            </Select>
-          </Box>
+            ))}
+          </Select>
+        </Box>
           <Box mb={2}>
             <Select
               label={t("editStore.currency")}
