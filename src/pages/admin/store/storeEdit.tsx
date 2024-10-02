@@ -52,9 +52,8 @@ const StoreEditPage: React.FC = () => {
   const [countries, setCountries] = useState<string[]>([]);
 
   useEffect(() => {
-    setCountries(countriesData.countries);
+    setCountries(countriesData.countries.map(country => country.name)); 
   }, []);
-
   useEffect(() => {
     if (storeData) {
       setStoreName(storeData.name);

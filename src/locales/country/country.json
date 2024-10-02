@@ -1,10 +1,55 @@
 {
     "countries": [
-      "Vietnam",
-      "USA",
-      "Japan",
-      "Germany",
-      "France"
+      {
+        "name": "Vietnam",
+        "banks": [
+          "BIDV",
+          "Vietcombank",
+          "Techcombank",
+          "Agribank",
+          "Sacombank"
+        ]
+      },
+      {
+        "name": "USA",
+        "banks": [
+          "JPMorgan Chase",
+          "Bank of America",
+          "Wells Fargo",
+          "Citibank",
+          "Goldman Sachs"
+        ]
+      },
+      {
+        "name": "Japan",
+        "banks": [
+          "Mitsubishi UFJ Financial Group",
+          "Sumitomo Mitsui Banking Corporation",
+          "Mizuho Financial Group",
+          "Japan Post Bank",
+          "Resona Holdings"
+        ]
+      },
+      {
+        "name": "Germany",
+        "banks": [
+          "Deutsche Bank",
+          "Commerzbank",
+          "DZ Bank",
+          "KfW Bank",
+          "Unicredit Bank"
+        ]
+      },
+      {
+        "name": "France",
+        "banks": [
+          "BNP Paribas",
+          "Société Générale",
+          "Crédit Agricole",
+          "Crédit Mutuel",
+          "La Banque Postale"
+        ]
+      }
     ]
   }
   
