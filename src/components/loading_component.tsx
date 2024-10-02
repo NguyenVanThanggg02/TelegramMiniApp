@@ -37,8 +37,8 @@ const LoadingComponent: React.FC = () => {
 
   const spinnerStyle: React.CSSProperties = {
     position: "absolute",
-    top: 2,
-    left: 2,
+    // top: 2,
+    // left: 2,
     width: "70px",
     height: "70px",
     border: "3px solid rgba(0, 0, 0, 0.1)",
