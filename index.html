@@ -8,7 +8,7 @@
     content="
     default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
     img-src 'self' data: blob: https:;
-    script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ;
+    script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
     worker-src 'self' blob:;
   "
    />
@@ -18,13 +18,30 @@
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
       
     <title>Telegram Mini App</title>
-    <!-- <script type="module" src="/assets/index-global.js"></script>
-    <link rel="modulepreload"  type="module" href="/assets/vendor-global.js"> -->
     <link rel="stylesheet" href="/assets/styles-global.css">
   </head>
   
   <body>
     <div id="root"></div>
-    <script src="/src/index.tsx" type="module"></script>
+    
+    <script>
+      // Kiểm tra user-agent để xác định truy cập từ Telegram
+      var isTelegram = navigator.userAgent.includes("Telegram");
+
+      if (!isTelegram) {
+        // Nếu không phải truy cập từ Telegram, hiển thị thông báo
+        document.body.innerHTML = `
+          <h1>Vui lòng truy cập từ Telegram</h1>
+          <p>Web app này yêu cầu được truy cập thông qua Telegram. Vui lòng mở ứng dụng Telegram và truy cập lại.</p>
+        `;
+      } else {
+        // Chỉ tải script nếu truy cập từ Telegram
+        var script = document.createElement('script');
+        script.src = "/src/index.tsx";
+        script.type = "module";
+        document.body.appendChild(script);
+      }
+    </script>
+
   </body>
 </html>
