@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../static/icons/app-logo.png";
+import logo from "../static/icons/app-logo-load.png";
 import { loadingState } from "../state";
 import { useRecoilValue } from "recoil";
 import { Progress, Text } from "@telegram-apps/telegram-ui";
