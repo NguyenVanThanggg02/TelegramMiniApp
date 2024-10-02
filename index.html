@@ -1,21 +1,21 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <base href="/"/>
+    <base href="/">
     <meta charset="utf-8"/>
     <meta
-      http-equiv="Content-Security-Policy"
-      content="
-      default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
-      img-src 'self' data: blob: https:;
-      script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
-      worker-src 'self' blob:;
-    "
-    />
+    http-equiv="Content-Security-Policy"
+    content="
+    default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
+    img-src 'self' data: blob: https:;
+    script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ;
+    worker-src 'self' blob:;
+  "
+   />
   
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
-    <link rel="preconnect" href="https://endpoint.goimonhanh.com"/>
+    <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
       
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="/assets/styles-global.css">
@@ -23,22 +23,6 @@
   
   <body>
     <div id="root"></div>
-    
-    <script>
-      function checkIfAccessedFromTelegram() {
-          const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          if (userAgent.includes("Telegram")) {
-            return true;
-          } else {
-              alert("Web app này yêu cầu được truy cập thông qua Telegram. Vui lòng mở ứng dụng Telegram và truy cập lại.");
-              window.location.href = "https://telegram.org/";
-              return false;
-          }
-      }
-
-      checkIfAccessedFromTelegram();
-    </script>
-
     <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>
