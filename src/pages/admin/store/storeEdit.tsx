@@ -56,21 +56,29 @@ const StoreEditPage: React.FC = () => {
     setCountries(countriesData.countries.map(country => country.name)); 
   }, []);
 
-  const updateBanks = (country: string) => {
-    const selectedCountry = countriesData.countries.find(c => c.name === country);
-    if (selectedCountry) {
-      setBanks(selectedCountry.banks);
-    } else {
-      setBanks([]);
+  useEffect(() => {
+    setCountries(countriesData.countries.map(country => country.name));
+    // Nếu storeDetail.country đã có, thì lấy danh sách ngân hàng cho quốc gia đó
+    if (storeDetail.country) {
+      const countryData = countriesData.countries.find(country => country.name === storeDetail.country);
+      if (countryData) {
+        setBanks(countryData.banks); // Cập nhật danh sách ngân hàng
+      }
     }
-  };
+  }, [storeDetail.country]); // Thay đổi khi storeDetail.country thay đổi
 
   const handleCountryChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, country: value as string }));
-    updateBanks(value as string);
-  };
 
+    // Cập nhật ngân hàng tương ứng với quốc gia đã chọn
+    const countryData = countriesData.countries.find(country => country.name === value);
+    if (countryData) {
+      setBanks(countryData.banks); // Cập nhật danh sách ngân hàng
+    } else {
+      setBanks([]); // Nếu không tìm thấy, đặt lại danh sách ngân hàng
+    }
+  };
   useEffect(() => {
     if (storeData) {
       setStoreName(storeData.name);
