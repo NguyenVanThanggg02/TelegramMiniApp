@@ -501,7 +501,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                   style={{ scrollMargin: "100px"}}
                 >
                   <Text size="xLarge" bold className="grey-color">
-                    {cate}
+                    {cate.toUpperCase()}
                   </Text>
                 </Box>
 
