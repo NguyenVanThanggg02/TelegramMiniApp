@@ -12,7 +12,7 @@ import { SelectValueType } from "zmp-ui/select";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-// import countriesData from '../../../locales/country/country.json' assert { type: 'json' };
+import countriesData from '../../../locales/country/country.json' assert { type: 'json' };
 interface StoreDetail {
   description?: string;
   address?: string;
@@ -49,11 +49,11 @@ const StoreEditPage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  // const [countries, setCountries] = useState<string[]>([]);
+  const [countries, setCountries] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   setCountries(countriesData.countries);
-  // }, []);
+  useEffect(() => {
+    setCountries(countriesData.countries);
+  }, []);
 
   useEffect(() => {
     if (storeData) {
@@ -264,19 +264,11 @@ const StoreEditPage: React.FC = () => {
               onChange={handleCountryChange}
               closeOnSelect={true}
             >
-              <option
-                value="agribank"
-                title="Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam (Agribank)"
-              >
-                Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam
-                (Agribank)
-              </option>
-              <option
-                value="gpbank"
-                title="Ngân hàng TNHH MTV Dầu khí toàn cầu (GPBank)"
-              >
-                Ngân hàng TNHH MTV Dầu khí toàn cầu (GPBank)
-              </option>
+              {countries.map((country, index) => (
+                <option key={index} value={country} title={country}>
+                  {country}
+                </option>
+              ))}
             </Select>
           </Box>
           <Box mb={2}>
