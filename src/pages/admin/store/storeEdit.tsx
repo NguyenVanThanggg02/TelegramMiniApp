@@ -121,7 +121,8 @@ const StoreEditPage: React.FC = () => {
       phoneNumber: storeDetail.phoneNumber,
       bankName: storeDetail.bankName,
       bankAccount: storeDetail.bankAccount,
-      currency: storeDetail.currency || "USD",
+      currency: storeDetail.currency || "$",
+      country: storeDetail.country,
     };
     const payload = {
       uuid: store_uuid,
@@ -147,12 +148,16 @@ const StoreEditPage: React.FC = () => {
     const value = Array.isArray(selected) ? selected[0] : selected;
     setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, bankName: value as string }));
   };
+  const handleCountryChange = (selected: SelectValueType | SelectValueType[] | undefined) => {
+    const value = Array.isArray(selected) ? selected[0] : selected;
+    setStoreDetail((prevDetail: StoreDetail) => ({ ...prevDetail, country: value as string }));
+  };
   
   useEffect(() => {
     if (!storeDetail.currency) {
       setStoreDetail((prevDetail: StoreDetail) => ({
         ...prevDetail,
-        currency: "USD", 
+        currency: "$", 
       }));
     }
   }, [storeDetail]);
@@ -245,7 +250,18 @@ const StoreEditPage: React.FC = () => {
               }
             />
           </Box>
-
+          <Box mb={2}>
+            <Select
+              id="country"
+              label={t("editStore.country")}
+              placeholder={t("editStore.selectCountry")}
+              value={storeDetail?.country}
+              onChange={handleCountryChange}
+              closeOnSelect={true}
+            >
+              
+            </Select>
+          </Box>
           <Box mb={2}>
             <Select
               label={t("editStore.bankName")}
@@ -576,18 +592,7 @@ const StoreEditPage: React.FC = () => {
               </option>
             </Select>
           </Box>
-          <Box mb={2}>
-            <Input
-              id="country"
-              label={t("editStore.country")}
-              type="text"
-              placeholder={t("editStore.selectCountry")}
-              value={storeDetail?.country}
-              onChange={(e) =>
-                setStoreDetail({ ...storeDetail, country: e.target.value })
-              }
-            />
-          </Box>
+
           <Box mb={2}>
             <Input
               id="bank"

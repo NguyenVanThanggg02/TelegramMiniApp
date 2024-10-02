@@ -378,7 +378,9 @@
     "bankName": "Bank",
     "selectBank": "choose bank",
     "bankAccount": "Bank account",
-    "enterBankAccount": "Enter bank account"
+    "enterBankAccount": "Enter bank account",
+    "country":"Country",
+    "selectCountry":"choose country"
   },
   "payment": {
     "title": "Payment result",
