@@ -28,11 +28,11 @@ const LoadingComponent: React.FC = () => {
   };
 
   const logoStyle: React.CSSProperties = {
-    width: "50px",
-    height: "50px",
+    width: "30px",
+    height: "30px",
     zIndex: 1,
     borderRadius:'100%',
-    // margin: "6px"
+    margin: "6px"
   };
 
   const spinnerStyle: React.CSSProperties = {
