@@ -32,7 +32,7 @@ const LoadingComponent: React.FC = () => {
     height: "50px",
     zIndex: 1,
     borderRadius:'100%',
-    margin: "6px"
+    // margin: "6px"
   };
 
   const spinnerStyle: React.CSSProperties = {
