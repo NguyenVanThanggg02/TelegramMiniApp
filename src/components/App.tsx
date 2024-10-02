@@ -3,8 +3,8 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
-  initCloudStorage,
-  initNavigator, useLaunchParams,
+  // initCloudStorage,
+  initNavigator, useInitData, useLaunchParams,
   useMiniApp,
   useThemeParams,
   useViewport,
@@ -31,19 +31,31 @@ export const App: FC = () => {
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
-  const cloudStorage = initCloudStorage();
+  // const cloudStorage = initCloudStorage();
   const [language, setLanguage] = useState<string>('en');
+  const initData = useInitData();
+  // useEffect(() => {
+  //   const fetchLanguage = async () => {
+  //     const storedLanguage = await cloudStorage.get('language');
+  //     if (storedLanguage) {
+  //       setLanguage(storedLanguage);
+  //       i18next.changeLanguage(storedLanguage);
+  //     }
+  //   };
+  //   fetchLanguage();
+  // }, [cloudStorage]);
 
   useEffect(() => {
-    const fetchLanguage = async () => {
-      const storedLanguage = await cloudStorage.get('language');
-      if (storedLanguage) {
-        setLanguage(storedLanguage);
-        i18next.changeLanguage(storedLanguage);
-      }
-    };
-    fetchLanguage();
-  }, [cloudStorage]);
+    const userLanguage = initData?.user?.languageCode;
+    console.log(userLanguage);
+    if (userLanguage && (userLanguage === 'en' || userLanguage === 'vi')) {
+      setLanguage(userLanguage);
+      i18next.changeLanguage(userLanguage);
+    } else {
+      setLanguage('en'); 
+      i18next.changeLanguage('en');
+    }
+  }, [initData]);
 
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
