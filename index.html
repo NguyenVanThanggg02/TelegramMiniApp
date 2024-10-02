@@ -23,18 +23,6 @@
   
   <body>
     <div id="root"></div>
-    
-    <script>
-      // Kiểm tra xem có Telegram WebApp API không
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.init();  // Khởi tạo WebApp trong Telegram
-        console.log("Đang truy cập từ Telegram WebView");
-      } else {
-        alert("Web app này yêu cầu được truy cập thông qua Telegram. Vui lòng mở ứng dụng Telegram và truy cập lại.");
-        window.location.href = "https://telegram.org/";
-      }
-    </script>
-
     <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>
