@@ -27,8 +27,8 @@
     <script>
       function checkIfAccessedFromTelegram() {
           const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-          if (/Telegram/i.test(userAgent)) {
-              return true;
+          if (userAgent.includes("Telegram")) {
+            return true;
           } else {
               alert("Web app này yêu cầu được truy cập thông qua Telegram. Vui lòng mở ứng dụng Telegram và truy cập lại.");
               window.location.href = "https://telegram.org/";
