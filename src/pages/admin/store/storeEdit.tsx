@@ -19,6 +19,7 @@ interface StoreDetail {
   phoneNumber?: string;
   bankAccount?: string;
   bankName?: string;
+  country?: string;
   currency?: string;
   avatar?: {
     url: string;
@@ -575,7 +576,18 @@ const StoreEditPage: React.FC = () => {
               </option>
             </Select>
           </Box>
-
+          <Box mb={2}>
+            <Input
+              id="country"
+              label={t("editStore.country")}
+              type="text"
+              placeholder={t("editStore.selectCountry")}
+              value={storeDetail?.country}
+              onChange={(e) =>
+                setStoreDetail({ ...storeDetail, country: e.target.value })
+              }
+            />
+          </Box>
           <Box mb={2}>
             <Input
               id="bank"
@@ -589,7 +601,6 @@ const StoreEditPage: React.FC = () => {
               }
             />
           </Box>
-
           <Box mt={5}>
             <Button fullWidth variant="primary" onClick={handleSubmit}>
               {t("button.save")}

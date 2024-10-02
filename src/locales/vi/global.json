@@ -222,7 +222,7 @@
     "address": "Địa chỉ",
     "phoneNumber": "Số điện thoại",
     "bankName": "Ngân hàng",
-    "bankAccount": "Số tài khoản"
+    "bankAccount": "Số tài khoản"    
   },
   "profile": {
     "profile": "Thông tin cá nhân",
@@ -379,6 +379,8 @@
     "bankName": "Ngân hàng",
     "selectBank": "Chọn ngân hàng",
     "bankAccount": "Số tài khoản",
-    "enterBankAccount": "Nhập số tài khoản"
+    "enterBankAccount": "Nhập số tài khoản",
+    "country":"Quốc gia",
+    "selectCountry":"Chọn quốc gia"
   }
 }
