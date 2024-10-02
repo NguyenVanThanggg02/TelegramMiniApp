@@ -516,65 +516,62 @@ const StoreEditPage: React.FC = () => {
               <option value="$" title="USD ">
                 USD
               </option>
-              <option value="EUR" title="Euro">
+              <option value="€" title="Euro">
                 EUR
               </option>
-              <option value="JPY" title="Japanese yen">
+              <option value="¥ " title="Japanese yen">
                 JPY
               </option>
-              <option value="GBP" title="Pound sterling">
+              <option value="£ " title="Pound sterling">
                 GBP
               </option>
-              <option value="AUD" title="Australian dollar">
+              <option value="$ " title="Australian dollar">
                 AUD
               </option>
-              <option value="CAD" title="Canadian dollar">
+              <option value="$ " title="Canadian dollar">
                 CAD
               </option>
               <option value="CHF" title="Swiss franc">
                 CHF
               </option>
-              <option value="CNY" title="Chinese yuan">
+              <option value="¥ " title="Chinese yuan">
                 CNY
               </option>
-              <option value="HKD" title="Hong Kong dollar">
+              <option value="$ " title="Hong Kong dollar">
                 HKD
               </option>
-              <option value="NZD" title="New Zealand dollar">
+              <option value="$ " title="New Zealand dollar">
                 NZD
               </option>
-              <option value="SGD" title="Singapore dollar">
+              <option value="$ " title="Singapore dollar">
                 SGD
               </option>
-              <option value="KRW" title="South Korean won">
+              <option value="₩ " title="South Korean won">
                 KRW
               </option>
-              <option value="NOK" title="Norwegian krone">
+              <option value="kr " title="Norwegian krone">
                 NOK
               </option>
-              <option value="SEK" title="Swedish krona">
+              <option value="kr " title="Swedish krona">
                 SEK
               </option>
-              <option value="DKK" title="Danish krone">
+              <option value="kr " title="Danish krone">
                 DKK
               </option>
-              <option value="MXN" title="Mexican peso">
+              <option value="$ " title="Mexican peso">
                 MXN
               </option>
-              <option value="INR" title="Indian rupee">
+              <option value="₹ " title="Indian rupee">
                 INR
               </option>
-              <option value="BRL" title="Brazilian real">
+              <option value="R$" title="Brazilian real">
                 BRL
               </option>
-              <option value="RUB" title="Russian ruble">
+              <option value="₽ " title="Russian ruble">
                 RUB
               </option>
-              <option value="ZAR" title="South African rand">
+              <option value="R " title="South African rand">
                 ZAR
-              </option>
-              <option value="KRW" title="South Korean won">
-                KRW
               </option>
             </Select>
           </Box>
