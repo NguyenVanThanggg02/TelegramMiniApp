@@ -25,14 +25,13 @@ const LoadingComponent: React.FC = () => {
     height: "70px",
     marginBottom: "20px",
     textAlign:'center',
-    overflow: 'hidden',
   };
 
   const logoStyle: React.CSSProperties = {
-    width: "50px",
+    width: "55px",
     height: "53px",
     zIndex: 1,
-    borderRadius:'100%',
+    // borderRadius:'100%',
     margin: "6px"
   };
 
