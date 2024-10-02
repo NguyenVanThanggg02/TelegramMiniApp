@@ -23,17 +23,6 @@
   
   <body>
     <div id="root"></div>
-    <script>
-if (navigator.userAgent.includes('Telegram') || navigator.userAgent.includes('tg://')) {
-    var script = document.createElement('script');
-    script.src = '/src/index.tsx';
-    script.type = 'module';
-    document.body.appendChild(script);
-} else {
-    document.body.innerHTML = '<h1>This web app only works in Telegram.</h1>';
-}
-
-
-    </script>
+    <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>
