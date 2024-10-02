@@ -52,9 +52,9 @@ const StoreEditPage: React.FC = () => {
   const [countries, setCountries] = useState<string[]>([]);
   const [banks, setBanks] = useState<string[]>([]);
 
-  useEffect(() => {
-    setCountries(countriesData.countries.map(country => country.name)); 
-  }, []);
+  // useEffect(() => {
+  //   setCountries(countriesData.countries.map(country => country.name)); 
+  // }, []);
 
   useEffect(() => {
     setCountries(countriesData.countries.map(country => country.name));
