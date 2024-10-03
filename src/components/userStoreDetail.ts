@@ -25,7 +25,6 @@ const useStoreDetail = () => {
   };
 
   useEffect(() => {
-    setLoading({ ...loading, isLoading: true }); 
     getStoreDetail();
   }, [store_uuid]);
 
