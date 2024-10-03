@@ -50,6 +50,7 @@ const ProductPage: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const { currency } = useStoreDetail();
+  const [dataLoaded, setDataLoaded] = useState(false);
   // useEffect(() => {
   //   setLoading({ ...loading, isLoading: true });
   //   // Gọi API để lấy danh sách sản phẩm từ store_uuid
@@ -61,6 +62,7 @@ const ProductPage: React.FC = () => {
 
     Promise.all([fetchProductList(), currency]).then(() => {
       setLoading({ ...loading, isLoading: false });
+      setDataLoaded(true);
     });
   }, [store_uuid]);
 
@@ -124,7 +126,7 @@ const ProductPage: React.FC = () => {
         itemDelete={selectedProduct?.name}
         onConfirm={() => onDeleteProduct()}
       />
-      <Box className="toolbar_add-btn">
+      {/* <Box className="toolbar_add-btn">
         <Button
           className="fw-500"
           style={{ width: "50%" }}
@@ -153,7 +155,43 @@ const ProductPage: React.FC = () => {
             currency={String(currency)}
           ></ProductCard>
         ))}
-      </List>
+      </List> */}
+
+{dataLoaded && ( // Chỉ hiển thị các nút và danh sách sản phẩm khi dữ liệu đã được tải
+        <>
+          <Box className="toolbar_add-btn">
+          <Button
+          className="fw-500"
+          style={{ width: "50%" }}
+          onClick={() => goToProductCreate("")}
+          prefixIcon={<AddIcon />}
+        >
+              {t("productManagement.createProduct.createProduct")}
+            </Button>
+            <Button
+              className="fw-500"
+              style={{ width: "49%", marginLeft: "1%" }}
+              onClick={() => navigate(`/admin/product/scanmenu/${store_uuid}`)}
+              prefixIcon={<DocumentScannerIcon />}
+            >
+              {t("productManagement.scanMenu.button")}
+            </Button>
+          </Box>
+          <List style={{ marginTop: "10px" }}>
+            {products.map((product) => (
+              <ProductCard
+                key={product.uuid}
+                product={product}
+                onDetails={() => goToProductDetails(product.uuid)}
+                setIsShowConfirm={setIsShowConfirm}
+                setSelectedProduct={setSelectedProduct}
+                currency={String(currency)}
+              />
+            ))}
+          </List>
+        </>
+      )}
+
       <div style={{ borderRadius: "10px" }}>
         {snackbarOpen && (
           <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
