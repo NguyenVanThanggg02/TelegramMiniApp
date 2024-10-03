@@ -1,30 +1,38 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <base href="/">
-    <meta charset="utf-8"/>
+    <base href="/" />
+    <meta charset="utf-8" />
     <meta
-    http-equiv="Content-Security-Policy"
-    content="
+      http-equiv="Content-Security-Policy"
+      content="
     default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
     img-src 'self' data: blob: https:;
     script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ;
     worker-src 'self' blob:;
   "
-   />
-  
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="theme-color" content="#000000"/>
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
-      
+
     <title>Telegram Mini App</title>
-    <link rel="stylesheet" href="/assets/styles-global.css">
+    <link rel="stylesheet" href="/assets/styles-global.css" />
   </head>
-  
+
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <div id="message" style="display:none; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;"></div>
+    <div
+      id="message"
+      style="
+        display: none;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+      "
+    ></div>
     <!-- <script>
       const messageDiv = document.getElementById('message');
       if (window.self === window.top) {
@@ -35,20 +43,20 @@
       messageDiv.style.display = 'block'; 
     </script> -->
 
-
     <script>
-      const messageContainer = document.getElementById('message-container');
+      const messageContainer = document.getElementById("message-container");
       if (window.self === window.top) {
-          fetch('indexNotFound.html')
-              .then(response => response.text())
-              .then(data => {
-                  messageContainer.innerHTML = data; 
-              })
-              .catch(error => console.error('Lỗi khi tải file HTML:', error));
+        fetch("./indexNotFound.html")
+          .then((response) => response.text())
+          .then((data) => {
+            messageContainer.innerHTML = data;
+          })
+          .catch((error) => console.error("Lỗi khi tải file HTML:", error));
       } else {
-          messageContainer.innerHTML = '<p>Trang web này đang được nhúng trong một ứng dụng hoặc iframe.</p>';
+        console.log(
+          "Trang web này đang được nhúng trong một ứng dụng hoặc iframe"
+        );
       }
-  </script>
-
+    </script>
   </body>
 </html>
