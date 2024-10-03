@@ -64,28 +64,45 @@
 </head>
 
 <body>
-    <img src="path/to/your/image.png" alt="Page Not Found" /> <!-- Đường dẫn đến hình ảnh bạn muốn hiển thị -->
-    <h1>Oops! Page Not Found.</h1>
-    <p>You must have picked the wrong door because I haven't been able to lay my eye on the page you've been searching for.</p>
-    <a href="/">Back to Home</a>
+    <div id="root"></div>
+    <script src="/src/index.tsx" type="module"></script>
 
     <script>
-        function createParagraph(text) {
-            const p = document.createElement("p");
-            p.textContent = text;
-            
-            p.style.padding = "10px";
-            p.style.color = "black";
-            p.style.fontSize = "16px"; 
-            p.style.margin = "10px"; 
+        function create404Page() {
+            // Tạo hình ảnh
+            const img = document.createElement("img");
+            img.src = "path/to/your/image.png"; // Đường dẫn đến hình ảnh
+            img.alt = "Page Not Found";
 
+            // Tạo tiêu đề
+            const h1 = document.createElement("h1");
+            h1.textContent = "Oops! Page Not Found.";
+
+            // Tạo thông điệp
+            const p = document.createElement("p");
+            p.textContent = "You must have picked the wrong door because I haven't been able to lay my eye on the page you've been searching for.";
+
+            // Tạo nút quay lại
+            const a = document.createElement("a");
+            a.href = "/";
+            a.textContent = "Back to Home";
+
+            // Thêm các phần tử vào body
+            document.body.appendChild(img);
+            document.body.appendChild(h1);
             document.body.appendChild(p);
+            document.body.appendChild(a);
         }
   
         const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
-        if (window.self === window.top && !isMobile) {
-            createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
+        if (window.self === window.top) {
+            // Chỉ hiển thị trang 404 nếu không phải trên thiết bị di động
+            if (!isMobile) {
+                create404Page();
+            } else {
+                console.log("This website is being embedded in an application or iframe.");
+            }
         } else {
             console.log("This website is being embedded in an application or iframe.");
         }
