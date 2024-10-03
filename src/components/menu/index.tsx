@@ -322,7 +322,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-    setLoading({ ...loading, isLoading: false });
+    // setLoading({ ...loading, isLoading: false });
   };
   
 
