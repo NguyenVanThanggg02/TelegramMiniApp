@@ -3,7 +3,7 @@ import { Box, Button, Text } from 'zmp-ui';
 import { PRODUCT_STATUS } from '../../../constants';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
-import { priceFormatter } from '../../../utils/numberFormatter';
+import { formatPriceToUSD, priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
 interface Category {
@@ -35,7 +35,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
 }) => {
   const { t } = useTranslation('global');
-
+  const formattedPrice = currency === "$"
+  ? formatPriceToUSD(product.price)
+  : `${currency} ${priceFormatter(product.price)}`;
   return (
     <Box
       flex
@@ -66,7 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {t('productManagement.status.hidden')}
           </Box>
         )}
-        <Text size="normal" style={{color:'black'}}>{currency+" "}{priceFormatter(product.price)}</Text>
+        <Text size="normal" style={{color:'black'}}>{formattedPrice}</Text>
         <Text size="xxSmall" className="text-category">
           {t('storeManagement.categories')}:
           {product.categories.map((item, index) =>
