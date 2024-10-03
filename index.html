@@ -24,16 +24,7 @@
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <div
-      id="message"
-      style="
-        display: none;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: #f9f9f9;
-        color: black;
-      "
-    ></div>
+
     <!-- <script>
       if (window.self === window.top) {
         console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
@@ -46,19 +37,20 @@
 
     <script>
       function createParagraph(text) {
-        const p = document.createElement("p");
-        p.textContent = text;
-        document.body.appendChild(p);
+          const p = document.createElement("p");
+          p.textContent = text;
+          document.body.appendChild(p);
       }
-      if (navigator.userAgent.includes("Telegram")) {
-    createParagraph("Ứng dụng đang chạy trong Telegram.");
-} else if (window.self === window.top) {
-    createParagraph("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục");
-} else {
-    createParagraph("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
-}
-
-    </script>
+  
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  
+      if (window.self === window.top && !isMobile) {
+          createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
+      } else {
+          console.log("This website is being embedded in an application or iframe.");
+      }
+  </script>
+  
 
   </body>
 </html>
