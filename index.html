@@ -52,15 +52,14 @@
         document.body.appendChild(p);
       }
     
-      if (window.self === window.top) {
-        createParagraph("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
-      } 
-      else {
-        // createParagraph("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
-        console.log(
-          "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
-        );
-      }
+      if (window.Telegram && window.Telegram.WebApp) {
+    createParagraph("Ứng dụng đang chạy trong Telegram.");
+} else if (window.self === window.top) {
+    createParagraph("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục");
+} else {
+    console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+}
+
     </script>
 
   </body>
