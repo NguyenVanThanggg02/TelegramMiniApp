@@ -17,8 +17,6 @@ const UserCard: React.FC<UserCardProps> = ({ isAdmin = false, showOrderHistory =
   const initData = useInitData();
   
   const avt = [(initData?.user?.firstName?.charAt(0)), (initData?.user?.lastName?.charAt(0))]
-  console.log(avt.toString().split(",")); 
-  console.log(avt.join("")); 
   const goToUserProfile = () => {
     if (isAdmin) {
       const params = new URLSearchParams();
