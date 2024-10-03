@@ -6,15 +6,17 @@
     <meta 
     http-equiv="Content-Security-Policy"
     content=" 
-      default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
-      img-src 'self' data: blob: https:;
-      script-src 'self' blob: 'unsafe-inline' 'unsafe-eval'; 
-      worker-src 'self' blob:; 
-    " 
-    />
+  default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
+  img-src 'self' data: blob: https:;
+  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ; 
+  worker-src 'self' blob:; 
+" 
+  />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
+
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="/assets/styles-global.css" />
   </head>
@@ -22,32 +24,41 @@
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <div id="imported-content"></div>
-
+    <div
+      id="message"
+      style="
+        display: none;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        color: black;
+      "
+    ></div>
+    <!-- <script>
+      const messageDiv = document.getElementById('message');
+      if (window.self === window.top) {
+        messageDiv.innerText = "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
+      } else {
+        messageDiv.innerText = "Trang web này đang được nhúng trong một ứng dụng hoặc iframe.";
+      }
+      messageDiv.style.display = 'block'; 
+    </script> -->
     <script>
-      // Tải và nhúng nội dung từ file HTML khác
-      fetch('indexNotFound.html')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.text();
-        })
-        .then(html => {
-          // Kiểm tra xem trang có phải là cửa sổ chính không
-          if (window.self !== window.top) {
-            // Nếu là iframe, hiển thị nội dung từ file HTML đã nhập
-            
-            console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục");
-          } else {
-            // Nếu không phải là iframe, có thể thực hiện hành động khác (nếu cần)
-            document.getElementById('imported-content').innerHTML = html;
-          }
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-        });
+      const messageDiv = document.getElementById("message");
+      if (window.self === window.top) {
+        fetch("indexNotFound.html")
+          .then((response) => response.text())
+          .then((data) => {
+            console.log(data);
+            messageDiv.innerHTML = data;
+            messageDiv.style.display = "block"; // Hiển thị message sau khi đã tải nội dung
+          })
+          .catch((error) => console.error("Lỗi khi tải file HTML:", error));
+      } else {
+        console.log(
+          "Trang web này đang được nhúng trong một ứng dụng hoặc iframe"
+        );
+      }
     </script>
-    
   </body>
 </html>
