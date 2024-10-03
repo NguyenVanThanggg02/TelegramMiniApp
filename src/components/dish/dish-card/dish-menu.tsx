@@ -19,14 +19,15 @@ interface DishMenuProps {
   dishMenu: DishItem[];
   onDetails: (dish: DishItem) => void;
   onOrder: (dish: DishItem) => void;
+  currency: string; 
 }
 
-const DishMenu: React.FC<DishMenuProps> = ({ dishMenu, onDetails, onOrder }) => {
+const DishMenu: React.FC<DishMenuProps> = ({ dishMenu, onDetails, onOrder,currency }) => {
   return (
     <Box>
       {dishMenu.map((dish, index) => (
         <Box key={dish.uuid}>
-          <DishCard dishItem={dish} onDetails={onDetails} onOrder={onOrder} />
+          <DishCard dishItem={dish} onDetails={onDetails} onOrder={onOrder}  currency={String(currency)} />
           {dishMenu.length > index + 1 ? (
             <Box
               style={{

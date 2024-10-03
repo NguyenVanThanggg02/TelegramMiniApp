@@ -32,6 +32,7 @@ import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
 import LoadingComponent from "../loading_component";
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import useStoreDetail from "../userStoreDetail";
 
 interface DishImage {
   uuid: string;
@@ -147,7 +148,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
   const [dataLoaded, setDataLoaded] = useState(false);
-
+  const { currency } = useStoreDetail();
   useEffect(() => {
     if (!pageRef.current) return;
 
@@ -528,6 +529,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                       setShowDishDetailsModal(true);
                       handleSelectedDish(dish);
                     }}
+                    currency={String(currency)}
                     onOrder={(dish) => {
                       setShowOrderModal(true);
                       handleSelectedDish(dish);
