@@ -61,8 +61,8 @@ const ProductPage: React.FC = () => {
     setLoading({ ...loading, isLoading: true });
 
     Promise.all([fetchProductList(), currency]).then(() => {
-      setLoading({ ...loading, isLoading: false });
       setDataLoaded(true);
+      setLoading({ ...loading, isLoading: false });
     });
   }, [store_uuid]);
 
@@ -157,15 +157,15 @@ const ProductPage: React.FC = () => {
         ))}
       </List> */}
 
-{dataLoaded && ( // Chỉ hiển thị các nút và danh sách sản phẩm khi dữ liệu đã được tải
+      {dataLoaded && (
         <>
           <Box className="toolbar_add-btn">
-          <Button
-          className="fw-500"
-          style={{ width: "50%" }}
-          onClick={() => goToProductCreate("")}
-          prefixIcon={<AddIcon />}
-        >
+            <Button
+              className="fw-500"
+              style={{ width: "50%" }}
+              onClick={() => goToProductCreate("")}
+              prefixIcon={<AddIcon />}
+            >
               {t("productManagement.createProduct.createProduct")}
             </Button>
             <Button
