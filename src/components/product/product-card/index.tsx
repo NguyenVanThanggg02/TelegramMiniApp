@@ -5,7 +5,7 @@ import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import useStoreDetail from '@/components/userStoreDetail';
+// import useStoreDetail from '@/components/userStoreDetail';
 
 interface Category {
   name: string;
@@ -25,6 +25,7 @@ interface ProductCardProps {
   onDetails: (product: Product) => void;
   setIsShowConfirm: (show: boolean) => void;
   setSelectedProduct: (product: Product) => void;
+  currency: string; 
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -32,13 +33,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onDetails,
   setIsShowConfirm,
   setSelectedProduct,
+  currency,
 }) => {
   const { t } = useTranslation('global');
-  const { currency } = useStoreDetail();
-  console.log(currency);
-  if(currency === null){
-    return null
-  } 
+  // const { currency } = useStoreDetail();
+  // console.log(currency);
+  // if(currency === null){
+  //   return null
+  // } 
   return (
     <Box
       flex

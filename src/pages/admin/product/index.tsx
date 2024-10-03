@@ -150,6 +150,7 @@ const ProductPage: React.FC = () => {
             onDetails={() => goToProductDetails(product.uuid)}
             setIsShowConfirm={setIsShowConfirm}
             setSelectedProduct={setSelectedProduct}
+            currency={String(currency)}
           ></ProductCard>
         ))}
       </List>
