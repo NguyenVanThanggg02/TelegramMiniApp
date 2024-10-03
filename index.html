@@ -37,10 +37,11 @@
           // Kiểm tra xem trang có phải là cửa sổ chính không
           if (window.self !== window.top) {
             // Nếu là iframe, hiển thị nội dung từ file HTML đã nhập
-            document.getElementById('imported-content').innerHTML = html;
+            
+            console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục");
           } else {
             // Nếu không phải là iframe, có thể thực hiện hành động khác (nếu cần)
-            console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục");
+            document.getElementById('imported-content').innerHTML = html;
           }
         })
         .catch(error => {
