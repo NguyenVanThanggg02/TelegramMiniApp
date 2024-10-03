@@ -33,13 +33,24 @@
         background-color: #f9f9f9;
       "
     ></div>
-
+    <!-- <script>
+      const messageDiv = document.getElementById('message');
+      if (window.self === window.top) {
+        messageDiv.innerText = "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
+      } else {
+        messageDiv.innerText = "Trang web này đang được nhúng trong một ứng dụng hoặc iframe.";
+      }
+      messageDiv.style.display = 'block'; 
+    </script> -->
     <script>
       const messageDiv = document.getElementById("message");
       if (window.self === window.top) {
         fetch("indexNotFound.html")
           .then((response) => response.text())
+          console.log(response)
           .then((data) => {
+            console.log(data);
+            
             messageDiv.innerHTML = data;
             messageDiv.style.display = "block"; // Hiển thị message sau khi đã tải nội dung
           })
