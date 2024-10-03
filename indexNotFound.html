@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" 
+    content=" 
+      default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
+      img-src 'self' data: blob: https:;
+      script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
+      worker-src 'self' blob:;
+    " />
     <title>Document</title>
 </head>
 <body>
-<div>
-    <p>Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục</p>
-</div>
+    <div>
+        <p>Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục</p>
+    </div>
 </body>
 </html>
