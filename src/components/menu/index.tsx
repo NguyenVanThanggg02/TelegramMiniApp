@@ -348,7 +348,15 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     }
   };
   
+  useEffect(() => {
+    setLoading({ ...loading, isLoading: true });
 
+    Promise.all([fetchProductsByStore(store_uuid || ''), currency]).then(() => {
+      setDataLoaded(true);
+      setLoading({ ...loading, isLoading: false });
+    });
+  }, [store_uuid]);
+  
   useEffect(() => {
     setLoading({ ...loading, isLoading: true }); 
 
