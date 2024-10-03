@@ -8,7 +8,6 @@ import {
   Page,
   Button,
   Box,
-  Text,
 } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import ProductCard from "../../../components/product/product-card";
@@ -134,32 +133,15 @@ const ProductPage: React.FC = () => {
         </Button>
       </Box>
       <List style={{ marginTop: "10px" }}>
-        {products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard
-              key={product.uuid}
-              product={product}
-              onDetails={() => goToProductDetails(product.uuid)}
-              setIsShowConfirm={setIsShowConfirm}
-              setSelectedProduct={setSelectedProduct}
-            />
-          ))
-        ) : (
-          <Box
-            className="order-table_empty"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              marginTop:'50px'
-
-            }}
-          >
-            <Text style={{ color: "rgba(0, 0, 0, 0.5)", textAlign: "center" }}>
-              {t("main.product")}
-            </Text>
-          </Box>
-        )}
+        {products.map((product) => (
+          <ProductCard
+            key={product.uuid}
+            product={product}
+            onDetails={() => goToProductDetails(product.uuid)}
+            setIsShowConfirm={setIsShowConfirm}
+            setSelectedProduct={setSelectedProduct}
+          ></ProductCard>
+        ))}
       </List>
       <div style={{ borderRadius: "10px" }}>
         {snackbarOpen && (
