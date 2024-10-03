@@ -6,11 +6,12 @@ import { loadingState } from '@/state';
 
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('$');
+  // const [currency, setCurrency] = useState('$');
+  const [currency, setCurrency] = useState<string | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
 
   const getStoreDetail = async () => {
-    setLoading({ ...loading, isLoading: true }); 
+    // setLoading({ ...loading, isLoading: true }); 
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
@@ -26,7 +27,7 @@ const useStoreDetail = () => {
 
   useEffect(() => {
     getStoreDetail();
-  }, []);
+  }, [store_uuid]);
 
   return { currency, loading };
 };
