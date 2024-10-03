@@ -34,13 +34,28 @@
         color: black;
       "
     ></div>
-    <script>
+    <!-- <script>
       if (window.self === window.top) {
         console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
       } else {
         console.log(
           "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
         );
+      }
+    </script> -->
+
+
+    <script>
+      function createParagraph(text) {
+        const p = document.createElement("p");
+        p.textContent = text;
+        document.body.appendChild(p);
+      }
+    
+      if (window.self === window.top) {
+        createParagraph("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
+      } else {
+        createParagraph("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
       }
     </script>
 
