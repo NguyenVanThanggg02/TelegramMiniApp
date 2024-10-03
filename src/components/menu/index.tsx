@@ -303,7 +303,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } else {
       console.error("Error:", response.error);
     }
-    setLoading({ ...loading, isLoading: false });
+    // setLoading({ ...loading, isLoading: false });
   };
 
   const fetchProductsByStore = async (store_uuid: string) => {
@@ -348,7 +348,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
-
     Promise.all([fetchProductsByStore(store_uuid || ''), currency]).then(() => {
       setDataLoaded(true);
       setLoading({ ...loading, isLoading: false });
