@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getStoreByUUID } from '@/api/api';
-import { useRecoilState } from 'recoil';
-import { loadingState } from '@/state';
+// import { useRecoilState } from 'recoil';
+// import { loadingState } from '@/state';
 
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   const [currency, setCurrency] = useState<String | null>(null);
-  const [loading, setLoading] = useRecoilState(loadingState);
+  // const [loading, setLoading] = useRecoilState(loadingState);
 
   const getStoreDetail = async () => {
     if (store_uuid) {
@@ -19,7 +19,6 @@ const useStoreDetail = () => {
       } else {
         console.error("Error fetching store data:", response.error);
       }
-      setLoading({ ...loading, isLoading: false }); 
     }
   };
 
@@ -27,7 +26,7 @@ const useStoreDetail = () => {
     getStoreDetail();
   }, []);
 
-  return { currency, loading };
+  return { currency };
 };
 
 export default useStoreDetail;
