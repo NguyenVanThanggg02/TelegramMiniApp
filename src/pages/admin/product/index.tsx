@@ -52,6 +52,7 @@ const ProductPage: React.FC = () => {
   
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
+    // Gọi API để lấy danh sách sản phẩm từ store_uuid
     fetchProductList();
   }, [store_uuid]);
 
