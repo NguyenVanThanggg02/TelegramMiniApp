@@ -11,7 +11,7 @@ const useStoreDetail = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
 
   const getStoreDetail = async () => {
-    setLoading({ ...loading, isLoading: true }); 
+    
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
@@ -19,13 +19,15 @@ const useStoreDetail = () => {
         const currencyValue = metadata.currency || '$'; 
         setCurrency(currencyValue);
       } else {
+        setLoading({ ...loading, isLoading: false }); 
         console.error("Error fetching store data:", response.error);
       }
-      setLoading({ ...loading, isLoading: false }); 
+      
     }
   };
 
   useEffect(() => {
+    setLoading({ ...loading, isLoading: true }); 
     getStoreDetail();
   }, [store_uuid]);
 

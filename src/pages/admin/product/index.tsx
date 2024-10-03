@@ -51,7 +51,7 @@ const ProductPage: React.FC = () => {
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   
   useEffect(() => {
-    // setLoading({ ...loading, isLoading: true });
+    setLoading({ ...loading, isLoading: true });
     fetchProductList();
   }, [store_uuid]);
 
