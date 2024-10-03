@@ -3,15 +3,16 @@
   <head>
     <base href="/" />
     <meta charset="utf-8" />
-    <meta 
-    http-equiv="Content-Security-Policy"
-    content=" 
+    <meta
+      http-equiv="Content-Security-Policy"
+      content=" 
   default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
   img-src 'self' data: blob: https:;
   script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ; 
   worker-src 'self' blob:; 
-" 
-  />
+"
+    />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
@@ -25,27 +26,25 @@
     <script src="/src/index.tsx" type="module"></script>
     <div
       id="message"
-      style="display: none; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; color: black;"
+      style="
+        display: none;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        color: black;
+      "
     ></div>
     <script>
-      const messageDiv = document.getElementById('message');
-      const loadMessage = async () => {
-        try {
-          const response = await fetch('./indexNotFound.html'); // Thay đổi đường dẫn này cho đúng
-          const text = await response.text();
-          messageDiv.innerHTML = text; // Chèn nội dung HTML vào div
-        } catch (error) {
-          console.error('Có lỗi xảy ra khi tải file HTML:', error);
-        }
-      };
-
-      if (window.self !== window.top) {
-        messageDiv.innerText = "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
+      const messageDiv = document.getElementById("message");
+      if (window.self === window.top) {
+        messageDiv.innerText =
+          "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
       } else {
-        loadMessage(); // Gọi hàm để tải và hiển thị nội dung nếu đang trong iframe
+        console.log(
+          "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
+        );
       }
-
-      messageDiv.style.display = 'block'; // Hiển thị div
+      messageDiv.style.display = "block";
     </script>
   </body>
 </html>
