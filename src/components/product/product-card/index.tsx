@@ -5,7 +5,6 @@ import './styles.scss';
 import { useTranslation } from 'react-i18next';
 import { priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-// import useStoreDetail from '@/components/userStoreDetail';
 
 interface Category {
   name: string;
@@ -36,11 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
 }) => {
   const { t } = useTranslation('global');
-  // const { currency } = useStoreDetail();
-  // console.log(currency);
-  // if(currency === null){
-  //   return null
-  // } 
+
   return (
     <Box
       flex

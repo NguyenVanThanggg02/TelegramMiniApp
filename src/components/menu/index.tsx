@@ -146,6 +146,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -320,6 +321,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
+    setDataLoaded(true);
     setLoading({ ...loading, isLoading: false });
   };
   
@@ -470,7 +472,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                 ))}
             </Tabs>
           </Box>
-
+          {dataLoaded &&(
           <Box
             style={{
               marginLeft: "80px",
@@ -535,7 +537,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               ))
             )}
           </Box>
-
+        )}
           {!isEmpty(cart) && (
             <Box
               className="sticky-payment-container"
