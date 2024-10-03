@@ -33,7 +33,6 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
-import useStoreDetail from "../userStoreDetail";
 
 
 interface DishImage {
@@ -150,8 +149,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const { currency } = useStoreDetail();
-  const [dataLoaded, setDataLoaded] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -310,13 +308,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   };
   
   
-  useEffect(() => {
-    setLoading({ ...loading, isLoading: true });
-    Promise.all([fetchProductsByStore(store_uuid || ''), currency]).then(() => {
-      setDataLoaded(true);
-      setLoading({ ...loading, isLoading: false });
-    });
-  }, [store_uuid]);
+  
 
   const fetchProductsByStore = async (store_uuid: string) => {
     try {
@@ -456,7 +448,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             </Box>
           )}
         </Box>
-        {dataLoaded &&(
         <Box
           className="section-container"
           style={{
@@ -490,6 +481,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                 ))}
             </Tabs>
           </Box>
+
           <Box
             style={{
               marginLeft: "80px",
@@ -519,7 +511,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                     setShowDishDetailsModal(true);
                     handleSelectedDish(dish);
                   }}
-                  currency={String(currency)}
                   onOrder={(dish) => {
                     setShowOrderModal(true);
                     handleSelectedDish(dish);
@@ -602,7 +593,6 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
             }}
           />
         </Box>
-        )}
       </Page>
       <Box
         flex

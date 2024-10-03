@@ -31,7 +31,7 @@ import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
 import LoadingComponent from "../loading_component";
-import useStoreDetail from "../userStoreDetail";
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 
 interface DishImage {
   uuid: string;
@@ -146,8 +146,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const { currency } = useStoreDetail();
+
   useEffect(() => {
     if (!pageRef.current) return;
 
@@ -303,7 +302,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } else {
       console.error("Error:", response.error);
     }
-    // setLoading({ ...loading, isLoading: false });
+    setLoading({ ...loading, isLoading: false });
   };
 
   const fetchProductsByStore = async (store_uuid: string) => {
@@ -321,7 +320,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-    // setLoading({ ...loading, isLoading: false });
+    setLoading({ ...loading, isLoading: false });
   };
   
 
@@ -346,14 +345,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     }
   };
   
-  useEffect(() => {
-    setLoading({ ...loading, isLoading: true });
-    Promise.all([fetchProductsByStore(store_uuid || ''), currency]).then(() => {
-      setDataLoaded(true);
-      setLoading({ ...loading, isLoading: false });
-    });
-  }, [store_uuid]);
-  
+
   useEffect(() => {
     setLoading({ ...loading, isLoading: true }); 
 
@@ -445,7 +437,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             </Box>
           )}
         </Box>
-        {dataLoaded &&(
         <Box
           className="section-container"
           style={{
@@ -479,15 +470,40 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                 ))}
             </Tabs>
           </Box>
-         
+
           <Box
             style={{
               marginLeft: "80px",
               marginTop: table_uuid ? 100 : defaultMarginList,
             }}
           >
-            
-              {Object.keys(displayProductList).map((cate, index) => (
+            {isEmpty(displayProductList) ? (
+              <div
+              className="no-links"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "100vh",
+                paddingTop: "90px",
+                marginRight:'70px'
+              }}
+            >
+              <RestaurantMenuIcon 
+                style={{
+                  fontSize: "80px",
+                  color: "black",
+                  opacity: 0.4,
+                  marginTop: "100px",
+                }}
+              />
+              <Text.Title className="title-text" style={{ color: "gray" }}>
+              {t("main.product")}
+              </Text.Title>
+            </div>
+            ) : (
+              Object.keys(displayProductList).map((cate, index) => (
                 <Box key={cate}>
                   <Box
                     flex
@@ -510,17 +526,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                       setShowDishDetailsModal(true);
                       handleSelectedDish(dish);
                     }}
-                    currency={String(currency)}
                     onOrder={(dish) => {
                       setShowOrderModal(true);
                       handleSelectedDish(dish);
                     }}
                   />
                 </Box>
-              )
+              ))
             )}
           </Box>
-        
+
           {!isEmpty(cart) && (
             <Box
               className="sticky-payment-container"
@@ -590,7 +605,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             }}
           />
         </Box>
-        )}
       </Page>
     </>
   );

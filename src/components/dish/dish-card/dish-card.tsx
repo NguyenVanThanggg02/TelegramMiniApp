@@ -4,6 +4,7 @@ import { priceFormatter } from "../../../utils/numberFormatter";
 import { DEFAULT_IMAGE_PRODUCT } from "../../../constants";
 import { useRecoilState } from "recoil";
 import { cartState } from "../../../state";
+import useStoreDetail from "@/components/userStoreDetail";
 
 interface DishImage {
   uuid: string;
@@ -24,13 +25,12 @@ interface DishCardProps {
   dishItem: DishItem;
   onDetails: (dish: DishItem) => void;
   onOrder: (dish: DishItem) => void;
-  currency: string; 
 }
 
-const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetails, onOrder,currency, }) => {
+const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetails, onOrder }) => {
   const [cart, setCart] = useRecoilState(cartState);
   const itemInCart = cart.find((item) => item.uuid === dishItem.uuid);
-  
+  const { currency } = useStoreDetail();
   const handleUpdateQuantity = (type: "increase" | "decrease") => {
     switch (type) {
       case "increase":
