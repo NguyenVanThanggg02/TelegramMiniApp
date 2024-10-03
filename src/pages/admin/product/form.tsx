@@ -111,11 +111,10 @@ const ProductFormPage: React.FC = () => {
 
   const handleChangeInput = (field: keyof ProductForm, value: string | string[] | undefined) => {
     const newErrors = { ...errorForm };
-    // delete newErrors[field];
     setErrorForm(newErrors);
   
     if (value === undefined) {
-      return; 
+      return;
     }
   
     // Xử lý theo kiểu data của field
@@ -123,25 +122,28 @@ const ProductFormPage: React.FC = () => {
       case "selectedStore":
         setForm((prevForm) => ({
           ...prevForm,
-          selectedStore: value as string, 
-          selectedCategories: [], 
+          selectedStore: value as string,
+          selectedCategories: [],
         }));
         break;
   
-        case "price":
-          const priceValue = parseFloat(value as string);
-          const formattedValue = currency === '$' 
-            ? formatPriceToUSD(priceValue) // Gọi hàm với giá trị kiểu number
-            : formatNumberToVND(priceValue); // Gọi hàm với giá trị kiểu number
-            
-          setForm((prevForm) => ({
-            ...prevForm,
-            price: formattedValue,
-          }));
-          break;
+      case "price":
+        let formattedValue = value as string;
+        
+        // Kiểm tra nếu currency là $
+        if (currency === "$") {
+          formattedValue = formatPriceToUSD(value as string);
+        }else{
+          formattedValue = formatNumberToVND(value as string);
+        }
+  
+        setForm((prevForm) => ({
+          ...prevForm,
+          price: formattedValue,
+        }));
+        break;
   
       case "selectedCategories":
-        // Chuyển value sang kiểu string[]
         const selectedCategories = Array.isArray(value) ? value : [];
         setForm((prevForm) => ({
           ...prevForm,

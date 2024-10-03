@@ -15,8 +15,8 @@ export const formatNumberToVND = (value: number | string): string => {
   return priceFormatter(number);
 };
 
-export const formatPriceToUSD = (price: number = 0): string =>
-  price.toLocaleString("en-US", {
+export const formatPriceToUSD = (value: number  | string = 0): string =>
+  value.toLocaleString("en-US", {
     style: "currency",
     currency: "USD",
     minimumFractionDigits: 2,
