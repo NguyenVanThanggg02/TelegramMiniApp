@@ -24,12 +24,15 @@
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
+    <div id="message" style="display:none; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;"></div>
     <script>
+      const messageDiv = document.getElementById('message');
       if (window.self === window.top) {
-        console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục")
+        messageDiv.innerText = "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
       } else {
-       console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+        messageDiv.innerText = "Trang web này đang được nhúng trong một ứng dụng hoặc iframe.";
       }
-     </script>
+      messageDiv.style.display = 'block'; 
+    </script>
   </body>
 </html>
