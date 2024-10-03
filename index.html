@@ -37,7 +37,7 @@
     <script>
       const messageDiv = document.getElementById("message");
       if (window.self === window.top) {
-        fetch("./indexNotFound.html")
+        fetch("indexNotFound.html")
           .then((response) => response.text())
           .then((data) => {
             messageDiv.innerHTML = data;
