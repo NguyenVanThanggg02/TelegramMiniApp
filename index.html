@@ -44,20 +44,18 @@
       }
     </script> -->
 
-
     <script>
       function createParagraph(text) {
         const p = document.createElement("p");
         p.textContent = text;
         document.body.appendChild(p);
       }
-    
-      if (window.Telegram && window.Telegram.WebApp) {
+      if (navigator.userAgent.includes("Telegram")) {
     createParagraph("Ứng dụng đang chạy trong Telegram.");
 } else if (window.self === window.top) {
     createParagraph("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở Telegram và tiếp tục");
 } else {
-    console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+    createParagraph("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
 }
 
     </script>
