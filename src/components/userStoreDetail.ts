@@ -4,6 +4,7 @@ import { getStoreByUUID } from '@/api/api';
 import { useRecoilState } from 'recoil';
 import { loadingState } from '@/state';
 
+
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   // const [currency, setCurrency] = useState('$');
@@ -16,6 +17,7 @@ const useStoreDetail = () => {
       if (response.data) {
         const metadata = JSON.parse(response.data.metadata);
         const currencyValue = metadata.currency || '$'; 
+        console.log(currencyValue);
         setCurrency(currencyValue);
       } else {
         console.error("Error fetching store data:", response.error);
