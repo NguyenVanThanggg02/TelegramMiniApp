@@ -106,7 +106,6 @@ const ProductFormPage: React.FC = () => {
   const { currency } = useStoreDetail();
 
 
-
   useEffect(() => {
     sendRequestGetCategory();
   }, []);
@@ -131,13 +130,7 @@ const ProductFormPage: React.FC = () => {
         break;
   
       case "price":
-        let formattedValue = value as string;
-      
-      if (currency === "$") {
-        formattedValue = formatUSD(Number(value));
-      }else{
-        formattedValue = formatNumberToVND(value as string);
-      }
+        const formattedValue = formatNumberToVND(value as string); 
         setForm((prevForm) => ({
           ...prevForm,
           price: formattedValue,
@@ -257,7 +250,7 @@ const ProductFormPage: React.FC = () => {
       setForm({
         name: product.name,
         describe: product.describe,
-        price: formatNumberToVND(product.price),
+        price: currency === "$" ? formatUSD(product.price) : formatNumberToVND(product.price),
         selectedStore: product.store_uuid,
         selectedCategories: product.categories.map((cat) => cat.uuid) || [],
       });
