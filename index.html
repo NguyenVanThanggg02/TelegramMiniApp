@@ -34,20 +34,17 @@
         color: black;
       "
     ></div>
-    <!-- <script>
-      const messageDiv = document.getElementById("message");
+    <script>
       if (window.self === window.top) {
-        messageDiv.innerText =
-          "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
+        console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
       } else {
         console.log(
           "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
         );
       }
-      messageDiv.style.display = "block";
-    </script> -->
+    </script>
 
-  <script> 
+  <!-- <script> 
     function detectTelegramWeb() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
     const messageDiv = document.getElementById("message");
@@ -64,7 +61,7 @@
 
 detectTelegramWeb();
 
-  </script>
+  </script> -->
 
   </body>
 </html>
