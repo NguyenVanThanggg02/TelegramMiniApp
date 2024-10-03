@@ -17,6 +17,7 @@ import DocumentScannerIcon from "@mui/icons-material/DocumentScanner";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import useStoreDetail from "@/components/userStoreDetail";
 
 interface Category {
   name: string;
@@ -48,12 +49,21 @@ const ProductPage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
+  const { currency } = useStoreDetail();
+  // useEffect(() => {
+  //   setLoading({ ...loading, isLoading: true });
+  //   // Gọi API để lấy danh sách sản phẩm từ store_uuid
+  //   fetchProductList();
+  // }, [store_uuid]);
+
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
-    // Gọi API để lấy danh sách sản phẩm từ store_uuid
-    fetchProductList();
+
+    Promise.all([fetchProductList(), currency]).then(() => {
+      setLoading({ ...loading, isLoading: false });
+    });
   }, [store_uuid]);
+
 
   const goToProductDetails = (productUUID: string) => {
     console.log(`productUUID: ${productUUID}`);
