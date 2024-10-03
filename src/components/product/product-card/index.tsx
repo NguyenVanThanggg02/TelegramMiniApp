@@ -34,11 +34,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   setSelectedProduct,
 }) => {
   const { t } = useTranslation('global');
-  const { currency } = useStoreDetail();
-  console.log(currency);
-  if(currency === null){
-    return null
-  } 
+  // const { currency } = useStoreDetail();
+  // console.log(currency);
+  // if(currency === null){
+  //   return null
+  // } 
+  const { currency, loading } = useStoreDetail();
+
+  if (loading || currency === null) {
+    return <div>Loading...</div>; // Có thể thay thế bằng component loading của bạn
+  }
+
   return (
     <Box
       flex
