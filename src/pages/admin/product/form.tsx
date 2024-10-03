@@ -105,8 +105,6 @@ const ProductFormPage: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const { currency } = useStoreDetail();
 
-
-
   useEffect(() => {
     sendRequestGetCategory();
   }, []);
@@ -130,17 +128,13 @@ const ProductFormPage: React.FC = () => {
         }));
         break;
   
-        case "price":
-    const priceValue = value as string; // Giả sử value là string
-    const formattedValue = currency === '$' 
-        ? formatPriceToUSD(parseFloat(priceValue)) // Chuyển đổi sang number
-        : formatNumberToVND(parseFloat(priceValue)); // Chuyển đổi sang number
-
-    setForm((prevForm) => ({
-        ...prevForm,
-        price: formattedValue,
-    }));
-    break;
+      case "price":
+        const formattedValue = formatNumberToVND(value as string); 
+        setForm((prevForm) => ({
+          ...prevForm,
+          price: formattedValue,
+        }));
+        break;
   
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
@@ -254,12 +248,11 @@ const ProductFormPage: React.FC = () => {
       const formattedPrice = currency === '$' 
       ? formatPriceToUSD(product.price) 
       : formatNumberToVND(product.price);
-    
       setForm({
         name: product.name,
         describe: product.describe,
         // price: formatNumberToVND(product.price),
-        price: formattedPrice ,
+        price: formattedPrice,
         selectedStore: product.store_uuid,
         selectedCategories: product.categories.map((cat) => cat.uuid) || [],
       });
