@@ -48,9 +48,20 @@
     </script> -->
 
   <script> 
-    import { isTMA } from '@tma.js/sdk';
+    function detectTelegramWeb() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-    console.log(isTMA());
+    if (/Telegram/i.test(userAgent)) {
+        console.log("Người dùng đang sử dụng ứng dụng web Telegram.");
+        return true; // Đang sử dụng Telegram
+    } else {
+        console.log("Người dùng đang sử dụng trình duyệt thông thường.");
+        return false; // Đang sử dụng trình duyệt thông thường
+    }
+}
+
+detectTelegramWeb();
+
   </script>
 
   </body>
