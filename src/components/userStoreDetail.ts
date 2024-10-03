@@ -11,7 +11,7 @@ const useStoreDetail = () => {
   const [loading, setLoading] = useRecoilState(loadingState);
 
   const getStoreDetail = async () => {
-    // setLoading({ ...loading, isLoading: true }); 
+    setLoading({ ...loading, isLoading: true }); 
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
