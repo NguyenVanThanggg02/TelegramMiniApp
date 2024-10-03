@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, storeState } from "../../../state";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { formatNumberToVND } from "../../../utils/numberFormatter";
+import { formatNumberToVND, formatPriceToUSD } from "../../../utils/numberFormatter";
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import WarningIcon from '@mui/icons-material/Warning';
 import {
@@ -30,6 +30,7 @@ import {
 const { Option } = Select;
 
 import { useTranslation } from "react-i18next";
+import useStoreDetail from "@/components/userStoreDetail";
 
 
 interface ProductForm {
@@ -102,6 +103,7 @@ const ProductFormPage: React.FC = () => {
   const [imageUUIDs, setImageUUIDs] = useState<string[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const { currency } = useStoreDetail();
 
 
 
@@ -128,13 +130,17 @@ const ProductFormPage: React.FC = () => {
         }));
         break;
   
-      case "price":
-        const formattedValue = formatNumberToVND(value as string); 
-        setForm((prevForm) => ({
-          ...prevForm,
-          price: formattedValue,
-        }));
-        break;
+        case "price":
+    const priceValue = value as string; // Giả sử value là string
+    const formattedValue = currency === '$' 
+        ? formatPriceToUSD(parseFloat(priceValue)) // Chuyển đổi sang number
+        : formatNumberToVND(parseFloat(priceValue)); // Chuyển đổi sang number
+
+    setForm((prevForm) => ({
+        ...prevForm,
+        price: formattedValue,
+    }));
+    break;
   
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
@@ -245,11 +251,15 @@ const ProductFormPage: React.FC = () => {
       const product = data.data;
 
       console.log("Product details:", product);
-
+      const formattedPrice = currency === '$' 
+      ? formatPriceToUSD(product.price) 
+      : formatNumberToVND(product.price);
+    
       setForm({
         name: product.name,
         describe: product.describe,
-        price: formatNumberToVND(product.price),
+        // price: formatNumberToVND(product.price),
+        price: formattedPrice ,
         selectedStore: product.store_uuid,
         selectedCategories: product.categories.map((cat) => cat.uuid) || [],
       });
