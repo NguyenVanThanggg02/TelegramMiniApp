@@ -128,13 +128,17 @@ const ProductFormPage: React.FC = () => {
         }));
         break;
   
-      case "price":
-        const formattedValue = formatNumberToVND(value as string); 
-        setForm((prevForm) => ({
-          ...prevForm,
-          price: formattedValue,
-        }));
-        break;
+        case "price":
+          const priceValue = parseFloat(value as string);
+          const formattedValue = currency === '$' 
+            ? formatPriceToUSD(priceValue) // Gọi hàm với giá trị kiểu number
+            : formatNumberToVND(priceValue); // Gọi hàm với giá trị kiểu number
+            
+          setForm((prevForm) => ({
+            ...prevForm,
+            price: formattedValue,
+          }));
+          break;
   
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
@@ -245,14 +249,11 @@ const ProductFormPage: React.FC = () => {
       const product = data.data;
 
       console.log("Product details:", product);
-      const formattedPrice = currency === '$' 
-      ? formatPriceToUSD(product.price) 
-      : formatNumberToVND(product.price);
+
       setForm({
         name: product.name,
         describe: product.describe,
-        // price: formatNumberToVND(product.price),
-        price: formattedPrice,
+        price: formatNumberToVND(product.price),
         selectedStore: product.store_uuid,
         selectedCategories: product.categories.map((cat) => cat.uuid) || [],
       });
