@@ -448,6 +448,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             </Box>
           )}
         </Box>
+        {dataLoaded &&(
         <Box
           className="section-container"
           style={{
@@ -481,7 +482,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
                 ))}
             </Tabs>
           </Box>
-          {dataLoaded &&(
+         
           <Box
             style={{
               marginLeft: "80px",
@@ -547,7 +548,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
               ))
             )}
           </Box>
-        )}
+        
           {!isEmpty(cart) && (
             <Box
               className="sticky-payment-container"
@@ -617,6 +618,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             }}
           />
         </Box>
+        )}
       </Page>
     </>
   );
