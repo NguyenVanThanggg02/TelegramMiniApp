@@ -6,7 +6,7 @@ import { getStoreByUUID } from '@/api/api';
 
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState('$');
+  const [currency, setCurrency] = useState<string | null>(null); 
   // const [loading, setLoading] = useRecoilState(loadingState);
 
   const getStoreDetail = async () => {
