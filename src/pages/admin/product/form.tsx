@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, storeState } from "../../../state";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { formatNumberToVND, formatPriceToUSD } from "../../../utils/numberFormatter";
+import { formatNumberToVND, formatUSD } from "../../../utils/numberFormatter";
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import WarningIcon from '@mui/icons-material/Warning';
 import {
@@ -105,16 +105,19 @@ const ProductFormPage: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const { currency } = useStoreDetail();
 
+
+
   useEffect(() => {
     sendRequestGetCategory();
   }, []);
 
   const handleChangeInput = (field: keyof ProductForm, value: string | string[] | undefined) => {
     const newErrors = { ...errorForm };
+    // delete newErrors[field];
     setErrorForm(newErrors);
   
     if (value === undefined) {
-      return;
+      return; 
     }
   
     // Xử lý theo kiểu data của field
@@ -122,21 +125,19 @@ const ProductFormPage: React.FC = () => {
       case "selectedStore":
         setForm((prevForm) => ({
           ...prevForm,
-          selectedStore: value as string,
-          selectedCategories: [],
+          selectedStore: value as string, 
+          selectedCategories: [], 
         }));
         break;
   
       case "price":
         let formattedValue = value as string;
-        
-        // Kiểm tra nếu currency là $
-        if (currency === "$") {
-          formattedValue = formatPriceToUSD(value as string);
-        }else{
-          formattedValue = formatNumberToVND(value as string);
-        }
-  
+      
+      if (currency === "$") {
+        formattedValue = formatUSD(Number(value));
+      }else{
+        formattedValue = formatNumberToVND(value as string);
+      }
         setForm((prevForm) => ({
           ...prevForm,
           price: formattedValue,
@@ -144,6 +145,7 @@ const ProductFormPage: React.FC = () => {
         break;
   
       case "selectedCategories":
+        // Chuyển value sang kiểu string[]
         const selectedCategories = Array.isArray(value) ? value : [];
         setForm((prevForm) => ({
           ...prevForm,

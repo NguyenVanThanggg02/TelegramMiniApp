@@ -15,10 +15,14 @@ export const formatNumberToVND = (value: number | string): string => {
   return priceFormatter(number);
 };
 
-export const formatPriceToUSD = (value: number  | string = 0): string =>
-  value.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+//  const formatPriceToUSD = (price: number = 0): string =>
+//   price.toLocaleString("en-US", {
+//     style: "currency",
+//     currency: "USD",
+//     minimumFractionDigits: 2,
+//     maximumFractionDigits: 2,
+//   });
+
+export function formatUSD(amount: number): string {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  }
