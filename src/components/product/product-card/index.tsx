@@ -35,6 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const { t } = useTranslation('global');
   const { currency } = useStoreDetail();
+  console.log(currency);
  
   return (
     <Box
