@@ -36,9 +36,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const { t } = useTranslation('global');
   const { currency } = useStoreDetail();
   console.log(currency);
-  // if(currency === null){
-  //   return null
-  // } 
+  if(currency === null){
+    return null
+  } 
   return (
     <Box
       flex
