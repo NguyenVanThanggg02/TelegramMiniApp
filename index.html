@@ -54,29 +54,14 @@
     
       if (window.self === window.top) {
         createParagraph("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
-      } else {
-        createParagraph("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+      } 
+      else {
+        // createParagraph("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+        console.log(
+          "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
+        );
       }
     </script>
-
-  <!-- <script> 
-    function detectTelegramWeb() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const messageDiv = document.getElementById("message");
-    if (/Telegram/i.test(userAgent)) {
-        console.log("Người dùng đang sử dụng ứng dụng web Telegram.");
-        messageDiv.innerText =
-          "Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục";
-        return true; 
-    } else {
-        console.log("Người dùng đang sử dụng trình duyệt thông thường.");
-        return false; 
-    }
-}
-
-detectTelegramWeb();
-
-  </script> -->
 
   </body>
 </html>
