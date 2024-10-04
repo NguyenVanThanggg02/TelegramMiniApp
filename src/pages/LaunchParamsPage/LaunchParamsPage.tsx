@@ -1,6 +1,6 @@
 import { useInitData, useLaunchParams } from '@telegram-apps/sdk-react';
 import { List } from '@telegram-apps/telegram-ui';
-import { useEffect, type FC } from 'react';
+import type { FC } from 'react';
 
 import { DisplayData } from '@/components/DisplayData/DisplayData.tsx';
 
@@ -10,13 +10,6 @@ export const LaunchParamsPage: FC = () => {
   const initData = useInitData();
 console.log(initData);
 console.log(initDataRaw);
-useEffect(() => {
-  if (initData) {
-    console.log("trong");
-  } else {
-    console.log("ngoai");
-  }
-}, [initData]);
   return (
     <List>
       <DisplayData
