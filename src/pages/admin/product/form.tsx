@@ -30,6 +30,7 @@ import {
 const { Option } = Select;
 
 import { useTranslation } from "react-i18next";
+// import useStoreDetail from "@/components/userStoreDetail";
 
 
 interface ProductForm {
@@ -102,7 +103,7 @@ const ProductFormPage: React.FC = () => {
   const [imageUUIDs, setImageUUIDs] = useState<string[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
+  // const {currency} = useStoreDetail()
 
 
   useEffect(() => {
@@ -130,10 +131,10 @@ const ProductFormPage: React.FC = () => {
   
         case "price":
             const sanitizedValue = typeof value === 'string' ? value.replace(/[^0-9,.]/g, '') : '';
-            const formattedValue = formatNumberToVND(sanitizedValue); 
+            // const formattedValue = formatNumberToVND(sanitizedValue); 
             setForm((prevForm) => ({
                 ...prevForm,
-                price: formattedValue,
+                price: sanitizedValue,
             }));
             break;
   
