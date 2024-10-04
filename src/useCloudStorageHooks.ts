@@ -1,10 +1,16 @@
-import { useCloudStorage } from '@telegram-apps/sdk-react';
+import { useCloudStorage, useInitData } from '@telegram-apps/sdk-react';
 import React from 'react';
 
 export const useSubdomain = () => {
   const cloudStorage = useCloudStorage();
   const [subdomain, setSubdomain] = React.useState<string | undefined>(undefined);
+  const initData = useInitData();
 
+  if(initData){
+    console.log('truy cap trong tele');
+  }else{
+    console.log('ngoai tele');
+  }
   React.useEffect(() => {
     const fetchSubdomain = async () => {
       const [storedSubdomain] = await cloudStorage.get('subdomain');
