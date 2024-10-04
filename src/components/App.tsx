@@ -94,6 +94,21 @@ export const App: FC = () => {
     return () => navigator.detach();
   }, [navigator]);
 
+  useEffect(() => {
+    const isTelegramBrowser = () => {
+      const ua = window.navigator.userAgent.toLowerCase(); // Chuyển về chữ thường
+      console.log("User Agent:", ua); // Log userAgent để kiểm tra
+      return ua.includes("telegram"); // Kiểm tra xem có chứa "telegram" không
+    };
+
+    if (isTelegramBrowser()) {
+      console.log("Đang chạy trong trình duyệt của Telegram.");
+    } else {
+      console.log("Trang web này đang chạy trên trình duyệt thông thường.");
+      window.location.href = 'tg://resolve?domain=MiLiKun_bot'; // Điều hướng đến bot Telegram
+    }
+  }, []);
+
   return (
     <RecoilRoot>
       <I18nextProvider i18n={i18next}>
