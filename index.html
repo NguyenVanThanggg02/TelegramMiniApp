@@ -24,21 +24,17 @@
     <script src="/src/index.tsx" type="module"></script>
 
     <script>
-      function createParagraph(text) {
-        const p = document.createElement("p");
-        p.textContent = text;
-        p.style.padding = "10px";
-        p.style.color = "black";
-        p.style.fontSize = "16px"; 
-        p.style.margin = "10px"; 
-        document.body.appendChild(p);
-      }
+      window.onload = function() {
+  if (isUsingTelegramWebApp()) {
+    console.log("Người dùng đang sử dụng ứng dụng web Telegram.");
+    // Thực hiện hành động cho ứng dụng web Telegram
+  } else {
+    console.log("Người dùng đang sử dụng trình duyệt thông thường.");
+    // Chuyển hướng đến liên kết Telegram
+    window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+  }
+};
 
-      if (window.self === window.top) {
-        window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
-      } else {
-        console.log("This website is being embedded in an application or iframe.");
-      }
     </script>
 
   </body>
