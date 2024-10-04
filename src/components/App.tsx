@@ -45,20 +45,20 @@ export const App: FC = () => {
   //   fetchLanguage();
   // }, [cloudStorage]);
 
-  const  isTelegramWebApp = () => {
-    // @ts-ignore
-    return typeof TelegramWebviewProxy !== 'undefined';
-  }
+  // const  isTelegramWebApp = () => {
+  //   // @ts-ignore
+  //   return typeof TelegramWebviewProxy !== 'undefined';
+  // }
   
-  if (isTelegramWebApp()) {
-      console.log("User is using Telegram Web App or in-app browser.");
-  } else {
-      console.log("User is using a regular browser.");
-  }
+  // if (isTelegramWebApp()) {
+  //     console.log("User is using Telegram Web App or in-app browser.");
+  // } else {
+  //     console.log("User is using a regular browser.");
+  // }
 
-  useEffect(() =>{
-    isTelegramWebApp()
-  })
+  // useEffect(() =>{
+  //   isTelegramWebApp()
+  // })
 
   useEffect(() => {
     const userLanguage = initData?.user?.languageCode;
