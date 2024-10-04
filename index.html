@@ -34,11 +34,21 @@
         document.body.appendChild(p);
       }
 
+      // Hàm kiểm tra xem trang có được nhúng hay không
       if (window.self === window.top) {
-        console.log("chạy ngoài tele");
+        console.log("Chạy ngoài Telegram");
+        // Uncomment dòng dưới đây nếu muốn điều hướng khi chạy ngoài Telegram
         // window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
       } else {
-        console.log("This website is being embedded in an application or iframe.");
+        console.log("Website này đang được nhúng trong một ứng dụng hoặc iframe.");
+
+        const initData = useInitData();
+        if (initData) {
+          console.log("Có initData. Điều hướng tới bot.");
+          window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+        } else {
+          console.log("Không có initData.");
+        }
       }
     </script>
 
