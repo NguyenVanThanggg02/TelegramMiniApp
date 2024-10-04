@@ -34,11 +34,18 @@ export const App: FC = () => {
   const initData = useInitData();
   
   const navigator = useMemo(() => initNavigator('app-navigation-state'), []);
+
   const [location, reactNavigator] = useIntegration(navigator);
+  
   // Hàm kiểm tra nếu đang sử dụng Telegram Web App
   const isTelegramWebApp = () => {
+    const launchParams = useLaunchParams();
     const userAgent = window.navigator.userAgent;
-    console.log(userAgent);
+    
+    // Kiểm tra Telegram Web App bằng launchParams và userAgent
+    if (launchParams.platform==='telegram') {
+      return true;
+    }
     return /Telegram/i.test(userAgent);
   };
 
@@ -80,6 +87,7 @@ export const App: FC = () => {
       },
     },
   });
+  
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
@@ -87,8 +95,6 @@ export const App: FC = () => {
   useEffect(() => {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
-
-
 
   useEffect(() => {
     navigator.attach();
