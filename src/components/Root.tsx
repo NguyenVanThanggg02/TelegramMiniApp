@@ -1,4 +1,4 @@
-import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
+import { isTMA, SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { type FC, useEffect, useMemo } from 'react';
 
@@ -32,6 +32,21 @@ const Inner: FC = () => {
       import('eruda').then((lib) => lib.default.init());
     }
   }, [debug]);
+  
+  useEffect(() => {
+    isTMA()
+      .then((result) => {
+        if (result) {
+          console.log("Đang chạy trong Telegram Mini App.");
+        } else {
+          console.log("Không chạy trong Telegram Mini App.");
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi kiểm tra môi trường Telegram Mini App:", error);
+      });
+
+  }, [])
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
