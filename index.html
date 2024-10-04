@@ -48,9 +48,10 @@
           document.body.appendChild(p);
       }
   
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
-      if (window.self === window.top) {
-          window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+      if (window.self === window.top && !isMobile) {
+        console.log("This site is running directly on the browser. Please open Telegram and continue.");
       } else {
           console.log("This website is being embedded in an application or iframe.");
       }
