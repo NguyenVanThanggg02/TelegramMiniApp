@@ -49,7 +49,6 @@ export const App: FC = () => {
     console.log('truy cap trong tele');
   }else{
     console.log('ngoai tele');
-    
   }
 
   useEffect(() => {
