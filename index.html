@@ -19,44 +19,20 @@
 
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="/assets/styles-global.css" />
+    <script>
+      // Kiểm tra nếu trang đang được truy cập từ Telegram
+      if (navigator.userAgent.includes("Telegram")) {
+        console.log("Opened inside Telegram");
+      } else {
+        // Nếu không phải trong Telegram thì chuyển hướng đến mini app
+        window.location.href = "tg://resolve?domain=MiLiKun_bot&appname=orderfood";
+      }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-
-    <!-- <script>
-      if (window.self === window.top) {
-        console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
-      } else {
-        console.log(
-          "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
-        );
-      }
-    </script> -->
-
-    <script>
-      function createParagraph(text) {
-          const p = document.createElement("p");
-          p.textContent = text;
-          
-          p.style.padding = "10px";
-          p.style.color = "black";
-          p.style.fontSize = "16px"; 
-          p.style.margin = "10px"; 
-
-          document.body.appendChild(p);
-      }
-  
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-  
-      if (window.self === window.top && !isMobile) {
-          createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
-      } else {
-          console.log("This website is being embedded in an application or iframe.");
-      }
-  </script>
-  
 
   </body>
 </html>
