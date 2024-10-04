@@ -1,15 +1,8 @@
 // src/api/cloudStorageManager.ts
 import { initCloudStorage } from '@telegram-apps/sdk';
-import { useInitData } from '@telegram-apps/sdk-react';
 
 const cloudStorage = initCloudStorage();
-const initData = useInitData();
 
-if(initData){
-  console.log('truy cap trong tele');
-}else{
-  console.log('ngoai tele');
-}
 let subdomainCache: string | undefined;
 let authTokenCache: string | undefined;
 let languageCache: string | undefined;
