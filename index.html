@@ -25,17 +25,18 @@
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
 
-    <!-- <script>
+    <script>
       if (window.self === window.top) {
         console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
+        window.location.href = `tg://resolve?domain=MiLiKun_bot&appname=orderfood`;
       } else {
         console.log(
           "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
         );
       }
-    </script> -->
+    </script>
 
-    <script>
+    <!-- <script>
       function createParagraph(text) {
           const p = document.createElement("p");
           p.textContent = text;
@@ -57,7 +58,7 @@
       } else {
           console.log("This website is being embedded in an application or iframe.");
       }
-  </script>
+  </script> -->
   
 
   </body>
