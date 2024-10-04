@@ -36,19 +36,12 @@
     </script> -->
 
     <script>
-      function isTelegramBrowser() {
-        const ua = window.navigator.userAgent;
-        console.log(ua);
-        return ua.includes("telegram");
-      }
-
-        if (isTelegramBrowser()) {
-          console.log("Đang chạy trong trình duyệt của Telegram.");
-        } else {
+      if (window.self === window.top) {
           console.log("Trang web này đang chạy trên trình duyệt thông thường.");
-          // window.location.href = 'tg://resolve?domain=MiLiKun_bot';
-        }
-      
+          window.location.href = 'tg://resolve?domain=MiLiKun_bot';
+      } else {
+        console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+      }
     </script>
   </body>
 </html>
