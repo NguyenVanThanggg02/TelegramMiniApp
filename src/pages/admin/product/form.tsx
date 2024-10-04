@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, storeState } from "../../../state";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { formatNumberToVND } from "../../../utils/numberFormatter";
+import { formatNumberToVND, formatUSD } from "../../../utils/numberFormatter";
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import WarningIcon from '@mui/icons-material/Warning';
 import {
@@ -30,6 +30,7 @@ import {
 const { Option } = Select;
 
 import { useTranslation } from "react-i18next";
+import useStoreDetail from "@/components/userStoreDetail";
 
 
 interface ProductForm {
@@ -102,7 +103,7 @@ const ProductFormPage: React.FC = () => {
   const [imageUUIDs, setImageUUIDs] = useState<string[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
+  const {currency} = useStoreDetail()
 
 
   useEffect(() => {
@@ -129,7 +130,16 @@ const ProductFormPage: React.FC = () => {
         break;
   
       case "price":
-        const formattedValue = formatNumberToVND(value as string); 
+        // const formattedValue = formatNumberToVND(value as string); 
+
+        let formattedValue = value as string;
+      
+        // Kiểm tra đơn vị tiền tệ và gọi hàm format tương ứng
+        if (currency === '$') {
+          formattedValue = formatUSD(parseFloat(formattedValue)); 
+        } else{
+          formattedValue = formatNumberToVND(formattedValue); 
+        }
         setForm((prevForm) => ({
           ...prevForm,
           price: formattedValue,
