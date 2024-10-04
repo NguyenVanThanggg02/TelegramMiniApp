@@ -26,13 +26,21 @@
     <script src="/src/index.tsx" type="module"></script>
     <div id="message"> </div>
 
-    <script>
-      if (window.self === window.top) {
-          console.log("Trang web này đang chạy trên trình duyệt thông thường.");
+    <script type="module">
+      import { isTMA } from '@telegram-apps/sdk';
+  
+      async function checkEnvironment() {
+        const isTelegramApp = await isTMA();
+  
+        if (!isTelegramApp) {
+          // Nếu không phải là Telegram Mini App, chuyển hướng tới Telegram
           window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
         } else {
-        console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+          console.log("Người dùng đang truy cập từ Telegram Mini App.");
+        }
       }
+  
+      checkEnvironment();
     </script>
 
 
