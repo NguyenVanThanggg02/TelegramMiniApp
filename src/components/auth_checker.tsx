@@ -82,10 +82,8 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
     });
 
     const data = await response.json();
-    console.log(data);
     
     cloudStorage.set('auth_token', data.auth_token);
-    console.log(await cloudStorage.get('auth_token'));
 
     return data;
   };
@@ -119,7 +117,6 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
         });
 
         const data = await postLogin(initDataRaw);
-        console.log(data);
 
         if (!data?.error) {
           setUserState({

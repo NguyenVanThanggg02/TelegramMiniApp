@@ -23,7 +23,6 @@ const getSubdomain = async (): Promise<string | undefined> => {
     subdomainCache = subdomain;
     return subdomain;
   } catch (error) {
-    console.log("Error when getting subdomain", error);
     throw error;
   }
 };
