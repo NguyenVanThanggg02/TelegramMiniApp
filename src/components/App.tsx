@@ -3,6 +3,7 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars,
   bindViewportCSSVars,
+  // initCloudStorage,
   initNavigator, useInitData, useLaunchParams,
   useMiniApp,
   useThemeParams,
@@ -30,33 +31,26 @@ export const App: FC = () => {
   const miniApp = useMiniApp();
   const themeParams = useThemeParams();
   const viewport = useViewport();
+  // const cloudStorage = initCloudStorage();
   const [language, setLanguage] = useState<string>('en');
   const initData = useInitData();
-  
-  const navigator = useMemo(() => initNavigator('app-navigation-state'), []);
+  // useEffect(() => {
+  //   const fetchLanguage = async () => {
+  //     const storedLanguage = await cloudStorage.get('language');
+  //     if (storedLanguage) {
+  //       setLanguage(storedLanguage);
+  //       i18next.changeLanguage(storedLanguage);
+  //     }
+  //   };
+  //   fetchLanguage();
+  // }, [cloudStorage]);
 
-  const [location, reactNavigator] = useIntegration(navigator);
-  
-  // Hàm kiểm tra nếu đang sử dụng Telegram Web App
-  const isTelegramWebApp = () => {
-    const launchParams = useLaunchParams();
-    const userAgent = window.navigator.userAgent;
+  if(initData){
+    console.log('truy cap trong tele');
+  }else{
+    console.log('ngoai tele');
     
-    // Kiểm tra Telegram Web App bằng launchParams và userAgent
-    if (launchParams.platform==='telegram') {
-      return true;
-    }
-    return /Telegram/i.test(userAgent);
-  };
-
-  // useEffect để kiểm tra ngay khi ứng dụng được khởi động
-  useEffect(() => {
-    if (isTelegramWebApp()) {
-      console.log("Người dùng đang sử dụng Telegram Web App");
-    } else {
-      console.log("Người dùng sử dụng trình duyệt thông thường");
-    }
-  }, []); // Chỉ chạy một lần khi component được mount
+  }
 
   useEffect(() => {
     const userLanguage = initData?.user?.languageCode;
@@ -87,7 +81,6 @@ export const App: FC = () => {
       },
     },
   });
-  
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
   }, [themeParams]);
@@ -96,6 +89,13 @@ export const App: FC = () => {
     return viewport && bindViewportCSSVars(viewport);
   }, [viewport]);
 
+  // Create a new application navigator and attach it to the browser history, so it could modify
+  // it and listen to its changes.
+  const navigator = useMemo(() => initNavigator('app-navigation-state'), []);
+  const [location, reactNavigator] = useIntegration(navigator);
+
+  // Don't forget to attach the navigator to allow it to control the BackButton state as well
+  // as browser history.
   useEffect(() => {
     navigator.attach();
     return () => navigator.detach();
