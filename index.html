@@ -30,7 +30,8 @@
     <script>
       // Tự động mở ứng dụng Telegram bằng giao thức tg://
       function openTelegramApp() {
-        const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+        // const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+        const telegramURL = 'https://t.me/MiLiKun_bot/app?startapp';
   
         // Kiểm tra nếu người dùng không truy cập từ Telegram Mini App thì chuyển hướng
         if (!navigator.userAgent.includes("Telegram")) {
@@ -42,18 +43,6 @@
       openTelegramApp();
     </script>
 
-    <!-- <script>
-document.addEventListener("DOMContentLoaded", function(){
-fetch('detect.html')
-.then(res => res.text())
-.then(data =>{
-  document.getElementById('message').innerHTML = data
-})
-.catch(err =>{
-console.log('err loading html', err);
-
-})
-})
-    </script> -->
+   
   </body>
 </html>
