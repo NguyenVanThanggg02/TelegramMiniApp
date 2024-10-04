@@ -1,4 +1,4 @@
-import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
+import { SDKProvider, useInitData, useLaunchParams } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { type FC, useEffect, useMemo } from 'react';
 
@@ -22,9 +22,19 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
+  const initData = useInitData();
   const manifestUrl = useMemo(() => {
     return new URL('tonconnect-manifest.json', window.location.href).toString();
   }, []);
+
+  useEffect(() => {
+    if (initData) {
+      console.log("trong");
+    } else {
+      console.log("ngoai");
+    }
+  }, [initData]);
+
 
   // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {

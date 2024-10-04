@@ -45,11 +45,13 @@ export const App: FC = () => {
   //   fetchLanguage();
   // }, [cloudStorage]);
 
-  if(initData){
-    console.log('truy cap trong tele');
-  }else{
-    console.log('ngoai tele');
-  }
+  useEffect(() => {
+    if (initData) {
+      console.log("trong");
+    } else {
+      console.log("ngoai");
+    }
+  }, [initData]);
 
   useEffect(() => {
     const userLanguage = initData?.user?.languageCode;

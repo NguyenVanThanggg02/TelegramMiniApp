@@ -54,12 +54,15 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
   //   snackbarRef.current = snackbar;
   // }, [snackbar]);
 
-  if(initData){
-    console.log('truy cap trong tele');
-  }else{
-    console.log('ngoai tele');
-  }
-  
+  useEffect(() => {
+    if (initData) {
+      console.log("trong");
+    } else {
+      console.log("ngoai");
+    }
+  }, [initData]);
+
+
   useEffect(() => {
     setLanguage();
   }, []);
