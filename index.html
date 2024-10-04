@@ -24,7 +24,7 @@
     <script src="/src/index.tsx" type="module"></script>
 
     <script>
-      
+      import { useInitData } from "@telegram-apps/sdk-react";
         const initData = useInitData();
         if (initData) {
           console.log("Có initData. Điều hướng tới bot.");
@@ -32,6 +32,20 @@
         } else {
           console.log("Không có initData.");
         }
+
+
+//         export const checkIsInTelegram = () => {
+//   if (typeof window !== "undefined") {
+//     if (window.TelegramWebview) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
+//   return false;
+// };
+
+
     </script>
 
   </body>
