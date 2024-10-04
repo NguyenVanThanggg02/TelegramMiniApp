@@ -1,4 +1,4 @@
-import { type FC, useEffect, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 import { useInitData, useLaunchParams, type User } from '@telegram-apps/sdk-react';
 import { List, Placeholder } from '@telegram-apps/telegram-ui';
 
@@ -23,13 +23,7 @@ export const InitDataPage: FC = () => {
   const initDataRaw = useLaunchParams().initDataRaw;
   const initData = useInitData();
 console.log(initData);
-useEffect(() => {
-  if (initData) {
-    console.log("trong");
-  } else {
-    console.log("ngoai");
-  }
-}, [initData]);
+console.log(initDataRaw);
 
   const initDataRows = useMemo<DisplayDataRow[] | undefined>(() => {
     if (!initData || !initDataRaw) {
