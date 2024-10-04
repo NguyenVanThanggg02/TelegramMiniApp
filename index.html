@@ -51,7 +51,11 @@
       const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
       if (window.self === window.top && !isMobile) {
-          createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
+        const botUsername = MiLiKun_bot; 
+        const shortName = orderfood;
+          // createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
+          window.location.href = `tg://resolve?domain=${botUsername}&appname=${shortName}`;
+
       } else {
           console.log("This website is being embedded in an application or iframe.");
       }
