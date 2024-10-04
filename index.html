@@ -36,15 +36,22 @@
     </script> -->
 
     <script>
-
-  
-      if (window.self === window.top) {
-        window.location.href = 'tg://resolve?domain=MiLiKun_bot';
-      } else {
-        console.log("This website is being embedded in an application or iframe.");
+      function isTelegramBrowser() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        // Kiểm tra nếu user agent chứa "Telegram" để xác định xem nó có phải Telegram in-app browser
+        return ua.includes("Telegram");
       }
-  </script>
-  
 
+      if (window.self === window.top) {
+        if (isTelegramBrowser()) {
+          console.log("Đang chạy trong trình duyệt của Telegram.");
+        } else {
+          console.log("Trang web này đang chạy trên trình duyệt thông thường.");
+          window.location.href = 'tg://resolve?domain=MiLiKun_bot';
+        }
+      } else {
+        console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
+      }
+    </script>
   </body>
 </html>
