@@ -128,13 +128,14 @@ const ProductFormPage: React.FC = () => {
         }));
         break;
   
-      case "price":
-        const formattedValue = formatNumberToVND(value as string); 
-        setForm((prevForm) => ({
-          ...prevForm,
-          price: formattedValue,
-        }));
-        break;
+        case "price":
+            const sanitizedValue = typeof value === 'string' ? value.replace(/[^0-9,.]/g, '') : '';
+            const formattedValue = formatNumberToVND(sanitizedValue); 
+            setForm((prevForm) => ({
+                ...prevForm,
+                price: formattedValue,
+            }));
+            break;
   
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
