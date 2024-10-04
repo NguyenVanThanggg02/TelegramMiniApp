@@ -25,18 +25,17 @@
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
 
-    <script>
+    <!-- <script>
       if (window.self === window.top) {
         console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
-        window.location.href = `tg://resolve?domain=MiLiKun_bot&appname=orderfood`;
       } else {
         console.log(
           "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
         );
       }
-    </script>
+    </script> -->
 
-    <!-- <script>
+    <script>
       function createParagraph(text) {
           const p = document.createElement("p");
           p.textContent = text;
@@ -49,16 +48,14 @@
           document.body.appendChild(p);
       }
   
-      // const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
-      if (window.self === window.top) {
-          // createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
-          window.location.href = `tg://resolve?domain=MiLiKun_bot&appname=orderfood`;
-
+      if (window.self === window.top && !isMobile) {
+          createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
       } else {
           console.log("This website is being embedded in an application or iframe.");
       }
-  </script> -->
+  </script>
   
 
   </body>
