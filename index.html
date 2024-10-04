@@ -48,9 +48,8 @@
           document.body.appendChild(p);
       }
   
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
-      if (window.self === window.top && !isMobile) {
+      if (window.self === window.top) {
           window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
       } else {
           console.log("This website is being embedded in an application or iframe.");
