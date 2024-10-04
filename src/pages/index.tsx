@@ -47,14 +47,7 @@ const Index: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
   const [isProcessing, setIsProcessing] = useState(false); 
   const initData = useInitData();
-  console.log(initData);
-
-  if (initData) {
-    console.log("Người dùng đang sử dụng ứng dụng web trong Telegram");
-  } else {
-    console.log("Người dùng đang sử dụng trình duyệt thông thường");
-  }
-
+console.log(initData);
  const getStoreData = async () => {
     const response = await getStoreList();
     const data = response.data
