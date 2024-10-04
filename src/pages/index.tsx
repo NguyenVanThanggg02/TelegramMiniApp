@@ -47,8 +47,7 @@ const Index: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null); 
   const [isProcessing, setIsProcessing] = useState(false); 
   const initData = useInitData();
-console.log(initData);
- const getStoreData = async () => {
+  const getStoreData = async () => {
     const response = await getStoreList();
     const data = response.data
     if (!data.error) {
