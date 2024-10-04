@@ -42,16 +42,13 @@
         return ua.includes("Telegram");
       }
 
-      if (window.self === window.top) {
         if (isTelegramBrowser()) {
           console.log("Đang chạy trong trình duyệt của Telegram.");
         } else {
           console.log("Trang web này đang chạy trên trình duyệt thông thường.");
           window.location.href = 'tg://resolve?domain=MiLiKun_bot';
         }
-      } else {
-        console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
-      }
+      
     </script>
   </body>
 </html>
