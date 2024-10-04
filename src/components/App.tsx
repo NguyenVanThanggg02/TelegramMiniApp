@@ -37,7 +37,8 @@ export const App: FC = () => {
   const [location, reactNavigator] = useIntegration(navigator);
   // Hàm kiểm tra nếu đang sử dụng Telegram Web App
   const isTelegramWebApp = () => {
-    const userAgent = window.navigator.userAgent || window.navigator.vendor;
+    const userAgent = window.navigator.userAgent;
+    console.log(userAgent);
     return /Telegram/i.test(userAgent);
   };
 
