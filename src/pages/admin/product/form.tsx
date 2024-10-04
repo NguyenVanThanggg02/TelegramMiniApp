@@ -135,7 +135,7 @@ const ProductFormPage: React.FC = () => {
       const sanitizedValue = typeof value === 'string' ? value.replace(/[^0-9,.]/g, '') : '';
 
       if (currency === '$') {
-        formattedValue = formatUSD(Number(sanitizedValue));
+        formattedValue = formatUSD(parseFloat(sanitizedValue));
       } else {
         formattedValue = formatNumberToVND(sanitizedValue);
       }
