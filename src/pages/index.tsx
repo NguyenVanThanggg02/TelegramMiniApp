@@ -84,7 +84,6 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     const isLocalhost = hostname === "localhost";
-    console.log(isLocalhost ? "Running on localhost" : "Not localhost");
     if (!isLocalhost) {
       getStoreData();
     }

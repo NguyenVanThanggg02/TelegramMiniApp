@@ -25,7 +25,7 @@
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
 
-    <script>
+    <!-- <script>
       if (window.self === window.top) {
         console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
       } else {
@@ -33,12 +33,12 @@
           "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
         );
       }
-    </script>
+    </script> -->
 
-    <!-- <script>
+    <script>
       function isTelegramBrowser() {
-        const ua = navigator.userAgent || navigator.vendor || window.opera;
-        // Kiểm tra nếu user agent chứa "Telegram" để xác định xem nó có phải Telegram in-app browser
+        const ua = window.navigator.userAgent;
+        console.log(ua);
         return ua.includes("Telegram");
       }
 
@@ -52,6 +52,6 @@
       } else {
         console.log("Trang web này đang được nhúng trong một ứng dụng hoặc iframe.");
       }
-    </script> -->
+    </script>
   </body>
 </html>
