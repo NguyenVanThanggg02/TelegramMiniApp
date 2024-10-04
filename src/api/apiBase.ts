@@ -21,7 +21,6 @@ export const getBaseUrl = async (useDefault = false): Promise<string | undefined
     return createTenantURL(useDefault ? DEFAULT_TENANT_ID : subdomain);
   } catch (error) {
     // Handle API call failure
-    console.log("Error when getting storage subdomain", error);
     throw error; // Re-throw the error to be handled by the calling function
   }
 };
