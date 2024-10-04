@@ -1,4 +1,4 @@
-import { SDKProvider, useInitData, useLaunchParams } from '@telegram-apps/sdk-react';
+import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { type FC, useEffect, useMemo } from 'react';
 
@@ -32,16 +32,7 @@ const Inner: FC = () => {
       import('eruda').then((lib) => lib.default.init());
     }
   }, [debug]);
-  const initData = useInitData();
-  useEffect(() => {
-    if (initData) {
-      console.log("Có initData. Điều hướng tới bot.");
-      window.location.href =
-        "tg://resolve?domain=MiLiKun_bot&appname=orderfood";
-    } else {
-      console.log("Không có initData.");
-    }
-  }, [initData]);
+
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
       <SDKProvider acceptCustomStyles debug={debug}>
