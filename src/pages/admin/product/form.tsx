@@ -136,7 +136,7 @@ const ProductFormPage: React.FC = () => {
       
         // Kiểm tra đơn vị tiền tệ và gọi hàm format tương ứng
         if (currency === '$') {
-          formattedValue = formatUSD(formattedValue); 
+          formattedValue = formatUSD(Number(formattedValue)); 
         } else{
           formattedValue = formatNumberToVND(formattedValue); 
         }

@@ -23,12 +23,6 @@ export const formatNumberToVND = (value: number | string): string => {
 //     maximumFractionDigits: 2,
 //   });
 
-export function formatUSD(amount: number | string): string {
-  const numericAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-
-  if (isNaN(numericAmount)) {
-      throw new Error('Invalid amount: must be a number or a numeric string');
+export function formatUSD(amount: number): string {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   }
-
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(numericAmount);
-}
