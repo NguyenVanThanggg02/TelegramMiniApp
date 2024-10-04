@@ -48,9 +48,9 @@
           document.body.appendChild(p);
       }
   
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      // const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
-      if (window.self === window.top && !isMobile) {
+      if (window.self === window.top) {
           // createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
           window.location.href = `tg://resolve?domain=MiLiKun_bot&appname=orderfood`;
 
