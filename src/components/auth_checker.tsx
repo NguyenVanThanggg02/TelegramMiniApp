@@ -62,6 +62,13 @@ const AuthChecker: React.FC<AuthCheckerProps> = ({ children }) => {
     }
   }, [initData]);
 
+  if (window.self === window.top) {
+    console.log("Trang web này đang chạy trực tiếp trên trình duyệt yêu cầu mở telegram và tiếp tục");
+  } else {
+    console.log(
+      "Trang web này đang được nhúng trong một ứng dụng hoặc iframe."
+    );
+  }
 
   useEffect(() => {
     setLanguage();
