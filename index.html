@@ -24,24 +24,7 @@
     <script src="/src/index.tsx" type="module"></script>
 
     <script>
-      function createParagraph(text) {
-        const p = document.createElement("p");
-        p.textContent = text;
-        p.style.padding = "10px";
-        p.style.color = "black";
-        p.style.fontSize = "16px"; 
-        p.style.margin = "10px"; 
-        document.body.appendChild(p);
-      }
-
-      // Hàm kiểm tra xem trang có được nhúng hay không
-      if (window.self === window.top) {
-        console.log("Chạy ngoài Telegram");
-        // Uncomment dòng dưới đây nếu muốn điều hướng khi chạy ngoài Telegram
-        // window.location.href = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
-      } else {
-        console.log("Website này đang được nhúng trong một ứng dụng hoặc iframe.");
-
+      
         const initData = useInitData();
         if (initData) {
           console.log("Có initData. Điều hướng tới bot.");
@@ -49,7 +32,6 @@
         } else {
           console.log("Không có initData.");
         }
-      }
     </script>
 
   </body>
