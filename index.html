@@ -27,37 +27,48 @@
     <div id="message"> </div>
 
  
-    <script>
+    <!-- <script>
       // Tự động mở ứng dụng Telegram bằng giao thức tg://
-      // function openTelegramApp() {
-      //   const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
-      //   // const telegramURL = 'https://t.me/MiLiKun_bot/app?startapp';
+      function openTelegramApp() {
+        const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+        // const telegramURL = 'https://t.me/MiLiKun_bot/app?startapp';
   
-      //   // Kiểm tra nếu người dùng không truy cập từ Telegram Mini App thì chuyển hướng
-      //   if (!navigator.userAgent.includes("Telegram")) {
-      //     window.location.href = telegramURL;
-      //   }
-      // }
+        // Kiểm tra nếu người dùng không truy cập từ Telegram Mini App thì chuyển hướng
+        if (!navigator.userAgent.includes("Telegram")) {
+          window.location.href = telegramURL;
+        }
+      }
   
-      // // Gọi hàm để mở Telegram
-      // openTelegramApp();
-//       document.addEventListener("DOMContentLoaded", function() {
-//     fetch('index1.html')
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.text();
-//         })
-//         .then(data => {
-//             document.getElementById('root').innerHTML = data;
-//         })
-//         .catch(error => {
-//             console.error('There was a problem with the fetch operation:', error);
-//         });
-// });
-    </script>
+      // Gọi hàm để mở Telegram
+      openTelegramApp();
+      document.addEventListener("DOMContentLoaded", function() {
+    fetch('index1.html')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('root').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+});
+    </script> -->
 
-   
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Kiểm tra nếu trang đang được tải trong một iframe
+          if (window.self !== window.top) {
+              // Nếu có, chuyển hướng đến index2.html
+              window.location.href = 'index.html';
+          } else {
+              // Nếu không, chuyển hướng đến index1.html
+              window.location.href = 'index1.html';
+          }
+      });
+  </script>
   </body>
 </html>
