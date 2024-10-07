@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="style1.css">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     
-    <!-- Content Security Policy (CSP) được đặt trong thẻ <head> -->
+    <!-- Chỉnh sửa CSP -->
     <meta http-equiv="Content-Security-Policy" content="
-      default-src 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
+      default-src 'self' data:;
       img-src 'self' data: blob: https:;
-      script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:;
       worker-src 'self' blob:;
     ">
 </head>
