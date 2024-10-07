@@ -26,29 +26,35 @@ const Inner: FC = () => {
     return new URL('tonconnect-manifest.json', window.location.href).toString();
   }, []);
 
-  // Check if the user is accessing from Telegram Mini App
-  const initData = useInitData();
-
+  // Enable debug mode to see all the methods sent and events received.
   useEffect(() => {
     if (debug) {
       import('eruda').then((lib) => lib.default.init());
     }
+  }, [debug]);
 
-    // Log if inside or outside Telegram Mini App
+  return (
+    <TonConnectUIProvider manifestUrl={manifestUrl}>
+      <SDKProvider acceptCustomStyles debug={debug}>
+        <AppWithInitData />
+      </SDKProvider>
+    </TonConnectUIProvider>
+  );
+};
+
+// Move the useInitData inside a new component wrapped by SDKProvider
+const AppWithInitData: FC = () => {
+  const initData = useInitData();
+
+  useEffect(() => {
     if (!initData) {
       console.log('User is accessing outside of Telegram Mini App');
     } else {
       console.log('User is accessing inside Telegram Mini App', initData);
     }
-  }, [debug, initData]);
+  }, [initData]);
 
-  return (
-    <TonConnectUIProvider manifestUrl={manifestUrl}>
-      <SDKProvider acceptCustomStyles debug={debug}>
-        <App/>
-      </SDKProvider>
-    </TonConnectUIProvider>
-  );
+  return <App />;
 };
 
 export const Root: FC = () => (
