@@ -24,27 +24,25 @@
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <!-- <script>
-      function createParagraph(text) {
-          const p = document.createElement("p");
-          p.textContent = text;
-          
-          p.style.padding = "10px";
-          p.style.color = "black";
-          p.style.fontSize = "16px"; 
-          p.style.margin = "10px"; 
-
-          document.body.appendChild(p);
-      }
-  
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-  
-      if (window.self === window.top && !isMobile) {
-          createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
-      } else {
-          console.log("This website is being embedded in an application or iframe.");
-      }
-  </script> -->
-  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("index1.html")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.text();
+          })
+          .then((data) => {
+            document.getElementById("root").innerHTML = data;
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          });
+      });
+    </script>
   </body>
 </html>
