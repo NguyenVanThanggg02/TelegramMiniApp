@@ -44,7 +44,12 @@ export const App: FC = () => {
   //   };
   //   fetchLanguage();
   // }, [cloudStorage]);
-
+  if(initData) {
+    console.log('trong tele');
+  }else{
+    console.log('ngoai');
+    
+  }
   useEffect(() => {
     const userLanguage = initData?.user?.languageCode;
     console.log(userLanguage);
