@@ -24,40 +24,27 @@
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <div id="message"> </div>
+    <!-- <script>
+      function createParagraph(text) {
+          const p = document.createElement("p");
+          p.textContent = text;
+          
+          p.style.padding = "10px";
+          p.style.color = "black";
+          p.style.fontSize = "16px"; 
+          p.style.margin = "10px"; 
 
- 
-    <script>
-      // Tự động mở ứng dụng Telegram bằng giao thức tg://
-      // function openTelegramApp() {
-      //   const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
-      //   // const telegramURL = 'https://t.me/MiLiKun_bot/app?startapp';
+          document.body.appendChild(p);
+      }
   
-      //   // Kiểm tra nếu người dùng không truy cập từ Telegram Mini App thì chuyển hướng
-      //   if (!navigator.userAgent.includes("Telegram")) {
-      //     window.location.href = telegramURL;
-      //   }
-      // }
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   
-      // // Gọi hàm để mở Telegram
-      // openTelegramApp();
-      document.addEventListener("DOMContentLoaded", function() {
-    fetch('index1.html')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById('root').innerHTML = data;
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-});
-    </script>
-
-   
+      if (window.self === window.top && !isMobile) {
+          createParagraph("This site is running directly on the browser. Please open Telegram and continue.");
+      } else {
+          console.log("This website is being embedded in an application or iframe.");
+      }
+  </script> -->
+  
   </body>
 </html>
