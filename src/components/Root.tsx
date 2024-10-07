@@ -1,4 +1,4 @@
-import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
+import { SDKProvider, useLaunchParams, useInitData } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { type FC, useEffect, useMemo } from 'react';
 
@@ -26,12 +26,21 @@ const Inner: FC = () => {
     return new URL('tonconnect-manifest.json', window.location.href).toString();
   }, []);
 
-  // Enable debug mode to see all the methods sent and events received.
+  // Check if the user is accessing from Telegram Mini App
+  const initData = useInitData();
+
   useEffect(() => {
     if (debug) {
       import('eruda').then((lib) => lib.default.init());
     }
-  }, [debug]);
+
+    // Log if inside or outside Telegram Mini App
+    if (!initData) {
+      console.log('User is accessing outside of Telegram Mini App');
+    } else {
+      console.log('User is accessing inside Telegram Mini App', initData);
+    }
+  }, [debug, initData]);
 
   return (
     <TonConnectUIProvider manifestUrl={manifestUrl}>
