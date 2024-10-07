@@ -29,7 +29,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Kiểm tra nếu người dùng đang truy cập từ Telegram
-            if (navigator.userAgent.includes("Telegram")) {
+            if (window.userAgent.includes("Telegram")) {
                 // Nếu có, nạp nội dung vào <div id="root"></div>
                 document.getElementById('root').innerHTML = '<p>Chào mừng đến với Telegram Mini App!</p>';
             } else {
