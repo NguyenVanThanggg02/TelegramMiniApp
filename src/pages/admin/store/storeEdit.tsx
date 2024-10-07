@@ -319,6 +319,9 @@ const StoreEditPage: React.FC = () => {
               <option value="$" title="USD ">
                 USD
               </option>
+              <option value="₫" title="VND ">
+                VND
+              </option>
               <option value="€" title="Euro">
                 EUR
               </option>

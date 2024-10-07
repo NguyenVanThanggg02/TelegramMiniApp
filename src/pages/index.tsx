@@ -445,7 +445,7 @@ const Index: React.FC = () => {
               // height: "90%",
               margin: "14px 0",
               maxWidth: "550px",
-              // maxHeight: "650px",
+              maxHeight: "200px",
             }}
             onClick={toggleScanner}
             alt="Scan QR Code"
