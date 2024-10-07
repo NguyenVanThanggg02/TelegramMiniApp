@@ -24,31 +24,40 @@
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <div id="message"></div>
+    <div id="message"> </div>
 
+ 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Kiểm tra nếu người dùng đang truy cập từ Telegram
-            if (window.userAgent && window.navigator.userAgent.includes("Telegram")) {
-              // Nếu có, nạp nội dung vào <div id="root"></div>
-                document.getElementById('root').innerHTML = '<p>Chào mừng đến với Telegram Mini App!</p>';
-            } else {
-                // Nếu không, tải nội dung từ index1.html
-                fetch('index1.html')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.text();
-                    })
-                    .then(data => {
-                        document.getElementById('root').innerHTML = data;
-                    })
-                    .catch(error => {
-                        console.error('Đã xảy ra vấn đề với thao tác fetch:', error);
-                    });
+      // Tự động mở ứng dụng Telegram bằng giao thức tg://
+      // function openTelegramApp() {
+      //   const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+      //   // const telegramURL = 'https://t.me/MiLiKun_bot/app?startapp';
+  
+      //   // Kiểm tra nếu người dùng không truy cập từ Telegram Mini App thì chuyển hướng
+      //   if (!navigator.userAgent.includes("Telegram")) {
+      //     window.location.href = telegramURL;
+      //   }
+      // }
+  
+      // // Gọi hàm để mở Telegram
+      // openTelegramApp();
+      document.addEventListener("DOMContentLoaded", function() {
+    fetch('index1.html')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+            return response.text();
+        })
+        .then(data => {
+            document.getElementById('root').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
         });
+});
     </script>
-</body>
+
+   
+  </body>
 </html>
