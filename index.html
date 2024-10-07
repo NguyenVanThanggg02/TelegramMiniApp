@@ -1,50 +1,63 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000" />
-    <title>Digital Menu Landing Page</title>
-    
-    <link rel="stylesheet" href="style1.css">
-    <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" /> -->
-    
-    <!-- Content Security Policy (CSP) -->
+    <base href="/" />
+    <meta charset="utf-8" />
     <meta
       http-equiv="Content-Security-Policy"
       content=" 
-        default-src 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:;
-        img-src 'self' data: blob: https:;
-        script-src 'self' blob: 'unsafe-inline' 'unsafe-eval';
-        worker-src 'self' blob:;
-      "
+  default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
+  img-src 'self' data: blob: https:;
+  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ; 
+  worker-src 'self' blob:; 
+"
     />
-    
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
+
+    <title>Telegram Mini App</title>
+    <link rel="stylesheet" href="/assets/styles-global.css" />
   </head>
 
   <body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
-    <div id="message"></div>
+    <div id="message"> </div>
 
+ 
     <script>
-      // Fetch nội dung cho root từ index1.html
+      // Tự động mở ứng dụng Telegram bằng giao thức tg://
+      // function openTelegramApp() {
+      //   const telegramURL = 'tg://resolve?domain=MiLiKun_bot&appname=orderfood';
+      //   // const telegramURL = 'https://t.me/MiLiKun_bot/app?startapp';
+  
+      //   // Kiểm tra nếu người dùng không truy cập từ Telegram Mini App thì chuyển hướng
+      //   if (!navigator.userAgent.includes("Telegram")) {
+      //     window.location.href = telegramURL;
+      //   }
+      // }
+  
+      // // Gọi hàm để mở Telegram
+      // openTelegramApp();
       document.addEventListener("DOMContentLoaded", function() {
-        fetch('index1.html')
-          .then(response => {
+    fetch('index1.html')
+        .then(response => {
             if (!response.ok) {
-              throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok');
             }
             return response.text();
-          })
-          .then(data => {
+        })
+        .then(data => {
             document.getElementById('root').innerHTML = data;
-          })
-          .catch(error => {
+        })
+        .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
-          });
-      });
+        });
+});
     </script>
+
+   
   </body>
 </html>
