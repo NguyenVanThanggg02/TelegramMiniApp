@@ -443,7 +443,7 @@ const Index: React.FC = () => {
             style={{
               width: "90%",
               height: "85%",
-              margin: "14px 0",
+              margin: "10px 0",
               maxWidth: "550px",
               maxHeight: "650px",
             }}
