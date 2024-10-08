@@ -107,7 +107,6 @@ export const App: FC = () => {
                 {routes.map((route) => (
                   <Route key={route.path} {...route} />
                 ))}
-              { !initData && <Route path="*" element={<Navigate to="/landingPage" />} />}
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </Router>

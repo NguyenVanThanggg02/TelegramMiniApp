@@ -31,7 +31,6 @@ import OrderManagementDetails from '@/pages/admin/order-management/order-details
 import OrderPage from '@/pages/user/order';
 import ProfilePageBottomNavBar from '@/pages/profile/IndexBottom';
 import MenuBottomCommonPage from '@/components/menu/indexBottom';
-import landingPage from '@/pages/landingPage/landingPage';
 // import PageWithBottomNavBar from '@/components/pageWithBottomNavbar';
 
 
@@ -95,8 +94,6 @@ export const routes: Route[] = [
     { path: "/admin/voucher/update/:store_uuid/:voucher_uuid", Component: VoucherFormPage },
     // // MENU
     // { path: "/menu/:store_uuid/:table_uuid", Component: MenuCommonPage },
-    // landingPage
-    { path: "/landingPage", Component: landingPage },
 
   {
     path: '/ton-connect',
