@@ -26,28 +26,34 @@
     <script src="/src/index.tsx" type="module"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const userAgent = navigator.userAgent.toLowerCase();
-        let browser;
+          const userAgent = navigator.userAgent.toLowerCase();
+          let browser;
 
-        // Kiểm tra trình duyệt
-        if (userAgent.includes("chrome")) {
-          browser = "Chrome";
-        } else if (userAgent.includes("firefox")) {
-          browser = "Firefox";
-        } else if (userAgent.includes("safari")) {
-          browser = "Safari";
-        } else if (userAgent.includes("edge")) {
-          browser = "Edge";
-        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
-          browser = "Opera";
-        } else {
-          browser = "Unknown Browser";
-        }
-
-        // Hiển thị thông tin trình duyệt
-        document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
+          // Kiểm tra trình duyệt
+          if (userAgent.includes("chrome") || userAgent.includes("firefox") || userAgent.includes("safari") || userAgent.includes("edge") || userAgent.includes("opr") || userAgent.includes("opera")) {
+              // Nếu là một trong các trình duyệt trên, tải tệp HTML khác
+              fetch("other-page.html")
+                  .then((response) => {
+                      if (!response.ok) {
+                          throw new Error("Network response was not ok");
+                      }
+                      return response.text();
+                  })
+                  .then((data) => {
+                      document.getElementById("root").innerHTML = data;
+                  })
+                  .catch((error) => {
+                      console.error("Có lỗi xảy ra trong quá trình tải tệp:", error);
+                  });
+          } else if (userAgent.includes("telegram")) {
+              // Nếu truy cập từ Telegram, hiển thị nội dung cho Telegram
+              document.getElementById("root").innerHTML = "<p>Chào mừng bạn đến với ứng dụng Telegram!</p>";
+          } else {
+              // Nếu không phải là trình duyệt thông thường và không phải Telegram
+              document.getElementById("root").innerHTML = "<p>Vui lòng truy cập từ một trình duyệt thông thường hoặc Telegram.</p>";
+          }
       });
-    </script>
+  </script>
     
     <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
