@@ -16,7 +16,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
-    <link rel="stylesheet" href="style1.css">
 
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="/assets/styles-global.css" />
@@ -24,64 +23,38 @@
 
   <body>
     <div id="root"></div>
-      <script>
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
         const userAgent = navigator.userAgent.toLowerCase();
-        let browser;
+        let isCommonBrowser = false;
 
         // Kiểm tra trình duyệt
-        if (userAgent.includes("chrome")) {
-          browser = "Chrome";
-        } else if (userAgent.includes("firefox")) {
-          browser = "Firefox";
-        } else if (userAgent.includes("safari")) {
-          browser = "Safari";
-        } else if (userAgent.includes("edge")) {
-          browser = "Edge";
-        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
-          browser = "Opera";
-        } else {
-          browser = "Unknown Browser";
+        if (userAgent.includes("chrome") || userAgent.includes("firefox") || 
+            userAgent.includes("safari") || userAgent.includes("edge") || 
+            userAgent.includes("opr") || userAgent.includes("opera")) {
+          isCommonBrowser = true;
         }
 
-        // Hiển thị thông tin trình duyệt
-        // document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
-        document.getElementById("root").innerHTML = `
-       <header>
-                    <img id="logo" src="./assets/static-page/logo.svg" alt="logo" srcset="">
-                    <ul>
-                        <li><a class="home">Home</a></li>
-                        <li><a href="#">Press Kit</a></li>
-                    </ul>
-                    <a href="#" class="demo-btn">Demo</a>
-                </header>
-        `;
-        const logoSrc = document.getElementById("logo").src;
-        console.log(logoSrc);
-        
-
+        // Nếu trình duyệt là trình duyệt thông thường, tải nội dung từ tệp HTML khác
+        if (isCommonBrowser) {
+          fetch("indext1.html") // Tên tệp HTML khác
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.text();
+            })
+            .then((data) => {
+              document.getElementById("root").innerHTML = data;
+            })
+            .catch((error) => {
+              console.error("There was a problem with the fetch operation:", error);
+            });
+        } else {
+          document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng trình duyệt không được hỗ trợ.</p>`;
+        }
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
-    <!-- <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("index1.html")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then((data) => {
-            document.getElementById("root").innerHTML = data;
-          })
-          .catch((error) => {
-            console.error(
-              "There was a problem with the fetch operation:",
-              error
-            );
-          });
-      });
-    </script> -->
   </body>
 </html>
