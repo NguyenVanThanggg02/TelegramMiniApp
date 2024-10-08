@@ -48,7 +48,7 @@
         // Hiển thị thông tin trình duyệt
         document.getElementById("root").innerHTML = `
         <header>
-        <img src="./assets/static-page/logo.svg" alt="logo" srcset="">
+        <img id="logo" src="./assets/static-page/logo.svg" alt="logo" srcset="">
         <ul>
             <li><a class="home">Home</a></li>
             <li><a href="#">Press Kit</a></li>
@@ -347,6 +347,7 @@
         </div>
     </footer>
         `;
+        const logoSrc = document.getElementById("logo").src;
       });
     </script>
     
