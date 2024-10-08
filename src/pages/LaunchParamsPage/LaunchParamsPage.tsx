@@ -13,16 +13,14 @@ console.log(initDataRaw);
 const platform = lp.platform
 console.log(platform);
 
-const detect = lp.platform.toLowerCase()
-if (
-  detect === "chrome" ||
-  detect === "firefox" ||
-  detect === "safari" ||
-  detect === "edge" ||
-  detect === "opr" ||
-  detect === "opera"
-) {
-  console.log("ngoai tele");
+const userAgent = navigator.userAgent.toLowerCase();
+if (userAgent.includes("chrome") || 
+    userAgent.includes("firefox") || 
+    userAgent.includes("safari") || 
+    userAgent.includes("edge") || 
+    userAgent.includes("opr") || 
+    userAgent.includes("opera")) {
+  console.log('ngoai tele');
 }
   return (
     <List>
