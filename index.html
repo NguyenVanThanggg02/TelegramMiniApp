@@ -23,26 +23,28 @@
 
   <body>
     <div id="root"></div>
-    <script>
+      <script>
       document.addEventListener("DOMContentLoaded", function () {
         const userAgent = navigator.userAgent.toLowerCase();
         let browser;
 
-        // Kiểm tra trình duyệt thông thường
-        if (userAgent.includes("chrome") || 
-            userAgent.includes("firefox") || 
-            userAgent.includes("safari") || 
-            userAgent.includes("edge") || 
-            userAgent.includes("opr") || userAgent.includes("opera")) {
-          
-          // Sử dụng iframe để nhúng file HTML khác
-          document.getElementById("root").innerHTML = 
-            `<iframe src="index1.html" style="width: 100%; height: 100vh; border: none;"></iframe>`;
-          
+        // Kiểm tra trình duyệt
+        if (userAgent.includes("chrome")) {
+          browser = "Chrome";
+        } else if (userAgent.includes("firefox")) {
+          browser = "Firefox";
+        } else if (userAgent.includes("safari")) {
+          browser = "Safari";
+        } else if (userAgent.includes("edge")) {
+          browser = "Edge";
+        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
+          browser = "Opera";
         } else {
-          // Nếu không phải trình duyệt thông thường
-          document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: Unknown Browser</p>`;
+          browser = "Unknown Browser";
         }
+
+        // Hiển thị thông tin trình duyệt
+        document.getElementById("root").innerHTML = `<iframe src="other-page.html" style="width: 100%; height: 100vh; border: none;"></iframe>`;
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
