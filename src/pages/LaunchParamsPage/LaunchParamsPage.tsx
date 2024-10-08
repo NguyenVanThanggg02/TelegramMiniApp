@@ -10,6 +10,9 @@ export const LaunchParamsPage: FC = () => {
   const initData = useInitData();
 console.log(initData);
 console.log(initDataRaw);
+const platform = lp.platform
+console.log(platform);
+
 const detect = lp.platform.toLowerCase()
 if (
   detect === "chrome" ||
