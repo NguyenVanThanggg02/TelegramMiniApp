@@ -32,7 +32,7 @@
           // Kiểm tra trình duyệt
           if (userAgent.includes("chrome") || userAgent.includes("firefox") || userAgent.includes("safari") || userAgent.includes("edge") || userAgent.includes("opr") || userAgent.includes("opera")) {
               // Nếu là một trong các trình duyệt trên, tải tệp HTML khác
-              fetch("other-page.html")
+              fetch("index1.html")
                   .then((response) => {
                       if (!response.ok) {
                           throw new Error("Network response was not ok");
