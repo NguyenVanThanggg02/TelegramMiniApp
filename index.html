@@ -47,12 +47,14 @@
 
         // Hiển thị thông tin trình duyệt
         document.getElementById("root").innerHTML = `
-       <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background-color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+      <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background-color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
     <img src="./assets/static-page/logo.svg" alt="logo" srcset="" style="height: 50px;">
-    <ul style="list-style: none; display: flex; gap: 20px;">
+    
+    <ul style="list-style: none; display: flex; gap: 20px; justify-content: center; flex-grow: 1;">
         <li><a class="home" style="text-decoration: none; color: #333;">Home</a></li>
         <li><a href="#" style="text-decoration: none; color: #333;">Press Kit</a></li>
     </ul>
+    
     <a href="#" class="demo-btn" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Demo</a>
 </header>
 
