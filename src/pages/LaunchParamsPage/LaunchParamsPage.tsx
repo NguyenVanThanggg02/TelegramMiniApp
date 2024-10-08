@@ -10,6 +10,10 @@ export const LaunchParamsPage: FC = () => {
   const initData = useInitData();
 console.log(initData);
 console.log(initDataRaw);
+if(lp.platform === "chrome" || lp.platform === "firefox" || lp.platform === "safari" || lp.platform === "edge" || lp.platform === "opr" || lp.platform === "opera") {
+  console.log('ngoai tele');
+  
+}
   return (
     <List>
       <DisplayData
