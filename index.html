@@ -1,18 +1,17 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <base href="/" />
     <meta charset="utf-8" />
     <meta
-      http-equiv="Content-Security-Policy"
-      content=" 
-  default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
-  img-src 'self' data: blob: https:;
-  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ; 
-  worker-src 'self' blob:; 
-"
+        http-equiv="Content-Security-Policy"
+        content="
+            default-src 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
+            img-src 'self' data: blob: https:;
+            script-src 'self' blob: 'unsafe-inline' 'unsafe-eval'; 
+            worker-src 'self' blob:;
+        "
     />
-
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <link rel="preconnect" href="https://endpoint.goimonhanh.com" />
@@ -20,41 +19,38 @@
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <title>Telegram Mini App</title>
     <link rel="stylesheet" href="/assets/styles-global.css" />
-  </head>
-
-  <body>
+</head>
+<body>
     <div id="root"></div>
     <script src="/src/index.tsx" type="module"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          const userAgent = navigator.userAgent.toLowerCase();
-          let browser;
-
-          // Kiểm tra trình duyệt
-          if (userAgent.includes("chrome") || userAgent.includes("firefox") || userAgent.includes("safari") || userAgent.includes("edge") || userAgent.includes("opr") || userAgent.includes("opera")) {
-              // Nếu là một trong các trình duyệt trên, tải tệp HTML khác
-              fetch("index1.html")
-                  .then((response) => {
-                      if (!response.ok) {
-                          throw new Error("Network response was not ok");
-                      }
-                      return response.text();
-                  })
-                  .then((data) => {
-                      document.getElementById("root").innerHTML = data;
-                  })
-                  .catch((error) => {
-                      console.error("Có lỗi xảy ra trong quá trình tải tệp:", error);
-                  });
-          } else if (userAgent.includes("telegram")) {
-              // Nếu truy cập từ Telegram, hiển thị nội dung cho Telegram
-              document.getElementById("root").innerHTML = "<p>Chào mừng bạn đến với ứng dụng Telegram!</p>";
-          } else {
-              // Nếu không phải là trình duyệt thông thường và không phải Telegram
-              document.getElementById("root").innerHTML = "<p>Vui lòng truy cập từ một trình duyệt thông thường hoặc Telegram.</p>";
-          }
-      });
-  </script>
-    
-  </body>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let browser;
+            // Kiểm tra trình duyệt
+            if (userAgent.includes("chrome") || userAgent.includes("firefox") || userAgent.includes("safari") || userAgent.includes("edge") || userAgent.includes("opr") || userAgent.includes("opera")) {
+                // Nếu là một trong các trình duyệt trên, tải tệp HTML khác
+                fetch("index1.html")
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.text();
+                    })
+                    .then((data) => {
+                        document.getElementById("root").innerHTML = data;
+                    })
+                    .catch((error) => {
+                        console.error("Có lỗi xảy ra trong quá trình tải tệp:", error);
+                    });
+            } else if (userAgent.includes("telegram")) {
+                // Nếu truy cập từ Telegram, hiển thị nội dung cho Telegram
+                document.getElementById("root").innerHTML = "<p>Chào mừng bạn đến với ứng dụng Telegram!</p>";
+            } else {
+                // Nếu không phải là trình duyệt thông thường và không phải Telegram
+                document.getElementById("root").innerHTML = "<p>Vui lòng truy cập từ một trình duyệt thông thường hoặc Telegram.</p>";
+            }
+        });
+    </script>
+</body>
 </html>
