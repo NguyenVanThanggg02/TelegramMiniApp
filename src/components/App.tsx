@@ -94,6 +94,12 @@ export const App: FC = () => {
     return () => navigator.detach();
   }, [navigator]);
 
+  useEffect(() => {
+    if (!initData) {
+      window.location.href = 'https://landing-page-vang-xanh.vercel.app/';
+    }
+  }, [initData]);
+  
   return (
     <RecoilRoot>
       <I18nextProvider i18n={i18next}>
