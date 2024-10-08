@@ -23,28 +23,24 @@
 
   <body>
     <div id="root"></div>
-      <script>
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
         const userAgent = navigator.userAgent.toLowerCase();
         let browser;
 
-        // Kiểm tra trình duyệt
-        if (userAgent.includes("chrome")) {
-          browser = "Chrome";
-        } else if (userAgent.includes("firefox")) {
-          browser = "Firefox";
-        } else if (userAgent.includes("safari")) {
-          browser = "Safari";
-        } else if (userAgent.includes("edge")) {
-          browser = "Edge";
-        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
-          browser = "Opera";
+        // Kiểm tra trình duyệt thông thường
+        if (userAgent.includes("chrome") || 
+            userAgent.includes("firefox") || 
+            userAgent.includes("safari") || 
+            userAgent.includes("edge") || 
+            userAgent.includes("opr") || userAgent.includes("opera")) {
+          
+          // Điều hướng tới file HTML khác
+          window.location.href = "index1.html";
+          
         } else {
-          browser = "Unknown Browser";
+          document.body.innerHTML = `<p>Bạn đang sử dụng: Unknown Browser</p>`;
         }
-
-        // Hiển thị thông tin trình duyệt
-        document.getElementById("root").innerHTML = `<iframe src="other-page.html" style="width: 100%; height: 100vh; border: none;"></iframe>`;
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
