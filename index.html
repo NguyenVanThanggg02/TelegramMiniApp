@@ -25,44 +25,27 @@
     <div id="root"></div>
       <script>
       document.addEventListener("DOMContentLoaded", function () {
-    const userAgent = navigator.userAgent.toLowerCase();
-    let browser;
+        const userAgent = navigator.userAgent.toLowerCase();
+        let browser;
 
-    // Kiểm tra trình duyệt
-    if (userAgent.includes("chrome")) {
-        browser = "Chrome";
-    } else if (userAgent.includes("firefox")) {
-        browser = "Firefox";
-    } else if (userAgent.includes("safari")) {
-        browser = "Safari";
-    } else if (userAgent.includes("edge")) {
-        browser = "Edge";
-    } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
-        browser = "Opera";
-    } else {
-        browser = "Unknown Browser";
-    }
+        // Kiểm tra trình duyệt
+        if (userAgent.includes("chrome")) {
+          browser = "Chrome";
+        } else if (userAgent.includes("firefox")) {
+          browser = "Firefox";
+        } else if (userAgent.includes("safari")) {
+          browser = "Safari";
+        } else if (userAgent.includes("edge")) {
+          browser = "Edge";
+        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
+          browser = "Opera";
+        } else {
+          browser = "Unknown Browser";
+        }
 
-    // Chỉ hiển thị nội dung nếu trình duyệt đã xác định
-    if (browser !== "Unknown Browser") {
-        fetch("index1.html") // Thay đổi đường dẫn đến file HTML bạn muốn hiển thị
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.text();
-            })
-            .then((data) => {
-                document.getElementById("root").innerHTML = data; // Chèn nội dung vào phần tử có ID "root"
-            })
-            .catch((error) => {
-                console.error("There was a problem with the fetch operation:", error);
-            });
-    } else {
-        // Hiển thị thông báo nếu trình duyệt không được hỗ trợ
-        document.getElementById("root").innerHTML = `<p>Trình duyệt của bạn không được hỗ trợ.</p>`;
-    }
-});
+        // Hiển thị thông tin trình duyệt
+        document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
+      });
     </script>
     <script src="/src/index.tsx" type="module"></script>
     <!-- <script>
