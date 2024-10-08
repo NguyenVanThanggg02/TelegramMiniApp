@@ -293,6 +293,7 @@
   
   .benefits-text {
     max-width: 400px;
+    margin-top: 50px;
   }
   
   .benefits-text h2 {
@@ -478,6 +479,7 @@ body {
     font-size: 16px;
     color: #666;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .toggle-buttons {
@@ -515,8 +517,9 @@ body {
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    height: 450px;
+    width: 320px;
 }
-
 .plan-card h3 {
     font-size: 20px;
     color: #333;
@@ -543,7 +546,13 @@ body {
 .save-amount {
     font-size: 14px;
     color: #5fd7b9;
+    width: 120px;
+    height: 37px;
     margin-bottom: 20px;
+    border-radius: 15px;
+    padding-top: 12px;
+    background-color: rgba(239, 241, 244, 0.5);
+    margin-left: 70px;
 }
 
 .plan-card ul {
@@ -568,15 +577,15 @@ body {
 }
 
 .btn-signup {
-    background-color: #5fd7b9;
+    background-color: white;
 }
 
 .btn-pro {
-    background-color: #34a853;
+    background-color: #54bd95;
 }
 
 .btn-enterprise {
-    background-color: #fbbc05;
+    background-color: white;
 }
 
 /* Special Styles for Each Plan */
@@ -588,9 +597,9 @@ body {
     background-color: #e0f7f7;
 }
 
-.enterprise {
+/* .enterprise {
     background-color: #fff9f2;
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 768px) {
