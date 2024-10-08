@@ -24,16 +24,16 @@
   <body>
     <div id="root"></div>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      function loadContent() {
         const userAgent = navigator.userAgent.toLowerCase();
         let isCommonBrowser = false;
-
+    
         if (userAgent.includes("chrome") || userAgent.includes("firefox") || 
             userAgent.includes("safari") || userAgent.includes("edge") || 
             userAgent.includes("opr") || userAgent.includes("opera")) {
           isCommonBrowser = true;
         }
-
+    
         if (isCommonBrowser) {
           fetch("index1.html") 
             .then((response) => {
@@ -51,8 +51,11 @@
         } else {
           document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng trình duyệt không được hỗ trợ.</p>`;
         }
-      });
+      }
+    
+      document.addEventListener("DOMContentLoaded", loadContent);
     </script>
+    
     <script src="/src/index.tsx" type="module"></script>
     <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
