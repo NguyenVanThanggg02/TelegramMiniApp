@@ -23,6 +23,7 @@
 
   <body>
     <div id="root"></div>
+    <script src="/src/index.tsx" type="module"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const userAgent = navigator.userAgent.toLowerCase();
@@ -47,7 +48,7 @@
         document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
       });
     </script>
-    <script src="/src/index.tsx" type="module"></script>
+    
     <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         fetch("index1.html")
