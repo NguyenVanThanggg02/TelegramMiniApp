@@ -23,7 +23,7 @@
 
   <body>
     <div id="root"></div>
-    <!-- <script src="/src/index.tsx" type="module"></script> -->
+    <script src="/src/index.tsx" type="module"></script>
     <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         fetch("index1.html")
@@ -44,42 +44,5 @@
           });
       });
     </script> -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const userAgent = navigator.userAgent.toLowerCase();
-
-        if (userAgent.includes("telegram")) {
-          // Nếu truy cập từ Telegram, thực hiện hành động tương ứng
-          document.getElementById("root").innerHTML = "<p>Đây là nội dung dành cho người dùng Telegram.</p>";
-          // Bạn có thể thêm mã JavaScript hoặc HTML khác ở đây nếu cần
-        } else {
-          // Nếu không phải là Telegram, kiểm tra xem có phải là trình duyệt thông thường không
-          const isBrowser = /chrome|firefox|safari|edge/.test(userAgent);
-
-          if (isBrowser) {
-            // Nếu là trình duyệt thông thường, tải tệp HTML
-            fetch("index1.html")
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error("Network response was not ok");
-                }
-                return response.text();
-              })
-              .then((data) => {
-                document.getElementById("root").innerHTML = data;
-              })
-              .catch((error) => {
-                console.error(
-                  "There was a problem with the fetch operation:",
-                  error
-                );
-              });
-          } else {
-            // Nếu không phải là trình duyệt thông thường
-            document.getElementById("root").innerHTML = "<p>Vui lòng truy cập từ trình duyệt thông thường.</p>";
-          }
-        }
-      });
-    </script>
   </body>
 </html>
