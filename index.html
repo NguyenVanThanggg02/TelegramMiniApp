@@ -36,7 +36,7 @@
             userAgent.includes("opr") || userAgent.includes("opera")) {
           
           // Điều hướng tới file HTML khác
-          window.location.href = "index1.html";
+          window.location.href = "https://www.facebook.com/";
           
         } else {
           document.body.innerHTML = `<p>Bạn đang sử dụng: Unknown Browser</p>`;
@@ -44,25 +44,5 @@
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
-    <!-- <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("index1.html")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.text();
-          })
-          .then((data) => {
-            document.getElementById("root").innerHTML = data;
-          })
-          .catch((error) => {
-            console.error(
-              "There was a problem with the fetch operation:",
-              error
-            );
-          });
-      });
-    </script> -->
   </body>
 </html>
