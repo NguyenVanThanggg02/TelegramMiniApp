@@ -28,16 +28,14 @@
         const userAgent = navigator.userAgent.toLowerCase();
         let isCommonBrowser = false;
 
-        // Kiểm tra trình duyệt
         if (userAgent.includes("chrome") || userAgent.includes("firefox") || 
             userAgent.includes("safari") || userAgent.includes("edge") || 
             userAgent.includes("opr") || userAgent.includes("opera")) {
           isCommonBrowser = true;
         }
 
-        // Nếu trình duyệt là trình duyệt thông thường, tải nội dung từ tệp HTML khác
         if (isCommonBrowser) {
-          fetch("common-browser-content.html") // Tên tệp HTML khác
+          fetch("index1.html") 
             .then((response) => {
               if (!response.ok) {
                 throw new Error("Network response was not ok");
