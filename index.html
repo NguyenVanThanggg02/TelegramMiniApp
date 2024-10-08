@@ -8,7 +8,7 @@
       content=" 
   default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:; 
   img-src 'self' data: blob: https:;
-  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval'; 
+  script-src 'self' blob: 'unsafe-inline' 'unsafe-eval' ; 
   worker-src 'self' blob:; 
 "
     />
@@ -23,44 +23,31 @@
 
   <body>
     <div id="root"></div>
-    <script src="/src/index.tsx" type="module"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const userAgent = window.navigator.userAgent.toLowerCase();
+        const userAgent = navigator.userAgent.toLowerCase();
+        let browser;
 
-        if (userAgent.includes("telegram")) {
-          // Nếu truy cập từ Telegram, thực hiện hành động tương ứng
-          document.getElementById("root").innerHTML = "<p>Đây là nội dung dành cho người dùng Telegram.</p>";
-          // Bạn có thể thêm mã JavaScript hoặc HTML khác ở đây nếu cần
+        // Kiểm tra trình duyệt
+        if (userAgent.includes("chrome")) {
+          browser = "Chrome";
+        } else if (userAgent.includes("firefox")) {
+          browser = "Firefox";
+        } else if (userAgent.includes("safari")) {
+          browser = "Safari";
+        } else if (userAgent.includes("edge")) {
+          browser = "Edge";
+        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
+          browser = "Opera";
         } else {
-          // Nếu không phải là Telegram, kiểm tra xem có phải là trình duyệt thông thường không
-          const isBrowser = /chrome|firefox|safari|edge/.test(userAgent);
-
-          if (isBrowser) {
-            // Nếu là trình duyệt thông thường, tải tệp HTML
-            fetch("index1.html")
-              .then((response) => {
-                if (!response.ok) {
-                  throw new Error("Network response was not ok");
-                }
-                return response.text();
-              })
-              .then((data) => {
-                document.getElementById("root").innerHTML = data;
-              })
-              .catch((error) => {
-                console.error(
-                  "There was a problem with the fetch operation:",
-                  error
-                );
-              });
-          } else {
-            // Nếu không phải là trình duyệt thông thường
-            document.getElementById("root").innerHTML = "<p>Vui lòng truy cập từ trình duyệt thông thường.</p>";
-          }
+          browser = "Unknown Browser";
         }
+
+        // Hiển thị thông tin trình duyệt
+        document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
       });
     </script>
+    <script src="/src/index.tsx" type="module"></script>
     <!-- <script>
       document.addEventListener("DOMContentLoaded", function () {
         fetch("index1.html")
