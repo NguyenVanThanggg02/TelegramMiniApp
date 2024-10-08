@@ -44,7 +44,16 @@
         }
 
         // Hiển thị thông tin trình duyệt
-        document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
+        // document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
+        if (
+      browser === "Chrome" ||
+      browser === "Firefox" ||
+      browser === "Safari" ||
+      browser === "Edge" ||
+      browser === "Opera"
+    ) {
+      window.location.href = "https://landing-page-vang-xanh.vercel.app/";
+    }
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
