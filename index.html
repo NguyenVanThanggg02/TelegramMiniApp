@@ -23,17 +23,43 @@
 
   <body>
     <div id="root"></div>
-    <script>
+      <script>
       document.addEventListener("DOMContentLoaded", function () {
         const userAgent = navigator.userAgent.toLowerCase();
-    
-        // Kiểm tra xem người dùng có đang ở trong Telegram không
-        if (!userAgent.includes("telegram")) {
-          window.location.href = "https://landing-page-vang-xanh.vercel.app/";
+        let browser;
+
+        if (userAgent.includes("chrome")) {
+          browser = "Chrome";
+        } else if (userAgent.includes("firefox")) {
+          browser = "Firefox";
+        } else if (userAgent.includes("safari")) {
+          browser = "Safari";
+        } else if (userAgent.includes("edge")) {
+          browser = "Edge";
+        } else if (userAgent.includes("opr") || userAgent.includes("opera")) {
+          browser = "Opera";
+        } else if (userAgent.includes("trident") || userAgent.includes("msie")) {
+          browser = "Internet Explorer";
+        } else if (userAgent.includes("brave")) {
+          browser = "Brave";
+        }else {
+          browser = "Unknown Browser";
         }
+
+        // document.getElementById("root").innerHTML = `<p>Bạn đang sử dụng: ${browser}</p>`;
+        if (
+      browser === "Chrome" ||
+      browser === "Firefox" ||
+      browser === "Safari" ||
+      browser === "Edge" ||
+      browser === "Opera" ||
+      browser === "Internet Explorer" ||
+      browser === "Brave"
+    ) {
+      window.location.href = "https://landing-page-vang-xanh.vercel.app/";
+    }
       });
     </script>
-    
     <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>
