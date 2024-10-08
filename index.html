@@ -26,7 +26,7 @@
     <script src="/src/index.tsx" type="module"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const userAgent = navigator.userAgent.toLowerCase();
+        const userAgent = window.userAgent.toLowerCase();
 
         if (userAgent.includes("telegram")) {
           // Nếu truy cập từ Telegram, thực hiện hành động tương ứng
