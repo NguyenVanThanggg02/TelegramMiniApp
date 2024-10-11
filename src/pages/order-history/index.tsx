@@ -84,7 +84,6 @@ const OrderHistory: React.FC = () => {
         console.error("Error fetching store data:", response.error);
       }
     }
-    setLoading({ ...loading, isLoading: false });
 
   };
 
@@ -142,7 +141,6 @@ const OrderHistory: React.FC = () => {
       setSnackbarOpen(true);
     }
 
-    setLoading({ ...loading, isLoading: false });
   };
 
   // useEffect(() => {
