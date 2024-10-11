@@ -14,6 +14,7 @@ import storeIcon from "../../static/icons/store.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import useStoreDetail from "@/components/userStoreDetail";
 
 interface User {
   avatar: string;
@@ -64,7 +65,7 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
+  const { currency } = useStoreDetail();
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
 
@@ -205,7 +206,7 @@ const OrderHistory: React.FC = () => {
                                 <Text size="normal" style={{color:'black'}} >
                                   {priceFormatter(
                                     product.unit_price * product.quantity
-                                  )}
+                                  )}{" "+currency}
                                   <span style={{ marginLeft: "2px" }}>₫</span>
                                 </Text>
                               </Box>
@@ -262,7 +263,7 @@ const OrderHistory: React.FC = () => {
                                             0,
                                           ),
                                         )}
-                                        ₫{" "}
+                                        {" "+currency}
                                       </small>
                                     </span>
                                   </Text>
@@ -275,7 +276,7 @@ const OrderHistory: React.FC = () => {
                                       {priceFormatter(
                                         item.actual_payment_amount,
                                       )}
-                                      ₫
+                                      {" "+currency}
                                     </span>
                                   </Text>
                                 </>
@@ -287,7 +288,7 @@ const OrderHistory: React.FC = () => {
                                     }}
                                   >
                                     {priceFormatter(item.actual_payment_amount)}
-                                    ₫
+                                    {" "+currency}
                                   </span>
                                 </Text>
                               )}
@@ -310,7 +311,7 @@ const OrderHistory: React.FC = () => {
                             </Text>
                             <Text size="large">
                               <span style={{ paddingLeft: "6px" }}>
-                                {priceFormatter(item.actual_payment_amount)}₫{" "}
+                                {priceFormatter(item.actual_payment_amount)}{" "+currency}
                                 {(() => {
                                   if (!item?.actual_payment_amount) return "";
                                   const reduceAmount =
@@ -325,7 +326,7 @@ const OrderHistory: React.FC = () => {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      (-{priceFormatter(reduceAmount)}₫)
+                                      (-{priceFormatter(reduceAmount)}{" "+currency})
                                     </span>
                                   );
                                 })()}
