@@ -101,7 +101,7 @@ const OrderHistory: React.FC = () => {
 
   const getHistoryOrders = async () => {
     const data = await fetchHistoryOrdersByStore();
-    console.log(data.data);
+    console.log(data.data.store_uuid[0]);
     
     if (!data?.error) {
       const orders = data.data as Order[]; 
