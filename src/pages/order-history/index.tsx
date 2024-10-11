@@ -69,6 +69,7 @@ const OrderHistory: React.FC = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   const [currency, setCurrency] = useState<String | null>(null);
   console.log(currency);
+  console.log(store_uuid);
   
   const getStoreDetail = async () => {
     if (store_uuid) {
