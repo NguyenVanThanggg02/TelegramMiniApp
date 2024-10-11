@@ -65,6 +65,7 @@ const OrderHistory: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const [store_uuid, setStore_uuid] = useState('')
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const [currency, setCurrency] = useState<String | null>(null);
   console.log(currency);
@@ -84,6 +85,7 @@ const OrderHistory: React.FC = () => {
       }
     }
     setLoading({ ...loading, isLoading: false });
+
   };
 
 
@@ -143,14 +145,25 @@ const OrderHistory: React.FC = () => {
     setLoading({ ...loading, isLoading: false });
   };
 
+  // useEffect(() => {
+  //   setLoading({ ...loading, isLoading: true });
+  //   if (!user?.authToken) return;
+
+  //   if (store_uuid) {
+  //     getStoreDetail();
+  //   }
+  //   setTimeout(() => {
+  //     getHistoryOrders();
+  //   }, 500);
+  // }, [user.authToken, store_uuid]);
+
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
-    if (!user?.authToken) return;
 
-    if (store_uuid) {
-      getStoreDetail();
-    }
-      getHistoryOrders();
+    Promise.all([getStoreDetail(), currency, getHistoryOrders()]).then(() => {
+      setDataLoaded(true);
+      setLoading({ ...loading, isLoading: false });
+    });
   }, [user.authToken, store_uuid]);
 
   // useEffect(() => {
@@ -161,6 +174,7 @@ const OrderHistory: React.FC = () => {
   return (
     <Page className="section-container">
       <LoadingComponent />
+      {dataLoaded && (
       <Box className="order-history">
         {!isEmpty(orderHistoryList) ? (
           <>
@@ -381,6 +395,7 @@ const OrderHistory: React.FC = () => {
           <Box style={{color:'black'}}>{t("userOrder.noHaveOrdersYet")}</Box>
         )}
       </Box>
+    )}
       <div style={{borderRadius:'10px'}}>
           {snackbarOpen && (
             <Snackbar onClose={() => setSnackbarOpen(false)} duration={3000}>
