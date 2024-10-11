@@ -150,9 +150,7 @@ const OrderHistory: React.FC = () => {
     if (store_uuid) {
       getStoreDetail();
     }
-    setTimeout(() => {
       getHistoryOrders();
-    }, 500);
   }, [user.authToken, store_uuid]);
 
   // useEffect(() => {
