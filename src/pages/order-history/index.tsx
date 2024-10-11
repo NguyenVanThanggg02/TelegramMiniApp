@@ -197,7 +197,7 @@ const OrderHistory: React.FC = () => {
                                 <Box>
                                   <Text size="large" style={{color:'black'}}>
                                     <span className="fw-500">
-                                      {product.product_name} (x{product.quantity})
+                                      {product.product_name} (x{product.quantity}){" "+currency}
                                     </span>
                                   </Text>
                                 </Box>
@@ -206,8 +206,8 @@ const OrderHistory: React.FC = () => {
                                 <Text size="normal" style={{color:'black'}} >
                                   {priceFormatter(
                                     product.unit_price * product.quantity
-                                  )}{" "+currency}
-                                  <span style={{ marginLeft: "2px" }}>₫</span>
+                                  )}
+                                  <span style={{ marginLeft: "2px" }}>{" "+currency}</span>
                                 </Text>
                               </Box>
                             </Box>
