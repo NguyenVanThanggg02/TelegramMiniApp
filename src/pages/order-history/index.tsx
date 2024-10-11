@@ -92,7 +92,7 @@ const OrderHistory: React.FC = () => {
   }, [store_uuid]);
 
   const orderHistoryList = useMemo(() => {
-    if (!orderListByUser.orders?.length || !currency) return null; // Kiểm tra currency trước khi xử lý
+    if (!orderListByUser.orders?.length) return null;
 
     const filterOrders = orderListByUser.orders
       .filter((it) =>
