@@ -23,7 +23,7 @@
 
   <body>
     <div id="root"></div>
-      <!-- <script>
+      <script>
       document.addEventListener("DOMContentLoaded", function () {
         const userAgent = navigator.userAgent.toLowerCase();
         let browser;
@@ -60,17 +60,6 @@
       window.location.href = "https://menu-master-blush.vercel.app/";
 
     }
-      });
-    </script> -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const currentUrl = window.location.href;
-        
-        // Kiểm tra xem URL có bắt đầu bằng "https://web.telegram.org/" không
-        if (!currentUrl.startsWith("https://web.telegram.org/")) {
-          // Nếu không, chuyển hướng đến trang mong muốn
-          window.location.href = "https://menu-master-blush.vercel.app/";
-        }
       });
     </script>
     <script src="/src/index.tsx" type="module"></script>
