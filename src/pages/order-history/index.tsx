@@ -14,7 +14,6 @@ import storeIcon from "../../static/icons/store.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import useStoreDetail from "@/components/userStoreDetail";
 
 interface User {
   avatar: string;
@@ -65,7 +64,7 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const { currency } = useStoreDetail();
+  
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
 
@@ -197,7 +196,7 @@ const OrderHistory: React.FC = () => {
                                 <Box>
                                   <Text size="large" style={{color:'black'}}>
                                     <span className="fw-500">
-                                      {product.product_name} (x{product.quantity}){" "+currency}
+                                      {product.product_name} (x{product.quantity})
                                     </span>
                                   </Text>
                                 </Box>
@@ -207,7 +206,7 @@ const OrderHistory: React.FC = () => {
                                   {priceFormatter(
                                     product.unit_price * product.quantity
                                   )}
-                                  <span style={{ marginLeft: "2px" }}>{" "+currency}</span>
+                                  <span style={{ marginLeft: "2px" }}>₫</span>
                                 </Text>
                               </Box>
                             </Box>
@@ -263,7 +262,7 @@ const OrderHistory: React.FC = () => {
                                             0,
                                           ),
                                         )}
-                                        {" "+currency}
+                                        ₫{" "}
                                       </small>
                                     </span>
                                   </Text>
@@ -276,7 +275,7 @@ const OrderHistory: React.FC = () => {
                                       {priceFormatter(
                                         item.actual_payment_amount,
                                       )}
-                                      {" "+currency}
+                                      ₫
                                     </span>
                                   </Text>
                                 </>
@@ -288,7 +287,7 @@ const OrderHistory: React.FC = () => {
                                     }}
                                   >
                                     {priceFormatter(item.actual_payment_amount)}
-                                    {" "+currency}
+                                    ₫
                                   </span>
                                 </Text>
                               )}
@@ -311,7 +310,7 @@ const OrderHistory: React.FC = () => {
                             </Text>
                             <Text size="large">
                               <span style={{ paddingLeft: "6px" }}>
-                                {priceFormatter(item.actual_payment_amount)}{" "+currency}
+                                {priceFormatter(item.actual_payment_amount)}₫{" "}
                                 {(() => {
                                   if (!item?.actual_payment_amount) return "";
                                   const reduceAmount =
@@ -326,7 +325,7 @@ const OrderHistory: React.FC = () => {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      (-{priceFormatter(reduceAmount)}{" "+currency})
+                                      (-{priceFormatter(reduceAmount)}₫)
                                     </span>
                                   );
                                 })()}
