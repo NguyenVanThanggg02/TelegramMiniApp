@@ -9,7 +9,7 @@ import { groupBy, isEmpty } from "lodash";
 import { dateFormatterYYYYMMDD } from "../../utils/dateFormatter";
 import { priceFormatter } from "../../utils/numberFormatter";
 import { ORDER_STATUS } from "../../constants";
-import LoadingComponent from "../../components/loading_component";
+// import LoadingComponent from "../../components/loading_component";
 import storeIcon from "../../static/icons/store.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -156,20 +156,20 @@ const OrderHistory: React.FC = () => {
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
 
-    Promise.all([currency, getHistoryOrders()]).then(() => {
+    Promise.all([getStoreDetail(), currency, getHistoryOrders()]).then(() => {
       setDataLoaded(true);
       setLoading({ ...loading, isLoading: false });
     });
-  }, [user.authToken]);
+  }, [user.authToken, store_uuid]);
 
-  useEffect(() => {
-    if (store_uuid) {
-      getStoreDetail();
-    }
-  }, [store_uuid]);
+  // useEffect(() => {
+  //   if (store_uuid) {
+  //     getStoreDetail();
+  //   }
+  // }, [store_uuid]);
   return (
     <Page className="section-container">
-      <LoadingComponent />
+      {/* <LoadingComponent /> */}
       {dataLoaded && (
       <Box className="order-history">
         {!isEmpty(orderHistoryList) ? (
