@@ -83,13 +83,10 @@ const OrderHistory: React.FC = () => {
         console.error("Error fetching store data:", response.error);
       }
     }
+    setLoading({ ...loading, isLoading: false });
   };
 
-  useEffect(() => {
-    if (store_uuid) {
-      getStoreDetail();
-    }
-  }, [store_uuid]);
+
 
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
@@ -150,11 +147,19 @@ const OrderHistory: React.FC = () => {
     setLoading({ ...loading, isLoading: true });
     if (!user?.authToken) return;
 
+    if (store_uuid) {
+      getStoreDetail();
+    }
     setTimeout(() => {
       getHistoryOrders();
     }, 500);
-  }, [user.authToken]);
+  }, [user.authToken, store_uuid]);
 
+  // useEffect(() => {
+  //   if (store_uuid) {
+  //     getStoreDetail();
+  //   }
+  // }, [store_uuid]);
   return (
     <Page className="section-container">
       <LoadingComponent />
