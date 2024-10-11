@@ -156,17 +156,17 @@ const OrderHistory: React.FC = () => {
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
 
-    Promise.all([getStoreDetail(), currency, getHistoryOrders()]).then(() => {
+    Promise.all([currency, getHistoryOrders()]).then(() => {
       setDataLoaded(true);
       setLoading({ ...loading, isLoading: false });
     });
-  }, [user.authToken, store_uuid]);
+  }, [user.authToken]);
 
-  // useEffect(() => {
-  //   if (store_uuid) {
-  //     getStoreDetail();
-  //   }
-  // }, [store_uuid]);
+  useEffect(() => {
+    if (store_uuid) {
+      getStoreDetail();
+    }
+  }, [store_uuid]);
   return (
     <Page className="section-container">
       <LoadingComponent />
