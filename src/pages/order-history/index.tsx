@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import { loadingState, orderListByUserState, userState } from "../../state";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { fetchHistoryOrdersByStore, getStoreByUUID } from "../../api/api";
+import { fetchHistoryOrdersByStore } from "../../api/api";
 import { Box, Page, Select, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import { groupBy, isEmpty } from "lodash";
@@ -65,29 +65,9 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
   const { store_uuid } = useParams<{ store_uuid?: string }>();
-  const [currency, setCurrency] = useState<String | null>(null);
-  console.log(currency);
   console.log(store_uuid);
   
-  const getStoreDetail = async () => {
-    if (store_uuid) {
-      const response = await getStoreByUUID(store_uuid);
-      if (response.data) {
-        const metadata = JSON.parse(response.data.metadata);
-        const currencyValue = metadata.currency || '$'; 
-        setCurrency(currencyValue);
-      } else {
-        console.error("Error fetching store data:", response.error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getStoreDetail();
-  }, []);
-
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
 
