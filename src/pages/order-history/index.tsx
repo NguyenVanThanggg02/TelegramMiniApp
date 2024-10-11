@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./styles.scss";
 import { loadingState, orderListByUserState, userState } from "../../state";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { fetchHistoryOrdersByStore } from "../../api/api";
+import { fetchHistoryOrdersByStore, getStoreByUUID } from "../../api/api";
 import { Box, Page, Select, Text } from "zmp-ui";
 import { useTranslation } from "react-i18next";
 import { groupBy, isEmpty } from "lodash";
@@ -64,7 +64,28 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
+  const [store_uuid, setStore_uuid] = useState('')
+
+  const [currency, setCurrency] = useState<String | null>(null);
+  // const [loading, setLoading] = useRecoilState(loadingState);
+
+  const getStoreDetail = async () => {
+    if (store_uuid) {
+      const response = await getStoreByUUID(store_uuid);
+      if (response.data) {
+        const metadata = JSON.parse(response.data.metadata);
+        const currencyValue = metadata.currency || '$'; 
+        setCurrency(currencyValue);
+      } else {
+        console.error("Error fetching store data:", response.error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getStoreDetail();
+  }, []);
+
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
 
@@ -101,7 +122,7 @@ const OrderHistory: React.FC = () => {
 
   const getHistoryOrders = async () => {
     const data = await fetchHistoryOrdersByStore();
-    console.log(data.data[0].store_uuid);
+    setStore_uuid(data.data[0].store_uuid);
     
     if (!data?.error) {
       const orders = data.data as Order[]; 
@@ -208,7 +229,7 @@ const OrderHistory: React.FC = () => {
                                   {priceFormatter(
                                     product.unit_price * product.quantity
                                   )}
-                                  <span style={{ marginLeft: "2px" }}>₫</span>
+                                  <span style={{ marginLeft: "2px" }}>{currency}</span>
                                 </Text>
                               </Box>
                             </Box>
@@ -264,7 +285,7 @@ const OrderHistory: React.FC = () => {
                                             0,
                                           ),
                                         )}
-                                        ₫{" "}
+                                        {currency}{" "}
                                       </small>
                                     </span>
                                   </Text>
@@ -277,7 +298,7 @@ const OrderHistory: React.FC = () => {
                                       {priceFormatter(
                                         item.actual_payment_amount,
                                       )}
-                                      ₫
+                                      {currency}
                                     </span>
                                   </Text>
                                 </>
@@ -289,7 +310,7 @@ const OrderHistory: React.FC = () => {
                                     }}
                                   >
                                     {priceFormatter(item.actual_payment_amount)}
-                                    ₫
+                                    {currency}
                                   </span>
                                 </Text>
                               )}
@@ -312,7 +333,7 @@ const OrderHistory: React.FC = () => {
                             </Text>
                             <Text size="large">
                               <span style={{ paddingLeft: "6px" }}>
-                                {priceFormatter(item.actual_payment_amount)}₫{" "}
+                                {priceFormatter(item.actual_payment_amount)}{currency}{" "}
                                 {(() => {
                                   if (!item?.actual_payment_amount) return "";
                                   const reduceAmount =
@@ -327,7 +348,7 @@ const OrderHistory: React.FC = () => {
                                         fontWeight: 500,
                                       }}
                                     >
-                                      (-{priceFormatter(reduceAmount)}₫)
+                                      (-{priceFormatter(reduceAmount)}{currency})
                                     </span>
                                   );
                                 })()}
