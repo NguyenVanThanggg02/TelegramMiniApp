@@ -14,6 +14,7 @@ import storeIcon from "../../static/icons/store.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import useStoreDetail from "@/components/userStoreDetail";
 
 interface User {
   avatar: string;
@@ -64,7 +65,8 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
+  const { currency } = useStoreDetail();
+  console.log(currency);
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
 
