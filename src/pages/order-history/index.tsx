@@ -14,7 +14,6 @@ import storeIcon from "../../static/icons/store.png";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
-import { useParams } from "react-router-dom";
 
 interface User {
   avatar: string;
@@ -65,8 +64,6 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const { store_uuid } = useParams<{ store_uuid?: string }>();
-  console.log(store_uuid);
   
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
@@ -104,6 +101,8 @@ const OrderHistory: React.FC = () => {
 
   const getHistoryOrders = async () => {
     const data = await fetchHistoryOrdersByStore();
+    console.log(data);
+    
     if (!data?.error) {
       const orders = data.data as Order[]; 
       setOrderListByUser({
