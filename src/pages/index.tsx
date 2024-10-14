@@ -442,8 +442,8 @@ const Index: React.FC = () => {
             src={scanQr}
             style={{
               width: "90%",
-              height: "300px",
-              margin: "14px 0",
+              height: "85%",
+              margin: "0",
               maxWidth: "550px",
               maxHeight: "650px",
             }}
