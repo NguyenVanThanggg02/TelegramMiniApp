@@ -54,6 +54,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const { currency } = useStoreDetail();
+  console.log(currency);
 
   const totalBill = useMemo(
     () => sum(cart.map((item) => item.price * item.quantity)),

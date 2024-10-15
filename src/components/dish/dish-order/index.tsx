@@ -46,6 +46,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
   const { t } = useTranslation("global");
   const [quantity, setQuantity] = useState<number>(1);
   const {currency} = useStoreDetail()
+  console.log(currency);
   
   const resetDefault = () => {
     setQuantity(1);
