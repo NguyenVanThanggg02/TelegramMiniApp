@@ -17,7 +17,7 @@ import {
 } from "../../state";
 import "./styles.scss";
 import DishOrderSheet from "../../components/dish/dish-order";
-import { priceFormatter } from "../../utils/numberFormatter";
+import { formatUSD, priceFormatter } from "../../utils/numberFormatter";
 import { isEmpty, sum } from "lodash";
 import OrderSubmitModal from "../order-submit-modal";
 import { useTranslation } from "react-i18next";
@@ -33,6 +33,7 @@ import { Tabs, Tab } from "@mui/material";
 import TableRestaurantIcon from "@mui/icons-material/TableRestaurant";
 import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
+import useStoreDetail from "../userStoreDetail";
 
 
 interface DishImage {
@@ -149,6 +150,7 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
+  const { currency } = useStoreDetail();
 
   const navigate = useNavigate();
 
@@ -535,7 +537,9 @@ const MenuBottomCommonPage: React.FC<MenuCommonPageProps> = () => {
                   {t("menu.order")}
                 </Text>
                 <Text size="large" style={{ color: "black" }}>
-                  {cart.length} {t("menu.dish")}・{priceFormatter(totalBill)}
+                  {cart.length} {t("menu.dish")}・{currency === "$"
+                ? formatUSD(totalBill)
+                : `${currency} ${priceFormatter(totalBill)}`}
                 </Text>
               </Box>
 
