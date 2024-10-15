@@ -131,7 +131,7 @@ const ProductFormPage: React.FC = () => {
 
       case "price":
         if (typeof value === "string") {
-          const formattedValue = formatNumberToVND(value); // Gọi hàm format cho chuỗi
+          const formattedValue = value; 
           setForm((prevForm) => ({
             ...prevForm,
             price: formattedValue,
