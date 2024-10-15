@@ -75,6 +75,8 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   
     const response = await sendCreateOrderRequest(payload);
     const data = response.data
+    console.log(data);
+    
     if (!data.error ) {
       // const newOrder: Order = response.data;
   
