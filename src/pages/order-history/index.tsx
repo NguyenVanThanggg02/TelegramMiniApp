@@ -65,11 +65,9 @@ const OrderHistory: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const [store_uuid, setStore_uuid] = useState('')
-  const [dataLoaded, setDataLoaded] = useState(false);
 
+  const [dataLoaded, setDataLoaded] = useState(false);
   const [currency, setCurrency] = useState<String | null>(null);
-  console.log(currency);
-  console.log(store_uuid);
   
   const getStoreDetail = async () => {
     if (store_uuid) {
@@ -141,32 +139,15 @@ const OrderHistory: React.FC = () => {
 
   };
 
-  // useEffect(() => {
-  //   setLoading({ ...loading, isLoading: true });
-  //   if (!user?.authToken) return;
-
-  //   if (store_uuid) {
-  //     getStoreDetail();
-  //   }
-  //   setTimeout(() => {
-  //     getHistoryOrders();
-  //   }, 500);
-  // }, [user.authToken, store_uuid]);
-
   useEffect(() => {
     setLoading({ ...loading, isLoading: true });
 
-    Promise.all([currency, getHistoryOrders()]).then(() => {
+    Promise.all([getHistoryOrders(), getStoreDetail()]).then(() => {
       setDataLoaded(true);
       setLoading({ ...loading, isLoading: false });
     });
-  }, [user.authToken]);
-
-  useEffect(() => {
-    if (store_uuid) {
-      getStoreDetail();
-    }
-  }, [store_uuid]);
+  }, [user.authToken, store_uuid]);
+  
   return (
     <Page className="section-container">
       <LoadingComponent />
