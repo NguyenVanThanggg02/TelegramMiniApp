@@ -129,9 +129,6 @@ const OrderHistory: React.FC = () => {
         is_update: true,
         orders,
       });
-      if (orders.length > 0) {
-        setStore_uuid(orders[0].store_uuid);  
-      }
     } else {
       setSnackbarMessage(typeof data.error === "string"
         ? data.error
@@ -163,10 +160,7 @@ const OrderHistory: React.FC = () => {
 
     fetchData();
   }, [user.authToken, store_uuid]);
-  if (!dataLoaded) {
-    setLoading({ ...loading, isLoading: true });
-    return; 
-}
+  
   return (
     <Page className="section-container">
       <LoadingComponent />
