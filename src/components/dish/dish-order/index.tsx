@@ -48,6 +48,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
   const [quantity, setQuantity] = useState<number>(1);
   const { store_uuid } = useStoreDetail();
   const [currency, setCurrency] = useState<String | null>(null);
+  console.log(currency);
 
   const getStoreDetail = async () => {
     if (store_uuid) {

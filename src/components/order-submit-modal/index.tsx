@@ -55,7 +55,8 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
   const { store_uuid } = useStoreDetail();
   const [currency, setCurrency] = useState<String | null>(null);
-
+  console.log(currency);
+  
   const getStoreDetail = async () => {
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
