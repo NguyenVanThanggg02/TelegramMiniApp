@@ -3,7 +3,7 @@ import { Box, Button, Text } from 'zmp-ui';
 import { PRODUCT_STATUS } from '../../../constants';
 import './styles.scss';
 import { useTranslation } from 'react-i18next';
-// import { formatUSD, priceFormatter } from '../../../utils/numberFormatter';
+import { formatUSD, priceFormatter } from '../../../utils/numberFormatter';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
 interface Category {
@@ -32,16 +32,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onDetails,
   setIsShowConfirm,
   setSelectedProduct,
-  // currency,
+  currency,
 }) => {
   const { t } = useTranslation('global');
   // const formattedPrice = currency === "$"
   // ? formatUSD(product.price)
   // : `${currency} ${priceFormatter(product.price)}`;
 
-  // const formattedPrice = currency === "$"
-  // ? formatUSD(parseFloat(product.price.toString().replace(',', '.'))) 
-  // : `${currency} ${priceFormatter(product.price)}`;
+  const formattedPrice = currency === "$"
+  ? formatUSD(parseFloat(product.price.toString().replace(',', '.'))) 
+  : `${currency} ${priceFormatter(product.price)}`;
 
   return (
     <Box
@@ -73,7 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             {t('productManagement.status.hidden')}
           </Box>
         )}
-        <Text size="normal" style={{color:'black'}}>  {product.price}</Text>
+        <Text size="normal" style={{color:'black'}}> {formattedPrice}</Text>
         <Text size="xxSmall" className="text-category">
           {t('storeManagement.categories')}:
           {product.categories.map((item, index) =>

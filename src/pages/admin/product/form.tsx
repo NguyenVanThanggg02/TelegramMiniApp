@@ -412,7 +412,8 @@ const ProductFormPage: React.FC = () => {
         name: form.name,
         describe: form.describe,
         status: showButtonStatus ? "show_now" : "not_show",
-        price: parseInt(form.price.replace(/\D/g, ""), 10),
+        price: parseInt(form.price),
+        // price: parseInt(form.price.replace(/\D/g, ""), 10),
         image_uuids: images.map((img) => img.uuid || ""), 
       },
     };
