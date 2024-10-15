@@ -97,7 +97,11 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
             </Text>
           </Box>
           <Text size="large" bold className="red-color">
-            {priceFormatter(isAdmin ? product.unit_price : product.price)}
+            {currency === "$"
+              ? formatUSD(
+                  isAdmin ? (product.unit_price ?? 0) : (product.price ?? 0)
+                )
+              : `${currency} ${priceFormatter(isAdmin ? (product.unit_price ?? 0) : (product.price ?? 0))}`}
           </Text>
         </Box>
       </Box>
