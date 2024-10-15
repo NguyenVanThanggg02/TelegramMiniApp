@@ -32,7 +32,6 @@ import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
 import LoadingComponent from "../loading_component";
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import useStoreDetail from "../userStoreDetail";
 
 interface DishImage {
   uuid: string;
@@ -148,8 +147,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
   
-  const { currency } = useStoreDetail();
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [currency, setCurrency] = useState<String | null>(null);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -206,6 +205,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const response: ApiResponse<Store> = await getStoreByUUID(store_uuid);
   
     if (response.data) {
+      const metadata = JSON.parse(response.data.metadata);
+      const currencyValue = metadata.currency || "$";
+      setCurrency(currencyValue);
       setStoreDetail(response.data);
     } else {
       setStoreDetail(null);
@@ -350,68 +352,50 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   };
   
 
-
   useEffect(() => {
-    setLoading({ ...loading, isLoading: true });
-  
+    setLoading({ ...loading, isLoading: true }); 
+
     const fetchData = async () => {
       if (!store_uuid) return;
-  
-      // Lấy chi tiết cửa hàng
-      await getStoreDetail();
-  
-      if (tenant_id) {
-        await cloudStorage.set('subdomain', tenant_id);
-      } else {
-        await fetchCategoriesByStore(store_uuid);
-        await fetchProductsByStore(store_uuid);
-        await fetchTablesByStore(store_uuid);
-      }
-  
-      const subdomain = tenant_id || '';
-      const name = '';
-      const created_at = '';
       
-      setStore({
-        uuid: store_uuid,
-        subdomain,
-        name,
-        created_at,
-        store_settings: [],
-        ai_requests_count: 0
-      });
-  
-      // Kiểm tra xem tất cả dữ liệu đã được lấy chưa
-      const categoriesFetched = categoryList.categories.length > 0;
-      const productsFetched = productList.products.length > 0;
-      const tablesFetched = tableList.tables.length > 0;
-  
-      // Cập nhật danh sách categories, products và tables nếu chưa được lấy
-      if (!categoriesFetched) {
+      await getStoreDetail();
+      setDataLoaded(true);
+      if (tenant_id) {
+        await cloudStorage.set('subdomain', tenant_id); 
+      } else {
         await fetchCategoriesByStore(store_uuid);
-      }
-  
-      if (!productsFetched) {
         await fetchProductsByStore(store_uuid);
-      }
-  
-      if (!tablesFetched) {
         await fetchTablesByStore(store_uuid);
       }
   
-      // Chỉ khi currency và tất cả các dữ liệu khác đã có mới cập nhật dataLoaded
-      if (currency && categoriesFetched && productsFetched && tablesFetched) {
-        setDataLoaded(true);
-      } else {
-        console.error('Currency or some data is not available');
+    const subdomain: string = tenant_id || '';
+    
+    const name = ''; 
+    const created_at = ''; 
+    setStore({
+      uuid: store_uuid,
+      subdomain,
+      name,
+      created_at,
+      store_settings: [],
+      ai_requests_count: 0
+    });
+  
+      if (!categoryList.categories.length) {
+        await fetchCategoriesByStore(store_uuid);
       }
   
-      setLoading({ ...loading, isLoading: false });
+      if (!productList.products.length) {
+        await fetchProductsByStore(store_uuid);
+      }
+  
+      if (!tableList.tables.length) {
+        await fetchTablesByStore(store_uuid);
+      }
     };
   
     fetchData();
-  }, [store_uuid, currency, tenant_id, categoryList, productList, tableList]);
-
+  }, [store_uuid]);
 
   const transformDishToProduct = (dish: Dish): Product => {
     return {
@@ -435,8 +419,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <LoadingComponent />
-        {dataLoaded && ( 
-          <>
+        {dataLoaded && (
+<>
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -632,7 +616,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           />
         </Box>
         </>
-      )}
+        )}
       </Page>
     </>
   );
