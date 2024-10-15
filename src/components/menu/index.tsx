@@ -394,8 +394,7 @@ useEffect(() => {
       await fetchTablesByStore(store_uuid);
     }
 
-    // Chỉ gọi setDataLoaded khi currency đã có và tất cả các dữ liệu khác đã được tải
-    if (currency) {
+    if (currency && categoryList.categories.length && productList.products.length && tableList.tables.length) {
       setDataLoaded(true);
     } else {
       console.error('Currency not available');
@@ -405,7 +404,7 @@ useEffect(() => {
   };
 
   fetchData();
-}, [store_uuid, currency]); // Thêm currency vào dependencies
+}, [store_uuid, currency,tenant_id]); 
 
 
   const transformDishToProduct = (dish: Dish): Product => {
