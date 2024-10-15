@@ -207,11 +207,11 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     if (response.data) {
       const metadata = JSON.parse(response.data.metadata);
       const currencyValue = metadata.currency || "$";
+      setCurrency(currencyValue);
       setStoreDetail(response.data);
-      return currencyValue;
     } else {
       setStoreDetail(null);
-      console.error('Error fetching store details:', response.error);
+      console.error("Error fetching store details:", response.error);
     }
   };
   
@@ -353,81 +353,49 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   useEffect(() => {
+    setLoading({ ...loading, isLoading: true }); 
+
     const fetchData = async () => {
-      setLoading({ ...loading, isLoading: true });
-    
       if (!store_uuid) return;
+      
+      await getStoreDetail();
+      setDataLoaded(true);
+      if (tenant_id) {
+        await cloudStorage.set('subdomain', tenant_id); 
+      } else {
+        await fetchCategoriesByStore(store_uuid);
+        await fetchProductsByStore(store_uuid);
+        await fetchTablesByStore(store_uuid);
+      }
+  
+    const subdomain: string = tenant_id || '';
     
-      try {
-        let fetchedCurrency = null;
-    
-        // Lấy thông tin chi tiết cửa hàng
-        const storeDetailResponse = await getStoreDetail();
-        if (storeDetailResponse.data) {
-          const metadata = JSON.parse(storeDetailResponse.data.metadata);
-          fetchedCurrency = metadata.currency || null; // Không gán giá trị mặc định là '$'
-        } else {
-          console.error('Error fetching store details');
-          return; // Kết thúc hàm nếu không lấy được dữ liệu cửa hàng
-        }
-    
-        // Cài đặt subdomain nếu có
-        if (tenant_id) {
-          await cloudStorage.set('subdomain', tenant_id);
-        }
-    
-        // Promise.all để lấy categories, products và tables cùng một lúc
-        const fetchPromises = [];
-    
-        if (!categoryList.categories.length) {
-          fetchPromises.push(fetchCategoriesByStore(store_uuid));
-        }
-    
-        if (!productList.products.length) {
-          fetchPromises.push(fetchProductsByStore(store_uuid));
-        }
-    
-        if (!tableList.tables.length) {
-          fetchPromises.push(fetchTablesByStore(store_uuid));
-        }
-    
-        // Chờ tất cả các promise hoàn thành
-        await Promise.all(fetchPromises);
-    
-        // Cập nhật thông tin cửa hàng
-        setStore({
-          uuid: store_uuid,
-          subdomain: tenant_id || '',
-          name: '',
-          created_at: '',
-          store_settings: [],
-          ai_requests_count: 0,
-        });
-    
-        // Cập nhật currency
-        setCurrency(fetchedCurrency); 
-    
-        // Kiểm tra điều kiện để thiết lập dataLoaded
-        if (
-          fetchedCurrency && 
-          categoryList.categories.length && 
-          productList.products.length && 
-          tableList.tables.length
-        ) {
-          setDataLoaded(true); // Chỉ đặt dataLoaded thành true khi tất cả dữ liệu đã có
-        } else {
-          console.error('Currency or some data is not available');
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading({ ...loading, isLoading: false });
+    const name = ''; 
+    const created_at = ''; 
+    setStore({
+      uuid: store_uuid,
+      subdomain,
+      name,
+      created_at,
+      store_settings: [],
+      ai_requests_count: 0
+    });
+  
+      if (!categoryList.categories.length) {
+        await fetchCategoriesByStore(store_uuid);
+      }
+  
+      if (!productList.products.length) {
+        await fetchProductsByStore(store_uuid);
+      }
+  
+      if (!tableList.tables.length) {
+        await fetchTablesByStore(store_uuid);
       }
     };
   
     fetchData();
-  }, [store_uuid, tenant_id, categoryList, productList, tableList]);
-  
+  }, [store_uuid]);
 
   const transformDishToProduct = (dish: Dish): Product => {
     return {
