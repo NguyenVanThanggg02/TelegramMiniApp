@@ -10,7 +10,7 @@ import {
   Select,
 } from 'zmp-ui';
 import './styles.scss';
-import { priceFormatter } from '../../utils/numberFormatter';
+import { formatUSD, priceFormatter } from '../../utils/numberFormatter';
 import { DEFAULT_IMAGE_PRODUCT } from '../../constants';
 import { sendCreateOrderRequest } from '../../api/api';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -26,6 +26,7 @@ import { useTranslation } from 'react-i18next';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import useStoreDetail from '../userStoreDetail';
 
 interface OrderSubmitModalProps {
   isShow: boolean;
@@ -52,7 +53,8 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
+  const { currency } = useStoreDetail();
+
   const totalBill = useMemo(
     () => sum(cart.map((item) => item.price * item.quantity)),
     [cart],
@@ -152,9 +154,11 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
                 width={80}
                 style={{ color: "black" }}
               >
-                {priceFormatter(item.price)}
-                <span style={{ marginLeft: "2px" }}>₫</span>
-              </Box>
+                {currency === "$"
+                  ? formatUSD(item.price)
+                  : `${currency} ${priceFormatter(item.price)}`}
+                <span style={{ marginLeft: "2px" }}>{" " + currency}</span>
+                </Box>
             </Box>
           ))}
         </Box>
@@ -214,7 +218,10 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           onClick={onOrderSubmit}
           disabled={!table.uuid && !tableSelected}
         >
-          {t("menu.submitOrder")}: {priceFormatter(totalBill)}₫
+          {t("menu.submitOrder")}:{" "}
+          {currency === "$"
+            ? formatUSD(totalBill)
+            : `${currency} ${priceFormatter(totalBill)}`}{" "}
         </Button>
       </Box>
       <div style={{ borderRadius: "10px" }}>
