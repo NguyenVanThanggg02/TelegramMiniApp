@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, storeState } from "../../../state";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { formatNumberToVND, formatUSD } from "../../../utils/numberFormatter";
+import { formatNumberToVND } from "../../../utils/numberFormatter";
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import WarningIcon from '@mui/icons-material/Warning';
 import {
@@ -124,38 +124,21 @@ const ProductFormPage: React.FC = () => {
       case "selectedStore":
         setForm((prevForm) => ({
           ...prevForm,
-          selectedStore: value as string, 
-          selectedCategories: [], 
+          selectedStore: value as string,
+          selectedCategories: [],
         }));
         break;
-  
-        case "price":
-            let formattedValue;
 
-            if (typeof value === 'string') {
-                if (currency === "$") {
-                    const valueWithDecimal = value.replace(',', '.');
-                    const amount = parseFloat(valueWithDecimal); 
+      case "price":
+        if (typeof value === "string") {
+          const formattedValue = formatNumberToVND(value); // Gọi hàm format cho chuỗi
+          setForm((prevForm) => ({
+            ...prevForm,
+            price: formattedValue,
+          }));
+        }
+        break;
 
-                    if (!isNaN(amount)) {
-                        formattedValue = formatUSD(amount); 
-                    } else {
-                        console.error("Giá trị nhập vào không hợp lệ cho trường 'price'");
-                        return;
-                    }
-                } else {
-                    formattedValue = formatNumberToVND(value); 
-                }
-            } else {
-                console.error("Giá trị nhập vào không hợp lệ cho trường 'price'");
-                return;
-            }
-
-            setForm((prevForm) => ({
-                ...prevForm,
-                price: formattedValue,
-            }));
-            break;
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
         const selectedCategories = Array.isArray(value) ? value : [];
@@ -164,7 +147,7 @@ const ProductFormPage: React.FC = () => {
           selectedCategories,
         }));
         break;
-  
+
       default:
         setForm((prevForm) => ({
           ...prevForm,
@@ -484,8 +467,8 @@ const ProductFormPage: React.FC = () => {
               )}
               value={form?.price}
               onChange={(e) => handleChangeInput("price", e.target.value)}
-              // errorText={errorForm?.price || ""}
-              // status={errorForm?.price ? "error" : ""}
+              errorText={errorForm?.price || ""}
+              status={errorForm?.price ? "error" : ""}
             />
 
             <Box mt={6}>

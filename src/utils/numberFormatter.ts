@@ -6,14 +6,27 @@ export const priceFormatter = (price: number = 0): string =>
     maximumFractionDigits: 2,
   });
 
+// export const formatNumberToVND = (value: number | string): string => {
+//   const stringValue = String(value); // Ensure value is a string
+//   // Remove all non-digits and then format
+//   const number = parseInt(stringValue.replace(/\D/g, ""), 10);
+//   if (isNaN(number)) return "";
+
+//   return priceFormatter(number);
+// };
 export const formatNumberToVND = (value: number | string): string => {
-  const stringValue = String(value); // Ensure value is a string
-  // Remove all non-digits and then format
-  const number = parseInt(stringValue.replace(/\D/g, ""), 10);
+  const stringValue = String(value); 
+
+  const cleanedValue = stringValue.replace(/[^0-9.,]/g, ""); 
+
+  const normalizedValue = cleanedValue.replace(/,/g, '').replace(/(\.\d{2})\./g, '$1'); 
+
+  const number = parseFloat(normalizedValue);
   if (isNaN(number)) return "";
 
-  return priceFormatter(number);
+  return priceFormatter(number); 
 };
+
 
 //  const formatPriceToUSD = (price: number = 0): string =>
 //   price.toLocaleString("en-US", {
