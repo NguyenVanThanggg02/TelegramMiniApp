@@ -363,9 +363,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         let fetchedCurrency = null;
   
         // Lấy thông tin chi tiết cửa hàng
-        await getStoreDetail().then((currencyValue) => {
-          fetchedCurrency = currencyValue; // Lưu trữ currency tại đây
-        });
+        fetchedCurrency = await getStoreDetail(); // Lưu trữ currency tại đây
   
         // Cài đặt subdomain nếu có
         if (tenant_id) {
@@ -403,9 +401,16 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           ai_requests_count: 0,
         });
   
-        // Cập nhật currency và kiểm tra điều kiện để thiết lập dataLoaded
+        // Cập nhật currency
         setCurrency(fetchedCurrency); // Cập nhật currency
-        if (fetchedCurrency && categoryList.categories.length && productList.products.length && tableList.tables.length) {
+  
+        // Kiểm tra điều kiện để thiết lập dataLoaded
+        if (
+          fetchedCurrency && 
+          categoryList.categories.length && 
+          productList.products.length && 
+          tableList.tables.length
+        ) {
           setDataLoaded(true);
         } else {
           console.error('Currency or some data is not available');
@@ -420,6 +425,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     fetchData();
   }, [store_uuid, tenant_id, categoryList, productList, tableList]);
   
+
   const transformDishToProduct = (dish: Dish): Product => {
     return {
       uuid: dish.uuid,
