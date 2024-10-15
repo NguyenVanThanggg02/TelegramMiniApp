@@ -175,7 +175,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
               >
                 {currency === "$"
                   ? formatUSD(item.price)
-                  : `${currency} ${priceFormatter(item.price)}`}
+                  : `${priceFormatter(item.price)}`}
                 <span style={{ marginLeft: "2px" }}>{" " + currency}</span>
                 </Box>
             </Box>
@@ -199,7 +199,7 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
           <Text size="xLarge" bold style={{ color: "black" }}>
               {currency === "$"
                 ? formatUSD(totalBill)
-                : `${currency} ${priceFormatter(totalBill)}`}{" "}
+                : ` ${priceFormatter(totalBill)}`}{" "}
               <span style={{ paddingLeft: "3px" }}>{" " + currency}</span>
             </Text>
           </Box>
