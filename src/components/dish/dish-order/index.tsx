@@ -4,6 +4,7 @@ import { priceFormatter } from "../../../utils/numberFormatter";
 import "./styles.scss";
 import { DEFAULT_IMAGE_PRODUCT } from "../../../constants";
 import { useTranslation } from "react-i18next";
+import useStoreDetail from "@/components/userStoreDetail";
 
 
 interface ProductImage {
@@ -44,7 +45,8 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
 }) => {
   const { t } = useTranslation("global");
   const [quantity, setQuantity] = useState<number>(1);
-
+  const {currency} = useStoreDetail()
+  
   const resetDefault = () => {
     setQuantity(1);
   };
@@ -141,7 +143,7 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
             {isAdmin
               ? priceFormatter(product.unit_price! * quantity)
               : priceFormatter(product.price * quantity)}{" "}
-            VNĐ
+            {currency}
           </Text>
         </Box>
       </Box>
