@@ -362,7 +362,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         await fetchCategoriesByStore(store_uuid);
         await fetchProductsByStore(store_uuid);
         await fetchTablesByStore(store_uuid);
-        await currency
       }
   
     const subdomain: string = tenant_id || '';
