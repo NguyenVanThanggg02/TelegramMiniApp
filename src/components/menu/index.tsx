@@ -206,7 +206,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
     if (response.data) {
       const metadata = JSON.parse(response.data.metadata);
-      const currencyValue = metadata.currency || "$";
+      const currencyValue = metadata.currency || null;
       setCurrency(currencyValue);
       setStoreDetail(response.data);
     } else {
