@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { userState, storeState } from "../../../state";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { formatNumberToVND } from "../../../utils/numberFormatter";
+import { formatNumberToVND, formatUSD } from "../../../utils/numberFormatter";
 import { Snackbar } from "@telegram-apps/telegram-ui";
 import WarningIcon from '@mui/icons-material/Warning';
 import {
@@ -129,14 +129,33 @@ const ProductFormPage: React.FC = () => {
         }));
         break;
   
-      case "price":
-        const formattedValue = formatNumberToVND(value as string); 
-        setForm((prevForm) => ({
-          ...prevForm,
-          price: formattedValue,
-        }));
-        break;
-  
+        case "price":
+            let formattedValue;
+
+            if (typeof value === 'string') {
+                if (currency === "$") {
+                    const valueWithDecimal = value.replace(',', '.');
+                    const amount = parseFloat(valueWithDecimal); 
+
+                    if (!isNaN(amount)) {
+                        formattedValue = formatUSD(amount); 
+                    } else {
+                        console.error("Giá trị nhập vào không hợp lệ cho trường 'price'");
+                        return;
+                    }
+                } else {
+                    formattedValue = formatNumberToVND(value); 
+                }
+            } else {
+                console.error("Giá trị nhập vào không hợp lệ cho trường 'price'");
+                return;
+            }
+
+            setForm((prevForm) => ({
+                ...prevForm,
+                price: formattedValue,
+            }));
+            break;
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
         const selectedCategories = Array.isArray(value) ? value : [];
