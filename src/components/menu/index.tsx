@@ -32,7 +32,6 @@ import { initCloudStorage } from "@telegram-apps/sdk-react";
 import DishDetailModal from "../dish/dish-details";
 import LoadingComponent from "../loading_component";
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import useStoreDetail from "../userStoreDetail";
 
 interface DishImage {
   uuid: string;
@@ -147,9 +146,11 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const { currency } = useStoreDetail();
+  const [currency, setCurrency] = useState<String | null>(null);
   const [dataLoaded, setDataLoaded] = useState(false);
 
+  console.log(currency);
+  
   useEffect(() => {
     if (!pageRef.current) return;
 
@@ -205,6 +206,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const response: ApiResponse<Store> = await getStoreByUUID(store_uuid);
   
     if (response.data) {
+      const metadata = JSON.parse(response.data.metadata);
+      const currencyValue = metadata.currency || "$";
+      setCurrency(currencyValue);
       setStoreDetail(response.data);
     } else {
       setStoreDetail(null);
@@ -350,65 +354,49 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   useEffect(() => {
+    setLoading({ ...loading, isLoading: true }); 
+
     const fetchData = async () => {
-        if (!store_uuid) return;
-        
-        setLoading({ ...loading, isLoading: true }); 
-
-        // Lấy chi tiết cửa hàng đầu tiên
-        await getStoreDetail();
-
-        // Lưu subdomain nếu có tenant_id
-        if (tenant_id) {
-            await cloudStorage.set('subdomain', tenant_id);
-        }
-
-        // Tạo các promise để lấy dữ liệu
-        const categoryPromise = tenant_id ? 
-            Promise.resolve() : fetchCategoriesByStore(store_uuid);
-        const productPromise = tenant_id ? 
-            Promise.resolve() : fetchProductsByStore(store_uuid);
-        const tablePromise = tenant_id ? 
-            Promise.resolve() : fetchTablesByStore(store_uuid);
-        const currencyPromise = currency; // Giả định bạn có một promise cho currency
-
-        // Chờ tất cả dữ liệu được lấy
-        await Promise.all([categoryPromise, productPromise, tablePromise, currencyPromise]);
-
-        // Cập nhật trạng thái store
-        const subdomain = tenant_id || '';
-        const name = ''; 
-        const created_at = ''; 
-        setStore({
-            uuid: store_uuid,
-            subdomain,
-            name,
-            created_at,
-            store_settings: [],
-            ai_requests_count: 0
-        });
-
-        // Kiểm tra lại danh sách categories, products và tables
-        if (!categoryList.categories.length) {
-            await fetchCategoriesByStore(store_uuid);
-        }
+      if (!store_uuid) return;
+      
+      await getStoreDetail();
+      setDataLoaded(true)
+      if (tenant_id) {
+        await cloudStorage.set('subdomain', tenant_id); 
+      } else {
+        await fetchCategoriesByStore(store_uuid);
+        await fetchProductsByStore(store_uuid);
+        await fetchTablesByStore(store_uuid);
+      }
   
-        if (!productList.products.length) {
-            await fetchProductsByStore(store_uuid);
-        }
+    const subdomain: string = tenant_id || '';
+    
+    const name = ''; 
+    const created_at = ''; 
+    setStore({
+      uuid: store_uuid,
+      subdomain,
+      name,
+      created_at,
+      store_settings: [],
+      ai_requests_count: 0
+    });
   
-        if (!tableList.tables.length) {
-            await fetchTablesByStore(store_uuid);
-        }
-
-        setDataLoaded(true);
-        setLoading({ ...loading, isLoading: false });
+      if (!categoryList.categories.length) {
+        await fetchCategoriesByStore(store_uuid);
+      }
+  
+      if (!productList.products.length) {
+        await fetchProductsByStore(store_uuid);
+      }
+  
+      if (!tableList.tables.length) {
+        await fetchTablesByStore(store_uuid);
+      }
     };
-
-    fetchData();
-}, [store_uuid]);
-
   
+    fetchData();
+  }, [store_uuid]);
 
   const transformDishToProduct = (dish: Dish): Product => {
     return {
@@ -433,7 +421,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <LoadingComponent />
         {dataLoaded && (
-<>  
+<>
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
