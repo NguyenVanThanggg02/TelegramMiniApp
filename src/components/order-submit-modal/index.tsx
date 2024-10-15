@@ -177,9 +177,11 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
             </Text>
           </Box>
           <Box flex justifyContent="flex-end">
-            <Text size="xLarge" bold style={{ color: "black" }}>
-              {priceFormatter(totalBill)}
-              <span style={{ paddingLeft: "3px" }}>₫</span>
+          <Text size="xLarge" bold style={{ color: "black" }}>
+              {currency === "$"
+                ? formatUSD(totalBill)
+                : `${currency} ${priceFormatter(totalBill)}`}{" "}
+              <span style={{ paddingLeft: "3px" }}>{" " + currency}</span>
             </Text>
           </Box>
         </Box>
