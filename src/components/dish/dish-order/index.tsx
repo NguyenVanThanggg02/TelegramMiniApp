@@ -5,6 +5,7 @@ import "./styles.scss";
 import { DEFAULT_IMAGE_PRODUCT } from "../../../constants";
 import { useTranslation } from "react-i18next";
 import useStoreDetail from "@/components/userStoreDetail";
+import { getStoreByUUID } from "@/api/api";
 
 
 interface ProductImage {
@@ -45,9 +46,26 @@ const DishOrderSheet: React.FC<DishOrderSheetProps> = ({
 }) => {
   const { t } = useTranslation("global");
   const [quantity, setQuantity] = useState<number>(1);
-  const {currency} = useStoreDetail()
-  console.log(currency);
+  const { store_uuid } = useStoreDetail();
+  const [currency, setCurrency] = useState<String | null>(null);
   
+  console.log(currency);
+
+  const getStoreDetail = async () => {
+    if (store_uuid) {
+      const response = await getStoreByUUID(store_uuid);
+      if (response.data) {
+        const metadata = JSON.parse(response.data.metadata);
+        const currencyValue = metadata.currency || '$'; 
+        setCurrency(currencyValue);
+      } else {
+        console.error("Error fetching store data:", response.error);
+      }
+    }
+  };
+  useEffect(() => {
+    getStoreDetail();
+  }, []);
   const resetDefault = () => {
     setQuantity(1);
   };
