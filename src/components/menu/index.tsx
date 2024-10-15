@@ -351,60 +351,66 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
 
-useEffect(() => {
-  setLoading({ ...loading, isLoading: true });
-
-  const fetchData = async () => {
-    if (!store_uuid) return;
-
-    // Lấy chi tiết cửa hàng và xử lý currency
-    await getStoreDetail();
-
-    if (tenant_id) {
-      await cloudStorage.set('subdomain', tenant_id);
-    } else {
-      await fetchCategoriesByStore(store_uuid);
-      await fetchProductsByStore(store_uuid);
-      await fetchTablesByStore(store_uuid);
-    }
-
-    const subdomain: string = tenant_id || '';
-    const name = '';
-    const created_at = '';
-    
-    setStore({
-      uuid: store_uuid,
-      subdomain,
-      name,
-      created_at,
-      store_settings: [],
-      ai_requests_count: 0
-    });
-
-    // Fetch categories, products, and tables only if they haven't been fetched
-    if (!categoryList.categories.length) {
-      await fetchCategoriesByStore(store_uuid);
-    }
-
-    if (!productList.products.length) {
-      await fetchProductsByStore(store_uuid);
-    }
-
-    if (!tableList.tables.length) {
-      await fetchTablesByStore(store_uuid);
-    }
-
-    if (currency && categoryList.categories.length && productList.products.length && tableList.tables.length) {
-      setDataLoaded(true);
-    } else {
-      console.error('Currency not available');
-    }
-
-    setLoading({ ...loading, isLoading: false });
-  };
-
-  fetchData();
-}, [store_uuid, currency,tenant_id]); 
+  useEffect(() => {
+    setLoading({ ...loading, isLoading: true });
+  
+    const fetchData = async () => {
+      if (!store_uuid) return;
+  
+      // Lấy chi tiết cửa hàng
+      await getStoreDetail();
+  
+      if (tenant_id) {
+        await cloudStorage.set('subdomain', tenant_id);
+      } else {
+        await fetchCategoriesByStore(store_uuid);
+        await fetchProductsByStore(store_uuid);
+        await fetchTablesByStore(store_uuid);
+      }
+  
+      const subdomain = tenant_id || '';
+      const name = '';
+      const created_at = '';
+      
+      setStore({
+        uuid: store_uuid,
+        subdomain,
+        name,
+        created_at,
+        store_settings: [],
+        ai_requests_count: 0
+      });
+  
+      // Kiểm tra xem tất cả dữ liệu đã được lấy chưa
+      const categoriesFetched = categoryList.categories.length > 0;
+      const productsFetched = productList.products.length > 0;
+      const tablesFetched = tableList.tables.length > 0;
+  
+      // Cập nhật danh sách categories, products và tables nếu chưa được lấy
+      if (!categoriesFetched) {
+        await fetchCategoriesByStore(store_uuid);
+      }
+  
+      if (!productsFetched) {
+        await fetchProductsByStore(store_uuid);
+      }
+  
+      if (!tablesFetched) {
+        await fetchTablesByStore(store_uuid);
+      }
+  
+      // Chỉ khi currency và tất cả các dữ liệu khác đã có mới cập nhật dataLoaded
+      if (currency && categoriesFetched && productsFetched && tablesFetched) {
+        setDataLoaded(true);
+      } else {
+        console.error('Currency or some data is not available');
+      }
+  
+      setLoading({ ...loading, isLoading: false });
+    };
+  
+    fetchData();
+  }, [store_uuid, currency, tenant_id, categoryList, productList, tableList]);
 
 
   const transformDishToProduct = (dish: Dish): Product => {
