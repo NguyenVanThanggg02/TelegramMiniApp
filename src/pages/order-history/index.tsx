@@ -64,26 +64,26 @@ const OrderHistory: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const [store_uuid, setStore_uuid] = useState('')
+  const [, setStore_uuid] = useState('')
 
   const [dataLoaded, setDataLoaded] = useState(false);
   const [currency, setCurrency] = useState<String | null>(null);
   
-  const getStoreDetail = async () => {
-    if (store_uuid) {
-      const response = await getStoreByUUID(store_uuid);
-      console.log(response);
+  // const getStoreDetail = async () => {
+  //   if (store_uuid) {
+  //     const response = await getStoreByUUID(store_uuid);
+  //     console.log(response);
       
-      if (response.data) {
-        const metadata = JSON.parse(response.data.metadata);
-        const currencyValue = metadata.currency || '$'; 
-        setCurrency(currencyValue);
-      } else {
-        console.error("Error fetching store data:", response.error);
-      }
-    }
+  //     if (response.data) {
+  //       const metadata = JSON.parse(response.data.metadata);
+  //       const currencyValue = metadata.currency || '$'; 
+  //       setCurrency(currencyValue);
+  //     } else {
+  //       console.error("Error fetching store data:", response.error);
+  //     }
+  //   }
 
-  };
+  // };
 
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
@@ -121,14 +121,20 @@ const OrderHistory: React.FC = () => {
 
   const getHistoryOrders = async () => {
     const data = await fetchHistoryOrdersByStore();
-    setStore_uuid(data.data[0].store_uuid);
     
-    if (!data?.error) {
-      const orders = data.data as Order[]; 
+    if (!data?.error && data.data.length > 0) {
+      const orders = data.data as Order[];
+      const storeUUID = data.data[0].store_uuid;
+  
+      setStore_uuid(storeUUID); // Cập nhật store_uuid trước
+  
       setOrderListByUser({
         is_update: true,
         orders,
       });
+  
+      // Sau khi có store_uuid thì gọi getStoreDetail để lấy currency
+      await getStoreDetail(storeUUID);
     } else {
       setSnackbarMessage(typeof data.error === "string"
         ? data.error
@@ -136,19 +142,39 @@ const OrderHistory: React.FC = () => {
       setSnackbarType("error");
       setSnackbarOpen(true);
     }
-
+  };
+  
+  const getStoreDetail = async (storeUUID: string) => {
+    if (storeUUID) {
+      const response = await getStoreByUUID(storeUUID);
+  
+      if (response?.data) {
+        const metadata = JSON.parse(response.data.metadata);
+        const currencyValue = metadata.currency || '$'; 
+        setCurrency(currencyValue); // Cập nhật currency sau khi nhận được
+      } else {
+        console.error("Error fetching store data:", response.error);
+      }
+    }
   };
 
   useEffect(() => {
-    setLoading({ ...loading, isLoading: true });
+    const loadData = async () => {
+      setLoading({ ...loading, isLoading: true });
   
-    const currencyPromise = currency instanceof Promise ? currency : Promise.resolve(currency);
+      try {
+        await getHistoryOrders(); // Gọi cả getHistoryOrders và getStoreDetail
+        setDataLoaded(true); // Chỉ set state sau khi tất cả đã hoàn thành
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setLoading({ ...loading, isLoading: false });
+      }
+    };
   
-    Promise.all([getHistoryOrders(), getStoreDetail(), currencyPromise]).then(() => {
-      setDataLoaded(true);
-      setLoading({ ...loading, isLoading: false });
-    });
-  }, [user.authToken, store_uuid]);
+    loadData();
+  }, [user.authToken]);
+  
   
   
   return (
