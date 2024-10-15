@@ -35,9 +35,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
   currency,
 }) => {
   const { t } = useTranslation('global');
+  // const formattedPrice = currency === "$"
+  // ? formatUSD(product.price)
+  // : `${currency} ${priceFormatter(product.price)}`;
+
   const formattedPrice = currency === "$"
-  ? formatUSD(product.price)
+  ? formatUSD(parseFloat(product.price.toString().replace(',', '.'))) 
   : `${currency} ${priceFormatter(product.price)}`;
+
   return (
     <Box
       flex

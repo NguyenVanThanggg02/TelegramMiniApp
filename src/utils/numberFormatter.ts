@@ -24,5 +24,5 @@ export const formatNumberToVND = (value: number | string): string => {
 //   });
 
 export function formatUSD(amount: number): string {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: '$' }).format(amount);
   }
