@@ -140,12 +140,25 @@ const OrderHistory: React.FC = () => {
   };
 
   useEffect(() => {
-    setLoading({ ...loading, isLoading: true });
+    const fetchData = async () => {
+      setLoading({ ...loading, isLoading: true });
 
-    Promise.all([getHistoryOrders(), getStoreDetail()]).then(() => {
-      setDataLoaded(true);
-      setLoading({ ...loading, isLoading: false });
-    });
+      try {
+        await getHistoryOrders(); 
+
+        if (store_uuid) {
+          await getStoreDetail();  
+        }
+
+        setDataLoaded(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading({ ...loading, isLoading: false });
+      }
+    };
+
+    fetchData();
   }, [user.authToken, store_uuid]);
   
   return (
