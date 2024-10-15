@@ -124,21 +124,27 @@ const ProductFormPage: React.FC = () => {
       case "selectedStore":
         setForm((prevForm) => ({
           ...prevForm,
-          selectedStore: value as string,
-          selectedCategories: [],
+          selectedStore: value as string, 
+          selectedCategories: [], 
         }));
         break;
-
-      case "price":
-        if (typeof value === "string") {
-          const formattedValue = value; 
-          setForm((prevForm) => ({
-            ...prevForm,
-            price: formattedValue,
-          }));
-        }
-        break;
-
+  
+        case "price":
+          if (typeof value === "string") {
+              let formattedValue;
+      
+              if (currency === "$") {
+                  formattedValue = value; 
+              } else {
+                  formattedValue = formatNumberToVND(value);
+              }
+              setForm((prevForm) => ({
+                  ...prevForm,
+                  price: formattedValue,
+              }));
+          }
+          break;
+  
       case "selectedCategories":
         // Chuyển value sang kiểu string[]
         const selectedCategories = Array.isArray(value) ? value : [];
@@ -147,7 +153,7 @@ const ProductFormPage: React.FC = () => {
           selectedCategories,
         }));
         break;
-
+  
       default:
         setForm((prevForm) => ({
           ...prevForm,
