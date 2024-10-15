@@ -30,6 +30,7 @@ import {
 const { Option } = Select;
 
 import { useTranslation } from "react-i18next";
+import useStoreDetail from "@/components/userStoreDetail";
 
 
 interface ProductForm {
@@ -102,9 +103,9 @@ const ProductFormPage: React.FC = () => {
   const [imageUUIDs, setImageUUIDs] = useState<string[]>([]);
   const [visible, setVisible] = useState<boolean>(false);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
-
-
+  const {currency} = useStoreDetail();
+  console.log(currency);
+  
   useEffect(() => {
     sendRequestGetCategory();
   }, []);
