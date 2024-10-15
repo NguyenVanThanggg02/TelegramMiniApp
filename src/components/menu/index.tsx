@@ -147,7 +147,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const { currency, isLoadingCurrency } = useStoreDetail(); // Giả sử bạn có một flag để kiểm tra trạng thái loading cho currency
+  
+  const { currency } = useStoreDetail();
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -348,60 +350,63 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   };
   
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!store_uuid) return;
-  
-      setLoading({ ...loading, isLoading: true }); 
-  
-      try {
-        if (!isLoadingCurrency) {
-          await getStoreDetail(); // Hoặc gọi API của bạn để lấy currency
-        }
-  
-        if (tenant_id) {
-          await cloudStorage.set('subdomain', tenant_id);
-        } else {
-          await Promise.all([
-            fetchCategoriesByStore(store_uuid),
-            fetchProductsByStore(store_uuid),
-            fetchTablesByStore(store_uuid),
-          ]);
-        }
-  
-        const subdomain: string = tenant_id || '';
-        const name = ''; 
-        const created_at = ''; 
-  
-        setStore({
-          uuid: store_uuid,
-          subdomain,
-          name,
-          created_at,
-          store_settings: [],
-          ai_requests_count: 0
-        });
-  
-        if (!categoryList.categories.length) {
-          await fetchCategoriesByStore(store_uuid);
-        }
-  
-        if (!productList.products.length) {
-          await fetchProductsByStore(store_uuid);
-        }
-  
-        if (!tableList.tables.length) {
-          await fetchTablesByStore(store_uuid);
-        }
-      } catch (error) {
-        console.error("Error fetching store data:", error);
-      } finally {
-        setLoading({ ...loading, isLoading: false });
-      }
-    };
-  
-    fetchData();
-  }, [store_uuid, isLoadingCurrency]);
+
+useEffect(() => {
+  setLoading({ ...loading, isLoading: true });
+
+  const fetchData = async () => {
+    if (!store_uuid) return;
+
+    // Lấy chi tiết cửa hàng và xử lý currency
+    await getStoreDetail();
+
+    if (tenant_id) {
+      await cloudStorage.set('subdomain', tenant_id);
+    } else {
+      await fetchCategoriesByStore(store_uuid);
+      await fetchProductsByStore(store_uuid);
+      await fetchTablesByStore(store_uuid);
+    }
+
+    const subdomain: string = tenant_id || '';
+    const name = '';
+    const created_at = '';
+    
+    setStore({
+      uuid: store_uuid,
+      subdomain,
+      name,
+      created_at,
+      store_settings: [],
+      ai_requests_count: 0
+    });
+
+    // Fetch categories, products, and tables only if they haven't been fetched
+    if (!categoryList.categories.length) {
+      await fetchCategoriesByStore(store_uuid);
+    }
+
+    if (!productList.products.length) {
+      await fetchProductsByStore(store_uuid);
+    }
+
+    if (!tableList.tables.length) {
+      await fetchTablesByStore(store_uuid);
+    }
+
+    // Chỉ gọi setDataLoaded khi currency đã có và tất cả các dữ liệu khác đã được tải
+    if (currency) {
+      setDataLoaded(true);
+    } else {
+      console.error('Currency not available');
+    }
+
+    setLoading({ ...loading, isLoading: false });
+  };
+
+  fetchData();
+}, [store_uuid, currency]); // Thêm currency vào dependencies
+
 
   const transformDishToProduct = (dish: Dish): Product => {
     return {
@@ -425,6 +430,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     <>
       <Page className="menu-page" ref={pageRef} style={{ height: "100vh" }}>
         <LoadingComponent />
+        {dataLoaded && ( 
+          <>
         <Box className="top-menu-container">
           {table_uuid && storeDetail && (
             <Box>
@@ -619,6 +626,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             }}
           />
         </Box>
+        </>
+      )}
       </Page>
     </>
   );

@@ -69,21 +69,6 @@ const OrderHistory: React.FC = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [currency, setCurrency] = useState<String | null>(null);
   
-  // const getStoreDetail = async () => {
-  //   if (store_uuid) {
-  //     const response = await getStoreByUUID(store_uuid);
-  //     console.log(response);
-      
-  //     if (response.data) {
-  //       const metadata = JSON.parse(response.data.metadata);
-  //       const currencyValue = metadata.currency || '$'; 
-  //       setCurrency(currencyValue);
-  //     } else {
-  //       console.error("Error fetching store data:", response.error);
-  //     }
-  //   }
-
-  // };
 
   const orderHistoryList = useMemo(() => {
     if (!orderListByUser.orders?.length) return null;
