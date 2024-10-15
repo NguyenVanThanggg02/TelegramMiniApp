@@ -26,7 +26,7 @@ const useStoreDetail = () => {
     getStoreDetail();
   }, []);
 
-  return { currency};
+  return { currency: currency || '$' };
 };
 
 export default useStoreDetail;
