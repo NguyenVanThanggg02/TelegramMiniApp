@@ -140,26 +140,16 @@ const OrderHistory: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading({ ...loading, isLoading: true });
-
-      try {
-        await getHistoryOrders(); 
-
-        if (store_uuid) {
-          await getStoreDetail();  
-        }
-
-        setDataLoaded(true);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading({ ...loading, isLoading: false });
-      }
-    };
-
-    fetchData();
+    setLoading({ ...loading, isLoading: true });
+  
+    const currencyPromise = currency instanceof Promise ? currency : Promise.resolve(currency);
+  
+    Promise.all([getHistoryOrders(), getStoreDetail(), currencyPromise]).then(() => {
+      setDataLoaded(true);
+      setLoading({ ...loading, isLoading: false });
+    });
   }, [user.authToken, store_uuid]);
+  
   
   return (
     <Page className="section-container">
