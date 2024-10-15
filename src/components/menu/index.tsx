@@ -359,9 +359,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     const fetchData = async () => {
         if (!store_uuid) return;
 
-        await getStoreDetail(); // Lấy chi tiết cửa hàng
+        await getStoreDetail();
 
-        const fetchPromises = []; // Mảng để chứa các promise
+        const fetchPromises = [];
 
         if (tenant_id) {
             fetchPromises.push(cloudStorage.set('subdomain', tenant_id)); 
@@ -371,11 +371,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             fetchPromises.push(fetchTablesByStore(store_uuid));
         }
 
-        // Thiết lập subdomain, name, created_at
         const subdomain: string = tenant_id || '';
         const name = ''; 
         const created_at = ''; 
-
         setStore({
             uuid: store_uuid,
             subdomain,
@@ -385,10 +383,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             ai_requests_count: 0
         });
 
-        // Chờ tất cả các promise fetch hoàn thành
-        await Promise.all(fetchPromises);
-
-        // Đảm bảo rằng danh mục, sản phẩm và bàn đều được lấy
         if (!categoryList.categories.length) {
             fetchPromises.push(fetchCategoriesByStore(store_uuid));
         }
@@ -401,10 +395,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
             fetchPromises.push(fetchTablesByStore(store_uuid));
         }
 
-        // Chờ tất cả các promise cuối cùng
         await Promise.all(fetchPromises);
-
-        // Cuối cùng, thiết lập dữ liệu đã được tải
         setDataLoaded(true);
     };
 
