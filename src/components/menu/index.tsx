@@ -147,7 +147,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   const menuRef = useRef<(HTMLDivElement | null)[]>([]);
   const pageRef = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useRecoilState(loadingState);
-  const { currency } = useStoreDetail();
+  const { currency, isLoadingCurrency } = useStoreDetail(); // Giả sử bạn có một flag để kiểm tra trạng thái loading cho currency
 
   useEffect(() => {
     if (!pageRef.current) return;
@@ -349,49 +349,59 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   
 
   useEffect(() => {
-    setLoading({ ...loading, isLoading: true }); 
-
     const fetchData = async () => {
       if (!store_uuid) return;
-      
-      await getStoreDetail();
   
-      if (tenant_id) {
-        await cloudStorage.set('subdomain', tenant_id); 
-      } else {
-        await fetchCategoriesByStore(store_uuid);
-        await fetchProductsByStore(store_uuid);
-        await fetchTablesByStore(store_uuid);
-      }
+      setLoading({ ...loading, isLoading: true }); 
   
-    const subdomain: string = tenant_id || '';
-    
-    const name = ''; 
-    const created_at = ''; 
-    setStore({
-      uuid: store_uuid,
-      subdomain,
-      name,
-      created_at,
-      store_settings: [],
-      ai_requests_count: 0
-    });
+      try {
+        if (!isLoadingCurrency) {
+          await getStoreDetail(); // Hoặc gọi API của bạn để lấy currency
+        }
   
-      if (!categoryList.categories.length) {
-        await fetchCategoriesByStore(store_uuid);
-      }
+        if (tenant_id) {
+          await cloudStorage.set('subdomain', tenant_id);
+        } else {
+          await Promise.all([
+            fetchCategoriesByStore(store_uuid),
+            fetchProductsByStore(store_uuid),
+            fetchTablesByStore(store_uuid),
+          ]);
+        }
   
-      if (!productList.products.length) {
-        await fetchProductsByStore(store_uuid);
-      }
+        const subdomain: string = tenant_id || '';
+        const name = ''; 
+        const created_at = ''; 
   
-      if (!tableList.tables.length) {
-        await fetchTablesByStore(store_uuid);
+        setStore({
+          uuid: store_uuid,
+          subdomain,
+          name,
+          created_at,
+          store_settings: [],
+          ai_requests_count: 0
+        });
+  
+        if (!categoryList.categories.length) {
+          await fetchCategoriesByStore(store_uuid);
+        }
+  
+        if (!productList.products.length) {
+          await fetchProductsByStore(store_uuid);
+        }
+  
+        if (!tableList.tables.length) {
+          await fetchTablesByStore(store_uuid);
+        }
+      } catch (error) {
+        console.error("Error fetching store data:", error);
+      } finally {
+        setLoading({ ...loading, isLoading: false });
       }
     };
   
     fetchData();
-  }, [store_uuid]);
+  }, [store_uuid, isLoadingCurrency]);
 
   const transformDishToProduct = (dish: Dish): Product => {
     return {

@@ -7,9 +7,10 @@ import { getStoreByUUID } from '@/api/api';
 const useStoreDetail = () => {
   const { store_uuid } = useParams<{ store_uuid?: string }>();
   const [currency, setCurrency] = useState<String | null>(null);
-  // const [loading, setLoading] = useRecoilState(loadingState);
+  const [isLoadingCurrency, setIsLoadingCurrency] = useState(true);
 
   const getStoreDetail = async () => {
+    setIsLoadingCurrency(true);
     if (store_uuid) {
       const response = await getStoreByUUID(store_uuid);
       if (response.data) {
@@ -19,6 +20,8 @@ const useStoreDetail = () => {
       } else {
         console.error("Error fetching store data:", response.error);
       }
+      setIsLoadingCurrency(false);
+
     }
   };
 
@@ -26,7 +29,7 @@ const useStoreDetail = () => {
     getStoreDetail();
   }, []);
 
-  return { currency: currency || '$' };
+  return { currency: currency || '$',isLoadingCurrency };
 };
 
 export default useStoreDetail;
