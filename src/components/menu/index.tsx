@@ -357,46 +357,60 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     setLoading({ ...loading, isLoading: true }); 
 
     const fetchData = async () => {
-      if (!store_uuid) return;
-      
-      await getStoreDetail();
-      setDataLoaded(true)
-      if (tenant_id) {
-        await cloudStorage.set('subdomain', tenant_id); 
-      } else {
-        await fetchCategoriesByStore(store_uuid);
-        await fetchProductsByStore(store_uuid);
-        await fetchTablesByStore(store_uuid);
-      }
-  
-    const subdomain: string = tenant_id || '';
-    
-    const name = ''; 
-    const created_at = ''; 
-    setStore({
-      uuid: store_uuid,
-      subdomain,
-      name,
-      created_at,
-      store_settings: [],
-      ai_requests_count: 0
-    });
-  
-      if (!categoryList.categories.length) {
-        await fetchCategoriesByStore(store_uuid);
-      }
-  
-      if (!productList.products.length) {
-        await fetchProductsByStore(store_uuid);
-      }
-  
-      if (!tableList.tables.length) {
-        await fetchTablesByStore(store_uuid);
-      }
+        if (!store_uuid) return;
+
+        await getStoreDetail(); // Lấy chi tiết cửa hàng
+
+        const fetchPromises = []; // Mảng để chứa các promise
+
+        if (tenant_id) {
+            fetchPromises.push(cloudStorage.set('subdomain', tenant_id)); 
+        } else {
+            fetchPromises.push(fetchCategoriesByStore(store_uuid));
+            fetchPromises.push(fetchProductsByStore(store_uuid));
+            fetchPromises.push(fetchTablesByStore(store_uuid));
+        }
+
+        // Thiết lập subdomain, name, created_at
+        const subdomain: string = tenant_id || '';
+        const name = ''; 
+        const created_at = ''; 
+
+        setStore({
+            uuid: store_uuid,
+            subdomain,
+            name,
+            created_at,
+            store_settings: [],
+            ai_requests_count: 0
+        });
+
+        // Chờ tất cả các promise fetch hoàn thành
+        await Promise.all(fetchPromises);
+
+        // Đảm bảo rằng danh mục, sản phẩm và bàn đều được lấy
+        if (!categoryList.categories.length) {
+            fetchPromises.push(fetchCategoriesByStore(store_uuid));
+        }
+        
+        if (!productList.products.length) {
+            fetchPromises.push(fetchProductsByStore(store_uuid));
+        }
+        
+        if (!tableList.tables.length) {
+            fetchPromises.push(fetchTablesByStore(store_uuid));
+        }
+
+        // Chờ tất cả các promise cuối cùng
+        await Promise.all(fetchPromises);
+
+        // Cuối cùng, thiết lập dữ liệu đã được tải
+        setDataLoaded(true);
     };
-  
+
     fetchData();
-  }, [store_uuid]);
+}, [store_uuid]);
+
 
   const transformDishToProduct = (dish: Dish): Product => {
     return {
