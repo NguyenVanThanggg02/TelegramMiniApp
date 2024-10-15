@@ -355,55 +355,58 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading({ ...loading, isLoading: true });
-  
+    
       if (!store_uuid) return;
-  
+    
       try {
-        // Khai báo biến tạm để lưu trữ currency
         let fetchedCurrency = null;
-  
+    
         // Lấy thông tin chi tiết cửa hàng
-        fetchedCurrency = await getStoreDetail(); // Lưu trữ currency tại đây
-  
+        const storeDetailResponse = await getStoreDetail();
+        if (storeDetailResponse.data) {
+          const metadata = JSON.parse(storeDetailResponse.data.metadata);
+          fetchedCurrency = metadata.currency || null; // Không gán giá trị mặc định là '$'
+        } else {
+          console.error('Error fetching store details');
+          return; // Kết thúc hàm nếu không lấy được dữ liệu cửa hàng
+        }
+    
         // Cài đặt subdomain nếu có
         if (tenant_id) {
           await cloudStorage.set('subdomain', tenant_id);
         }
-  
-        // Sử dụng Promise.all để lấy categories, products và tables cùng một lúc
+    
+        // Promise.all để lấy categories, products và tables cùng một lúc
         const fetchPromises = [];
-  
+    
         if (!categoryList.categories.length) {
           fetchPromises.push(fetchCategoriesByStore(store_uuid));
         }
-  
+    
         if (!productList.products.length) {
           fetchPromises.push(fetchProductsByStore(store_uuid));
         }
-  
+    
         if (!tableList.tables.length) {
           fetchPromises.push(fetchTablesByStore(store_uuid));
         }
-  
+    
         // Chờ tất cả các promise hoàn thành
         await Promise.all(fetchPromises);
-  
+    
         // Cập nhật thông tin cửa hàng
-        const subdomain = tenant_id || '';
-        const name = '';
-        const created_at = '';
         setStore({
           uuid: store_uuid,
-          subdomain,
-          name,
-          created_at,
+          subdomain: tenant_id || '',
+          name: '',
+          created_at: '',
           store_settings: [],
           ai_requests_count: 0,
         });
-  
+    
         // Cập nhật currency
-        setCurrency(fetchedCurrency); // Cập nhật currency
-  
+        setCurrency(fetchedCurrency); 
+    
         // Kiểm tra điều kiện để thiết lập dataLoaded
         if (
           fetchedCurrency && 
@@ -411,7 +414,7 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           productList.products.length && 
           tableList.tables.length
         ) {
-          setDataLoaded(true);
+          setDataLoaded(true); // Chỉ đặt dataLoaded thành true khi tất cả dữ liệu đã có
         } else {
           console.error('Currency or some data is not available');
         }
