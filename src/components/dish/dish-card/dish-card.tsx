@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Icon, Text } from "zmp-ui";
-import { priceFormatter } from "../../../utils/numberFormatter";
+import { formatUSD, priceFormatter } from "../../../utils/numberFormatter";
 import { DEFAULT_IMAGE_PRODUCT } from "../../../constants";
 import { useRecoilState } from "recoil";
 import { cartState } from "../../../state";
@@ -88,7 +88,9 @@ const DishCard: React.FC<DishCardProps> = ({ isAdmin = false, dishItem, onDetail
             {dishItem.name}
           </Text>
           <Text className="red-color caption-text" bold>
-          {currency + " "}{priceFormatter(dishItem.price)}
+            {currency === "$" 
+              ? formatUSD(dishItem.price) 
+              : `${currency} ${priceFormatter(dishItem.price)}`}
           </Text>
         </Box>
       </Box>
