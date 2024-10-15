@@ -484,8 +484,8 @@ const ProductFormPage: React.FC = () => {
               )}
               value={form?.price}
               onChange={(e) => handleChangeInput("price", e.target.value)}
-              errorText={errorForm?.price || ""}
-              status={errorForm?.price ? "error" : ""}
+              // errorText={errorForm?.price || ""}
+              // status={errorForm?.price ? "error" : ""}
             />
 
             <Box mt={6}>
