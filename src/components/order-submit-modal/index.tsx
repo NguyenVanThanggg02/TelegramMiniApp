@@ -12,7 +12,7 @@ import {
 import './styles.scss';
 import { formatUSD, priceFormatter } from '../../utils/numberFormatter';
 import { DEFAULT_IMAGE_PRODUCT } from '../../constants';
-import { sendCreateOrderRequest } from '../../api/api';
+import { getStoreByUUID, sendCreateOrderRequest } from '../../api/api';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   cartState,
@@ -53,8 +53,27 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  const { currency } = useStoreDetail();
-  console.log(currency);
+  const { store_uuid } = useStoreDetail();
+  const [currency, setCurrency] = useState<String | null>(null);
+
+  console.log(store_uuid);
+
+  const getStoreDetail = async () => {
+    if (store_uuid) {
+      const response = await getStoreByUUID(store_uuid);
+      if (response.data) {
+        const metadata = JSON.parse(response.data.metadata);
+        const currencyValue = metadata.currency || '$'; 
+        setCurrency(currencyValue);
+      } else {
+        console.error("Error fetching store data:", response.error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getStoreDetail();
+  }, []);
 
   const totalBill = useMemo(
     () => sum(cart.map((item) => item.price * item.quantity)),
@@ -75,8 +94,6 @@ const OrderSubmitModal: React.FC<OrderSubmitModalProps> = ({ isShow, onClose }) 
   
     const response = await sendCreateOrderRequest(payload);
     const data = response.data
-    console.log(data);
-    
     if (!data.error ) {
       // const newOrder: Order = response.data;
   
