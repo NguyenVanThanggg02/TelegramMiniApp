@@ -207,8 +207,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     if (response.data) {
       const metadata = JSON.parse(response.data.metadata);
       const currencyValue = metadata.currency || "$";
-      setCurrency(currencyValue); 
       setStoreDetail(response.data);
+      return currencyValue;
     } else {
       setStoreDetail(null);
       console.error('Error fetching store details:', response.error);
@@ -359,8 +359,13 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
       if (!store_uuid) return;
   
       try {
+        // Khai báo biến tạm để lưu trữ currency
+        let fetchedCurrency = null;
+  
         // Lấy thông tin chi tiết cửa hàng
-        await getStoreDetail();
+        await getStoreDetail().then((currencyValue) => {
+          fetchedCurrency = currencyValue; // Lưu trữ currency tại đây
+        });
   
         // Cài đặt subdomain nếu có
         if (tenant_id) {
@@ -370,7 +375,6 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
         // Sử dụng Promise.all để lấy categories, products và tables cùng một lúc
         const fetchPromises = [];
   
-        // Kiểm tra và thêm các cuộc gọi vào mảng
         if (!categoryList.categories.length) {
           fetchPromises.push(fetchCategoriesByStore(store_uuid));
         }
@@ -399,7 +403,9 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
           ai_requests_count: 0,
         });
   
-        if (currency && categoryList.categories.length && productList.products.length && tableList.tables.length) {
+        // Cập nhật currency và kiểm tra điều kiện để thiết lập dataLoaded
+        setCurrency(fetchedCurrency); // Cập nhật currency
+        if (fetchedCurrency && categoryList.categories.length && productList.products.length && tableList.tables.length) {
           setDataLoaded(true);
         } else {
           console.error('Currency or some data is not available');
@@ -412,8 +418,8 @@ const MenuCommonPage: React.FC<MenuCommonPageProps> = () => {
     };
   
     fetchData();
-  }, [store_uuid, currency, tenant_id, categoryList, productList, tableList]);
-
+  }, [store_uuid, tenant_id, categoryList, productList, tableList]);
+  
   const transformDishToProduct = (dish: Dish): Product => {
     return {
       uuid: dish.uuid,
