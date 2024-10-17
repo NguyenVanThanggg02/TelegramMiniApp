@@ -12,6 +12,7 @@ import './index.css';
 import { useInitData } from '@telegram-apps/sdk-react';
 
 const initData = useInitData();
+console.log(initData);
 
 // ReactDOM.createRoot(document.getElementById('root')!).render(<Root/>);
 
