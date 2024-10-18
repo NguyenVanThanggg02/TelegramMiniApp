@@ -9,4 +9,15 @@ import './mockEnv.ts';
 import '@telegram-apps/telegram-ui/dist/styles.css';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<Root/>);
+import { useInitData } from '@telegram-apps/sdk-react';
+
+const initData = useInitData();
+
+const rootElementId = initData ? 'root' : 'root1';
+
+const rootElement = document.getElementById(rootElementId);
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(<Root />);
+} else {
+  console.error(`Không tìm thấy element có id là ${rootElementId}`);
+}
