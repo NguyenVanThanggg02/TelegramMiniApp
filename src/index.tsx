@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-
+import { useEffect, useState } from 'react';
 import { Root } from '@/components/Root';
 
 // Uncomment this import in case, you would like to develop the application even outside
@@ -11,13 +11,30 @@ import './index.css';
 
 import { useInitData } from '@telegram-apps/sdk-react';
 
-const initData = useInitData();
+const AppLoader = () => {
+  const [rootId, setRootId] = useState<string | null>(null);
+  const initData = useInitData();
 
-const rootElementId = initData ? 'root' : 'root1';
+  useEffect(() => {
+    if (initData) {
+      setRootId('root'); // Nếu có initData, render vào root
+    } else {
+      setRootId('root1'); // Nếu không có initData, render vào root1
+    }
+  }, [initData]);
 
-const rootElement = document.getElementById(rootElementId);
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<Root />);
-} else {
-  console.error(`Không tìm thấy element có id là ${rootElementId}`);
-}
+  useEffect(() => {
+    if (rootId) {
+      const rootElement = document.getElementById(rootId);
+      if (rootElement) {
+        ReactDOM.createRoot(rootElement).render(<Root />);
+      } else {
+        console.error(`Không tìm thấy element có id là ${rootId}`);
+      }
+    }
+  }, [rootId]);
+
+  return null;
+};
+
+AppLoader();
