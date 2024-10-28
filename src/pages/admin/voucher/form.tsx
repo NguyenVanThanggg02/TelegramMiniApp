@@ -295,6 +295,7 @@ const VoucherFormPage: React.FC = () => {
                   handleChangeInput("expired_at", value.toISOString()); // Chuyển đổi Date thành chuỗi ISO
                 }
               }}
+              locale="en-US"
               status={isEmptyField && !form.expired_at ? "error" : ""}
             />
           </Box>
