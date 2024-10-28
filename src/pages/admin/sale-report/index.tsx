@@ -74,7 +74,9 @@ const SaleReportPage: React.FC = () => {
           value={filter?.fromDate}
           onChange={(value) => {
             onFilterChange("fromDate", value);
-          }}
+          }}             
+          locale="en-US"
+
         />
       </Box>
 
@@ -87,6 +89,8 @@ const SaleReportPage: React.FC = () => {
           onChange={(value) => {
             onFilterChange("toDate", value);
           }}
+          locale="en-US"
+
         />
       </Box>
 

@@ -512,6 +512,7 @@ const OrderManagement: React.FC = () => {
                     setHideDatePicker(false);
                   }
                 }}
+                locale="en-US"
               />
             ) : (
               <Box style={{ position: "relative", width: "100%" }}>
@@ -523,6 +524,7 @@ const OrderManagement: React.FC = () => {
                   onChange={(value) => {
                     onFilterChange("date", value);
                   }}
+                  locale="en-US"
                 />
 
                 {filter?.date && (
