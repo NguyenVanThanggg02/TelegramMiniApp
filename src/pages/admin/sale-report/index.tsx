@@ -9,6 +9,7 @@ import { formatNumberToVND } from "../../../utils/numberFormatter";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { Snackbar } from "@telegram-apps/telegram-ui";
+import useStoreDetail from "@/components/userStoreDetail";
 
 interface FilterState {
   fromDate: Date;
@@ -29,7 +30,7 @@ const SaleReportPage: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarType, setSnackbarType] = useState<"success" | "error">("success");
-  
+  const { currency } = useStoreDetail();
 
   const handleSearch = async () => {
     setLoading(true);
@@ -105,7 +106,7 @@ const SaleReportPage: React.FC = () => {
           }}
         >
           <Text size="xLarge" bold style={{ marginBottom: "8px",color:'black' }}>
-            {formatNumberToVND(totalValue)} VND
+            {formatNumberToVND(totalValue)} {currency}
           </Text>
         </Box>
       )}
